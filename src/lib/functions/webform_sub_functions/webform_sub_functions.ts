@@ -16,7 +16,7 @@ const getConditionFields = (visible: TKeyValue<any>): string[] => {
   Object.keys(visible).forEach((key) => {
     const matches = key.match(/:input\[name="([^"]+)"\]/)
     if (matches && matches?.at?.(1)) {
-      fields.push(matches?.at?.[1])
+      fields.push(matches[1])
     }
   })
   return fields
