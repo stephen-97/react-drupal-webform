@@ -1,25 +1,20 @@
 import YAML from 'yaml'
-import { conditionalStepsProperties } from '@/lib/functions/webform_sub_functions/webform_sub_functions'
+import {
+  getMultiStepProperties,
+  isMultiStep,
+  TMultiStepProperties,
+} from '@/lib/functions/webform_multistep_functions/webform_multistep_functions'
 
 type TKeyValue<T = string> = Record<string, T>
-
-const checkMultiStep = (elementsSource: TKeyValue<any>) => {
-  return Object.values(elementsSource).some(
-    (value: TKeyValue<any>) => value?.['#type'] === 'webform_wizard_page'
-  )
+type TWebformProperties = {
+  elements_sources: TKeyValue<any>
+  is_multi_step: boolean
+  multi_step_extra: TMultiStepProperties | null
 }
 
-const getMultiStepProperties = (elementsSource: TKeyValue<any>) => {
-  const conditions_properties = conditionalStepsProperties(elementsSource)
-
-  return {
-    conditions_properties,
-  }
-}
-
-const getWebformProperties = (elements: string) => {
+const getWebformProperties = (elements: string): TWebformProperties => {
   const elements_sources: TKeyValue<any> = YAML.parse(elements)
-  const is_multi_step = checkMultiStep(elements_sources)
+  const is_multi_step = isMultiStep(elements_sources)
   const multi_step_extra = is_multi_step
     ? { ...getMultiStepProperties(elements_sources) }
     : null

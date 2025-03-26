@@ -1,8 +1,11 @@
 import getForm from '@/lib/requests/get-form'
 import { drupal } from '@/lib/drupal'
+import styles from './page.module.scss'
 import { TDrupal_PathData } from '@/lib/api-types/main-types'
 import { TDrupal_Webform_Obj } from '@/lib/api-types/webform-types'
 import { getWebformProperties } from '@/lib/functions/webform_functions'
+import Webform from '@/components/webform/webform'
+import WebformContainer from '@/components/webform/webformContainer'
 
 interface IPage {
   params: {
@@ -25,7 +28,16 @@ const Page = async ({ params }: IPage) => {
 
   const elementsSources = getWebformProperties(form?.webform?.elements)
 
-  return <main></main>
+  return (
+    <main className={styles.main}>
+      <div className={styles.webformContainer}>
+        <WebformContainer
+          elementsSource={form?.webform?.elements}
+          confirmationPath={'/'}
+        />
+      </div>
+    </main>
+  )
 }
 
 export default Page

@@ -4,7 +4,7 @@ type TConditionalSteps = {
   key: string
   fields_dependent: string[]
 }
-type TConditionalStepssProperties = {
+type TConditionalStepsProperties = {
   have_conditional_step: boolean
   conditional_steps: TConditionalSteps[]
   conditional_fields: TConditionalSteps[]
@@ -24,7 +24,7 @@ const getConditionFields = (visible: TKeyValue<any>): string[] => {
 
 const conditionalStepsProperties = (
   elementsSource: TKeyValue<any>
-): TConditionalStepssProperties => {
+): TConditionalStepsProperties => {
   const conditional_steps = new Set<TConditionalSteps>()
   const conditional_fields = new Set<TConditionalSteps>()
   const steps_with_conditional_fields = new Set<string>()
@@ -74,4 +74,5 @@ const conditionalStepsProperties = (
   }
 }
 
+export type { TConditionalSteps, TConditionalStepsProperties }
 export { conditionalStepsProperties }
