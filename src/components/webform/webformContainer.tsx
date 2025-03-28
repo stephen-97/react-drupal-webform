@@ -1,35 +1,36 @@
 'use client'
 
 import Webform from '@/components/webform/webform'
-import { useForm, UseFormReturn } from 'react-hook-form'
-import { useYupValidationResolver } from '@/lib/functions/webform_yup_functions/webform_yup_functions'
-import * as yup from 'yup'
+import { UseFormProps } from 'react-hook-form'
 
-export type TWebform = {
+export type TWebformContainer = {
   elementsSource: string
   confirmationPath: string
 }
 
-const WebformContainer = ({ elementsSource, confirmationPath }: TWebform) => {
+const WebformContainer = ({
+  elementsSource,
+  confirmationPath,
+}: TWebformContainer) => {
   const yupObject = {}
   const defaultValues = {}
 
-  const resolver: any = useYupValidationResolver(yup.object(yupObject))
-
-  const yupReturn: UseFormReturn<any> = useForm<typeof defaultValues>({
+  const yupUseFormProps: UseFormProps = {
     mode: 'onChange',
     reValidateMode: 'onBlur',
     defaultValues,
-    resolver: resolver,
-  })
-
-  console.log(yupReturn)
+  }
 
   return (
     <Webform
       elementsSource={elementsSource}
       confirmationPath={confirmationPath}
-      yup={{ yupReturn, yupObject, defaultValues }}
+      yup={{ yupUseFormProps, yupObject, defaultValues }}
+      valueFormat={{
+        radio: 'value',
+        select: 'keyValue',
+        checkboxes: 'booleanMap',
+      }}
     />
   )
 }

@@ -1,7 +1,7 @@
 import cn from 'classnames'
 import styles from './field.module.scss'
 import React from 'react'
-import { TFieldObj } from '@/components/webform/form/fields/utils'
+import { TFieldObj } from '@/lib/types/field'
 
 export const renderAction = ({
   field,

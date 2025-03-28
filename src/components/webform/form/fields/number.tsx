@@ -5,7 +5,7 @@ import { TFieldValidate } from '@/lib/types/field'
 import { useController } from 'react-hook-form'
 import { TElementSource, TFieldObj } from '@/lib/types/field'
 
-export const renderTextField = ({
+export const renderNumber = ({
   onBlur,
   control,
   key,
@@ -25,7 +25,7 @@ export const renderTextField = ({
       minLength={field?.['#minlength']}
       maxLength={field?.['#maxlength']}
       placeholder={field?.['#placeholder']}
-      type={'text'}
+      type={'number'}
       onChange={(e) => fieldController.onChange?.(e)}
       value={fieldController?.value ?? ''}
       onBlur={onBlur}
@@ -33,7 +33,7 @@ export const renderTextField = ({
   )
 }
 
-export const validateTextField = ({
+export const validateNumber = ({
   yupObject,
   defaultValues,
   key,

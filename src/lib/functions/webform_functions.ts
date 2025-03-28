@@ -6,8 +6,9 @@ import {
 } from '@/lib/functions/webform_multistep_functions/webform_multistep_functions'
 
 type TKeyValue<T = string> = Record<string, T>
+
 type TWebformProperties = {
-  elements_sources: TKeyValue<any>
+  elements_sources: Record<string, any>
   is_multi_step: boolean
   multi_step_extra: TMultiStepProperties | null
 }

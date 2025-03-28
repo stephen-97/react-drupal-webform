@@ -1,25 +1,19 @@
 import { getWebformProperties } from '@/lib/functions/webform_functions'
 import { TMultiStepProperties } from '@/lib/functions/webform_multistep_functions/webform_multistep_functions'
 import FormDefault from '@/components/webform/form/formDefault/formDefault'
-import { UseFormReturn } from 'react-hook-form'
+import { TWebform } from '@/lib/types/form'
 
-export type TYup = {
-  yupReturn: UseFormReturn<any>
-  yupObject: any
-  defaultValues: any
-}
+const Webform = ({
+  elementsSource,
+  confirmationPath,
+  yup,
+  valueFormat,
+}: TWebform) => {
+  const { yupObject = {}, defaultValues = {} } = yup
 
-export type TWebform = {
-  elementsSource: string
-  confirmationPath: string
-  yup: TYup
-}
-
-const Webform = ({ elementsSource, confirmationPath, yup }: TWebform) => {
   const { is_multi_step, elements_sources, multi_step_extra } =
     getWebformProperties(elementsSource)
 
-  console.log(yup)
   const Form = () => {
     if (is_multi_step) {
       const { only_steps_elements, only_action_element } =
@@ -29,9 +23,10 @@ const Webform = ({ elementsSource, confirmationPath, yup }: TWebform) => {
 
     return (
       <FormDefault
-        yup={yup}
+        yup={{ ...yup, yupObject, defaultValues }}
         confirmationPath={'/'}
-        elements={elements_sources}
+        elementsSource={elements_sources}
+        valueFormat={valueFormat}
       />
     )
   }
