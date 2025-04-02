@@ -13,6 +13,8 @@ const getForm = async (id: string) => {
     (item: any) => item.type === 'webform--webform'
   )
 
+  console.log(response)
+
   return {
     title: response?.data?.attributes?.title,
     webform: {

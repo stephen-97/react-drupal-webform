@@ -5,7 +5,7 @@ type TYup = {
   yupObject?: Record<string, any>
   defaultValues?: Record<string, any>
 }
-type TFormatFieldMulti = 'value' | 'keyValue' | 'booleanMap'
+type TFormatFieldMulti = 'key' | 'value' | 'keyValue' | 'booleanMap'
 
 type TWebformValueFormat = {
   radio?: TFormatFieldMulti

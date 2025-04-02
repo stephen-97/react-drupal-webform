@@ -28,7 +28,7 @@ const WebformContainer = ({
       yup={{ yupUseFormProps, yupObject, defaultValues }}
       valueFormat={{
         radio: 'value',
-        select: 'keyValue',
+        select: 'booleanMap',
         checkboxes: 'booleanMap',
       }}
     />

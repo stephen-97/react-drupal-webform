@@ -3,7 +3,7 @@
 import styles from './formDefault.module.scss'
 import React, { useEffect, useMemo } from 'react'
 import FormMappingFields from '@/components/webform/form/formMappingFields/formMappingFields'
-import { TWebform, TYup } from '@/lib/types/form'
+import { TWebform, TWebformValueFormat } from '@/lib/types/form'
 import { useForm } from 'react-hook-form'
 import { useYupValidationResolver } from '@/lib/functions/webform_yup_functions/webform_yup_functions'
 import * as yup from 'yup'
@@ -14,10 +14,11 @@ type TMultiStepExtra = {
   isConditionalMultiStep: boolean
 }
 
-type TFormDefault = Omit<TWebform, 'elementsSource'> & {
+type TFormDefault = Omit<TWebform, 'elementsSource' | 'valueFormat'> & {
   submitButtonRef?: React.RefObject<HTMLButtonElement>
   multiStepExtra?: TMultiStepExtra
   elementsSource: Record<string, any>
+  valueFormat: Required<TWebformValueFormat>
 }
 
 const FormDefault = ({
@@ -42,13 +43,14 @@ const FormDefault = ({
   Object.keys(elementsSource).forEach((key) => {
     const type: string = elementsSource[key]['#type']
     const field = elementsSource[key]
-    const visibility = false
+    const visibility = true
     return elementsObject[type ?? 'default']?.validator?.({
       yupObject,
       defaultValues,
       key,
       field,
       visibility,
+      valueFormat,
     })
   })
 
@@ -64,6 +66,8 @@ const FormDefault = ({
     ...yupUseFormProps,
     resolver,
   })
+
+  console.log(getValues())
 
   const onFormSubmit = async (data: typeof defaultValues) => {
     console.log(data)

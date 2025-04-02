@@ -39,7 +39,7 @@ type TFieldObj = {
   submitButtonRef?: any
   isValid?: boolean
   isMultiStep?: boolean
-  valueFormat?: TWebformValueFormat
+  valueFormat: TWebformValueFormat
 }
 
 type TFieldValidate = {
@@ -49,6 +49,7 @@ type TFieldValidate = {
   field: TElementSource
   visibility: boolean
   options?: string[]
+  valueFormat: TWebformValueFormat
 }
 
 type TMultiFieldNames = 'radios' | 'select' | 'checkboxes'
