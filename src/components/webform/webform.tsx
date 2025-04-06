@@ -1,20 +1,29 @@
 import { getWebformProperties } from '@/lib/functions/webform_functions'
 import { TMultiStepProperties } from '@/lib/functions/webform_multistep_functions/webform_multistep_functions'
 import FormDefault from '@/components/webform/form/formDefault/formDefault'
-import { TWebform, TWebformValueFormat } from '@/lib/types/form'
-import { defaultValueFormatObj } from '@/lib/const/const.form'
+import {
+  TWebform,
+  TWebformDefaultFieldValues,
+  TWebformValueFormat,
+} from '@/lib/types/form'
+import { defaultValueFormatObj, defaultValuesObj } from '@/lib/const/const.form'
 
 const Webform = ({
   elementsSource,
   confirmationPath,
   yup,
   valueFormat = {},
+  defaultFieldValues = {},
 }: TWebform) => {
-  const { yupObject = {}, defaultValues = {} } = yup
+  const { yupObject = {}, yupDefaultValues = {} } = yup
 
   const mergedValueFormat: Required<TWebformValueFormat> = {
     ...defaultValueFormatObj,
     ...valueFormat,
+  }
+  const mergedDefaultFieldValues: Required<TWebformDefaultFieldValues> = {
+    ...defaultFieldValues,
+    ...defaultValuesObj,
   }
 
   const { is_multi_step, elements_sources, multi_step_extra } =
@@ -29,10 +38,11 @@ const Webform = ({
 
     return (
       <FormDefault
-        yup={{ ...yup, yupObject, defaultValues }}
+        yup={{ ...yup, yupObject, yupDefaultValues }}
         confirmationPath={'/'}
         elementsSource={elements_sources}
         valueFormat={mergedValueFormat}
+        defaultFieldValues={mergedDefaultFieldValues}
       />
     )
   }

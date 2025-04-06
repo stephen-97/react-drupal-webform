@@ -19,6 +19,7 @@
     "eslint-plugin-prettier": "^5.2.3",
     "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-react-hooks": "^5.2.0",
+    "isomorphic-dompurify": "^2.22.0",
     "next": "15.2.2",
     "next-drupal": "^2.0.0",
     "prettier": "^3.5.3",

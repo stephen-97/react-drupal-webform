@@ -22,6 +22,20 @@ import {
 
 import { TFieldObj, TFieldValidate } from '@/lib/types/field'
 import { ReactElement } from 'react'
+import { renderMarkup } from '@/components/webform/form/fields/markup'
+import {
+  renderEmail,
+  validateEmail,
+} from '@/components/webform/form/fields/email'
+import {
+  renderCheckbox,
+  validateCheckbox,
+} from '@/components/webform/form/fields/checkbox'
+import {
+  renderTextArea,
+  validateTextArea,
+} from '@/components/webform/form/fields/textarea'
+import { renderTel, validateTel } from '@/components/webform/form/fields/tel'
 
 type TElementFunction = (_props: TFieldObj) => ReactElement | null
 type TValidatorFunction = (_props: TFieldValidate) => void
@@ -38,6 +52,10 @@ const FormMappingFields = (): TFormMappingFields => ({
     element: renderTextField,
     validator: validateTextField,
   },
+  textarea: {
+    element: renderTextArea,
+    validator: validateTextArea,
+  },
   radios: {
     element: renderRadio,
     validator: validateRadio,
@@ -45,6 +63,10 @@ const FormMappingFields = (): TFormMappingFields => ({
   webform_actions: {
     element: renderAction,
     validator: null,
+  },
+  checkbox: {
+    element: renderCheckbox,
+    validator: validateCheckbox,
   },
   checkboxes: {
     element: renderCheckboxes,
@@ -54,9 +76,21 @@ const FormMappingFields = (): TFormMappingFields => ({
     element: renderNumber,
     validator: validateNumber,
   },
+  tel: {
+    element: renderTel,
+    validator: validateTel,
+  },
   select: {
     element: renderSelect,
     validator: validateSelect,
+  },
+  email: {
+    element: renderEmail,
+    validator: validateEmail,
+  },
+  webform_markup: {
+    element: renderMarkup,
+    validator: null,
   },
   default: {
     element: null,

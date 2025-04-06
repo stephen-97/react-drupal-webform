@@ -12,24 +12,23 @@ const WebformContainer = ({
   elementsSource,
   confirmationPath,
 }: TWebformContainer) => {
-  const yupObject = {}
-  const defaultValues = {}
-
   const yupUseFormProps: UseFormProps = {
     mode: 'onChange',
     reValidateMode: 'onBlur',
-    defaultValues,
   }
 
   return (
     <Webform
       elementsSource={elementsSource}
       confirmationPath={confirmationPath}
-      yup={{ yupUseFormProps, yupObject, defaultValues }}
+      yup={{ yupUseFormProps }}
       valueFormat={{
         radio: 'value',
         select: 'booleanMap',
-        checkboxes: 'booleanMap',
+        checkboxes: 'key',
+      }}
+      defaultFieldValues={{
+        textfield: '',
       }}
     />
   )

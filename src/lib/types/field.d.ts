@@ -1,6 +1,9 @@
 import { Control } from 'react-hook-form'
 import { FocusEventHandler } from 'react'
-import { TWebformValueFormat } from '@/lib/types/form'
+import {
+  TWebformDefaultFieldValues,
+  TWebformValueFormat,
+} from '@/lib/types/form'
 
 type TElementSource = {
   '#type': string
@@ -10,6 +13,8 @@ type TElementSource = {
   '#options'?: any
   '#options_display'?: string
   '#max_filesize'?: number
+  '#min'?: number
+  '#max'?: number
   '#default_value'?: string
   '#description_display'?: string
   '#file_extensions'?: string
@@ -24,6 +29,9 @@ type TElementSource = {
   '#rows'?: number
   '#field_suffix'?: string
   '#submit__label'?: string
+  '#attributes'?: {
+    class?: string[]
+  }
   '#wrapper_attributes'?: {
     class?: string[]
   }
@@ -50,6 +58,7 @@ type TFieldValidate = {
   visibility: boolean
   options?: string[]
   valueFormat: TWebformValueFormat
+  defaultFieldValues: Required<TWebformDefaultFieldValues>
 }
 
 type TMultiFieldNames = 'radios' | 'select' | 'checkboxes'

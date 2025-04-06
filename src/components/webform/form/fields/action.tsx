@@ -13,7 +13,7 @@ export const renderAction = ({
   return (
     <React.Fragment key={keyForMap}>
       <button
-        className={styles.button}
+        className={cn(styles.button, ...(field?.['#attributes']?.class ?? []))}
         type={'submit'}
         ref={submitButtonRef}
         disabled={!isValid}

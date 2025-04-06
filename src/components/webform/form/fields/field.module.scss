@@ -3,7 +3,23 @@
   padding: 0 1rem
 }
 
+.textarea {
+  //height: 8rem;
+  padding: 0 1rem;
+}
+
 .button {
   height: 3rem;
   cursor: pointer;
 }
+
+.error {
+  border: .2rem solid red;
+}
+
+.fieldWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem
+}
+

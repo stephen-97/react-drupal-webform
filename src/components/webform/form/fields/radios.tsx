@@ -5,7 +5,8 @@ import { TFieldValidate } from '@/lib/types/field'
 import { useController } from 'react-hook-form'
 import { TFieldObj } from '@/lib/types/field'
 import { handleChangeOptions } from '@/lib/functions/webform_fields_functions/webform_fields_functions'
-import { TWebformValueFormat } from '@/lib/types/form'
+import { TFormatFieldMulti, TWebformValueFormat } from '@/lib/types/form'
+import Label from '@/components/webform/form/fields/fields-sub-components/label'
 
 export const renderRadio = ({
   onBlur,
@@ -30,8 +31,14 @@ export const renderRadio = ({
   const { radio: radioFormat } = valueFormat
 
   return (
-    <div key={keyForMap}>
-      <div>{field?.['#title']}</div>
+    <div
+      key={keyForMap}
+      className={cn(
+        ...(field?.['#attributes']?.class ?? []),
+        styles.fieldWrapper
+      )}
+    >
+      <Label title={field?.['#title']} />
       {optionsObj.map(([key, value], i) => (
         <label key={i}>
           <input
@@ -42,7 +49,7 @@ export const renderRadio = ({
             onChange={(e) =>
               handleChangeOptions(
                 e,
-                radioFormat,
+                radioFormat as TFormatFieldMulti,
                 fieldController,
                 options,
                 optionsObj
@@ -64,6 +71,7 @@ export const validateRadio = ({
   field,
   visibility,
   valueFormat,
+  defaultFieldValues,
 }: TFieldValidate) => {
   const options = field['#options']
   const optionKeys = Object.keys(options)
@@ -101,5 +109,5 @@ export const validateRadio = ({
   }
 
   yupObject[key] = schema
-  defaultValues[key] = ''
+  defaultValues[key] = defaultFieldValues.radio
 }

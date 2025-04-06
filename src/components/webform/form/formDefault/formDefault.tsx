@@ -3,7 +3,11 @@
 import styles from './formDefault.module.scss'
 import React, { useEffect, useMemo } from 'react'
 import FormMappingFields from '@/components/webform/form/formMappingFields/formMappingFields'
-import { TWebform, TWebformValueFormat } from '@/lib/types/form'
+import {
+  TWebform,
+  TWebformDefaultFieldValues,
+  TWebformValueFormat,
+} from '@/lib/types/form'
 import { useForm } from 'react-hook-form'
 import { useYupValidationResolver } from '@/lib/functions/webform_yup_functions/webform_yup_functions'
 import * as yup from 'yup'
@@ -14,17 +18,22 @@ type TMultiStepExtra = {
   isConditionalMultiStep: boolean
 }
 
-type TFormDefault = Omit<TWebform, 'elementsSource' | 'valueFormat'> & {
+type TFormDefault = Omit<
+  TWebform,
+  'elementsSource' | 'valueFormat' | 'defaultFieldValues'
+> & {
   submitButtonRef?: React.RefObject<HTMLButtonElement>
   multiStepExtra?: TMultiStepExtra
   elementsSource: Record<string, any>
   valueFormat: Required<TWebformValueFormat>
+  defaultFieldValues: Required<TWebformDefaultFieldValues>
 }
 
 const FormDefault = ({
   elementsSource,
   multiStepExtra,
   valueFormat,
+  defaultFieldValues,
   yup: yupObj,
   submitButtonRef: externalSubmitButtonRef,
 }: TFormDefault) => {
@@ -43,7 +52,7 @@ const FormDefault = ({
   Object.keys(elementsSource).forEach((key) => {
     const type: string = elementsSource[key]['#type']
     const field = elementsSource[key]
-    const visibility = true
+    const visibility = false
     return elementsObject[type ?? 'default']?.validator?.({
       yupObject,
       defaultValues,
@@ -51,6 +60,7 @@ const FormDefault = ({
       field,
       visibility,
       valueFormat,
+      defaultFieldValues,
     })
   })
 
@@ -64,13 +74,12 @@ const FormDefault = ({
     getValues,
   } = useForm({
     ...yupUseFormProps,
+    defaultValues,
     resolver,
   })
 
-  console.log(getValues())
-
   const onFormSubmit = async (data: typeof defaultValues) => {
-    console.log(data)
+    console.log('data', data)
   }
 
   useEffect(() => {
@@ -78,6 +87,8 @@ const FormDefault = ({
       externalSubmitButtonRef.current.disabled = !isValid
     }
   }, [isValid, externalSubmitButtonRef])
+
+  console.log('source', elementsSource)
 
   return (
     <form className={styles.formDefault} onSubmit={handleSubmit(onFormSubmit)}>

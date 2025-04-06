@@ -3,10 +3,10 @@ import cn from 'classnames'
 import styles from './field.module.scss'
 import { TFieldValidate } from '@/lib/types/field'
 import { useController } from 'react-hook-form'
-import { TElementSource, TFieldObj } from '@/lib/types/field'
+import { TFieldObj } from '@/lib/types/field'
 import Label from '@/components/webform/form/fields/fields-sub-components/label'
 
-export const renderNumber = ({
+export const renderTextArea = ({
   onBlur,
   control,
   key,
@@ -21,20 +21,18 @@ export const renderNumber = ({
   return (
     <div key={keyForMap} className={cn(styles.fieldWrapper)}>
       <Label title={field?.['#title']} />
-      <input
+      <textarea
         className={cn(
           styles.field,
-          styles.input,
+          styles.textarea,
           ...(field?.['#attributes']?.class ?? []),
           { [styles.error]: fieldState.error }
         )}
         name={fieldController.name}
         minLength={field?.['#minlength']}
         maxLength={field?.['#maxlength']}
-        max={field?.['#max']}
-        min={field?.['#min']}
+        rows={field?.['#rows'] ?? 10}
         placeholder={field?.['#placeholder']}
-        type={'number'}
         onChange={(e) => fieldController.onChange?.(e)}
         value={fieldController?.value ?? ''}
         onBlur={onBlur}
@@ -43,15 +41,14 @@ export const renderNumber = ({
   )
 }
 
-export const validateNumber = ({
+export const validateTextArea = ({
   yupObject,
   defaultValues,
   key,
-  field,
   visibility,
   defaultFieldValues,
 }: TFieldValidate) => {
   yupObject[key] = visibility ? string().required('required field') : string()
 
-  defaultValues[key] = defaultFieldValues.number
+  defaultValues[key] = defaultFieldValues.textarea
 }
