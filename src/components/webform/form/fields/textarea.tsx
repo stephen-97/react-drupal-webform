@@ -3,11 +3,10 @@ import cn from 'classnames'
 import styles from './field.module.scss'
 import { TFieldValidate } from '@/lib/types/field'
 import { useController } from 'react-hook-form'
-import { TElementSource, TFieldObj } from '@/lib/types/field'
-import Label from '@/components/webform/form/fields/fields-sub-components/label'
+import { TFieldObj } from '@/lib/types/field'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
 
-export const renderNumber = ({
+export const renderTextArea = ({
   onBlur,
   control,
   key,
@@ -24,23 +23,18 @@ export const renderNumber = ({
     <Wrapper
       field={field}
       classNames={classNames}
-      classNameFieldName={'fieldInput'}
+      classNameFieldName={'fieldTextarea'}
       key={keyForMap}
     >
-      <input
-        className={cn(
-          styles.field,
-          styles.input,
-          ...(field?.['#attributes']?.class ?? []),
-          { [styles.error]: fieldState.error }
-        )}
+      <textarea
+        className={cn(styles.field, styles.textarea, {
+          [styles.error]: fieldState.error,
+        })}
         name={fieldController.name}
         minLength={field?.['#minlength']}
         maxLength={field?.['#maxlength']}
-        max={field?.['#max']}
-        min={field?.['#min']}
+        rows={field?.['#rows'] ?? 10}
         placeholder={field?.['#placeholder']}
-        type={'number'}
         onChange={(e) => fieldController.onChange?.(e)}
         value={fieldController?.value ?? ''}
         onBlur={onBlur}
@@ -49,15 +43,14 @@ export const renderNumber = ({
   )
 }
 
-export const validateNumber = ({
+export const validateTextArea = ({
   yupObject,
   defaultValues,
   key,
-  field,
   visibility,
   defaultFieldValues,
 }: TFieldValidate) => {
   yupObject[key] = visibility ? string().required('required field') : string()
 
-  defaultValues[key] = defaultFieldValues.number
+  defaultValues[key] = defaultFieldValues.textarea
 }

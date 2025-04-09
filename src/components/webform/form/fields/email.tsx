@@ -7,7 +7,7 @@ import { TElementSource, TFieldObj } from '@/lib/types/field'
 import Label from '@/components/webform/form/fields/fields-sub-components/label'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
 
-export const renderNumber = ({
+export const renderEmail = ({
   onBlur,
   control,
   key,
@@ -28,19 +28,14 @@ export const renderNumber = ({
       key={keyForMap}
     >
       <input
-        className={cn(
-          styles.field,
-          styles.input,
-          ...(field?.['#attributes']?.class ?? []),
-          { [styles.error]: fieldState.error }
-        )}
+        className={cn(styles.field, styles.input, {
+          [styles.error]: fieldState.error,
+        })}
         name={fieldController.name}
         minLength={field?.['#minlength']}
         maxLength={field?.['#maxlength']}
-        max={field?.['#max']}
-        min={field?.['#min']}
         placeholder={field?.['#placeholder']}
-        type={'number'}
+        type={'text'}
         onChange={(e) => fieldController.onChange?.(e)}
         value={fieldController?.value ?? ''}
         onBlur={onBlur}
@@ -49,7 +44,7 @@ export const renderNumber = ({
   )
 }
 
-export const validateNumber = ({
+export const validateEmail = ({
   yupObject,
   defaultValues,
   key,
@@ -57,7 +52,19 @@ export const validateNumber = ({
   visibility,
   defaultFieldValues,
 }: TFieldValidate) => {
-  yupObject[key] = visibility ? string().required('required field') : string()
+  const emailWithTLDRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
+  const schema = string()
+    .test('valid-email-format', 'invalid email', (value) => {
+      if (!value) return true
+      return emailWithTLDRegex.test(value)
+    })
+    .email('invalid email')
 
-  defaultValues[key] = defaultFieldValues.number
+  yupObject[key] = visibility
+    ? schema.required('required field')
+    : schema.notRequired()
+
+  defaultValues[key] = ''
+
+  defaultValues[key] = defaultFieldValues.email
 }

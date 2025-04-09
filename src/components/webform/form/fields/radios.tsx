@@ -5,7 +5,9 @@ import { TFieldValidate } from '@/lib/types/field'
 import { useController } from 'react-hook-form'
 import { TFieldObj } from '@/lib/types/field'
 import { handleChangeOptions } from '@/lib/functions/webform_fields_functions/webform_fields_functions'
-import { TWebformValueFormat } from '@/lib/types/form'
+import { TFormatFieldMulti, TWebformValueFormat } from '@/lib/types/form.d'
+import Label from '@/components/webform/form/fields/fields-sub-components/label'
+import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
 
 export const renderRadio = ({
   onBlur,
@@ -14,6 +16,7 @@ export const renderRadio = ({
   keyForMap,
   field,
   valueFormat,
+  classNames,
 }: TFieldObj) => {
   if (!field?.['#options']) {
     return null
@@ -30,30 +33,36 @@ export const renderRadio = ({
   const { radio: radioFormat } = valueFormat
 
   return (
-    <div key={keyForMap}>
-      <div>{field?.['#title']}</div>
-      {optionsObj.map(([key, value], i) => (
-        <label key={i}>
-          <input
-            className={cn(styles.field, styles.input)}
-            name={fieldController.name}
-            type={'radio'}
-            value={key}
-            onChange={(e) =>
-              handleChangeOptions(
-                e,
-                radioFormat,
-                fieldController,
-                options,
-                optionsObj
-              )
-            }
-            onBlur={onBlur}
-          />
-          <span>{value}</span>
-        </label>
-      ))}
-    </div>
+    <Wrapper
+      field={field}
+      classNames={classNames}
+      classNameFieldName={'fieldRadio'}
+      key={keyForMap}
+    >
+      <>
+        {optionsObj.map(([key, value], i) => (
+          <label key={i}>
+            <input
+              className={cn(styles.field, styles.input)}
+              name={fieldController.name}
+              type={'radio'}
+              value={key}
+              onChange={(e) =>
+                handleChangeOptions(
+                  e,
+                  radioFormat as TFormatFieldMulti,
+                  fieldController,
+                  options,
+                  optionsObj
+                )
+              }
+              onBlur={onBlur}
+            />
+            <span>{value}</span>
+          </label>
+        ))}
+      </>
+    </Wrapper>
   )
 }
 
@@ -64,6 +73,7 @@ export const validateRadio = ({
   field,
   visibility,
   valueFormat,
+  defaultFieldValues,
 }: TFieldValidate) => {
   const options = field['#options']
   const optionKeys = Object.keys(options)
@@ -101,5 +111,5 @@ export const validateRadio = ({
   }
 
   yupObject[key] = schema
-  defaultValues[key] = ''
+  defaultValues[key] = defaultFieldValues.radio
 }

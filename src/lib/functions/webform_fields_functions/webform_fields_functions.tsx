@@ -1,6 +1,6 @@
 import { ChangeEvent } from 'react'
-import { TFormatFieldMulti } from '@/lib/types/form'
-import { string } from 'yup'
+import { TFormatFieldMulti } from '@/lib/types/form.d'
+
 const handleChangeOptions = (
   event: ChangeEvent<HTMLSelectElement> | ChangeEvent<HTMLInputElement>,
   format: TFormatFieldMulti,
@@ -18,8 +18,6 @@ const handleChangeOptions = (
     | Record<string, boolean>
     | string[]
     | Record<string, string>[]
-
-  // Assurez-vous que selectedKeys est un tableau
 
   if (fieldType === 'checkboxes') {
     let selectedKeys: string[] = []
@@ -49,7 +47,6 @@ const handleChangeOptions = (
         : []
     }
 
-    console.log('before push', selectedKeys)
     if (checked && !selectedKeys?.includes(selectedKey)) {
       selectedKeys.push(selectedKey)
     } else {

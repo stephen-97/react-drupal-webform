@@ -3,11 +3,11 @@ import cn from 'classnames'
 import styles from './field.module.scss'
 import { TFieldValidate } from '@/lib/types/field'
 import { useController } from 'react-hook-form'
-import { TElementSource, TFieldObj } from '@/lib/types/field'
+import { TFieldObj } from '@/lib/types/field'
 import Label from '@/components/webform/form/fields/fields-sub-components/label'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
 
-export const renderNumber = ({
+export const renderManagedFile = ({
   onBlur,
   control,
   key,
@@ -20,6 +20,12 @@ export const renderNumber = ({
     control,
   })
 
+  const fileExtensions = field?.['#file_extensions']
+    ?.trim()
+    .split(' ')
+    .map((ext) => `.${ext}`)
+    .join(', ')
+
   return (
     <Wrapper
       field={field}
@@ -28,19 +34,13 @@ export const renderNumber = ({
       key={keyForMap}
     >
       <input
-        className={cn(
-          styles.field,
-          styles.input,
-          ...(field?.['#attributes']?.class ?? []),
-          { [styles.error]: fieldState.error }
-        )}
+        className={cn(styles.field, styles.input)}
         name={fieldController.name}
         minLength={field?.['#minlength']}
         maxLength={field?.['#maxlength']}
-        max={field?.['#max']}
-        min={field?.['#min']}
         placeholder={field?.['#placeholder']}
-        type={'number'}
+        type={'file'}
+        accept={fileExtensions}
         onChange={(e) => fieldController.onChange?.(e)}
         value={fieldController?.value ?? ''}
         onBlur={onBlur}
@@ -49,7 +49,7 @@ export const renderNumber = ({
   )
 }
 
-export const validateNumber = ({
+export const validateManagedFile = ({
   yupObject,
   defaultValues,
   key,
@@ -59,5 +59,5 @@ export const validateNumber = ({
 }: TFieldValidate) => {
   yupObject[key] = visibility ? string().required('required field') : string()
 
-  defaultValues[key] = defaultFieldValues.number
+  defaultValues[key] = defaultFieldValues.textfield
 }

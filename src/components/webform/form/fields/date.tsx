@@ -1,13 +1,13 @@
-import { string } from 'yup'
+import { date } from 'yup'
 import cn from 'classnames'
 import styles from './field.module.scss'
 import { TFieldValidate } from '@/lib/types/field'
 import { useController } from 'react-hook-form'
-import { TElementSource, TFieldObj } from '@/lib/types/field'
+import { TFieldObj } from '@/lib/types/field'
 import Label from '@/components/webform/form/fields/fields-sub-components/label'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
 
-export const renderNumber = ({
+export const renderDate = ({
   onBlur,
   control,
   key,
@@ -28,19 +28,14 @@ export const renderNumber = ({
       key={keyForMap}
     >
       <input
-        className={cn(
-          styles.field,
-          styles.input,
-          ...(field?.['#attributes']?.class ?? []),
-          { [styles.error]: fieldState.error }
-        )}
+        className={cn(styles.field, styles.input, {
+          [styles.error]: fieldState.error,
+        })}
         name={fieldController.name}
         minLength={field?.['#minlength']}
         maxLength={field?.['#maxlength']}
-        max={field?.['#max']}
-        min={field?.['#min']}
         placeholder={field?.['#placeholder']}
-        type={'number'}
+        type={'date'}
         onChange={(e) => fieldController.onChange?.(e)}
         value={fieldController?.value ?? ''}
         onBlur={onBlur}
@@ -49,15 +44,24 @@ export const renderNumber = ({
   )
 }
 
-export const validateNumber = ({
+export const validateDate = ({
   yupObject,
   defaultValues,
   key,
-  field,
   visibility,
   defaultFieldValues,
 }: TFieldValidate) => {
-  yupObject[key] = visibility ? string().required('required field') : string()
+  defaultValues[key] = defaultFieldValues.date
+  const schema = date()
+    .test('valid-date-format', 'Invalid date', (value) => {
+      if (!value) return true
 
-  defaultValues[key] = defaultFieldValues.number
+      return !isNaN(Date.parse(value.toString()))
+    })
+    .nullable()
+    .typeError('Invalid date')
+
+  yupObject[key] = visibility
+    ? schema.required('This field is required')
+    : schema.notRequired()
 }

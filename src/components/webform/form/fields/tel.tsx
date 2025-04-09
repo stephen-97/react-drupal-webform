@@ -3,11 +3,11 @@ import cn from 'classnames'
 import styles from './field.module.scss'
 import { TFieldValidate } from '@/lib/types/field'
 import { useController } from 'react-hook-form'
-import { TElementSource, TFieldObj } from '@/lib/types/field'
+import { TFieldObj } from '@/lib/types/field'
 import Label from '@/components/webform/form/fields/fields-sub-components/label'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
 
-export const renderNumber = ({
+export const renderTel = ({
   onBlur,
   control,
   key,
@@ -37,10 +37,8 @@ export const renderNumber = ({
         name={fieldController.name}
         minLength={field?.['#minlength']}
         maxLength={field?.['#maxlength']}
-        max={field?.['#max']}
-        min={field?.['#min']}
         placeholder={field?.['#placeholder']}
-        type={'number'}
+        type={'tel'}
         onChange={(e) => fieldController.onChange?.(e)}
         value={fieldController?.value ?? ''}
         onBlur={onBlur}
@@ -49,7 +47,7 @@ export const renderNumber = ({
   )
 }
 
-export const validateNumber = ({
+export const validateTel = ({
   yupObject,
   defaultValues,
   key,
@@ -59,5 +57,11 @@ export const validateNumber = ({
 }: TFieldValidate) => {
   yupObject[key] = visibility ? string().required('required field') : string()
 
-  defaultValues[key] = defaultFieldValues.number
+  const schema = string().matches(/^[0-9]+$/, {
+    message: "it's not a number",
+    excludeEmptyString: true,
+  })
+  yupObject[key] = visibility ? schema.required() : schema
+
+  defaultValues[key] = defaultFieldValues.tel
 }

@@ -1,15 +1,33 @@
 import { Control } from 'react-hook-form'
 import { FocusEventHandler } from 'react'
-import { TWebformValueFormat } from '@/lib/types/form'
+import {
+  TWebformClassNames,
+  TWebformDefaultFieldValues,
+  TWebformValueFormat,
+} from '@/lib/types/form.d'
+
+type TDrupal_FieldType =
+  | 'checkbox'
+  | 'checkboxes'
+  | 'date'
+  | 'email'
+  | 'webform_markup'
+  | 'textarea'
+  | 'textfield'
+  | 'number'
+  | 'tel'
+  | 'select'
 
 type TElementSource = {
-  '#type': string
+  '#type': TDrupal_FieldType
   '#title': string
   '#required'?: boolean
   '#placeholder'?: string
   '#options'?: any
   '#options_display'?: string
   '#max_filesize'?: number
+  '#min'?: number
+  '#max'?: number
   '#default_value'?: string
   '#description_display'?: string
   '#file_extensions'?: string
@@ -24,6 +42,9 @@ type TElementSource = {
   '#rows'?: number
   '#field_suffix'?: string
   '#submit__label'?: string
+  '#attributes'?: {
+    class?: string[]
+  }
   '#wrapper_attributes'?: {
     class?: string[]
   }
@@ -40,6 +61,7 @@ type TFieldObj = {
   isValid?: boolean
   isMultiStep?: boolean
   valueFormat: TWebformValueFormat
+  classNames: Required<TWebformClassNames>
 }
 
 type TFieldValidate = {
@@ -50,6 +72,7 @@ type TFieldValidate = {
   visibility: boolean
   options?: string[]
   valueFormat: TWebformValueFormat
+  defaultFieldValues: Required<TWebformDefaultFieldValues>
 }
 
 type TMultiFieldNames = 'radios' | 'select' | 'checkboxes'
@@ -64,4 +87,5 @@ export type {
   TMultiFieldNames,
   TSingleFieldNames,
   TFieldNames,
+  TDrupal_FieldType,
 }
