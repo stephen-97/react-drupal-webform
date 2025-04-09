@@ -1,12 +1,25 @@
 import { Control } from 'react-hook-form'
 import { FocusEventHandler } from 'react'
 import {
+  TWebformClassNames,
   TWebformDefaultFieldValues,
   TWebformValueFormat,
-} from '@/lib/types/form'
+} from '@/lib/types/form.d'
+
+type TDrupal_FieldType =
+  | 'checkbox'
+  | 'checkboxes'
+  | 'date'
+  | 'email'
+  | 'webform_markup'
+  | 'textarea'
+  | 'textfield'
+  | 'number'
+  | 'tel'
+  | 'select'
 
 type TElementSource = {
-  '#type': string
+  '#type': TDrupal_FieldType
   '#title': string
   '#required'?: boolean
   '#placeholder'?: string
@@ -48,6 +61,7 @@ type TFieldObj = {
   isValid?: boolean
   isMultiStep?: boolean
   valueFormat: TWebformValueFormat
+  classNames: Required<TWebformClassNames>
 }
 
 type TFieldValidate = {
@@ -73,4 +87,5 @@ export type {
   TMultiFieldNames,
   TSingleFieldNames,
   TFieldNames,
+  TDrupal_FieldType,
 }

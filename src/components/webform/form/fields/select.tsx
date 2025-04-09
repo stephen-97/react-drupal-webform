@@ -3,9 +3,11 @@ import { TFieldValidate } from '@/lib/types/field'
 import styles from './field.module.scss'
 import { useController } from 'react-hook-form'
 import { TFieldObj } from '@/lib/types/field'
-import { TFormatFieldMulti } from '@/lib/types/form'
+import { TFormatFieldMulti } from '@/lib/types/form.d'
 import { handleChangeOptions } from '@/lib/functions/webform_fields_functions/webform_fields_functions'
 import cn from 'classnames'
+import Label from '@/components/webform/form/fields/fields-sub-components/label'
+import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
 
 export const renderSelect = ({
   control,
@@ -13,8 +15,9 @@ export const renderSelect = ({
   keyForMap,
   field,
   valueFormat,
+  classNames,
 }: TFieldObj) => {
-  const { field: fieldController } = useController<any>({
+  const { field: fieldController, fieldState } = useController<any>({
     name: key,
     control,
   })
@@ -27,9 +30,14 @@ export const renderSelect = ({
   const { select: selectFormat } = valueFormat
 
   return (
-    <div key={keyForMap} className={cn(styles.fieldWrapper)}>
+    <Wrapper
+      field={field}
+      classNames={classNames}
+      classNameFieldName={'fieldSelect'}
+      key={keyForMap}
+    >
       <select
-        className={cn(styles.field, ...(field?.['#attributes']?.class ?? []))}
+        className={cn(styles.field)}
         name={fieldController.name}
         onChange={(e) =>
           handleChangeOptions(
@@ -47,7 +55,7 @@ export const renderSelect = ({
           </option>
         ))}
       </select>
-    </div>
+    </Wrapper>
   )
 }
 

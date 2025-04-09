@@ -1,4 +1,4 @@
-import { string } from 'yup'
+import { date } from 'yup'
 import cn from 'classnames'
 import styles from './field.module.scss'
 import { TFieldValidate } from '@/lib/types/field'
@@ -7,7 +7,7 @@ import { TFieldObj } from '@/lib/types/field'
 import Label from '@/components/webform/form/fields/fields-sub-components/label'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
 
-export const renderTel = ({
+export const renderDate = ({
   onBlur,
   control,
   key,
@@ -28,17 +28,14 @@ export const renderTel = ({
       key={keyForMap}
     >
       <input
-        className={cn(
-          styles.field,
-          styles.input,
-          ...(field?.['#attributes']?.class ?? []),
-          { [styles.error]: fieldState.error }
-        )}
+        className={cn(styles.field, styles.input, {
+          [styles.error]: fieldState.error,
+        })}
         name={fieldController.name}
         minLength={field?.['#minlength']}
         maxLength={field?.['#maxlength']}
         placeholder={field?.['#placeholder']}
-        type={'tel'}
+        type={'date'}
         onChange={(e) => fieldController.onChange?.(e)}
         value={fieldController?.value ?? ''}
         onBlur={onBlur}
@@ -47,21 +44,24 @@ export const renderTel = ({
   )
 }
 
-export const validateTel = ({
+export const validateDate = ({
   yupObject,
   defaultValues,
   key,
-  field,
   visibility,
   defaultFieldValues,
 }: TFieldValidate) => {
-  yupObject[key] = visibility ? string().required('required field') : string()
+  defaultValues[key] = defaultFieldValues.date
+  const schema = date()
+    .test('valid-date-format', 'Invalid date', (value) => {
+      if (!value) return true
 
-  const schema = string().matches(/^[0-9]+$/, {
-    message: "it's not a number",
-    excludeEmptyString: true,
-  })
-  yupObject[key] = visibility ? schema.required() : schema
+      return !isNaN(Date.parse(value.toString()))
+    })
+    .nullable()
+    .typeError('Invalid date')
 
-  defaultValues[key] = defaultFieldValues.tel
+  yupObject[key] = visibility
+    ? schema.required('This field is required')
+    : schema.notRequired()
 }

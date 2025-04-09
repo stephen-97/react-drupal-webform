@@ -13,8 +13,9 @@ import { TFieldValidate } from '@/lib/types/field'
 import { useController } from 'react-hook-form'
 import { TElementSource, TFieldObj } from '@/lib/types/field'
 import { handleChangeOptions } from '@/lib/functions/webform_fields_functions/webform_fields_functions'
-import { TFormatFieldMulti } from '@/lib/types/form'
+import { TFormatFieldMulti } from '@/lib/types/form.d'
 import Label from '@/components/webform/form/fields/fields-sub-components/label'
+import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
 
 export const renderCheckboxes = ({
   onBlur,
@@ -23,6 +24,7 @@ export const renderCheckboxes = ({
   keyForMap,
   field,
   valueFormat,
+  classNames,
 }: TFieldObj) => {
   if (!field?.['#options']) {
     return null
@@ -38,14 +40,12 @@ export const renderCheckboxes = ({
   const { checkboxes: checkboxesFormat } = valueFormat
 
   return (
-    <div
+    <Wrapper
+      field={field}
+      classNames={classNames}
+      classNameFieldName={'fieldCheckboxes'}
       key={keyForMap}
-      className={cn(
-        ...(field?.['#attributes']?.class ?? []),
-        styles.fieldWrapper
-      )}
     >
-      <Label title={field?.['#title']} />
       <div className={styles.checkboxes}>
         {optionsObj.map(([key, value], i) => (
           <label key={i}>
@@ -70,7 +70,7 @@ export const renderCheckboxes = ({
           </label>
         ))}
       </div>
-    </div>
+    </Wrapper>
   )
 }
 

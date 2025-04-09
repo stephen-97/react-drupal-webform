@@ -5,9 +5,10 @@ import React, { useEffect, useMemo } from 'react'
 import FormMappingFields from '@/components/webform/form/formMappingFields/formMappingFields'
 import {
   TWebform,
+  TWebformClassNames,
   TWebformDefaultFieldValues,
   TWebformValueFormat,
-} from '@/lib/types/form'
+} from '@/lib/types/form.d'
 import { useForm } from 'react-hook-form'
 import { useYupValidationResolver } from '@/lib/functions/webform_yup_functions/webform_yup_functions'
 import * as yup from 'yup'
@@ -20,13 +21,14 @@ type TMultiStepExtra = {
 
 type TFormDefault = Omit<
   TWebform,
-  'elementsSource' | 'valueFormat' | 'defaultFieldValues'
+  'elementsSource' | 'valueFormat' | 'defaultFieldValues' | 'classNames'
 > & {
   submitButtonRef?: React.RefObject<HTMLButtonElement>
   multiStepExtra?: TMultiStepExtra
   elementsSource: Record<string, any>
   valueFormat: Required<TWebformValueFormat>
   defaultFieldValues: Required<TWebformDefaultFieldValues>
+  classNames: Required<TWebformClassNames>
 }
 
 const FormDefault = ({
@@ -36,6 +38,7 @@ const FormDefault = ({
   defaultFieldValues,
   yup: yupObj,
   submitButtonRef: externalSubmitButtonRef,
+  classNames,
 }: TFormDefault) => {
   const submitButtonRef = React.useRef<HTMLButtonElement>(null)
   const { yupUseFormProps } = yupObj
@@ -88,8 +91,6 @@ const FormDefault = ({
     }
   }, [isValid, externalSubmitButtonRef])
 
-  console.log('source', elementsSource)
-
   return (
     <form className={styles.formDefault} onSubmit={handleSubmit(onFormSubmit)}>
       {Object.keys(elementsSource).map((key, index) => {
@@ -106,6 +107,7 @@ const FormDefault = ({
             isValid,
             valueFormat,
             isMultiStep,
+            classNames,
           })
         }
       })}

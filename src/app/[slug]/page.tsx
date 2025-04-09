@@ -26,8 +26,6 @@ const Page = async ({ params }: IPage) => {
   const pageId: string = pathData?.entity?.uuid
   const form: TDrupal_Webform_Obj = await getForm(pageId)
 
-  const elementsSources = getWebformProperties(form?.webform?.elements)
-
   return (
     <main className={styles.main}>
       <div className={styles.webformContainer}>

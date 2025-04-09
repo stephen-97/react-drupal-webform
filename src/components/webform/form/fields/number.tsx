@@ -5,6 +5,7 @@ import { TFieldValidate } from '@/lib/types/field'
 import { useController } from 'react-hook-form'
 import { TElementSource, TFieldObj } from '@/lib/types/field'
 import Label from '@/components/webform/form/fields/fields-sub-components/label'
+import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
 
 export const renderNumber = ({
   onBlur,
@@ -12,6 +13,7 @@ export const renderNumber = ({
   key,
   keyForMap,
   field,
+  classNames,
 }: TFieldObj) => {
   const { field: fieldController, fieldState } = useController<any>({
     name: key,
@@ -19,8 +21,12 @@ export const renderNumber = ({
   })
 
   return (
-    <div key={keyForMap} className={cn(styles.fieldWrapper)}>
-      <Label title={field?.['#title']} />
+    <Wrapper
+      field={field}
+      classNames={classNames}
+      classNameFieldName={'fieldInput'}
+      key={keyForMap}
+    >
       <input
         className={cn(
           styles.field,
@@ -39,7 +45,7 @@ export const renderNumber = ({
         value={fieldController?.value ?? ''}
         onBlur={onBlur}
       />
-    </div>
+    </Wrapper>
   )
 }
 

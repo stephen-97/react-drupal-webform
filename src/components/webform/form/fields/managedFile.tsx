@@ -7,7 +7,7 @@ import { TFieldObj } from '@/lib/types/field'
 import Label from '@/components/webform/form/fields/fields-sub-components/label'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
 
-export const renderTel = ({
+export const renderManagedFile = ({
   onBlur,
   control,
   key,
@@ -20,6 +20,12 @@ export const renderTel = ({
     control,
   })
 
+  const fileExtensions = field?.['#file_extensions']
+    ?.trim()
+    .split(' ')
+    .map((ext) => `.${ext}`)
+    .join(', ')
+
   return (
     <Wrapper
       field={field}
@@ -28,17 +34,13 @@ export const renderTel = ({
       key={keyForMap}
     >
       <input
-        className={cn(
-          styles.field,
-          styles.input,
-          ...(field?.['#attributes']?.class ?? []),
-          { [styles.error]: fieldState.error }
-        )}
+        className={cn(styles.field, styles.input)}
         name={fieldController.name}
         minLength={field?.['#minlength']}
         maxLength={field?.['#maxlength']}
         placeholder={field?.['#placeholder']}
-        type={'tel'}
+        type={'file'}
+        accept={fileExtensions}
         onChange={(e) => fieldController.onChange?.(e)}
         value={fieldController?.value ?? ''}
         onBlur={onBlur}
@@ -47,7 +49,7 @@ export const renderTel = ({
   )
 }
 
-export const validateTel = ({
+export const validateManagedFile = ({
   yupObject,
   defaultValues,
   key,
@@ -57,11 +59,5 @@ export const validateTel = ({
 }: TFieldValidate) => {
   yupObject[key] = visibility ? string().required('required field') : string()
 
-  const schema = string().matches(/^[0-9]+$/, {
-    message: "it's not a number",
-    excludeEmptyString: true,
-  })
-  yupObject[key] = visibility ? schema.required() : schema
-
-  defaultValues[key] = defaultFieldValues.tel
+  defaultValues[key] = defaultFieldValues.textfield
 }

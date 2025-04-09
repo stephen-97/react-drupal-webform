@@ -36,6 +36,11 @@ import {
   validateTextArea,
 } from '@/components/webform/form/fields/textarea'
 import { renderTel, validateTel } from '@/components/webform/form/fields/tel'
+import { renderDate, validateDate } from '@/components/webform/form/fields/date'
+import {
+  renderManagedFile,
+  validateManagedFile,
+} from '@/components/webform/form/fields/managedFile'
 
 type TElementFunction = (_props: TFieldObj) => ReactElement | null
 type TValidatorFunction = (_props: TFieldValidate) => void
@@ -88,9 +93,17 @@ const FormMappingFields = (): TFormMappingFields => ({
     element: renderEmail,
     validator: validateEmail,
   },
+  date: {
+    element: renderDate,
+    validator: validateDate,
+  },
   webform_markup: {
     element: renderMarkup,
     validator: null,
+  },
+  managed_file: {
+    element: renderManagedFile,
+    validator: validateManagedFile,
   },
   default: {
     element: null,

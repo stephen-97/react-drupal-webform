@@ -4,7 +4,7 @@ import styles from './field.module.scss'
 import { TFieldValidate } from '@/lib/types/field'
 import { useController } from 'react-hook-form'
 import { TFieldObj } from '@/lib/types/field'
-import Label from '@/components/webform/form/fields/fields-sub-components/label'
+import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
 
 export const renderTextArea = ({
   onBlur,
@@ -12,6 +12,7 @@ export const renderTextArea = ({
   key,
   keyForMap,
   field,
+  classNames,
 }: TFieldObj) => {
   const { field: fieldController, fieldState } = useController<any>({
     name: key,
@@ -19,15 +20,16 @@ export const renderTextArea = ({
   })
 
   return (
-    <div key={keyForMap} className={cn(styles.fieldWrapper)}>
-      <Label title={field?.['#title']} />
+    <Wrapper
+      field={field}
+      classNames={classNames}
+      classNameFieldName={'fieldTextarea'}
+      key={keyForMap}
+    >
       <textarea
-        className={cn(
-          styles.field,
-          styles.textarea,
-          ...(field?.['#attributes']?.class ?? []),
-          { [styles.error]: fieldState.error }
-        )}
+        className={cn(styles.field, styles.textarea, {
+          [styles.error]: fieldState.error,
+        })}
         name={fieldController.name}
         minLength={field?.['#minlength']}
         maxLength={field?.['#maxlength']}
@@ -37,7 +39,7 @@ export const renderTextArea = ({
         value={fieldController?.value ?? ''}
         onBlur={onBlur}
       />
-    </div>
+    </Wrapper>
   )
 }
 

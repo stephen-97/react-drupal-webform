@@ -1,4 +1,7 @@
 import { UseFormProps } from 'react-hook-form'
+import { JSX, ReactElement, InputHTMLAttributes } from 'react'
+import { ILabel } from '@/components/webform/form/fields/fields-sub-components/label'
+import { TDrupal_FieldType } from '@/lib/types/field'
 
 type TYup = {
   yupUseFormProps: Omit<UseFormProps, 'resolver'>
@@ -25,21 +28,44 @@ type TWebformDefaultFieldValues = {
   checkbox?: TDefaultValue
   number?: TDefaultValue
   tel?: TDefaultValue
+  date?: TDefaultValue
+}
+
+type TWebformClassNameFields = {
+  fieldInput?: string
+  fieldSelect?: string
+  fieldCheckboxes?: string
+  fieldRadio?: string
+  fieldTextarea?: string
+}
+
+type TWebformClassNames = {
+  general?: {
+    fieldWrapper?: string
+    fieldLabel?: string
+  }
+  states?: {
+    fieldError?: string
+  }
+  fields?: TWebformClassNameFields
+  types?: Partial<Record<TDrupal_FieldType, string>>
 }
 
 type TWebform = {
   elementsSource: string
   confirmationPath: string
   yup: TYup
-  components?: any
+  components?: {
+    label?: (_props: ILabel) => JSX.Element
+    input?: (
+      _props: InputHTMLAttributes<HTMLInputElement> & { error?: boolean }
+    ) => JSX.Element
+    wrapper?: ReactElement
+  }
   validators?: any
   valueFormat?: TWebformValueFormat
   defaultFieldValues?: TWebformDefaultFieldValues
-  classNames?: {
-    general?: {
-      fields: string
-    }
-  }
+  classNames?: TWebformClassNames
 }
 
 export type {
@@ -48,4 +74,6 @@ export type {
   TWebform,
   TWebformValueFormat,
   TWebformDefaultFieldValues,
+  TWebformClassNames,
+  TWebformClassNameFields,
 }

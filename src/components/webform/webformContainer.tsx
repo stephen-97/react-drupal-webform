@@ -2,6 +2,7 @@
 
 import Webform from '@/components/webform/webform'
 import { UseFormProps } from 'react-hook-form'
+import styles from './webformContainer.module.scss'
 
 export type TWebformContainer = {
   elementsSource: string
@@ -29,6 +30,19 @@ const WebformContainer = ({
       }}
       defaultFieldValues={{
         textfield: '',
+      }}
+      classNames={{
+        general: {
+          fieldWrapper: styles.fieldWrapper,
+          fieldLabel: styles.fieldLabel,
+        },
+        states: {
+          fieldError: styles.fieldError,
+        },
+        types: {
+          textfield: styles.textfield,
+          select: styles.select,
+        },
       }}
     />
   )

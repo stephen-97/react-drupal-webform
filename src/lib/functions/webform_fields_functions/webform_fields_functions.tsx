@@ -1,5 +1,5 @@
 import { ChangeEvent } from 'react'
-import { TFormatFieldMulti } from '@/lib/types/form'
+import { TFormatFieldMulti } from '@/lib/types/form.d'
 
 const handleChangeOptions = (
   event: ChangeEvent<HTMLSelectElement> | ChangeEvent<HTMLInputElement>,

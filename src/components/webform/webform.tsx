@@ -3,10 +3,16 @@ import { TMultiStepProperties } from '@/lib/functions/webform_multistep_function
 import FormDefault from '@/components/webform/form/formDefault/formDefault'
 import {
   TWebform,
+  TWebformClassNames,
   TWebformDefaultFieldValues,
   TWebformValueFormat,
-} from '@/lib/types/form'
-import { defaultValueFormatObj, defaultValuesObj } from '@/lib/const/const.form'
+} from '@/lib/types/form.d'
+import {
+  defaultValueFormatObj,
+  defaultValuesClassnames,
+  defaultValuesObj,
+} from '@/lib/const/const.form'
+import { mergeObjects } from '@/lib/functions/utils_functions'
 
 const Webform = ({
   elementsSource,
@@ -14,6 +20,7 @@ const Webform = ({
   yup,
   valueFormat = {},
   defaultFieldValues = {},
+  classNames = {},
 }: TWebform) => {
   const { yupObject = {}, yupDefaultValues = {} } = yup
 
@@ -25,6 +32,11 @@ const Webform = ({
     ...defaultFieldValues,
     ...defaultValuesObj,
   }
+
+  const mergedClassNames = mergeObjects(
+    defaultValuesClassnames,
+    classNames
+  ) as Required<TWebformClassNames>
 
   const { is_multi_step, elements_sources, multi_step_extra } =
     getWebformProperties(elementsSource)
@@ -43,6 +55,7 @@ const Webform = ({
         elementsSource={elements_sources}
         valueFormat={mergedValueFormat}
         defaultFieldValues={mergedDefaultFieldValues}
+        classNames={mergedClassNames}
       />
     )
   }

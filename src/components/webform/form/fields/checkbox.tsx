@@ -11,10 +11,11 @@ export const renderCheckbox = ({
   key,
   keyForMap,
   field,
+  classNames,
 }: TFieldObj) => {
   const title = field?.['#title']
 
-  const { field: fieldController } = useController<any>({
+  const { field: fieldController, fieldState } = useController<any>({
     name: key,
     control,
   })
@@ -22,10 +23,18 @@ export const renderCheckbox = ({
   return (
     <label
       key={keyForMap}
-      className={cn(...(field?.['#attributes']?.class ?? []))}
+      className={cn(
+        ...(field?.['#attributes']?.class ?? []),
+        classNames.types[field['#type']],
+        {
+          [classNames.states.fieldError ?? '']: Boolean(fieldState.error),
+        },
+        classNames.general.fieldWrapper,
+
+        styles.fieldWrapper
+      )}
     >
       <input
-        className={cn(styles.field, styles.input)}
         name={fieldController.name}
         checked={Boolean(fieldController.value)}
         type={'checkbox'}
