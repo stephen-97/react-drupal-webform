@@ -1,6 +1,7 @@
 import {
   TWebformClassNames,
   TWebformDefaultFieldValues,
+  TWebformMessages,
   TWebformValueFormat,
 } from '@/lib/types/form.d'
 import { DeepRequired } from 'react-hook-form'
@@ -16,12 +17,48 @@ const defaultValuesObj: Required<TWebformDefaultFieldValues> = {
   textarea: '',
   email: '',
   radio: '',
-  select: '',
   checkboxes: [],
   checkbox: false,
   number: '',
   tel: '',
   date: '',
+  managedFile: '',
+  select: '',
+}
+
+const defaultValuesStateMessages: DeepRequired<TWebformMessages> = {
+  general: {
+    errorMessage: 'Field Error',
+    requiredMessage: 'Field is Required',
+  },
+  fields: {
+    errorMessages: {
+      textfield: '',
+      textarea: '',
+      email: '',
+      radio: '',
+      checkboxes: '',
+      checkbox: '',
+      number: '',
+      tel: '',
+      date: '',
+      managedFile: '',
+      select: '',
+    },
+    requiredMessages: {
+      textfield: '',
+      textarea: '',
+      email: '',
+      radio: '',
+      checkboxes: '',
+      checkbox: '',
+      number: '',
+      tel: '',
+      date: '',
+      managedFile: '',
+      select: '',
+    },
+  },
 }
 
 const defaultValuesClassnames: DeepRequired<TWebformClassNames> = {
@@ -31,6 +68,7 @@ const defaultValuesClassnames: DeepRequired<TWebformClassNames> = {
   },
   states: {
     fieldError: '',
+    fieldErrorMessage: '',
   },
   fields: {
     fieldInput: '',
@@ -52,4 +90,9 @@ const defaultValuesClassnames: DeepRequired<TWebformClassNames> = {
     number: '',
   },
 }
-export { defaultValueFormatObj, defaultValuesObj, defaultValuesClassnames }
+export {
+  defaultValueFormatObj,
+  defaultValuesObj,
+  defaultValuesClassnames,
+  defaultValuesStateMessages,
+}

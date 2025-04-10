@@ -8,6 +8,7 @@ import { handleChangeOptions } from '@/lib/functions/webform_fields_functions/we
 import cn from 'classnames'
 import Label from '@/components/webform/form/fields/fields-sub-components/label'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
+import { getRequiredMessage } from '@/lib/functions/webform_validation_functions/webform_validation_functions'
 
 export const renderSelect = ({
   control,
@@ -34,6 +35,7 @@ export const renderSelect = ({
       field={field}
       classNames={classNames}
       classNameFieldName={'fieldSelect'}
+      stateError={fieldState.error}
       key={keyForMap}
     >
       <select
@@ -67,15 +69,19 @@ export const validateSelect = ({
   visibility,
   valueFormat,
   defaultFieldValues,
+  defaultFieldStateMessages,
 }: TFieldValidate) => {
   const options = field['#options']
   const optionKeys = Object.keys(options)
+  const requiredMessage = getRequiredMessage(
+    defaultFieldStateMessages,
+    'select'
+  )
 
-  let schema: StringSchema | ObjectSchema<Record<string, boolean>> =
-    string().oneOf(optionKeys.concat(''))
+  let schema: any = string().oneOf(optionKeys.concat(''))
 
   if (visibility) {
-    schema = schema.required('required field')
+    schema = schema.required(requiredMessage)
   }
 
   const { select: selectFormat } = valueFormat
@@ -85,24 +91,43 @@ export const validateSelect = ({
       schema = schema.transform((value: any) =>
         optionKeys.includes(value) ? value : ''
       )
+      defaultValues[key] = ''
       break
     case 'value':
       schema = schema.transform((value: any) => options[value] || '')
+      defaultValues[key] = ''
       break
     case 'keyValue':
-      schema = schema.transform((value: any) =>
-        optionKeys.includes(value) ? { [value]: options[value] } : {}
-      )
+      schema = object()
+
+      if (visibility) {
+        schema = schema.transform((value: any) =>
+          optionKeys.includes(value) ? { [value]: options[value] } : {}
+        )
+      }
+      defaultValues[key] = {}
       break
     case 'booleanMap':
-      schema = object().test(
-        'at-least-one-true',
-        'required field',
-        (value) => value && Object.values(value).some((v) => v === true)
-      ) as ObjectSchema<Record<string, boolean>>
+      schema = object()
+
+      if (visibility) {
+        schema = schema.test(
+          'at-least-one-true',
+          'at-least-one-true',
+          (value: Record<string, any>) =>
+            value && Object.values(value).some((v) => v === true)
+        ) as ObjectSchema<Record<string, boolean>>
+      }
+
+      defaultValues[key] = optionKeys.reduce(
+        (acc, key) => {
+          acc[key] = false
+          return acc
+        },
+        {} as Record<string, boolean>
+      )
       break
   }
 
   yupObject[key] = schema
-  defaultValues[key] = defaultFieldValues.select
 }

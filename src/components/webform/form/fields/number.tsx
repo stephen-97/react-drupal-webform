@@ -3,8 +3,7 @@ import cn from 'classnames'
 import styles from './field.module.scss'
 import { TFieldValidate } from '@/lib/types/field'
 import { useController } from 'react-hook-form'
-import { TElementSource, TFieldObj } from '@/lib/types/field'
-import Label from '@/components/webform/form/fields/fields-sub-components/label'
+import { TFieldObj } from '@/lib/types/field'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
 
 export const renderNumber = ({
@@ -25,6 +24,7 @@ export const renderNumber = ({
       field={field}
       classNames={classNames}
       classNameFieldName={'fieldInput'}
+      stateError={fieldState.error}
       key={keyForMap}
     >
       <input

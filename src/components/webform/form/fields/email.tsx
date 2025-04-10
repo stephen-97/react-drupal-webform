@@ -3,9 +3,9 @@ import cn from 'classnames'
 import styles from './field.module.scss'
 import { TFieldValidate } from '@/lib/types/field'
 import { useController } from 'react-hook-form'
-import { TElementSource, TFieldObj } from '@/lib/types/field'
-import Label from '@/components/webform/form/fields/fields-sub-components/label'
+import { TFieldObj } from '@/lib/types/field'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
+import { getRequiredMessage } from '@/lib/functions/webform_validation_functions/webform_validation_functions'
 
 export const renderEmail = ({
   onBlur,
@@ -25,6 +25,7 @@ export const renderEmail = ({
       field={field}
       classNames={classNames}
       classNameFieldName={'fieldInput'}
+      stateError={fieldState.error}
       key={keyForMap}
     >
       <input
@@ -51,17 +52,20 @@ export const validateEmail = ({
   field,
   visibility,
   defaultFieldValues,
+  defaultFieldStateMessages,
 }: TFieldValidate) => {
+  const requiredMessage = getRequiredMessage(defaultFieldStateMessages, 'email')
+
   const emailWithTLDRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
   const schema = string()
     .test('valid-email-format', 'invalid email', (value) => {
       if (!value) return true
       return emailWithTLDRegex.test(value)
     })
-    .email('invalid email')
+    .email("It's not an email")
 
   yupObject[key] = visibility
-    ? schema.required('required field')
+    ? schema.required(requiredMessage)
     : schema.notRequired()
 
   defaultValues[key] = ''

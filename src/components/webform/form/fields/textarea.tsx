@@ -5,6 +5,7 @@ import { TFieldValidate } from '@/lib/types/field'
 import { useController } from 'react-hook-form'
 import { TFieldObj } from '@/lib/types/field'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
+import { getRequiredMessage } from '@/lib/functions/webform_validation_functions/webform_validation_functions'
 
 export const renderTextArea = ({
   onBlur,
@@ -24,6 +25,7 @@ export const renderTextArea = ({
       field={field}
       classNames={classNames}
       classNameFieldName={'fieldTextarea'}
+      stateError={fieldState.error}
       key={keyForMap}
     >
       <textarea
@@ -36,7 +38,7 @@ export const renderTextArea = ({
         rows={field?.['#rows'] ?? 10}
         placeholder={field?.['#placeholder']}
         onChange={(e) => fieldController.onChange?.(e)}
-        value={fieldController?.value ?? ''}
+        value={fieldController.value ?? ''}
         onBlur={onBlur}
       />
     </Wrapper>
@@ -49,8 +51,14 @@ export const validateTextArea = ({
   key,
   visibility,
   defaultFieldValues,
+  defaultFieldStateMessages,
 }: TFieldValidate) => {
-  yupObject[key] = visibility ? string().required('required field') : string()
+  const requiredMessage = getRequiredMessage(
+    defaultFieldStateMessages,
+    'textarea'
+  )
+
+  yupObject[key] = visibility ? string().required(requiredMessage) : string()
 
   defaultValues[key] = defaultFieldValues.textarea
 }

@@ -1,21 +1,13 @@
-import {
-  AnyObject,
-  array,
-  ArraySchema,
-  boolean,
-  object,
-  ObjectSchema,
-  string,
-} from 'yup'
+import { array, object, ObjectSchema, string } from 'yup'
 import cn from 'classnames'
 import styles from './field.module.scss'
 import { TFieldValidate } from '@/lib/types/field'
 import { useController } from 'react-hook-form'
-import { TElementSource, TFieldObj } from '@/lib/types/field'
+import { TFieldObj } from '@/lib/types/field'
 import { handleChangeOptions } from '@/lib/functions/webform_fields_functions/webform_fields_functions'
 import { TFormatFieldMulti } from '@/lib/types/form.d'
-import Label from '@/components/webform/form/fields/fields-sub-components/label'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
+import { getRequiredMessage } from '@/lib/functions/webform_validation_functions/webform_validation_functions'
 
 export const renderCheckboxes = ({
   onBlur,
@@ -44,11 +36,12 @@ export const renderCheckboxes = ({
       field={field}
       classNames={classNames}
       classNameFieldName={'fieldCheckboxes'}
+      stateError={fieldState.error}
       key={keyForMap}
     >
       <div className={styles.checkboxes}>
         {optionsObj.map(([key, value], i) => (
-          <label key={i}>
+          <label className={styles.checkbox} key={i}>
             <input
               className={cn(styles.field, styles.input)}
               name={fieldController.name}
@@ -81,10 +74,14 @@ export const validateCheckboxes = ({
   field,
   visibility,
   valueFormat,
-  defaultFieldValues,
+  defaultFieldStateMessages,
 }: TFieldValidate) => {
   const options = field['#options']
   const optionKeys = Object.keys(options)
+  const requiredMessage = getRequiredMessage(
+    defaultFieldStateMessages,
+    'checkboxes'
+  )
 
   const { checkboxes: checkboxesFormat } = valueFormat
 
@@ -98,6 +95,7 @@ export const validateCheckboxes = ({
       if (visibility) {
         schema = schema.min(1)
       }
+      defaultValues[key] = ''
       break
 
     case 'value':
@@ -107,6 +105,7 @@ export const validateCheckboxes = ({
       if (visibility) {
         schema = schema.min(1)
       }
+      defaultValues[key] = ''
       break
 
     case 'keyValue':
@@ -122,21 +121,33 @@ export const validateCheckboxes = ({
       if (visibility) {
         schema = schema.min(1)
       }
+      defaultValues[key] = []
       break
 
     case 'booleanMap':
-      schema = object().test(
-        'at-least-one-true',
-        'required field',
-        (value) => value && Object.values(value).some((v) => v === true)
-      ) as ObjectSchema<Record<string, boolean>>
+      schema = object()
+
+      if (visibility) {
+        schema = object().test(
+          'at-least-one-true',
+          'required field',
+          (value) => value && Object.values(value).some((v) => v === true)
+        ) as ObjectSchema<Record<string, boolean>>
+      }
+
+      defaultValues[key] = optionKeys.reduce(
+        (acc, key) => {
+          acc[key] = false
+          return acc
+        },
+        {} as Record<string, boolean>
+      )
       break
   }
 
   if (visibility) {
-    schema = schema.required('required field')
+    schema = schema.required(requiredMessage)
   }
 
   yupObject[key] = schema
-  defaultValues[key] = defaultFieldValues.checkboxes
 }

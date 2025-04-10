@@ -1,8 +1,9 @@
-import { Control } from 'react-hook-form'
+import { Control, DeepRequired } from 'react-hook-form'
 import { FocusEventHandler } from 'react'
 import {
   TWebformClassNames,
   TWebformDefaultFieldValues,
+  TWebformStateMessages,
   TWebformValueFormat,
 } from '@/lib/types/form.d'
 
@@ -73,6 +74,7 @@ type TFieldValidate = {
   options?: string[]
   valueFormat: TWebformValueFormat
   defaultFieldValues: Required<TWebformDefaultFieldValues>
+  defaultFieldStateMessages: DeepRequired<TWebformStateMessages>
 }
 
 type TMultiFieldNames = 'radios' | 'select' | 'checkboxes'

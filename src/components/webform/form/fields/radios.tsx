@@ -37,6 +37,7 @@ export const renderRadio = ({
       field={field}
       classNames={classNames}
       classNameFieldName={'fieldRadio'}
+      stateError={fieldState.error}
       key={keyForMap}
     >
       <>

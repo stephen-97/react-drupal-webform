@@ -13,13 +13,26 @@
   cursor: pointer;
 }
 
-.error {
-  border: .2rem solid red;
-}
-
 .fieldWrapper {
   display: flex;
   flex-direction: column;
   gap: .5rem
+}
+.checkboxes {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  cursor: pointer;
+}
+
+.checkboxUnique {
+  display: flex;
+  flex-direction: row;
 }
 
