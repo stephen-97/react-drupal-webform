@@ -18,17 +18,25 @@ type TWebformValueFormat = {
 
 type TDefaultValue = string | number | boolean | Record<string, any>
 
+export type TWebformStatesFieldTypes =
+  | 'textfield'
+  | 'textarea'
+  | 'email'
+  | 'radio'
+  | 'checkboxes'
+  | 'checkbox'
+  | 'number'
+  | 'tel'
+  | 'date'
+  | 'managedFile'
+  | 'select'
+
 type TWebformDefaultFieldValues = {
-  textfield?: TDefaultValue
-  textarea?: TDefaultValue
-  email?: TDefaultValue
-  radio?: TDefaultValue
-  select?: TDefaultValue
-  checkboxes?: TDefaultValue
-  checkbox?: TDefaultValue
-  number?: TDefaultValue
-  tel?: TDefaultValue
-  date?: TDefaultValue
+  [K in TWebformStatesFieldTypes]?: TDefaultValue
+}
+
+type TWebformMessageSpecificFields = {
+  [K in TWebformStatesFieldTypes]?: string | null
 }
 
 type TWebformClassNameFields = {
@@ -46,9 +54,21 @@ type TWebformClassNames = {
   }
   states?: {
     fieldError?: string
+    fieldErrorMessage?: string
   }
   fields?: TWebformClassNameFields
   types?: Partial<Record<TDrupal_FieldType, string>>
+}
+
+type TWebformStateMessages = {
+  general?: {
+    errorMessage?: string
+    requiredMessage?: string
+  }
+  fields?: {
+    errorMessages: TWebformMessageSpecificFields
+    requiredMessages: TWebformMessageSpecificFields
+  }
 }
 
 type TWebform = {
@@ -66,6 +86,7 @@ type TWebform = {
   valueFormat?: TWebformValueFormat
   defaultFieldValues?: TWebformDefaultFieldValues
   classNames?: TWebformClassNames
+  defaultFieldStateMessages?: TWebformStateMessages
 }
 
 export type {
@@ -76,4 +97,5 @@ export type {
   TWebformDefaultFieldValues,
   TWebformClassNames,
   TWebformClassNameFields,
+  TWebformStateMessages,
 }

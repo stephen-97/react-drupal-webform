@@ -5,14 +5,17 @@ import {
   TWebform,
   TWebformClassNames,
   TWebformDefaultFieldValues,
+  TWebformMessages,
   TWebformValueFormat,
 } from '@/lib/types/form.d'
 import {
   defaultValueFormatObj,
   defaultValuesClassnames,
   defaultValuesObj,
+  defaultValuesStateMessages,
 } from '@/lib/const/const.form'
 import { mergeObjects } from '@/lib/functions/utils_functions'
+import { DeepRequired } from 'react-hook-form'
 
 const Webform = ({
   elementsSource,
@@ -21,6 +24,7 @@ const Webform = ({
   valueFormat = {},
   defaultFieldValues = {},
   classNames = {},
+  defaultStateMessages = {},
 }: TWebform) => {
   const { yupObject = {}, yupDefaultValues = {} } = yup
 
@@ -31,6 +35,11 @@ const Webform = ({
   const mergedDefaultFieldValues: Required<TWebformDefaultFieldValues> = {
     ...defaultFieldValues,
     ...defaultValuesObj,
+  }
+
+  const mergedDefaultValuesStateMessages: DeepRequired<TWebformMessages> = {
+    ...defaultStateMessages,
+    ...defaultValuesStateMessages,
   }
 
   const mergedClassNames = mergeObjects(
@@ -55,6 +64,7 @@ const Webform = ({
         elementsSource={elements_sources}
         valueFormat={mergedValueFormat}
         defaultFieldValues={mergedDefaultFieldValues}
+        defaultFieldStateMessages={mergedDefaultValuesStateMessages}
         classNames={mergedClassNames}
       />
     )

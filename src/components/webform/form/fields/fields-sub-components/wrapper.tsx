@@ -4,6 +4,8 @@ import { TElementSource } from '@/lib/types/field'
 import { ReactElement } from 'react'
 import { TWebformClassNameFields, TWebformClassNames } from '@/lib/types/form.d'
 import Label from '@/components/webform/form/fields/fields-sub-components/label'
+import { FieldError } from 'react-hook-form'
+import ErrorFieldMessage from '@/components/webform/form/fields/fields-sub-components/errorFieldMessage/errorFieldMessage'
 
 interface IWrapper {
   children: ReactElement
@@ -12,14 +14,14 @@ interface IWrapper {
   field: TElementSource
   classNames: Required<TWebformClassNames>
   classNameFieldName: keyof Required<TWebformClassNameFields>
-  stateError?: boolean
+  stateError?: FieldError | undefined
 }
 const Wrapper = ({
   children,
   field,
   classNames,
   isLabel = true,
-  stateError = false,
+  stateError = undefined,
   classNameFieldName,
 }: IWrapper) => {
   return (
@@ -30,7 +32,7 @@ const Wrapper = ({
         classNames.fields?.[classNameFieldName],
         classNames.general.fieldWrapper,
         {
-          [classNames.states.fieldError ?? '']: stateError,
+          [classNames.states.fieldError ?? '']: Boolean(stateError),
         },
         styles.fieldWrapper
       )}
@@ -42,6 +44,13 @@ const Wrapper = ({
         />
       )}
       {children}
+      {typeof stateError?.message === 'string' &&
+        stateError.message.length > 0 && (
+          <ErrorFieldMessage
+            className={classNames.states?.fieldErrorMessage}
+            message={stateError.message}
+          />
+        )}
     </div>
   )
 }

@@ -6,6 +6,7 @@ import { useController } from 'react-hook-form'
 import { TFieldObj } from '@/lib/types/field'
 import Label from '@/components/webform/form/fields/fields-sub-components/label'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
+import { getRequiredMessage } from '@/lib/functions/webform_validation_functions/webform_validation_functions'
 
 export const renderTel = ({
   onBlur,
@@ -25,6 +26,7 @@ export const renderTel = ({
       field={field}
       classNames={classNames}
       classNameFieldName={'fieldInput'}
+      stateError={fieldState.error}
       key={keyForMap}
     >
       <input
@@ -54,14 +56,17 @@ export const validateTel = ({
   field,
   visibility,
   defaultFieldValues,
+  defaultFieldStateMessages,
 }: TFieldValidate) => {
-  yupObject[key] = visibility ? string().required('required field') : string()
+  const requiredMessage = getRequiredMessage(defaultFieldStateMessages, 'tel')
+
+  //yupObject[key] = visibility ? string().required(requiredMessage) : string()
 
   const schema = string().matches(/^[0-9]+$/, {
     message: "it's not a number",
     excludeEmptyString: true,
   })
-  yupObject[key] = visibility ? schema.required() : schema
+  yupObject[key] = visibility ? schema.required(requiredMessage) : schema
 
   defaultValues[key] = defaultFieldValues.tel
 }

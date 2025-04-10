@@ -25,8 +25,8 @@ const WebformContainer = ({
       yup={{ yupUseFormProps }}
       valueFormat={{
         radio: 'value',
-        select: 'booleanMap',
-        checkboxes: 'key',
+        select: 'keyValue',
+        checkboxes: 'keyValue',
       }}
       defaultFieldValues={{
         textfield: '',
@@ -38,10 +38,17 @@ const WebformContainer = ({
         },
         states: {
           fieldError: styles.fieldError,
+          fieldErrorMessage: styles.fieldErrorMessage,
         },
         types: {
           textfield: styles.textfield,
           select: styles.select,
+        },
+      }}
+      defaultStateMessages={{
+        general: {
+          errorMessage: 'Error Message is here',
+          requiredMessage: 'Field is required',
         },
       }}
     />

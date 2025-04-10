@@ -7,9 +7,10 @@ import {
   TWebform,
   TWebformClassNames,
   TWebformDefaultFieldValues,
+  TWebformStateMessages,
   TWebformValueFormat,
 } from '@/lib/types/form.d'
-import { useForm } from 'react-hook-form'
+import { DeepRequired, useForm } from 'react-hook-form'
 import { useYupValidationResolver } from '@/lib/functions/webform_yup_functions/webform_yup_functions'
 import * as yup from 'yup'
 
@@ -28,6 +29,7 @@ type TFormDefault = Omit<
   elementsSource: Record<string, any>
   valueFormat: Required<TWebformValueFormat>
   defaultFieldValues: Required<TWebformDefaultFieldValues>
+  defaultFieldStateMessages: DeepRequired<TWebformStateMessages>
   classNames: Required<TWebformClassNames>
 }
 
@@ -38,6 +40,7 @@ const FormDefault = ({
   defaultFieldValues,
   yup: yupObj,
   submitButtonRef: externalSubmitButtonRef,
+  defaultFieldStateMessages,
   classNames,
 }: TFormDefault) => {
   const submitButtonRef = React.useRef<HTMLButtonElement>(null)
@@ -55,7 +58,7 @@ const FormDefault = ({
   Object.keys(elementsSource).forEach((key) => {
     const type: string = elementsSource[key]['#type']
     const field = elementsSource[key]
-    const visibility = false
+    const visibility = true
     return elementsObject[type ?? 'default']?.validator?.({
       yupObject,
       defaultValues,
@@ -64,6 +67,7 @@ const FormDefault = ({
       visibility,
       valueFormat,
       defaultFieldValues,
+      defaultFieldStateMessages,
     })
   })
 
@@ -110,6 +114,7 @@ const FormDefault = ({
             classNames,
           })
         }
+        return null
       })}
       {externalSubmitButtonRef && (
         <button type="submit" ref={externalSubmitButtonRef}></button>

@@ -6,6 +6,7 @@ import { useController } from 'react-hook-form'
 import { TFieldObj } from '@/lib/types/field'
 import Label from '@/components/webform/form/fields/fields-sub-components/label'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
+import { getRequiredMessage } from '@/lib/functions/webform_validation_functions/webform_validation_functions'
 
 export const renderDate = ({
   onBlur,
@@ -25,6 +26,7 @@ export const renderDate = ({
       field={field}
       classNames={classNames}
       classNameFieldName={'fieldInput'}
+      stateError={fieldState.error}
       key={keyForMap}
     >
       <input
@@ -50,8 +52,10 @@ export const validateDate = ({
   key,
   visibility,
   defaultFieldValues,
+  defaultFieldStateMessages,
 }: TFieldValidate) => {
-  defaultValues[key] = defaultFieldValues.date
+  const requiredMessage = getRequiredMessage(defaultFieldStateMessages, 'date')
+
   const schema = date()
     .test('valid-date-format', 'Invalid date', (value) => {
       if (!value) return true
@@ -62,6 +66,8 @@ export const validateDate = ({
     .typeError('Invalid date')
 
   yupObject[key] = visibility
-    ? schema.required('This field is required')
+    ? schema.required(requiredMessage)
     : schema.notRequired()
+
+  defaultValues[key] = defaultFieldValues.date
 }

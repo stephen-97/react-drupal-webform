@@ -1,11 +1,12 @@
-import { string } from 'yup'
+import { mixed } from 'yup'
 import cn from 'classnames'
 import styles from './field.module.scss'
 import { TFieldValidate } from '@/lib/types/field'
 import { useController } from 'react-hook-form'
 import { TFieldObj } from '@/lib/types/field'
-import Label from '@/components/webform/form/fields/fields-sub-components/label'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
+import React, { useRef } from 'react'
+import { defaultValuesObj } from '@/lib/const/const.form'
 
 export const renderManagedFile = ({
   onBlur,
@@ -15,7 +16,9 @@ export const renderManagedFile = ({
   field,
   classNames,
 }: TFieldObj) => {
-  const { field: fieldController, fieldState } = useController<any>({
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  const { field: fieldController } = useController<any>({
     name: key,
     control,
   })
@@ -26,6 +29,18 @@ export const renderManagedFile = ({
     .map((ext) => `.${ext}`)
     .join(', ')
 
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      const { files } = event.target
+      if (files && files.length > 0 && inputRef?.current) {
+        const filesArray = [...files]
+        fieldController.onChange(filesArray[0])
+        inputRef.current.value = ''
+      }
+      // eslint-disable-next-line no-unused-vars
+    } catch (err) {}
+  }
+
   return (
     <Wrapper
       field={field}
@@ -34,6 +49,7 @@ export const renderManagedFile = ({
       key={keyForMap}
     >
       <input
+        ref={inputRef}
         className={cn(styles.field, styles.input)}
         name={fieldController.name}
         minLength={field?.['#minlength']}
@@ -41,8 +57,7 @@ export const renderManagedFile = ({
         placeholder={field?.['#placeholder']}
         type={'file'}
         accept={fileExtensions}
-        onChange={(e) => fieldController.onChange?.(e)}
-        value={fieldController?.value ?? ''}
+        onChange={handleFileChange}
         onBlur={onBlur}
       />
     </Wrapper>
@@ -57,7 +72,24 @@ export const validateManagedFile = ({
   visibility,
   defaultFieldValues,
 }: TFieldValidate) => {
-  yupObject[key] = visibility ? string().required('required field') : string()
+  const schema = mixed<File>()
+    .test('fileRequired', 'file is required', (value: any) => {
+      if (visibility) {
+        return value instanceof File && value.size > 0
+      }
+      return true
+    })
+    .test(
+      'fileSize',
+      `max sire ${field?.['#max_filesize'] || 5}`,
+      (value: any) => {
+        if (!value || !(value instanceof File)) return true
+        const maxFileSizeMB = field?.['#max_filesize'] || 10
+        const maxSizeInBytes = maxFileSizeMB * 1024 * 1024
+        return value.size < maxSizeInBytes
+      }
+    )
 
-  defaultValues[key] = defaultFieldValues.textfield
+  yupObject[key] = visibility ? schema.required('file is required') : schema
+  defaultValues[key] = defaultFieldValues.managedFile
 }

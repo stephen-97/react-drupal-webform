@@ -6,6 +6,7 @@ import { useController } from 'react-hook-form'
 import { TFieldObj } from '@/lib/types/field'
 import Label from '@/components/webform/form/fields/fields-sub-components/label'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
+import { getRequiredMessage } from '@/lib/functions/webform_validation_functions/webform_validation_functions'
 
 export const renderTextField = ({
   onBlur,
@@ -25,6 +26,7 @@ export const renderTextField = ({
       field={field}
       classNames={classNames}
       classNameFieldName={'fieldInput'}
+      stateError={fieldState.error}
       key={keyForMap}
     >
       <input
@@ -46,11 +48,17 @@ export const validateTextField = ({
   yupObject,
   defaultValues,
   key,
-  field,
   visibility,
   defaultFieldValues,
+  defaultFieldStateMessages,
 }: TFieldValidate) => {
-  yupObject[key] = visibility ? string().required('required field') : string()
+  const requiredMessage = getRequiredMessage(
+    defaultFieldStateMessages,
+    'textfield'
+  )
+  const message = (yupObject[key] = visibility
+    ? string().required(requiredMessage)
+    : string())
 
   defaultValues[key] = defaultFieldValues.textfield
 }
