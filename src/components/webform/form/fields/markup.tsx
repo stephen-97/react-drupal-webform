@@ -1,7 +1,7 @@
 'use client'
 
 import DOMPurify from 'isomorphic-dompurify'
-import { TFieldObj } from '@/lib/types/field'
+import { TFieldObj } from '@/lib/types/components/field'
 import styles from './field.module.scss'
 import cn from 'classnames'
 

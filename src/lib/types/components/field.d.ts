@@ -1,11 +1,12 @@
 import { Control, DeepRequired } from 'react-hook-form'
-import { FocusEventHandler } from 'react'
 import {
   TWebformClassNames,
+  TWebformCustomComponents,
   TWebformDefaultFieldValues,
   TWebformStateMessages,
   TWebformValueFormat,
 } from '@/lib/types/form.d'
+import { FocusEventHandler } from 'react'
 
 type TDrupal_FieldType =
   | 'checkbox'
@@ -51,20 +52,6 @@ type TElementSource = {
   }
 }
 
-type TFieldObj = {
-  index: number
-  key: string
-  field: TElementSource
-  control: Control<{}, any>
-  onBlur?: FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>
-  keyForMap: string
-  submitButtonRef?: any
-  isValid?: boolean
-  isMultiStep?: boolean
-  valueFormat: TWebformValueFormat
-  classNames: Required<TWebformClassNames>
-}
-
 type TFieldValidate = {
   yupObject: Record<string, any>
   defaultValues: Record<string, any>
@@ -81,9 +68,23 @@ type TMultiFieldNames = 'radios' | 'select' | 'checkboxes'
 type TSingleFieldNames = 'number' | 'textfield' | 'email'
 type TFieldNames = TMultiFieldNames & TSingleFieldNames
 
+export type TFieldObj = {
+  index: number
+  key: string
+  field: TElementSource
+  control: Control<{}, any>
+  onBlur?: FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>
+  keyForMap: string
+  submitButtonRef?: any
+  isValid?: boolean
+  isMultiStep?: boolean
+  valueFormat: TWebformValueFormat
+  classNames: Required<TWebformClassNames>
+  components: TWebformCustomComponents
+}
+
 export type {
   TElementSource,
-  TFieldObj,
   TFieldValidate,
   TFieldMultiNames,
   TMultiFieldNames,

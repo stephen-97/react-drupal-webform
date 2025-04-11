@@ -1,13 +1,14 @@
 import { string, object, StringSchema, ObjectSchema } from 'yup'
 import cn from 'classnames'
 import styles from './field.module.scss'
-import { TFieldValidate } from '@/lib/types/field'
+import { TFieldValidate } from '@/lib/types/components/validate'
 import { useController } from 'react-hook-form'
-import { TFieldObj } from '@/lib/types/field'
+import { TFieldObj } from '@/lib/types/components/field'
 import { handleChangeOptions } from '@/lib/functions/webform_fields_functions/webform_fields_functions'
 import { TFormatFieldMulti, TWebformValueFormat } from '@/lib/types/form.d'
 import Label from '@/components/webform/form/fields/fields-sub-components/label'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
+import { getRequiredMessage } from '@/lib/functions/webform_validation_functions/webform_validation_functions'
 
 export const renderRadio = ({
   onBlur,
@@ -17,6 +18,7 @@ export const renderRadio = ({
   field,
   valueFormat,
   classNames,
+  components,
 }: TFieldObj) => {
   if (!field?.['#options']) {
     return null
@@ -37,6 +39,7 @@ export const renderRadio = ({
       field={field}
       classNames={classNames}
       classNameFieldName={'fieldRadio'}
+      components={components}
       stateError={fieldState.error}
       key={keyForMap}
     >
@@ -75,9 +78,12 @@ export const validateRadio = ({
   visibility,
   valueFormat,
   defaultFieldValues,
+  defaultFieldStateMessages,
 }: TFieldValidate) => {
   const options = field['#options']
   const optionKeys = Object.keys(options)
+
+  const requiredMessage = getRequiredMessage(defaultFieldStateMessages, 'radio')
 
   let schema: StringSchema | ObjectSchema<Record<string, boolean>> =
     string().oneOf(optionKeys.concat(''))
@@ -105,7 +111,7 @@ export const validateRadio = ({
     case 'booleanMap':
       schema = object().test(
         'at-least-one-true',
-        'required field',
+        requiredMessage,
         (value) => value && Object.values(value).some((v) => v === true)
       ) as ObjectSchema<Record<string, boolean>>
       break

@@ -1,9 +1,9 @@
 import { string } from 'yup'
 import cn from 'classnames'
 import styles from './field.module.scss'
-import { TFieldValidate } from '@/lib/types/field'
+import { TFieldValidate } from '@/lib/types/components/validate'
 import { useController } from 'react-hook-form'
-import { TFieldObj } from '@/lib/types/field'
+import { TFieldObj } from '@/lib/types/components/field'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
 
 export const renderNumber = ({
@@ -13,6 +13,7 @@ export const renderNumber = ({
   keyForMap,
   field,
   classNames,
+  components,
 }: TFieldObj) => {
   const { field: fieldController, fieldState } = useController<any>({
     name: key,
@@ -24,6 +25,7 @@ export const renderNumber = ({
       field={field}
       classNames={classNames}
       classNameFieldName={'fieldInput'}
+      components={components}
       stateError={fieldState.error}
       key={keyForMap}
     >

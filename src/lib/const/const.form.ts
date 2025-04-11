@@ -1,18 +1,19 @@
 import {
   TWebformClassNames,
   TWebformDefaultFieldValues,
-  TWebformMessages,
+  TWebformStateMessages,
   TWebformValueFormat,
 } from '@/lib/types/form.d'
 import { DeepRequired } from 'react-hook-form'
+import Label from '@/components/webform/form/fields/fields-sub-components/label'
 
-const defaultValueFormatObj: Required<TWebformValueFormat> = {
+export const defaultValueFormatObj: Required<TWebformValueFormat> = {
   radio: 'booleanMap',
   select: 'booleanMap',
   checkboxes: 'booleanMap',
 }
 
-const defaultValuesObj: Required<TWebformDefaultFieldValues> = {
+export const defaultValuesObj: Required<TWebformDefaultFieldValues> = {
   textfield: '',
   textarea: '',
   email: '',
@@ -26,42 +27,43 @@ const defaultValuesObj: Required<TWebformDefaultFieldValues> = {
   select: '',
 }
 
-const defaultValuesStateMessages: DeepRequired<TWebformMessages> = {
-  general: {
-    errorMessage: 'Field Error',
-    requiredMessage: 'Field is Required',
-  },
-  fields: {
-    errorMessages: {
-      textfield: '',
-      textarea: '',
-      email: '',
-      radio: '',
-      checkboxes: '',
-      checkbox: '',
-      number: '',
-      tel: '',
-      date: '',
-      managedFile: '',
-      select: '',
+export const defaultValuesFieldStateMessages: DeepRequired<TWebformStateMessages> =
+  {
+    general: {
+      errorMessage: 'Field Error Mince',
+      requiredMessage: 'Field is Required',
     },
-    requiredMessages: {
-      textfield: '',
-      textarea: '',
-      email: '',
-      radio: '',
-      checkboxes: '',
-      checkbox: '',
-      number: '',
-      tel: '',
-      date: '',
-      managedFile: '',
-      select: '',
+    fields: {
+      errorMessages: {
+        textfield: '',
+        textarea: '',
+        email: '',
+        radio: '',
+        checkboxes: '',
+        checkbox: '',
+        number: '',
+        tel: '',
+        date: '',
+        managedFile: '',
+        select: '',
+      },
+      requiredMessages: {
+        textfield: '',
+        textarea: '',
+        email: '',
+        radio: '',
+        checkboxes: '',
+        checkbox: '',
+        number: '',
+        tel: '',
+        date: '',
+        managedFile: '',
+        select: '',
+      },
     },
-  },
-}
+  }
 
-const defaultValuesClassnames: DeepRequired<TWebformClassNames> = {
+export const defaultValuesClassnames: DeepRequired<TWebformClassNames> = {
   general: {
     fieldWrapper: '',
     fieldLabel: '',
@@ -90,9 +92,7 @@ const defaultValuesClassnames: DeepRequired<TWebformClassNames> = {
     number: '',
   },
 }
-export {
-  defaultValueFormatObj,
-  defaultValuesObj,
-  defaultValuesClassnames,
-  defaultValuesStateMessages,
+
+export const components = {
+  LabelWebform: Label,
 }

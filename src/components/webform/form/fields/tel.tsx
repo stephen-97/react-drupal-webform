@@ -1,9 +1,9 @@
 import { string } from 'yup'
 import cn from 'classnames'
 import styles from './field.module.scss'
-import { TFieldValidate } from '@/lib/types/field'
+import { TFieldValidate } from '@/lib/types/components/validate'
 import { useController } from 'react-hook-form'
-import { TFieldObj } from '@/lib/types/field'
+import { TFieldObj } from '@/lib/types/components/field'
 import Label from '@/components/webform/form/fields/fields-sub-components/label'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
 import { getRequiredMessage } from '@/lib/functions/webform_validation_functions/webform_validation_functions'
@@ -15,6 +15,7 @@ export const renderTel = ({
   keyForMap,
   field,
   classNames,
+  components,
 }: TFieldObj) => {
   const { field: fieldController, fieldState } = useController<any>({
     name: key,
@@ -26,6 +27,7 @@ export const renderTel = ({
       field={field}
       classNames={classNames}
       classNameFieldName={'fieldInput'}
+      components={components}
       stateError={fieldState.error}
       key={keyForMap}
     >
@@ -53,14 +55,11 @@ export const validateTel = ({
   yupObject,
   defaultValues,
   key,
-  field,
   visibility,
   defaultFieldValues,
   defaultFieldStateMessages,
 }: TFieldValidate) => {
   const requiredMessage = getRequiredMessage(defaultFieldStateMessages, 'tel')
-
-  //yupObject[key] = visibility ? string().required(requiredMessage) : string()
 
   const schema = string().matches(/^[0-9]+$/, {
     message: "it's not a number",

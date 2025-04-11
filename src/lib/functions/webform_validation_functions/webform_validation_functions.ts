@@ -16,3 +16,15 @@ export const getRequiredMessage = (
   }
   return defaultFieldStateMessages.general.requiredMessage
 }
+
+export const getErrorMessage = (
+  defaultFieldStateMessages: DeepRequired<TWebformStateMessages>,
+  stateFieldName: TWebformStatesFieldTypes
+) => {
+  if (
+    defaultFieldStateMessages.fields['errorMessages'][stateFieldName].length > 0
+  ) {
+    return defaultFieldStateMessages.fields['errorMessages'][stateFieldName]
+  }
+  return defaultFieldStateMessages.general.errorMessage
+}

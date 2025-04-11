@@ -1,11 +1,14 @@
 import { string } from 'yup'
 import cn from 'classnames'
 import styles from './field.module.scss'
-import { TFieldValidate } from '@/lib/types/field'
+import { TFieldValidate } from '@/lib/types/components/validate'
 import { useController } from 'react-hook-form'
-import { TFieldObj } from '@/lib/types/field'
+import { TFieldObj } from '@/lib/types/components/field'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
-import { getRequiredMessage } from '@/lib/functions/webform_validation_functions/webform_validation_functions'
+import {
+  getErrorMessage,
+  getRequiredMessage,
+} from '@/lib/functions/webform_validation_functions/webform_validation_functions'
 
 export const renderEmail = ({
   onBlur,
@@ -13,6 +16,7 @@ export const renderEmail = ({
   key,
   keyForMap,
   field,
+  components,
   classNames,
 }: TFieldObj) => {
   const { field: fieldController, fieldState } = useController<any>({
@@ -26,6 +30,7 @@ export const renderEmail = ({
       classNames={classNames}
       classNameFieldName={'fieldInput'}
       stateError={fieldState.error}
+      components={components}
       key={keyForMap}
     >
       <input
@@ -55,6 +60,7 @@ export const validateEmail = ({
   defaultFieldStateMessages,
 }: TFieldValidate) => {
   const requiredMessage = getRequiredMessage(defaultFieldStateMessages, 'email')
+  const errorMessage = getErrorMessage(defaultFieldStateMessages, 'email')
 
   const emailWithTLDRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
   const schema = string()
@@ -62,7 +68,7 @@ export const validateEmail = ({
       if (!value) return true
       return emailWithTLDRegex.test(value)
     })
-    .email("It's not an email")
+    .email(errorMessage)
 
   yupObject[key] = visibility
     ? schema.required(requiredMessage)

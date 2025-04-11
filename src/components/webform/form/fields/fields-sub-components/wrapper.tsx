@@ -6,16 +6,8 @@ import { TWebformClassNameFields, TWebformClassNames } from '@/lib/types/form.d'
 import Label from '@/components/webform/form/fields/fields-sub-components/label'
 import { FieldError } from 'react-hook-form'
 import ErrorFieldMessage from '@/components/webform/form/fields/fields-sub-components/errorFieldMessage/errorFieldMessage'
+import { IWrapperWebformProps } from '@/lib/types/components/wrapper'
 
-interface IWrapper {
-  children: ReactElement
-  isLabel?: boolean
-  className?: string
-  field: TElementSource
-  classNames: Required<TWebformClassNames>
-  classNameFieldName: keyof Required<TWebformClassNameFields>
-  stateError?: FieldError | undefined
-}
 const Wrapper = ({
   children,
   field,
@@ -23,7 +15,10 @@ const Wrapper = ({
   isLabel = true,
   stateError = undefined,
   classNameFieldName,
-}: IWrapper) => {
+  components,
+}: IWrapperWebformProps) => {
+  const CustomLabel = components?.label ?? Label
+  console.log(components?.label)
   return (
     <div
       className={cn(
@@ -38,7 +33,7 @@ const Wrapper = ({
       )}
     >
       {isLabel && field?.['#title'] && (
-        <Label
+        <CustomLabel
           className={classNames.general.fieldLabel}
           title={field['#title']}
         />

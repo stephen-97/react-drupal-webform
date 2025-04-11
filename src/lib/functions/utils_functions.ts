@@ -20,4 +20,28 @@ const mergeObjects = (
   )
 }
 
-export { mergeObjects }
+const deepMergeDefaults = <T extends object>(
+  defaults: T,
+  overrides: Partial<T>
+): T =>
+  Object.keys(defaults as object).reduce(
+    (acc, key) => {
+      const k = key as keyof T
+      const defaultValue = defaults[k]
+      const overrideValue = overrides?.[k]
+
+      acc[k] =
+        defaultValue !== null &&
+        typeof defaultValue === 'object' &&
+        !Array.isArray(defaultValue)
+          ? deepMergeDefaults(defaultValue, (overrideValue ?? {}) as any)
+          : overrideValue !== undefined
+            ? overrideValue
+            : defaultValue
+
+      return acc
+    },
+    Array.isArray(defaults) ? ([] as any) : ({} as T)
+  )
+
+export { mergeObjects, deepMergeDefaults }

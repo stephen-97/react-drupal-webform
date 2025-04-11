@@ -1,12 +1,11 @@
-import { object, string, StringSchema, ObjectSchema } from 'yup'
-import { TFieldValidate } from '@/lib/types/field'
+import { object, string, ObjectSchema } from 'yup'
+import { TFieldValidate } from '@/lib/types/components/validate'
 import styles from './field.module.scss'
 import { useController } from 'react-hook-form'
-import { TFieldObj } from '@/lib/types/field'
+import { TFieldObj } from '@/lib/types/components/field'
 import { TFormatFieldMulti } from '@/lib/types/form.d'
 import { handleChangeOptions } from '@/lib/functions/webform_fields_functions/webform_fields_functions'
 import cn from 'classnames'
-import Label from '@/components/webform/form/fields/fields-sub-components/label'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
 import { getRequiredMessage } from '@/lib/functions/webform_validation_functions/webform_validation_functions'
 
@@ -17,6 +16,7 @@ export const renderSelect = ({
   field,
   valueFormat,
   classNames,
+  components,
 }: TFieldObj) => {
   const { field: fieldController, fieldState } = useController<any>({
     name: key,
@@ -35,6 +35,7 @@ export const renderSelect = ({
       field={field}
       classNames={classNames}
       classNameFieldName={'fieldSelect'}
+      components={components}
       stateError={fieldState.error}
       key={keyForMap}
     >
@@ -68,7 +69,6 @@ export const validateSelect = ({
   field,
   visibility,
   valueFormat,
-  defaultFieldValues,
   defaultFieldStateMessages,
 }: TFieldValidate) => {
   const options = field['#options']
