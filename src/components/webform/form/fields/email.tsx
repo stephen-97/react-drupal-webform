@@ -10,19 +10,20 @@ import {
   getRequiredMessage,
 } from '@/lib/functions/webform_validation_functions/webform_validation_functions'
 
-export const renderEmail = ({
-  onBlur,
-  control,
-  key,
-  keyForMap,
-  field,
-  components,
-  classNames,
-}: TFieldObj) => {
+export const renderEmail = (props: TFieldObj) => {
+  const { control, key, keyForMap, field, components, classNames, onBlur } =
+    props
+
+  const { key: _, ...restProps } = props
+
   const { field: fieldController, fieldState } = useController<any>({
     name: key,
     control,
   })
+
+  const CustomEmail = components?.email
+
+  console.log(field)
 
   return (
     <Wrapper
@@ -33,19 +34,27 @@ export const renderEmail = ({
       components={components}
       key={keyForMap}
     >
-      <input
-        className={cn(styles.field, styles.input, {
-          [styles.error]: fieldState.error,
-        })}
-        name={fieldController.name}
-        minLength={field?.['#minlength']}
-        maxLength={field?.['#maxlength']}
-        placeholder={field?.['#placeholder']}
-        type={'text'}
-        onChange={(e) => fieldController.onChange?.(e)}
-        value={fieldController?.value ?? ''}
-        onBlur={onBlur}
-      />
+      {CustomEmail ? (
+        <CustomEmail
+          fieldController={fieldController}
+          fieldState={fieldState}
+          {...restProps}
+        />
+      ) : (
+        <input
+          className={cn(styles.field, styles.input, {
+            [styles.error]: fieldState.error,
+          })}
+          name={fieldController.name}
+          minLength={field?.['#minlength']}
+          maxLength={field?.['#maxlength']}
+          placeholder={field?.['#placeholder']}
+          type={'text'}
+          onChange={(e) => fieldController.onChange?.(e)}
+          value={fieldController?.value ?? ''}
+          onBlur={onBlur}
+        />
+      )}
     </Wrapper>
   )
 }

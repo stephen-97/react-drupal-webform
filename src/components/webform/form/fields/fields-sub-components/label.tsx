@@ -10,7 +10,7 @@ const Label = ({
 }: ILabelWebformProps) => {
   return (
     <label className={className} {...innerProps}>
-      <span>{title}</span>
+      {title && <span>{title}</span>}
       {children}
     </label>
   )

@@ -1,7 +1,10 @@
 import { UseFormProps } from 'react-hook-form'
-import { JSX, ReactElement } from 'react'
+import { JSX } from 'react'
 import { ILabelWebformProps } from '@/lib/types/components/label'
 import { TDrupal_FieldType } from '@/lib/types/components/field'
+import { IWrapperWebformProps } from '@/lib/types/components/wrapper'
+import { IErrorMessageWebformProps } from '@/lib/types/components/errorMessage'
+import { TFieldObjCustom } from '@/components/webform/form/fields/fields-special-components/fieldObjCustom'
 
 export type TYup = {
   yupUseFormProps: Omit<UseFormProps, 'resolver'>
@@ -73,7 +76,14 @@ export type TWebformStateMessages = {
 
 export type TWebformCustomComponents = {
   label?: (_props: ILabelWebformProps) => JSX.Element
-  wrapper?: ReactElement
+  wrapper?: (_props: IWrapperWebformProps) => JSX.Element
+  errorFieldMessage?: (_props: IErrorMessageWebformProps) => JSX.Element
+  email?: (_props: TFieldObjCustom) => JSX.Element
+  number?: (_props: TFieldObjCustom) => JSX.Element
+  textfield?: (_props: TFieldObjCustom) => JSX.Element
+  tel?: (_props: TFieldObjCustom) => JSX.Element
+  textarea?: (_props: TFieldObjCustom) => JSX.Element
+  date?: (_props: TFieldObjCustom) => JSX.Element
 }
 
 export type TWebform = {

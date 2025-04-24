@@ -1,14 +1,11 @@
+import React from 'react'
 import cn from 'classnames'
 import styles from './wrapper.module.scss'
-import { TElementSource } from '@/lib/types/field'
-import { ReactElement } from 'react'
-import { TWebformClassNameFields, TWebformClassNames } from '@/lib/types/form.d'
 import Label from '@/components/webform/form/fields/fields-sub-components/label'
-import { FieldError } from 'react-hook-form'
 import ErrorFieldMessage from '@/components/webform/form/fields/fields-sub-components/errorFieldMessage/errorFieldMessage'
 import { IWrapperWebformProps } from '@/lib/types/components/wrapper'
 
-const Wrapper = ({
+const DefaultWrapper = ({
   children,
   field,
   classNames,
@@ -18,7 +15,8 @@ const Wrapper = ({
   components,
 }: IWrapperWebformProps) => {
   const CustomLabel = components?.label ?? Label
-  console.log(components?.label)
+  const CustomErrorFieldMessage =
+    components?.errorFieldMessage ?? ErrorFieldMessage
   return (
     <div
       className={cn(
@@ -41,7 +39,7 @@ const Wrapper = ({
       {children}
       {typeof stateError?.message === 'string' &&
         stateError.message.length > 0 && (
-          <ErrorFieldMessage
+          <CustomErrorFieldMessage
             className={classNames.states?.fieldErrorMessage}
             message={stateError.message}
           />
@@ -49,5 +47,37 @@ const Wrapper = ({
     </div>
   )
 }
+const Wrapper = ({
+  children,
+  field,
+  classNames,
+  isLabel = true,
+  stateError = undefined,
+  classNameFieldName,
+  components,
+}: IWrapperWebformProps) => {
+  /**
+   *
+   *   const CustomLabel = components?.label ?? Label
+   *   const CustomErrorFieldMessage =
+   *     components?.errorFieldMessage ?? ErrorFieldMessage
+   */
 
+  const WrapperComponent = components?.wrapper ?? DefaultWrapper
+
+  return (
+    <WrapperComponent
+      field={field}
+      classNames={classNames}
+      stateError={stateError}
+      classNameFieldName={classNameFieldName}
+      isLabel={isLabel}
+      components={components}
+    >
+      {children}
+    </WrapperComponent>
+  )
+}
+
+export { DefaultWrapper }
 export default Wrapper
