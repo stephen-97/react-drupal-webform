@@ -1,12 +1,8 @@
-import { date } from 'yup'
 import cn from 'classnames'
 import styles from './field.module.scss'
-import { TFieldValidate } from '@/lib/types/components/validate'
 import { useController } from 'react-hook-form'
 import { TFieldObj } from '@/lib/types/components/field'
-import Label from '@/components/webform/form/fields/fields-sub-components/label'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
-import { getRequiredMessage } from '@/lib/functions/webform_validation_functions/webform_validation_functions'
 
 export const renderDate = ({
   onBlur,
@@ -46,30 +42,4 @@ export const renderDate = ({
       />
     </Wrapper>
   )
-}
-
-export const validateDate = ({
-  yupObject,
-  defaultValues,
-  key,
-  visibility,
-  defaultFieldValues,
-  defaultFieldStateMessages,
-}: TFieldValidate) => {
-  const requiredMessage = getRequiredMessage(defaultFieldStateMessages, 'date')
-
-  const schema = date()
-    .test('valid-date-format', 'Invalid date', (value) => {
-      if (!value) return true
-
-      return !isNaN(Date.parse(value.toString()))
-    })
-    .nullable()
-    .typeError('Invalid date')
-
-  yupObject[key] = visibility
-    ? schema.required(requiredMessage)
-    : schema.notRequired()
-
-  defaultValues[key] = defaultFieldValues.date
 }

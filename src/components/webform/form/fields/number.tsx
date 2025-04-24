@@ -1,7 +1,5 @@
-import { string } from 'yup'
 import cn from 'classnames'
 import styles from './field.module.scss'
-import { TFieldValidate } from '@/lib/types/components/validate'
 import { useController } from 'react-hook-form'
 import { TFieldObj } from '@/lib/types/components/field'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
@@ -49,17 +47,4 @@ export const renderNumber = ({
       />
     </Wrapper>
   )
-}
-
-export const validateNumber = ({
-  yupObject,
-  defaultValues,
-  key,
-  field,
-  visibility,
-  defaultFieldValues,
-}: TFieldValidate) => {
-  yupObject[key] = visibility ? string().required('required field') : string()
-
-  defaultValues[key] = defaultFieldValues.number
 }

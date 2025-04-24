@@ -39,7 +39,6 @@ const WebformContainer = ({
         label: LabelCustom,
         errorFieldMessage: errorMessageCustom,
         wrapper: wrapperCustom,
-        email: CustomEmail,
       }}
       classNames={{
         general: {

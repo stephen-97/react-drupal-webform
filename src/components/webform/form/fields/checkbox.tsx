@@ -1,10 +1,5 @@
-import { boolean } from 'yup'
-import cn from 'classnames'
-import styles from './field.module.scss'
-import { TFieldValidate } from '@/lib/types/components/validate'
 import { useController } from 'react-hook-form'
 import { TFieldObj } from '@/lib/types/components/field'
-import { getRequiredMessage } from '@/lib/functions/webform_validation_functions/webform_validation_functions'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
 
 export const renderCheckbox = ({
@@ -45,26 +40,4 @@ export const renderCheckbox = ({
       </>
     </Wrapper>
   )
-}
-
-export const validateCheckbox = ({
-  yupObject,
-  defaultValues,
-  key,
-  field,
-  visibility,
-  defaultFieldValues,
-  defaultFieldStateMessages,
-}: TFieldValidate) => {
-  const requiredMessage = getRequiredMessage(
-    defaultFieldStateMessages,
-    'checkbox'
-  )
-
-  yupObject[key] = visibility
-    ? boolean().oneOf([true], requiredMessage)
-    : boolean()
-
-  defaultValues[key] =
-    Boolean(field?.['#default_value']) ?? defaultFieldValues.checkbox
 }

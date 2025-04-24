@@ -3,8 +3,9 @@ import styles from './field.module.scss'
 import { useController } from 'react-hook-form'
 import { TFieldObj } from '@/lib/types/components/field'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
+import { HTMLInputTypeAttribute } from 'react'
 
-export const renderEmail = (props: TFieldObj) => {
+export const renderInput = (props: TFieldObj) => {
   const { control, key, keyForMap, field, components, classNames, onBlur } =
     props
 
@@ -16,6 +17,23 @@ export const renderEmail = (props: TFieldObj) => {
   })
 
   const CustomEmail = components?.email
+
+  const getFieldType: HTMLInputTypeAttribute = (() => {
+    switch (field?.['#type']) {
+      case 'textfield':
+        return 'text'
+      case 'date':
+        return 'date'
+      case 'number':
+        return 'number'
+      case 'email':
+        return 'email'
+      case 'tel':
+        return 'tel'
+      default:
+        return 'text'
+    }
+  })()
 
   return (
     <Wrapper
@@ -34,14 +52,14 @@ export const renderEmail = (props: TFieldObj) => {
         />
       ) : (
         <input
-          className={cn(styles.field, styles.input, {
+          className={cn(styles.field, styles.input, styles[field?.['#type']], {
             [styles.error]: fieldState.error,
           })}
           name={fieldController.name}
           minLength={field?.['#minlength']}
           maxLength={field?.['#maxlength']}
           placeholder={field?.['#placeholder']}
-          type={'text'}
+          type={getFieldType}
           onChange={(e) => fieldController.onChange?.(e)}
           value={fieldController?.value ?? ''}
           onBlur={onBlur}
