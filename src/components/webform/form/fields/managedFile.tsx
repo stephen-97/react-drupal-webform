@@ -1,12 +1,13 @@
 import { mixed } from 'yup'
 import cn from 'classnames'
 import styles from './field.module.scss'
-import { TFieldValidate } from '@/lib/types/field'
+import { TFieldValidate } from '@/lib/types/components/validate'
 import { useController } from 'react-hook-form'
-import { TFieldObj } from '@/lib/types/field'
+import { TFieldObj } from '@/lib/types/components/field'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
 import React, { useRef } from 'react'
 import { defaultValuesObj } from '@/lib/const/const.form'
+import { getRequiredMessage } from '@/lib/functions/webform_validation_functions/webform_validation_functions'
 
 export const renderManagedFile = ({
   onBlur,
@@ -15,6 +16,7 @@ export const renderManagedFile = ({
   keyForMap,
   field,
   classNames,
+  components,
 }: TFieldObj) => {
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -45,6 +47,7 @@ export const renderManagedFile = ({
     <Wrapper
       field={field}
       classNames={classNames}
+      components={components}
       classNameFieldName={'fieldInput'}
       key={keyForMap}
     >
@@ -71,7 +74,13 @@ export const validateManagedFile = ({
   field,
   visibility,
   defaultFieldValues,
+  defaultFieldStateMessages,
 }: TFieldValidate) => {
+  const requiredMessage = getRequiredMessage(
+    defaultFieldStateMessages,
+    'managedFile'
+  )
+
   const schema = mixed<File>()
     .test('fileRequired', 'file is required', (value: any) => {
       if (visibility) {
@@ -90,6 +99,6 @@ export const validateManagedFile = ({
       }
     )
 
-  yupObject[key] = visibility ? schema.required('file is required') : schema
+  yupObject[key] = visibility ? schema.required(requiredMessage) : schema
   defaultValues[key] = defaultFieldValues.managedFile
 }

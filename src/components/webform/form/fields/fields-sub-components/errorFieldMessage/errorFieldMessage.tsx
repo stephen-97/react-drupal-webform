@@ -1,17 +1,19 @@
 import React from 'react'
 import styles from './errorFieldMessage.module.scss'
 import cn from 'classnames'
+import { IErrorMessageWebformProps } from '@/lib/types/components/errorMessage'
 
-interface IErrorMessage {
-  message: string
-  className?: string
-}
-const ErrorFieldMessage = ({ message, className }: IErrorMessage) => {
+const ErrorFieldMessage = ({
+  message,
+  children,
+  className,
+}: IErrorMessageWebformProps) => {
   return (
-    <label className={cn(className, styles.errorFieldMessage)}>{message}</label>
+    <label className={cn(styles.errorFieldMessage, className)}>
+      {message && <span>{message}</span>}
+      {children}
+    </label>
   )
 }
-
-export type { IErrorMessage }
 
 export default ErrorFieldMessage

@@ -1,10 +1,11 @@
 import { boolean } from 'yup'
 import cn from 'classnames'
 import styles from './field.module.scss'
-import { TFieldValidate } from '@/lib/types/field'
+import { TFieldValidate } from '@/lib/types/components/validate'
 import { useController } from 'react-hook-form'
-import { TFieldObj } from '@/lib/types/field'
+import { TFieldObj } from '@/lib/types/components/field'
 import { getRequiredMessage } from '@/lib/functions/webform_validation_functions/webform_validation_functions'
+import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
 
 export const renderCheckbox = ({
   onBlur,
@@ -13,6 +14,7 @@ export const renderCheckbox = ({
   keyForMap,
   field,
   classNames,
+  components,
 }: TFieldObj) => {
   const title = field?.['#title']
 
@@ -22,29 +24,26 @@ export const renderCheckbox = ({
   })
 
   return (
-    <label
+    <Wrapper
+      field={field}
+      classNames={classNames}
+      classNameFieldName={'fieldCheckboxes'}
+      stateError={fieldState.error}
       key={keyForMap}
-      className={cn(
-        ...(field?.['#attributes']?.class ?? []),
-        classNames.types[field['#type']],
-        {
-          [classNames.states.fieldError ?? '']: Boolean(fieldState.error),
-        },
-        classNames.general.fieldWrapper,
-        styles.fieldWrapper,
-        styles.checkboxUnique
-      )}
+      components={components}
     >
-      <input
-        name={fieldController.name}
-        checked={Boolean(fieldController.value)}
-        type={'checkbox'}
-        value={title}
-        onChange={(e) => fieldController.onChange?.(e.target.checked)}
-        onBlur={onBlur}
-      />
-      <span>{title}</span>
-    </label>
+      <>
+        <input
+          name={fieldController.name}
+          checked={Boolean(fieldController.value)}
+          type={'checkbox'}
+          value={title}
+          onChange={(e) => fieldController.onChange?.(e.target.checked)}
+          onBlur={onBlur}
+        />
+        <span>{title}</span>
+      </>
+    </Wrapper>
   )
 }
 
@@ -59,7 +58,7 @@ export const validateCheckbox = ({
 }: TFieldValidate) => {
   const requiredMessage = getRequiredMessage(
     defaultFieldStateMessages,
-    'checkboxes'
+    'checkbox'
   )
 
   yupObject[key] = visibility

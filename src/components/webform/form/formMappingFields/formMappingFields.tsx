@@ -19,9 +19,6 @@ import {
   renderSelect,
   validateSelect,
 } from '@/components/webform/form/fields/select'
-
-import { TFieldObj, TFieldValidate } from '@/lib/types/field'
-import { ReactElement } from 'react'
 import { renderMarkup } from '@/components/webform/form/fields/markup'
 import {
   renderEmail,
@@ -41,18 +38,9 @@ import {
   renderManagedFile,
   validateManagedFile,
 } from '@/components/webform/form/fields/managedFile'
+import { IFormMappingField } from '@/lib/types/components/formMappingField'
 
-type TElementFunction = (_props: TFieldObj) => ReactElement | null
-type TValidatorFunction = (_props: TFieldValidate) => void
-
-interface TFormMappingFields {
-  [key: string]: {
-    element: TElementFunction | null
-    validator: TValidatorFunction | null
-  }
-}
-
-const FormMappingFields = (): TFormMappingFields => ({
+const FormMappingFields = (): IFormMappingField => ({
   textfield: {
     element: renderTextField,
     validator: validateTextField,

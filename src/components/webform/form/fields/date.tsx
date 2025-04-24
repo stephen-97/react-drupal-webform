@@ -1,9 +1,9 @@
 import { date } from 'yup'
 import cn from 'classnames'
 import styles from './field.module.scss'
-import { TFieldValidate } from '@/lib/types/field'
+import { TFieldValidate } from '@/lib/types/components/validate'
 import { useController } from 'react-hook-form'
-import { TFieldObj } from '@/lib/types/field'
+import { TFieldObj } from '@/lib/types/components/field'
 import Label from '@/components/webform/form/fields/fields-sub-components/label'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
 import { getRequiredMessage } from '@/lib/functions/webform_validation_functions/webform_validation_functions'
@@ -15,6 +15,7 @@ export const renderDate = ({
   keyForMap,
   field,
   classNames,
+  components,
 }: TFieldObj) => {
   const { field: fieldController, fieldState } = useController<any>({
     name: key,
@@ -27,6 +28,7 @@ export const renderDate = ({
       classNames={classNames}
       classNameFieldName={'fieldInput'}
       stateError={fieldState.error}
+      components={components}
       key={keyForMap}
     >
       <input

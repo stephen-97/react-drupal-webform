@@ -1,14 +1,19 @@
 import React from 'react'
-import { LabelProps } from 'react-html-props'
+import { ILabelWebformProps } from '@/lib/types/components/label'
 
-interface ILabel {
-  title: string
-  className?: string
+const Label = ({
+  title,
+  className,
+  children,
+  innerProps,
+  isRequired,
+}: ILabelWebformProps) => {
+  return (
+    <label className={className} {...innerProps}>
+      {title && <span>{title}</span>}
+      {children}
+    </label>
+  )
 }
-const Label = ({ title, className }: ILabel) => {
-  return <label className={className}>{title}</label>
-}
-
-export type { ILabel }
 
 export default Label

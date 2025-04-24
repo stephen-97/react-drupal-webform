@@ -5,16 +5,19 @@ import {
   TWebform,
   TWebformClassNames,
   TWebformDefaultFieldValues,
-  TWebformMessages,
+  TWebformStateMessages,
   TWebformValueFormat,
 } from '@/lib/types/form.d'
 import {
   defaultValueFormatObj,
   defaultValuesClassnames,
+  defaultValuesFieldStateMessages,
   defaultValuesObj,
-  defaultValuesStateMessages,
 } from '@/lib/const/const.form'
-import { mergeObjects } from '@/lib/functions/utils_functions'
+import {
+  deepMergeDefaults,
+  mergeObjects,
+} from '@/lib/functions/utils_functions'
 import { DeepRequired } from 'react-hook-form'
 
 const Webform = ({
@@ -24,7 +27,8 @@ const Webform = ({
   valueFormat = {},
   defaultFieldValues = {},
   classNames = {},
-  defaultStateMessages = {},
+  defaultFieldStateMessages = {},
+  components,
 }: TWebform) => {
   const { yupObject = {}, yupDefaultValues = {} } = yup
 
@@ -37,10 +41,11 @@ const Webform = ({
     ...defaultValuesObj,
   }
 
-  const mergedDefaultValuesStateMessages: DeepRequired<TWebformMessages> = {
-    ...defaultStateMessages,
-    ...defaultValuesStateMessages,
-  }
+  const mergedDefaultValuesStateMessages: DeepRequired<TWebformStateMessages> =
+    deepMergeDefaults(
+      defaultValuesFieldStateMessages,
+      defaultFieldStateMessages as Partial<TWebformStateMessages>
+    ) as DeepRequired<TWebformStateMessages>
 
   const mergedClassNames = mergeObjects(
     defaultValuesClassnames,
@@ -66,6 +71,7 @@ const Webform = ({
         defaultFieldValues={mergedDefaultFieldValues}
         defaultFieldStateMessages={mergedDefaultValuesStateMessages}
         classNames={mergedClassNames}
+        components={components}
       />
     )
   }

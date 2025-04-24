@@ -41,6 +41,7 @@ const FormDefault = ({
   yup: yupObj,
   submitButtonRef: externalSubmitButtonRef,
   defaultFieldStateMessages,
+  components,
   classNames,
 }: TFormDefault) => {
   const submitButtonRef = React.useRef<HTMLButtonElement>(null)
@@ -95,6 +96,7 @@ const FormDefault = ({
     }
   }, [isValid, externalSubmitButtonRef])
 
+  console.log('here 2', components)
   return (
     <form className={styles.formDefault} onSubmit={handleSubmit(onFormSubmit)}>
       {Object.keys(elementsSource).map((key, index) => {
@@ -111,6 +113,7 @@ const FormDefault = ({
             isValid,
             valueFormat,
             isMultiStep,
+            components,
             classNames,
           })
         }
