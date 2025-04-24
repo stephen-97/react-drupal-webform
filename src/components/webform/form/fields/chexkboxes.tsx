@@ -2,20 +2,24 @@ import cn from 'classnames'
 import styles from './field.module.scss'
 import { useController } from 'react-hook-form'
 import { TFieldObj } from '@/lib/types/components/field'
-import { handleChangeOptions } from '@/lib/functions/webform_fields_functions/webform_fields_functions'
+import {
+  handleChangeOptions,
+  handleChangeOptionsCheckboxes,
+} from '@/lib/functions/webform_fields_functions/webform_fields_functions'
 import { TFormatFieldMulti } from '@/lib/types/form.d'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
 
-export const renderCheckboxes = ({
-  onBlur,
-  control,
-  key,
-  keyForMap,
-  field,
-  valueFormat,
-  classNames,
-  components,
-}: TFieldObj) => {
+export const renderCheckboxes = (props: TFieldObj) => {
+  const {
+    control,
+    key,
+    keyForMap,
+    field,
+    components,
+    classNames,
+    onBlur,
+    valueFormat,
+  } = props
   if (!field?.['#options']) {
     return null
   }
@@ -28,6 +32,9 @@ export const renderCheckboxes = ({
   })
 
   const { checkboxes: checkboxesFormat } = valueFormat
+  const { key: _, ...restProps } = props
+
+  const CustomCheckboxes = components?.checkboxes
 
   return (
     <Wrapper
@@ -38,30 +45,38 @@ export const renderCheckboxes = ({
       key={keyForMap}
       components={components}
     >
-      <div className={styles.checkboxes}>
-        {optionsObj.map(([key, value], i) => (
-          <label className={styles.checkbox} key={i}>
-            <input
-              className={cn(styles.field, styles.input)}
-              name={fieldController.name}
-              type={'checkbox'}
-              value={key}
-              onChange={(e) =>
-                handleChangeOptions(
-                  e,
-                  checkboxesFormat as TFormatFieldMulti,
-                  fieldController,
-                  options,
-                  optionsObj,
-                  'checkboxes'
-                )
-              }
-              onBlur={onBlur}
-            />
-            <span>{value}</span>
-          </label>
-        ))}
-      </div>
+      {CustomCheckboxes ? (
+        <CustomCheckboxes
+          fieldController={fieldController}
+          fieldState={fieldState}
+          {...restProps}
+        />
+      ) : (
+        <div className={styles.checkboxes}>
+          {optionsObj.map(([key, value], i) => (
+            <label className={styles.checkbox} key={i}>
+              <input
+                className={cn(styles.field, styles.input)}
+                name={fieldController.name}
+                type={'checkbox'}
+                value={key}
+                onChange={(e) =>
+                  handleChangeOptionsCheckboxes(
+                    e.target.value,
+                    e.target.checked,
+                    checkboxesFormat as TFormatFieldMulti,
+                    fieldController,
+                    options,
+                    optionsObj
+                  )
+                }
+                onBlur={onBlur}
+              />
+              <span>{value}</span>
+            </label>
+          ))}
+        </div>
+      )}
     </Wrapper>
   )
 }

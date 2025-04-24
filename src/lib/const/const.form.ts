@@ -102,10 +102,7 @@ export const components = {
   LabelWebform: Label,
   WrapperWebform: DefaultWrapper,
   ErrorFieldMessageWebform: ErrorFieldMessage,
-  input: FieldObjCustom,
-  Email: FieldObjCustom,
-  Number: FieldObjCustom,
-  TextField: FieldObjCustom,
-  TextArea: FieldObjCustom,
-  Tel: FieldObjCustom,
+  Input: FieldObjCustom,
+  Select: FieldObjCustom,
+  Checkboxes: FieldObjCustom,
 }

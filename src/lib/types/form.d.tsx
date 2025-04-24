@@ -78,12 +78,9 @@ export type TWebformCustomComponents = {
   label?: (_props: ILabelWebformProps) => JSX.Element
   wrapper?: (_props: IWrapperWebformProps) => JSX.Element
   errorFieldMessage?: (_props: IErrorMessageWebformProps) => JSX.Element
-  email?: (_props: TFieldObjCustom) => JSX.Element
-  number?: (_props: TFieldObjCustom) => JSX.Element
-  textfield?: (_props: TFieldObjCustom) => JSX.Element
-  tel?: (_props: TFieldObjCustom) => JSX.Element
-  textarea?: (_props: TFieldObjCustom) => JSX.Element
-  date?: (_props: TFieldObjCustom) => JSX.Element
+  input?: (_props: TFieldObjCustom) => JSX.Element
+  select?: (_props: TFieldObjCustom) => JSX.Element
+  checkboxes?: (_props: TFieldObjCustom) => JSX.Element
 }
 
 export type TWebform = {

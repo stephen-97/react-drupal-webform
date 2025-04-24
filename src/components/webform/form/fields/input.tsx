@@ -16,7 +16,7 @@ export const renderInput = (props: TFieldObj) => {
     control,
   })
 
-  const CustomEmail = components?.email
+  const CustomInput = components?.input
 
   const getFieldType: HTMLInputTypeAttribute = (() => {
     switch (field?.['#type']) {
@@ -44,8 +44,8 @@ export const renderInput = (props: TFieldObj) => {
       components={components}
       key={keyForMap}
     >
-      {CustomEmail ? (
-        <CustomEmail
+      {CustomInput ? (
+        <CustomInput
           fieldController={fieldController}
           fieldState={fieldState}
           {...restProps}

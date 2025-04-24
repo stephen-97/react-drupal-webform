@@ -6,7 +6,8 @@ import styles from './webformContainer.module.scss'
 import LabelCustom from '@/components/webform/custom-components/LabelCustom'
 import errorMessageCustom from '@/components/webform/custom-components/errorMessageCustom'
 import wrapperCustom from '@/components/webform/custom-components/wrapperCustom'
-import CustomEmail from '@/components/webform/custom-components/customEmail'
+import CustomInput from '@/components/webform/custom-components/customInput'
+import CustomSelect from '@/components/webform/custom-components/customSelect'
 
 export type TWebformContainer = {
   elementsSource: string
@@ -39,6 +40,8 @@ const WebformContainer = ({
         label: LabelCustom,
         errorFieldMessage: errorMessageCustom,
         wrapper: wrapperCustom,
+        input: CustomInput,
+        select: CustomSelect,
       }}
       classNames={{
         general: {

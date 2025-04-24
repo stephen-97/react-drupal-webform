@@ -6,15 +6,19 @@ import { handleChangeOptions } from '@/lib/functions/webform_fields_functions/we
 import cn from 'classnames'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
 
-export const renderSelect = ({
-  control,
-  key,
-  keyForMap,
-  field,
-  valueFormat,
-  classNames,
-  components,
-}: TFieldObj) => {
+export const renderSelect = (props: TFieldObj) => {
+  const {
+    control,
+    key,
+    keyForMap,
+    field,
+    components,
+    classNames,
+    onBlur,
+    valueFormat,
+  } = props
+  const { key: _, ...restProps } = props
+
   const { field: fieldController, fieldState } = useController<any>({
     name: key,
     control,
@@ -27,6 +31,8 @@ export const renderSelect = ({
   const optionsObj: [string, string][] = Object.entries(options)
   const { select: selectFormat } = valueFormat
 
+  const CustomSelect = components?.select
+
   return (
     <Wrapper
       field={field}
@@ -36,25 +42,33 @@ export const renderSelect = ({
       stateError={fieldState.error}
       key={keyForMap}
     >
-      <select
-        className={cn(styles.field)}
-        name={fieldController.name}
-        onChange={(e) =>
-          handleChangeOptions(
-            e,
-            selectFormat as TFormatFieldMulti,
-            fieldController,
-            options,
-            optionsObj
-          )
-        }
-      >
-        {optionsObj.map(([key, value], i) => (
-          <option key={i} value={key}>
-            {value}
-          </option>
-        ))}
-      </select>
+      {CustomSelect ? (
+        <CustomSelect
+          fieldController={fieldController}
+          fieldState={fieldState}
+          {...restProps}
+        />
+      ) : (
+        <select
+          className={cn(styles.field)}
+          name={fieldController.name}
+          onChange={(e) =>
+            handleChangeOptions(
+              e,
+              selectFormat as TFormatFieldMulti,
+              fieldController,
+              options,
+              optionsObj
+            )
+          }
+        >
+          {optionsObj.map(([key, value], i) => (
+            <option key={i} value={key}>
+              {value}
+            </option>
+          ))}
+        </select>
+      )}
     </Wrapper>
   )
 }

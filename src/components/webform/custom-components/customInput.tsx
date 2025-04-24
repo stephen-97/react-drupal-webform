@@ -1,26 +1,43 @@
-import React from 'react'
+import React, { HTMLInputTypeAttribute } from 'react'
 import { components } from '@/lib/const/const.form'
 import { TFieldObjCustom } from '@/components/webform/form/fields/fields-special-components/fieldObjCustom'
 import cn from 'classnames'
 import styles from './custom.module.scss'
-const CustomEmail = (props: TFieldObjCustom) => {
+const CustomInput = (props: TFieldObjCustom) => {
   const { field, fieldController, fieldState, onBlur } = props
+  const getFieldType: HTMLInputTypeAttribute = (() => {
+    switch (field?.['#type']) {
+      case 'textfield':
+        return 'text'
+      case 'date':
+        return 'date'
+      case 'number':
+        return 'number'
+      case 'email':
+        return 'email'
+      case 'tel':
+        return 'tel'
+      default:
+        return 'text'
+    }
+  })()
+
   return (
-    <components.Email {...props}>
+    <components.Input {...props}>
       <input
-        className={cn(styles.emailCustom, {
+        className={cn(styles.input, {
           [styles.fieldError]: fieldState.error,
         })}
         name={fieldController.name}
         minLength={field?.['#minlength']}
         maxLength={field?.['#maxlength']}
         placeholder={field?.['#placeholder']}
-        type={'email'}
+        type={getFieldType}
         onChange={(e) => fieldController.onChange?.(e)}
         value={fieldController?.value ?? ''}
         onBlur={onBlur}
       />
-    </components.Email>
+    </components.Input>
   )
 }
-export default CustomEmail
+export default CustomInput
