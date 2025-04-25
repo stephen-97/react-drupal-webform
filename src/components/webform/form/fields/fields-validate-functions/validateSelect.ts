@@ -26,6 +26,8 @@ export const validateSelect = ({
 
   const { select: selectFormat } = valueFormat
 
+  console.log(selectFormat)
+
   switch (selectFormat) {
     case 'key':
       schema = schema.transform((value: any) =>
@@ -39,11 +41,14 @@ export const validateSelect = ({
       break
     case 'keyValue':
       schema = object()
-
       if (visibility) {
-        schema = schema.transform((value: any) =>
-          optionKeys.includes(value) ? { [value]: options[value] } : {}
-        )
+        schema = schema.transform((value: any) => {
+          const key = Object.keys(value || {})[0]
+          if (optionKeys.includes(key)) {
+            return value
+          }
+          return {}
+        })
       }
       defaultValues[key] = {}
       break

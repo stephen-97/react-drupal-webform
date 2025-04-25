@@ -13,6 +13,7 @@ import {
 import { DeepRequired, useForm } from 'react-hook-form'
 import { useYupValidationResolver } from '@/lib/functions/webform_yup_functions/webform_yup_functions'
 import * as yup from 'yup'
+import { TFieldObj } from '@/lib/types/components/field'
 
 type TMultiStepExtra = {
   step: number
@@ -58,8 +59,15 @@ const FormDefault = ({
 
   Object.keys(elementsSource).forEach((key) => {
     const type: string = elementsSource[key]['#type']
-    const field = elementsSource[key]
-    const visibility = true
+    const field: TFieldObj = elementsSource[key]
+    const visibility = false
+    if (
+      type !== 'select' &&
+      type !== 'webform_actions' &&
+      type !== 'textfield'
+    ) {
+      return null
+    }
     return elementsObject[type ?? 'default']?.validator?.({
       yupObject,
       defaultValues,
@@ -96,12 +104,18 @@ const FormDefault = ({
     }
   }, [isValid, externalSubmitButtonRef])
 
-  console.log('here 2', components)
   return (
     <form className={styles.formDefault} onSubmit={handleSubmit(onFormSubmit)}>
       {Object.keys(elementsSource).map((key, index) => {
-        const elementType = elementsSource[key]['#type'] ?? 'default'
-        const elementRenderer = elementsObject[elementType]?.element
+        const type: string = elementsSource[key]['#type'] ?? 'default'
+        const elementRenderer = elementsObject[type]?.element
+        if (
+          type !== 'select' &&
+          type !== 'webform_actions' &&
+          type !== 'textfield'
+        ) {
+          return null
+        }
         if (elementRenderer) {
           return elementRenderer({
             control,

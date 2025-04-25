@@ -78,7 +78,7 @@ export type TFieldObj = {
   submitButtonRef?: any
   isValid?: boolean
   isMultiStep?: boolean
-  valueFormat: TWebformValueFormat
+  valueFormat: Required<TWebformValueFormat>
   classNames: Required<TWebformClassNames>
   components: TWebformCustomComponents
 }

@@ -17,6 +17,7 @@ const DefaultWrapper = ({
   const CustomLabel = components?.label ?? Label
   const CustomErrorFieldMessage =
     components?.errorFieldMessage ?? ErrorFieldMessage
+
   return (
     <div
       className={cn(
@@ -34,6 +35,10 @@ const DefaultWrapper = ({
         <CustomLabel
           className={classNames.general.fieldLabel}
           title={field['#title']}
+          helps={{
+            help: field?.['#help'],
+            help_title: field?.['#help_title'],
+          }}
         />
       )}
       {children}
@@ -56,13 +61,6 @@ const Wrapper = ({
   classNameFieldName,
   components,
 }: IWrapperWebformProps) => {
-  /**
-   *
-   *   const CustomLabel = components?.label ?? Label
-   *   const CustomErrorFieldMessage =
-   *     components?.errorFieldMessage ?? ErrorFieldMessage
-   */
-
   const WrapperComponent = components?.wrapper ?? DefaultWrapper
 
   return (

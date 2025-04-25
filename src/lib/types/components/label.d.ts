@@ -7,4 +7,8 @@ export interface ILabelWebformProps {
   children?: React.ReactNode
   innerProps?: jsx.JSX.IntrinsicElements['label']
   isRequired?: boolean
+  helps?: {
+    help?: string
+    help_title?: string
+  }
 }

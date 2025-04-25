@@ -30,18 +30,16 @@ const WebformContainer = ({
       yup={{ yupUseFormProps }}
       valueFormat={{
         radio: 'value',
-        select: 'keyValue',
+        select: 'booleanMap',
         checkboxes: 'keyValue',
       }}
       defaultFieldValues={{
         textfield: '',
       }}
       components={{
-        label: LabelCustom,
         errorFieldMessage: errorMessageCustom,
         wrapper: wrapperCustom,
         input: CustomInput,
-        select: CustomSelect,
       }}
       classNames={{
         general: {

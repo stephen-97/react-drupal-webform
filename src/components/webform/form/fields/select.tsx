@@ -50,18 +50,22 @@ export const renderSelect = (props: TFieldObj) => {
         />
       ) : (
         <select
-          className={cn(styles.field)}
+          className={cn(styles.field, styles[field?.['#type']], {
+            [styles.error]: fieldState.error,
+          })}
           name={fieldController.name}
           onChange={(e) =>
             handleChangeOptions(
-              e,
-              selectFormat as TFormatFieldMulti,
+              e.target.value,
+              selectFormat,
               fieldController,
-              options,
-              optionsObj
+              options
             )
           }
         >
+          <option value="">
+            {field?.['#placeholder'] ?? '-- Select an option --'}
+          </option>
           {optionsObj.map(([key, value], i) => (
             <option key={i} value={key}>
               {value}

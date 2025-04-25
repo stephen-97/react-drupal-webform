@@ -50,11 +50,10 @@ export const renderRadio = ({
               value={key}
               onChange={(e) =>
                 handleChangeOptions(
-                  e,
-                  radioFormat as TFormatFieldMulti,
+                  e.target.value,
+                  radioFormat,
                   fieldController,
-                  options,
-                  optionsObj
+                  options
                 )
               }
               onBlur={onBlur}
