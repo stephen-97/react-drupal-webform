@@ -39,7 +39,6 @@ const WebformContainer = ({
       components={{
         errorFieldMessage: errorMessageCustom,
         wrapper: wrapperCustom,
-        input: CustomInput,
       }}
       classNames={{
         general: {

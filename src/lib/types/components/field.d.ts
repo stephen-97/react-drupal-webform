@@ -32,6 +32,7 @@ type TElementSource = {
   '#max'?: number
   '#default_value'?: string
   '#description_display'?: string
+  '#description'?: string
   '#file_extensions'?: string
   '#help'?: string
   '#help_title'?: string
@@ -42,6 +43,7 @@ type TElementSource = {
   '#more'?: string
   '#required_error'?: string
   '#rows'?: number
+  '#field_prefix'?: string
   '#field_suffix'?: string
   '#submit__label'?: string
   '#attributes'?: {

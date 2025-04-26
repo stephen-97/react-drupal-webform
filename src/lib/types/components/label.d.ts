@@ -9,6 +9,6 @@ export interface ILabelWebformProps {
   isRequired?: boolean
   helps?: {
     help?: string
-    help_title?: string
+    processed_help_title?: string
   }
 }

@@ -13,13 +13,13 @@ const Help = ({ innerProps, helps }: IHelpProps) => {
   useEffect(() => {
     if (!buttonRef.current) return
 
-    if (!helps?.help && !helps?.help_title) return
+    if (!helps?.help && !helps?.processed_help_title) return
 
     const tooltipContainer = document.createElement('div')
 
     const root = createRoot(tooltipContainer)
     const html = `
-      ${helps.help_title ? `<div class="${styles.helpTitle}">${helps.help_title}</div>` : ''}
+      ${helps.processed_help_title ? `<div class="${styles.helpTitle}">${helps.processed_help_title}</div>` : ''}
       ${helps.help || ''}
     `
 

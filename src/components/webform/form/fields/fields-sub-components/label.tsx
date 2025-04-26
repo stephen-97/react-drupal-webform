@@ -10,14 +10,13 @@ const Label = ({
   isRequired,
   helps,
 }: ILabelWebformProps) => {
-  console.log(
-    (helps?.help?.length ?? 0) > 0 || (helps?.help_title?.length ?? 0) > 0
-  )
   return (
     <label className={className} {...innerProps}>
       {title && <span>{title}</span>}
       {((helps?.help?.length ?? 0) > 0 ||
-        (helps?.help_title?.length ?? 0) > 0) && <Help helps={helps} />}
+        (helps?.processed_help_title?.length ?? 0) > 0) && (
+        <Help helps={helps} />
+      )}
     </label>
   )
 }

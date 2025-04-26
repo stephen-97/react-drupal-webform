@@ -4,6 +4,7 @@ import styles from './wrapper.module.scss'
 import Label from '@/components/webform/form/fields/fields-sub-components/label'
 import ErrorFieldMessage from '@/components/webform/form/fields/fields-sub-components/errorFieldMessage/errorFieldMessage'
 import { IWrapperWebformProps } from '@/lib/types/components/wrapper'
+import Description from '@/components/webform/form/fields/fields-sub-components/description/description'
 
 const DefaultWrapper = ({
   children,
@@ -37,11 +38,22 @@ const DefaultWrapper = ({
           title={field['#title']}
           helps={{
             help: field?.['#help'],
-            help_title: field?.['#help_title'],
+            processed_help_title: field?.['#help_title'],
           }}
         />
       )}
-      {children}
+      {field?.['#field_prefix'] || field?.['#field_suffix'] ? (
+        <div className={styles.prefixSuffixContainer}>
+          {field?.['#field_prefix'] && <span>{field['#field_prefix']}</span>}
+          {children}
+          {field?.['#field_suffix'] && <span>{field['#field_suffix']}</span>}
+        </div>
+      ) : (
+        <>{children}</>
+      )}
+      {field?.['#description'] && (
+        <Description processed={field?.['#description']} />
+      )}
       {typeof stateError?.message === 'string' &&
         stateError.message.length > 0 && (
           <CustomErrorFieldMessage
