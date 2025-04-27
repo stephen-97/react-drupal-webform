@@ -5,6 +5,7 @@ import Label from '@/components/webform/form/fields/fields-sub-components/label'
 import ErrorFieldMessage from '@/components/webform/form/fields/fields-sub-components/errorFieldMessage/errorFieldMessage'
 import { IWrapperWebformProps } from '@/lib/types/components/wrapper'
 import Description from '@/components/webform/form/fields/fields-sub-components/description/description'
+import More from '@/components/webform/form/fields/fields-sub-components/more/more'
 
 const DefaultWrapper = ({
   children,
@@ -53,6 +54,14 @@ const DefaultWrapper = ({
       )}
       {field?.['#description'] && (
         <Description processed={field?.['#description']} />
+      )}
+      {field?.['#more'] && field?.['#more_title'] && (
+        <More
+          more={{
+            more_title: field['#more_title'],
+            processed_more_text: field['#more'],
+          }}
+        />
       )}
       {typeof stateError?.message === 'string' &&
         stateError.message.length > 0 && (
