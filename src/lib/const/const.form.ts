@@ -5,7 +5,7 @@ import {
   TWebformValueFormat,
 } from '@/lib/types/form.d'
 import { DeepRequired } from 'react-hook-form'
-import Label from '@/components/webform/form/fields/fields-sub-components/label'
+import Label from '@/components/webform/form/fields/fields-sub-components/label/label'
 import { DefaultWrapper } from '@/components/webform/form/fields/fields-sub-components/wrapper'
 import ErrorFieldMessage from '@/components/webform/form/fields/fields-sub-components/errorFieldMessage/errorFieldMessage'
 import FieldObjCustom from '@/components/webform/form/fields/fields-special-components/fieldObjCustom'

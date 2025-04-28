@@ -16,13 +16,19 @@
 .fieldWrapper {
   display: flex;
   flex-direction: column;
-  gap: .5rem
+  gap: .5rem;
+  margin-block: 1.5rem;
 }
 .checkboxes {
   display: flex;
-  flex-direction: row;
-  gap: 1rem;
+  flex-direction: column;
+  gap: .5rem;
   flex-wrap: wrap;
+  font-size: var(--font-size-s);
+  .checkboxeInput {
+    height: 1.313rem;
+    aspect-ratio: 1 / 1;
+  }
 }
 .checkbox {
   display: flex;
@@ -34,5 +40,11 @@
 .checkboxUnique {
   display: flex;
   flex-direction: row;
+}
+
+.managedFile {
+  border: 1px solid #8e929c;
+  border-radius: .5rem;
+  padding: .5rem;
 }
 

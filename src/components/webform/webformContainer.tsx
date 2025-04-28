@@ -3,13 +3,9 @@
 import Webform from '@/components/webform/webform'
 import { UseFormProps } from 'react-hook-form'
 import styles from './webformContainer.module.scss'
-import LabelCustom from '@/components/webform/custom-components/LabelCustom'
 import errorMessageCustom from '@/components/webform/custom-components/errorMessageCustom'
 import wrapperCustom from '@/components/webform/custom-components/wrapperCustom'
-import CustomInput from '@/components/webform/custom-components/customInput'
-import CustomSelect from '@/components/webform/custom-components/customSelect'
-import WysiwygCustom from '@/components/webform/custom-components/wysiwygCustom'
-import HelpCustom from '@/components/webform/custom-components/helpCustom'
+import customManagedFileInfo from '@/components/webform/custom-components/customManagedFileInfo'
 
 export type TWebformContainer = {
   elementsSource: string
@@ -40,8 +36,6 @@ const WebformContainer = ({
       }}
       components={{
         errorFieldMessage: errorMessageCustom,
-        wrapper: wrapperCustom,
-        help: HelpCustom,
       }}
       classNames={{
         general: {

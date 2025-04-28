@@ -6,7 +6,7 @@ export interface ILabelWebformProps {
   title?: string
   className?: string
   children?: React.ReactNode
-  innerProps?: jsx.JSX.IntrinsicElements['label']
+  innerProps?: jsx.JSX.IntrinsicElements['div']
   custom_component_wysiwyg?: TWebformCustomComponents['wysiwyg']
   custom_component_help?: TWebformCustomComponents['help']
   isRequired?: boolean

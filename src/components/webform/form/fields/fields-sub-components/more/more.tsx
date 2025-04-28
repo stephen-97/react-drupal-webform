@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import styles from './more.module.scss'
 import { IMoreProps } from '@/lib/types/components/more'
-import Wysiwyg from '@/components/webform/form/fields/fields-special-components/wysiyg'
+import Wysiwyg from '@/components/webform/form/fields/fields-special-components/wysiwyg/wysiwyg'
 import cn from 'classnames'
 
 const More = ({

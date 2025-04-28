@@ -5,7 +5,7 @@ import tippy from 'tippy.js'
 import 'tippy.js/dist/tippy.css'
 import { IHelpProps } from '@/lib/types/components/help'
 import { createRoot } from 'react-dom/client'
-import Wysiwyg from '@/components/webform/form/fields/fields-special-components/wysiyg'
+import Wysiwyg from '@/components/webform/form/fields/fields-special-components/wysiwyg/wysiwyg'
 
 const Help = ({ innerProps, custom_component_wysiwyg, helps }: IHelpProps) => {
   const buttonRef = useRef<HTMLButtonElement>(null)

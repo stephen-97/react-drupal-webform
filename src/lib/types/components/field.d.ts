@@ -19,6 +19,7 @@ type TDrupal_FieldType =
   | 'number'
   | 'tel'
   | 'select'
+  | 'managed_file'
 
 type TElementSource = {
   '#type': TDrupal_FieldType
@@ -34,6 +35,7 @@ type TElementSource = {
   '#description_display'?: string
   '#description'?: string
   '#file_extensions'?: string
+  '#file_placeholder'?: string
   '#help'?: string
   '#help_title'?: string
   '#markup'?: string

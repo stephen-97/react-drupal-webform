@@ -2,6 +2,8 @@
 
 import DOMPurify from 'isomorphic-dompurify'
 import { IWysiwygProps } from '@/lib/types/components/wysiwyg'
+import cn from 'classnames'
+import styles from './wysiwyg.module.scss'
 
 const Wysiwyg = ({
   processed,
@@ -10,7 +12,7 @@ const Wysiwyg = ({
 }: IWysiwygProps) => {
   return (
     <Element
-      className={className}
+      className={cn(className, styles.wysiwyg)}
       dangerouslySetInnerHTML={{
         __html: DOMPurify.sanitize(processed, {
           ADD_TAGS: ['iframe'],

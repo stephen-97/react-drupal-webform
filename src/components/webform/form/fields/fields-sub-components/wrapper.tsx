@@ -1,11 +1,12 @@
 import React from 'react'
 import cn from 'classnames'
 import styles from './wrapper.module.scss'
-import Label from '@/components/webform/form/fields/fields-sub-components/label'
+import Label from '@/components/webform/form/fields/fields-sub-components/label/label'
 import ErrorFieldMessage from '@/components/webform/form/fields/fields-sub-components/errorFieldMessage/errorFieldMessage'
 import { IWrapperWebformProps } from '@/lib/types/components/wrapper'
 import Description from '@/components/webform/form/fields/fields-sub-components/description/description'
 import More from '@/components/webform/form/fields/fields-sub-components/more/more'
+import ManagedFileInfo from '@/components/webform/form/fields/fields-sub-components/managedFileInfo/managedFileInfo'
 
 const DefaultWrapper = ({
   children,
@@ -19,6 +20,8 @@ const DefaultWrapper = ({
   const CustomLabel = components?.label ?? Label
   const CustomErrorFieldMessage =
     components?.errorFieldMessage ?? ErrorFieldMessage
+  const CustomDescription = components?.description ?? Description
+  const CustomManagedFileInfo = components?.managedFileInfo ?? ManagedFileInfo
 
   return (
     <div
@@ -54,11 +57,16 @@ const DefaultWrapper = ({
       ) : (
         <>{children}</>
       )}
-      {field?.['#description'] && (
-        <Description
+      {(field?.['#description'] || field?.['#file_placeholder']) && (
+        <CustomDescription
           custom_component_wysiwyg={components.wysiwyg}
-          processed={field?.['#description']}
+          processed={
+            (field?.['#description'] ?? field?.['#file_placeholder']) || ''
+          }
         />
+      )}
+      {field['#type'] === 'managed_file' && (
+        <CustomManagedFileInfo field={field} />
       )}
       {field?.['#more'] && field?.['#more_title'] && (
         <More

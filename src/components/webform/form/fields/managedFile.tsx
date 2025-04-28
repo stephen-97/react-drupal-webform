@@ -39,6 +39,8 @@ export const renderManagedFile = ({
     } catch (err) {}
   }
 
+  console.log(field)
+
   return (
     <Wrapper
       field={field}
@@ -49,7 +51,7 @@ export const renderManagedFile = ({
     >
       <input
         ref={inputRef}
-        className={cn(styles.field, styles.input)}
+        className={cn(styles.field, styles.input, styles.managedFile)}
         name={fieldController.name}
         minLength={field?.['#minlength']}
         maxLength={field?.['#maxlength']}
