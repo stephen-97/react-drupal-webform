@@ -3,10 +3,9 @@
 import Webform from '@/components/webform/webform'
 import { UseFormProps } from 'react-hook-form'
 import styles from './webformContainer.module.scss'
-import LabelCustom from '@/components/webform/custom-components/LabelCustom'
 import errorMessageCustom from '@/components/webform/custom-components/errorMessageCustom'
 import wrapperCustom from '@/components/webform/custom-components/wrapperCustom'
-import CustomEmail from '@/components/webform/custom-components/customEmail'
+import customManagedFileInfo from '@/components/webform/custom-components/customManagedFileInfo'
 
 export type TWebformContainer = {
   elementsSource: string
@@ -29,17 +28,14 @@ const WebformContainer = ({
       yup={{ yupUseFormProps }}
       valueFormat={{
         radio: 'value',
-        select: 'keyValue',
+        select: 'booleanMap',
         checkboxes: 'keyValue',
       }}
       defaultFieldValues={{
         textfield: '',
       }}
       components={{
-        label: LabelCustom,
         errorFieldMessage: errorMessageCustom,
-        wrapper: wrapperCustom,
-        email: CustomEmail,
       }}
       classNames={{
         general: {

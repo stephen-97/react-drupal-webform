@@ -9,7 +9,6 @@ interface IHomePage {
 }
 
 const HomePage = async ({ params }: IHomePage) => {
-  console.log('yo')
   return <main className={styles.main}></main>
 }
 

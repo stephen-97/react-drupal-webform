@@ -1,24 +1,25 @@
-import { array, object, ObjectSchema, string } from 'yup'
 import cn from 'classnames'
 import styles from './field.module.scss'
-import { TFieldValidate } from '@/lib/types/components/validate'
 import { useController } from 'react-hook-form'
 import { TFieldObj } from '@/lib/types/components/field'
-import { handleChangeOptions } from '@/lib/functions/webform_fields_functions/webform_fields_functions'
+import {
+  handleChangeOptions,
+  handleChangeOptionsCheckboxes,
+} from '@/lib/functions/webform_fields_functions/webform_fields_functions'
 import { TFormatFieldMulti } from '@/lib/types/form.d'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
-import { getRequiredMessage } from '@/lib/functions/webform_validation_functions/webform_validation_functions'
 
-export const renderCheckboxes = ({
-  onBlur,
-  control,
-  key,
-  keyForMap,
-  field,
-  valueFormat,
-  classNames,
-  components,
-}: TFieldObj) => {
+export const renderCheckboxes = (props: TFieldObj) => {
+  const {
+    control,
+    key,
+    keyForMap,
+    field,
+    components,
+    classNames,
+    onBlur,
+    valueFormat,
+  } = props
   if (!field?.['#options']) {
     return null
   }
@@ -31,6 +32,9 @@ export const renderCheckboxes = ({
   })
 
   const { checkboxes: checkboxesFormat } = valueFormat
+  const { key: _, ...restProps } = props
+
+  const CustomCheckboxes = components?.checkboxes
 
   return (
     <Wrapper
@@ -41,115 +45,38 @@ export const renderCheckboxes = ({
       key={keyForMap}
       components={components}
     >
-      <div className={styles.checkboxes}>
-        {optionsObj.map(([key, value], i) => (
-          <label className={styles.checkbox} key={i}>
-            <input
-              className={cn(styles.field, styles.input)}
-              name={fieldController.name}
-              type={'checkbox'}
-              value={key}
-              onChange={(e) =>
-                handleChangeOptions(
-                  e,
-                  checkboxesFormat as TFormatFieldMulti,
-                  fieldController,
-                  options,
-                  optionsObj,
-                  'checkboxes'
-                )
-              }
-              onBlur={onBlur}
-            />
-            <span>{value}</span>
-          </label>
-        ))}
-      </div>
+      {CustomCheckboxes ? (
+        <CustomCheckboxes
+          fieldController={fieldController}
+          fieldState={fieldState}
+          {...restProps}
+        />
+      ) : (
+        <div className={styles.checkboxes}>
+          {optionsObj.map(([key, value], i) => (
+            <div className={styles.checkbox} key={i}>
+              <input
+                className={cn(styles.field, styles.checkboxeInput)}
+                name={fieldController.name}
+                type={'checkbox'}
+                value={key}
+                onChange={(e) =>
+                  handleChangeOptionsCheckboxes(
+                    e.target.value,
+                    e.target.checked,
+                    checkboxesFormat as TFormatFieldMulti,
+                    fieldController,
+                    options,
+                    optionsObj
+                  )
+                }
+                onBlur={onBlur}
+              />
+              <label>{value}</label>
+            </div>
+          ))}
+        </div>
+      )}
     </Wrapper>
   )
-}
-
-export const validateCheckboxes = ({
-  yupObject,
-  defaultValues,
-  key,
-  field,
-  visibility,
-  valueFormat,
-  defaultFieldStateMessages,
-}: TFieldValidate) => {
-  const options = field['#options']
-  const optionKeys = Object.keys(options)
-  const requiredMessage = getRequiredMessage(
-    defaultFieldStateMessages,
-    'checkboxes'
-  )
-
-  const { checkboxes: checkboxesFormat } = valueFormat
-
-  let schema: any
-
-  switch (checkboxesFormat) {
-    case 'key':
-      schema = array()
-        .of(string().oneOf(optionKeys))
-        .default(() => [])
-      if (visibility) {
-        schema = schema.min(1)
-      }
-      defaultValues[key] = ''
-      break
-
-    case 'value':
-      schema = array()
-        .of(string().oneOf(optionKeys))
-        .default(() => [])
-      if (visibility) {
-        schema = schema.min(1)
-      }
-      defaultValues[key] = ''
-      break
-
-    case 'keyValue':
-      schema = array()
-        .of(
-          object({
-            key: string().oneOf(optionKeys),
-            value: string(),
-          })
-        )
-        .default(() => [])
-
-      if (visibility) {
-        schema = schema.min(1)
-      }
-      defaultValues[key] = []
-      break
-
-    case 'booleanMap':
-      schema = object()
-
-      if (visibility) {
-        schema = object().test(
-          'at-least-one-true',
-          'required field',
-          (value) => value && Object.values(value).some((v) => v === true)
-        ) as ObjectSchema<Record<string, boolean>>
-      }
-
-      defaultValues[key] = optionKeys.reduce(
-        (acc, key) => {
-          acc[key] = false
-          return acc
-        },
-        {} as Record<string, boolean>
-      )
-      break
-  }
-
-  if (visibility) {
-    schema = schema.required(requiredMessage)
-  }
-
-  yupObject[key] = schema
 }

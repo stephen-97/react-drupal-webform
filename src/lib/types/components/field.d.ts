@@ -19,6 +19,7 @@ type TDrupal_FieldType =
   | 'number'
   | 'tel'
   | 'select'
+  | 'managed_file'
 
 type TElementSource = {
   '#type': TDrupal_FieldType
@@ -32,7 +33,9 @@ type TElementSource = {
   '#max'?: number
   '#default_value'?: string
   '#description_display'?: string
+  '#description'?: string
   '#file_extensions'?: string
+  '#file_placeholder'?: string
   '#help'?: string
   '#help_title'?: string
   '#markup'?: string
@@ -42,6 +45,7 @@ type TElementSource = {
   '#more'?: string
   '#required_error'?: string
   '#rows'?: number
+  '#field_prefix'?: string
   '#field_suffix'?: string
   '#submit__label'?: string
   '#attributes'?: {
@@ -78,7 +82,7 @@ export type TFieldObj = {
   submitButtonRef?: any
   isValid?: boolean
   isMultiStep?: boolean
-  valueFormat: TWebformValueFormat
+  valueFormat: Required<TWebformValueFormat>
   classNames: Required<TWebformClassNames>
   components: TWebformCustomComponents
 }

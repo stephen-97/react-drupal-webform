@@ -1,0 +1,16 @@
+
+:root {
+  --font-size-xs: .79rem;
+  --font-size-s: .875rem;
+  --font-weight-semibold: 525;
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}

@@ -1,0 +1,46 @@
+/* BREAKPOINTS */
+
+// ### WIDTH
+
+// Mobile
+$xs: 390px;
+// Mobile large
+$xs-2: 450px;
+$xs-3: 550px;
+// Tablet
+$sm: 768px;
+// Break trio
+$break-trio: 924px;
+// Break duo
+$break-duo: 1024px;
+// Break-uno
+$break-uno: 1124px;
+// Desktop
+$md: 1312px;
+// Home page
+$home: 1600px;
+// Desktop Large
+$lg: 1920px;
+
+// /* MEDIA QUERIES */
+@mixin mq-up($query) {
+  @media (min-width: $query) {
+    @content;
+  }
+}
+@mixin mq-down($query) {
+  @media (max-width: $query) {
+    @content;
+  }
+}
+
+@mixin mq-up-height($query) {
+  @media (min-height: $query) {
+    @content;
+  }
+}
+@mixin mq-down-height($query) {
+  @media (max-height: $query) {
+    @content;
+  }
+}

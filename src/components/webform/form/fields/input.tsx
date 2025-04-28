@@ -1,16 +1,11 @@
-import { string } from 'yup'
 import cn from 'classnames'
 import styles from './field.module.scss'
-import { TFieldValidate } from '@/lib/types/components/validate'
 import { useController } from 'react-hook-form'
 import { TFieldObj } from '@/lib/types/components/field'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
-import {
-  getErrorMessage,
-  getRequiredMessage,
-} from '@/lib/functions/webform_validation_functions/webform_validation_functions'
+import { HTMLInputTypeAttribute } from 'react'
 
-export const renderEmail = (props: TFieldObj) => {
+export const renderInput = (props: TFieldObj) => {
   const { control, key, keyForMap, field, components, classNames, onBlur } =
     props
 
@@ -21,9 +16,24 @@ export const renderEmail = (props: TFieldObj) => {
     control,
   })
 
-  const CustomEmail = components?.email
+  const CustomInput = components?.input
 
-  console.log(field)
+  const getFieldType: HTMLInputTypeAttribute = (() => {
+    switch (field?.['#type']) {
+      case 'textfield':
+        return 'text'
+      case 'date':
+        return 'date'
+      case 'number':
+        return 'number'
+      case 'email':
+        return 'email'
+      case 'tel':
+        return 'tel'
+      default:
+        return 'text'
+    }
+  })()
 
   return (
     <Wrapper
@@ -34,22 +44,22 @@ export const renderEmail = (props: TFieldObj) => {
       components={components}
       key={keyForMap}
     >
-      {CustomEmail ? (
-        <CustomEmail
+      {CustomInput ? (
+        <CustomInput
           fieldController={fieldController}
           fieldState={fieldState}
           {...restProps}
         />
       ) : (
         <input
-          className={cn(styles.field, styles.input, {
+          className={cn(styles.field, styles.input, styles[field?.['#type']], {
             [styles.error]: fieldState.error,
           })}
           name={fieldController.name}
           minLength={field?.['#minlength']}
           maxLength={field?.['#maxlength']}
           placeholder={field?.['#placeholder']}
-          type={'text'}
+          type={getFieldType}
           onChange={(e) => fieldController.onChange?.(e)}
           value={fieldController?.value ?? ''}
           onBlur={onBlur}
@@ -57,33 +67,4 @@ export const renderEmail = (props: TFieldObj) => {
       )}
     </Wrapper>
   )
-}
-
-export const validateEmail = ({
-  yupObject,
-  defaultValues,
-  key,
-  field,
-  visibility,
-  defaultFieldValues,
-  defaultFieldStateMessages,
-}: TFieldValidate) => {
-  const requiredMessage = getRequiredMessage(defaultFieldStateMessages, 'email')
-  const errorMessage = getErrorMessage(defaultFieldStateMessages, 'email')
-
-  const emailWithTLDRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
-  const schema = string()
-    .test('valid-email-format', 'invalid email', (value) => {
-      if (!value) return true
-      return emailWithTLDRegex.test(value)
-    })
-    .email(errorMessage)
-
-  yupObject[key] = visibility
-    ? schema.required(requiredMessage)
-    : schema.notRequired()
-
-  defaultValues[key] = ''
-
-  defaultValues[key] = defaultFieldValues.email
 }

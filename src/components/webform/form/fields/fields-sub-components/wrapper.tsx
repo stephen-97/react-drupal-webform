@@ -1,9 +1,12 @@
 import React from 'react'
 import cn from 'classnames'
 import styles from './wrapper.module.scss'
-import Label from '@/components/webform/form/fields/fields-sub-components/label'
+import Label from '@/components/webform/form/fields/fields-sub-components/label/label'
 import ErrorFieldMessage from '@/components/webform/form/fields/fields-sub-components/errorFieldMessage/errorFieldMessage'
 import { IWrapperWebformProps } from '@/lib/types/components/wrapper'
+import Description from '@/components/webform/form/fields/fields-sub-components/description/description'
+import More from '@/components/webform/form/fields/fields-sub-components/more/more'
+import ManagedFileInfo from '@/components/webform/form/fields/fields-sub-components/managedFileInfo/managedFileInfo'
 
 const DefaultWrapper = ({
   children,
@@ -17,6 +20,9 @@ const DefaultWrapper = ({
   const CustomLabel = components?.label ?? Label
   const CustomErrorFieldMessage =
     components?.errorFieldMessage ?? ErrorFieldMessage
+  const CustomDescription = components?.description ?? Description
+  const CustomManagedFileInfo = components?.managedFileInfo ?? ManagedFileInfo
+
   return (
     <div
       className={cn(
@@ -32,11 +38,45 @@ const DefaultWrapper = ({
     >
       {isLabel && field?.['#title'] && (
         <CustomLabel
+          custom_component_wysiwyg={components.wysiwyg}
+          custom_component_help={components.help}
           className={classNames.general.fieldLabel}
           title={field['#title']}
+          helps={{
+            help: field?.['#help'],
+            processed_help_title: field?.['#help_title'],
+          }}
         />
       )}
-      {children}
+      {field?.['#field_prefix'] || field?.['#field_suffix'] ? (
+        <div className={styles.prefixSuffixContainer}>
+          {field?.['#field_prefix'] && <span>{field['#field_prefix']}</span>}
+          {children}
+          {field?.['#field_suffix'] && <span>{field['#field_suffix']}</span>}
+        </div>
+      ) : (
+        <>{children}</>
+      )}
+      {(field?.['#description'] || field?.['#file_placeholder']) && (
+        <CustomDescription
+          custom_component_wysiwyg={components.wysiwyg}
+          processed={
+            (field?.['#description'] ?? field?.['#file_placeholder']) || ''
+          }
+        />
+      )}
+      {field['#type'] === 'managed_file' && (
+        <CustomManagedFileInfo field={field} />
+      )}
+      {field?.['#more'] && field?.['#more_title'] && (
+        <More
+          custom_component_wysiwyg={components.wysiwyg}
+          more={{
+            more_title: field['#more_title'],
+            processed_more_text: field['#more'],
+          }}
+        />
+      )}
       {typeof stateError?.message === 'string' &&
         stateError.message.length > 0 && (
           <CustomErrorFieldMessage
@@ -56,13 +96,6 @@ const Wrapper = ({
   classNameFieldName,
   components,
 }: IWrapperWebformProps) => {
-  /**
-   *
-   *   const CustomLabel = components?.label ?? Label
-   *   const CustomErrorFieldMessage =
-   *     components?.errorFieldMessage ?? ErrorFieldMessage
-   */
-
   const WrapperComponent = components?.wrapper ?? DefaultWrapper
 
   return (

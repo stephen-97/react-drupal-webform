@@ -5,6 +5,10 @@ import { TDrupal_FieldType } from '@/lib/types/components/field'
 import { IWrapperWebformProps } from '@/lib/types/components/wrapper'
 import { IErrorMessageWebformProps } from '@/lib/types/components/errorMessage'
 import { TFieldObjCustom } from '@/components/webform/form/fields/fields-special-components/fieldObjCustom'
+import { IWysiwygProps } from '@/lib/types/components/wysiwyg'
+import { IHelpProps } from '@/lib/types/components/help'
+import { IDescriptionProps } from '@/lib/types/components/description'
+import { IManagedFileInfoProps } from '@/lib/types/components/managedFileInfo'
 
 export type TYup = {
   yupUseFormProps: Omit<UseFormProps, 'resolver'>
@@ -54,6 +58,10 @@ export type TWebformClassNames = {
   general?: {
     fieldWrapper?: string
     fieldLabel?: string
+    fieldDescription?: string
+    fieldManagedFileInfo?: string
+    fieldMore?: string
+    fieldHelp?: string
   }
   states?: {
     fieldError?: string
@@ -75,15 +83,16 @@ export type TWebformStateMessages = {
 }
 
 export type TWebformCustomComponents = {
-  label?: (_props: ILabelWebformProps) => JSX.Element
-  wrapper?: (_props: IWrapperWebformProps) => JSX.Element
-  errorFieldMessage?: (_props: IErrorMessageWebformProps) => JSX.Element
-  email?: (_props: TFieldObjCustom) => JSX.Element
-  number?: (_props: TFieldObjCustom) => JSX.Element
-  textfield?: (_props: TFieldObjCustom) => JSX.Element
-  tel?: (_props: TFieldObjCustom) => JSX.Element
-  textarea?: (_props: TFieldObjCustom) => JSX.Element
-  date?: (_props: TFieldObjCustom) => JSX.Element
+  label?: (_props: ILabelWebformProps) => JSX.Element | null
+  wrapper?: (_props: IWrapperWebformProps) => JSX.Element | null
+  errorFieldMessage?: (_props: IErrorMessageWebformProps) => JSX.Element | null
+  input?: (_props: TFieldObjCustom) => JSX.Element | null
+  select?: (_props: TFieldObjCustom) => JSX.Element | null
+  checkboxes?: (_props: TFieldObjCustom) => JSX.Element | null
+  wysiwyg?: (_props: IWysiwygProps) => JSX.Element | null
+  help?: (_props: IHelpProps) => JSX.Element | null
+  description?: (_props: IDescriptionProps) => JSX.Element | null
+  managedFileInfo?: (_props: IManagedFileInfoProps) => JSX.Element | null
 }
 
 export type TWebform = {

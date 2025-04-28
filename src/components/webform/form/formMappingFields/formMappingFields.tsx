@@ -1,48 +1,30 @@
-import {
-  renderTextField,
-  validateTextField,
-} from '@/components/webform/form/fields/textfield'
 import { renderAction } from '@/components/webform/form/fields/action'
-import {
-  renderRadio,
-  validateRadio,
-} from '@/components/webform/form/fields/radios'
-import {
-  renderCheckboxes,
-  validateCheckboxes,
-} from '@/components/webform/form/fields/chexkboxes'
-import {
-  renderNumber,
-  validateNumber,
-} from '@/components/webform/form/fields/number'
-import {
-  renderSelect,
-  validateSelect,
-} from '@/components/webform/form/fields/select'
+import { renderRadio } from '@/components/webform/form/fields/radios'
+import { renderCheckboxes } from '@/components/webform/form/fields/chexkboxes'
+import { renderSelect } from '@/components/webform/form/fields/select'
 import { renderMarkup } from '@/components/webform/form/fields/markup'
-import {
-  renderEmail,
-  validateEmail,
-} from '@/components/webform/form/fields/email'
-import {
-  renderCheckbox,
-  validateCheckbox,
-} from '@/components/webform/form/fields/checkbox'
+import { renderCheckbox } from '@/components/webform/form/fields/checkbox'
 import {
   renderTextArea,
   validateTextArea,
 } from '@/components/webform/form/fields/textarea'
-import { renderTel, validateTel } from '@/components/webform/form/fields/tel'
-import { renderDate, validateDate } from '@/components/webform/form/fields/date'
-import {
-  renderManagedFile,
-  validateManagedFile,
-} from '@/components/webform/form/fields/managedFile'
+import { renderManagedFile } from '@/components/webform/form/fields/managedFile'
 import { IFormMappingField } from '@/lib/types/components/formMappingField'
+import { validateEmail } from '@/components/webform/form/fields/fields-validate-functions/validateEmail'
+import { validateTel } from '@/components/webform/form/fields/fields-validate-functions/validateTel'
+import { validateNumber } from '@/components/webform/form/fields/fields-validate-functions/validateNumber'
+import { validateTextField } from '@/components/webform/form/fields/fields-validate-functions/validateTextfield'
+import { validateDate } from '@/components/webform/form/fields/fields-validate-functions/validateDate'
+import { validateRadio } from '@/components/webform/form/fields/fields-validate-functions/validateRadios'
+import { validateCheckbox } from '@/components/webform/form/fields/fields-validate-functions/validateCheckbox'
+import { validateCheckboxes } from '@/components/webform/form/fields/fields-validate-functions/validateCheckboxes'
+import { validateSelect } from '@/components/webform/form/fields/fields-validate-functions/validateSelect'
+import { validateManagedFile } from '@/components/webform/form/fields/fields-validate-functions/validateManagedFile'
+import { renderInput } from '@/components/webform/form/fields/input'
 
 const FormMappingFields = (): IFormMappingField => ({
   textfield: {
-    element: renderTextField,
+    element: renderInput,
     validator: validateTextField,
   },
   textarea: {
@@ -66,11 +48,11 @@ const FormMappingFields = (): IFormMappingField => ({
     validator: validateCheckboxes,
   },
   number: {
-    element: renderNumber,
+    element: renderInput,
     validator: validateNumber,
   },
   tel: {
-    element: renderTel,
+    element: renderInput,
     validator: validateTel,
   },
   select: {
@@ -78,11 +60,11 @@ const FormMappingFields = (): IFormMappingField => ({
     validator: validateSelect,
   },
   email: {
-    element: renderEmail,
+    element: renderInput,
     validator: validateEmail,
   },
   date: {
-    element: renderDate,
+    element: renderInput,
     validator: validateDate,
   },
   webform_markup: {
