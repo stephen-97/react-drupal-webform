@@ -7,8 +7,9 @@ import { IHelpProps } from '@/lib/types/components/help'
 import { createRoot } from 'react-dom/client'
 import Wysiwyg from '@/components/webform/form/fields/fields-special-components/wysiyg'
 
-const Help = ({ innerProps, helps }: IHelpProps) => {
+const Help = ({ innerProps, custom_component_wysiwyg, helps }: IHelpProps) => {
   const buttonRef = useRef<HTMLButtonElement>(null)
+  const CustomWysiwyg = custom_component_wysiwyg ?? Wysiwyg
 
   useEffect(() => {
     if (!buttonRef.current) return
@@ -23,7 +24,7 @@ const Help = ({ innerProps, helps }: IHelpProps) => {
       ${helps.help || ''}
     `
 
-    root.render(<Wysiwyg processed={html} />)
+    root.render(<CustomWysiwyg processed={html} />)
 
     tippy(buttonRef.current, {
       content: tooltipContainer,

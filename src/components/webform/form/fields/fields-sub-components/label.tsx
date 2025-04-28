@@ -9,13 +9,20 @@ const Label = ({
   innerProps,
   isRequired,
   helps,
+  custom_component_wysiwyg,
+  custom_component_help,
 }: ILabelWebformProps) => {
+  const CustomHelp = custom_component_help ?? Help
+
   return (
     <label className={className} {...innerProps}>
       {title && <span>{title}</span>}
       {((helps?.help?.length ?? 0) > 0 ||
         (helps?.processed_help_title?.length ?? 0) > 0) && (
-        <Help helps={helps} />
+        <CustomHelp
+          helps={helps}
+          custom_component_wysiwyg={custom_component_wysiwyg}
+        />
       )}
     </label>
   )

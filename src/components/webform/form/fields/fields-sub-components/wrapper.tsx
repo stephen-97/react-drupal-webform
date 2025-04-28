@@ -35,6 +35,8 @@ const DefaultWrapper = ({
     >
       {isLabel && field?.['#title'] && (
         <CustomLabel
+          custom_component_wysiwyg={components.wysiwyg}
+          custom_component_help={components.help}
           className={classNames.general.fieldLabel}
           title={field['#title']}
           helps={{
@@ -53,10 +55,14 @@ const DefaultWrapper = ({
         <>{children}</>
       )}
       {field?.['#description'] && (
-        <Description processed={field?.['#description']} />
+        <Description
+          custom_component_wysiwyg={components.wysiwyg}
+          processed={field?.['#description']}
+        />
       )}
       {field?.['#more'] && field?.['#more_title'] && (
         <More
+          custom_component_wysiwyg={components.wysiwyg}
           more={{
             more_title: field['#more_title'],
             processed_more_text: field['#more'],

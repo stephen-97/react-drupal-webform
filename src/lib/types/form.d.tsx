@@ -5,6 +5,8 @@ import { TDrupal_FieldType } from '@/lib/types/components/field'
 import { IWrapperWebformProps } from '@/lib/types/components/wrapper'
 import { IErrorMessageWebformProps } from '@/lib/types/components/errorMessage'
 import { TFieldObjCustom } from '@/components/webform/form/fields/fields-special-components/fieldObjCustom'
+import { IWysiwygProps } from '@/lib/types/components/wysiwyg'
+import { IHelpProps } from '@/lib/types/components/help'
 
 export type TYup = {
   yupUseFormProps: Omit<UseFormProps, 'resolver'>
@@ -75,12 +77,14 @@ export type TWebformStateMessages = {
 }
 
 export type TWebformCustomComponents = {
-  label?: (_props: ILabelWebformProps) => JSX.Element
-  wrapper?: (_props: IWrapperWebformProps) => JSX.Element
-  errorFieldMessage?: (_props: IErrorMessageWebformProps) => JSX.Element
-  input?: (_props: TFieldObjCustom) => JSX.Element
-  select?: (_props: TFieldObjCustom) => JSX.Element
-  checkboxes?: (_props: TFieldObjCustom) => JSX.Element
+  label?: (_props: ILabelWebformProps) => JSX.Element | null
+  wrapper?: (_props: IWrapperWebformProps) => JSX.Element | null
+  errorFieldMessage?: (_props: IErrorMessageWebformProps) => JSX.Element | null
+  input?: (_props: TFieldObjCustom) => JSX.Element | null
+  select?: (_props: TFieldObjCustom) => JSX.Element | null
+  checkboxes?: (_props: TFieldObjCustom) => JSX.Element | null
+  wysiwyg?: (_props: IWysiwygProps) => JSX.Element | null
+  help?: (_props: IHelpProps) => JSX.Element | null
 }
 
 export type TWebform = {

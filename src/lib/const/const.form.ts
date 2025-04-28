@@ -6,11 +6,10 @@ import {
 } from '@/lib/types/form.d'
 import { DeepRequired } from 'react-hook-form'
 import Label from '@/components/webform/form/fields/fields-sub-components/label'
-import Wrapper, {
-  DefaultWrapper,
-} from '@/components/webform/form/fields/fields-sub-components/wrapper'
+import { DefaultWrapper } from '@/components/webform/form/fields/fields-sub-components/wrapper'
 import ErrorFieldMessage from '@/components/webform/form/fields/fields-sub-components/errorFieldMessage/errorFieldMessage'
 import FieldObjCustom from '@/components/webform/form/fields/fields-special-components/fieldObjCustom'
+import FieldWysiwygCustom from '@/components/webform/form/fields/fields-special-components/fieldWysiwygCustom'
 
 export const defaultValueFormatObj: Required<TWebformValueFormat> = {
   radio: 'booleanMap',
@@ -105,4 +104,5 @@ export const components = {
   Input: FieldObjCustom,
   Select: FieldObjCustom,
   Checkboxes: FieldObjCustom,
+  Wysiwyg: FieldWysiwygCustom,
 }

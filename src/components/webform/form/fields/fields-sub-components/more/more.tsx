@@ -6,7 +6,14 @@ import { IMoreProps } from '@/lib/types/components/more'
 import Wysiwyg from '@/components/webform/form/fields/fields-special-components/wysiyg'
 import cn from 'classnames'
 
-const More = ({ innerPropsContainer, innerPropsButton, more }: IMoreProps) => {
+const More = ({
+  innerPropsContainer,
+  innerPropsButton,
+  more,
+  custom_component_wysiwyg,
+}: IMoreProps) => {
+  const CustomWysiwyg = custom_component_wysiwyg ?? Wysiwyg
+
   const [open, setOpen] = useState(false)
 
   const handleClick = () => {
@@ -25,7 +32,7 @@ const More = ({ innerPropsContainer, innerPropsButton, more }: IMoreProps) => {
         {more?.more_title}
       </button>
       {open && more?.processed_more_text && (
-        <Wysiwyg processed={more?.processed_more_text} as={'div'} />
+        <CustomWysiwyg processed={more?.processed_more_text} as={'div'} />
       )}
     </div>
   )
