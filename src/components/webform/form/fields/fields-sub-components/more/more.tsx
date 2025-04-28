@@ -13,6 +13,9 @@ const More = ({
   custom_component_wysiwyg,
 }: IMoreProps) => {
   const CustomWysiwyg = custom_component_wysiwyg ?? Wysiwyg
+  const { className: containerClassName, ...containerProps } =
+    innerPropsContainer ?? {}
+  const { className: buttonClassName, ...buttonProps } = innerPropsButton ?? {}
 
   const [open, setOpen] = useState(false)
 
@@ -21,13 +24,13 @@ const More = ({
   }
 
   return (
-    <div {...innerPropsContainer}>
+    <div className={cn(styles.more, containerClassName)} {...containerProps}>
       <button
-        className={cn(styles.button, innerPropsButton?.className, {
+        className={cn(styles.button, buttonClassName, {
           [styles.opened]: open,
         })}
         onClick={handleClick}
-        {...innerPropsButton}
+        {...buttonProps}
       >
         {more?.more_title}
       </button>

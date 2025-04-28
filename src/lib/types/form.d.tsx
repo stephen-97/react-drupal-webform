@@ -9,6 +9,7 @@ import { IWysiwygProps } from '@/lib/types/components/wysiwyg'
 import { IHelpProps } from '@/lib/types/components/help'
 import { IDescriptionProps } from '@/lib/types/components/description'
 import { IManagedFileInfoProps } from '@/lib/types/components/managedFileInfo'
+import { IMoreProps } from '@/lib/types/components/more'
 
 export type TYup = {
   yupUseFormProps: Omit<UseFormProps, 'resolver'>
@@ -93,6 +94,7 @@ export type TWebformCustomComponents = {
   help?: (_props: IHelpProps) => JSX.Element | null
   description?: (_props: IDescriptionProps) => JSX.Element | null
   managedFileInfo?: (_props: IManagedFileInfoProps) => JSX.Element | null
+  more?: (_props: IMoreProps) => JSX.Element | null
 }
 
 export type TWebform = {

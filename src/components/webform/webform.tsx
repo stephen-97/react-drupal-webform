@@ -30,6 +30,7 @@ const Webform = ({
   defaultFieldStateMessages = {},
   components,
 }: TWebform) => {
+  console.log(classNames)
   const { yupObject = {}, yupDefaultValues = {} } = yup
 
   const mergedValueFormat: Required<TWebformValueFormat> = {

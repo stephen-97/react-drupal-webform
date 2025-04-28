@@ -10,6 +10,7 @@ const Description = ({
 }: IDescriptionProps) => {
   const CustomWysiwyg = custom_component_wysiwyg ?? Wysiwyg
 
+  console.log(innerProps?.className)
   return <CustomWysiwyg processed={processed} as={'div'} {...innerProps} />
 }
 

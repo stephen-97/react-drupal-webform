@@ -22,6 +22,7 @@ const DefaultWrapper = ({
     components?.errorFieldMessage ?? ErrorFieldMessage
   const CustomDescription = components?.description ?? Description
   const CustomManagedFileInfo = components?.managedFileInfo ?? ManagedFileInfo
+  const CustomMore = components?.more ?? More
 
   return (
     <div
@@ -38,13 +39,17 @@ const DefaultWrapper = ({
     >
       {isLabel && field?.['#title'] && (
         <CustomLabel
-          custom_component_wysiwyg={components.wysiwyg}
+          innerProps={{
+            className: classNames.general.fieldLabel,
+          }}
           custom_component_help={components.help}
-          className={classNames.general.fieldLabel}
           title={field['#title']}
-          helps={{
-            help: field?.['#help'],
-            processed_help_title: field?.['#help_title'],
+          innerPropsHelpComponent={{
+            helps: {
+              help: field?.['#help'],
+              processed_help_title: field?.['#help_title'],
+            },
+            custom_component_wysiwyg: components.wysiwyg,
           }}
         />
       )}
@@ -60,6 +65,9 @@ const DefaultWrapper = ({
       {(field?.['#description'] || field?.['#file_placeholder']) && (
         <CustomDescription
           custom_component_wysiwyg={components.wysiwyg}
+          innerProps={{
+            className: classNames.general.fieldDescription,
+          }}
           processed={
             (field?.['#description'] ?? field?.['#file_placeholder']) || ''
           }
@@ -69,7 +77,10 @@ const DefaultWrapper = ({
         <CustomManagedFileInfo field={field} />
       )}
       {field?.['#more'] && field?.['#more_title'] && (
-        <More
+        <CustomMore
+          innerPropsContainer={{
+            className: classNames.general.fieldMore,
+          }}
           custom_component_wysiwyg={components.wysiwyg}
           more={{
             more_title: field['#more_title'],

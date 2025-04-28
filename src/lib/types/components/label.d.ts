@@ -1,17 +1,13 @@
 import React from 'react'
 import { jsx } from '@emotion/react'
 import { TWebformCustomComponents } from '@/lib/types/form.d'
+import { IHelpProps } from '@/lib/types/components/help'
 
 export interface ILabelWebformProps {
   title?: string
-  className?: string
   children?: React.ReactNode
   innerProps?: jsx.JSX.IntrinsicElements['div']
-  custom_component_wysiwyg?: TWebformCustomComponents['wysiwyg']
   custom_component_help?: TWebformCustomComponents['help']
   isRequired?: boolean
-  helps?: {
-    help?: string
-    processed_help_title?: string
-  }
+  innerPropsHelpComponent: IHelpProps
 }

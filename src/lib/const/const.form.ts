@@ -71,6 +71,10 @@ export const defaultValuesClassnames: DeepRequired<TWebformClassNames> = {
   general: {
     fieldWrapper: '',
     fieldLabel: '',
+    fieldDescription: '',
+    fieldHelp: '',
+    fieldManagedFileInfo: '',
+    fieldMore: '',
   },
   states: {
     fieldError: '',
@@ -94,6 +98,7 @@ export const defaultValuesClassnames: DeepRequired<TWebformClassNames> = {
     webform_markup: '',
     select: '',
     number: '',
+    managed_file: '',
   },
 }
 

@@ -26,7 +26,6 @@ const handleChangeOptions = (
       break
 
     case 'keyValue':
-      console.log({ [selectedKey]: options[selectedKey] })
       transformedValue = { [selectedKey]: options[selectedKey] }
       break
 
