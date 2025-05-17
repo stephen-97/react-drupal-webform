@@ -98,6 +98,7 @@ export type TWebformCustomComponents = {
   wrapper?: (_props: IWrapperWebformProps) => JSX.Element | null
   errorFieldMessage?: (_props: IErrorMessageWebformProps) => JSX.Element | null
   input?: (_props: TFieldObjCustom) => JSX.Element | null
+  inputFile?: (_props: TFieldObjCustom) => JSX.Element | null
   select?: (_props: TFieldObjCustom) => JSX.Element | null
   checkboxes?: (_props: TFieldObjCustom) => JSX.Element | null
   wysiwyg?: (_props: IWysiwygProps) => JSX.Element | null

@@ -8,18 +8,15 @@ import { handleFileChange } from '@/lib/functions/webform_fields_functions/webfo
 import { TFileWithBase64 } from '@/lib/types/form.d'
 import FilePreview from '@/components/webform/form/fields/fields-sub-components/filedPreview/filePreview'
 
-export const renderManagedFile = ({
-  onBlur,
-  control,
-  key,
-  keyForMap,
-  field,
-  classNames,
-  components,
-}: TFieldObj) => {
-  const inputRef = useRef<HTMLInputElement>(null)
+export const renderManagedFile = (props: TFieldObj) => {
+  const { key, ...restProps } = props
 
-  const { field: fieldController } = useController<any>({
+  const { components, field, classNames, onBlur, control, keyForMap } =
+    restProps
+  const inputRef = useRef<HTMLInputElement>(null)
+  const CustomInput = components?.inputFile
+
+  const { field: fieldController, fieldState } = useController<any>({
     name: key,
     control,
   })
@@ -56,18 +53,28 @@ export const renderManagedFile = ({
       {isFileWithBase64(value) ? (
         <FilePreview value={value} handleRemove={() => handleRemove()} />
       ) : (
-        <input
-          ref={inputRef}
-          className={cn(styles.field, styles.input, styles.managedFile)}
-          name={fieldController.name}
-          minLength={field?.['#minlength']}
-          maxLength={field?.['#maxlength']}
-          placeholder={field?.['#placeholder']}
-          type="file"
-          accept={fileExtensions}
-          onChange={(e) => handleFileChange(e, fieldController, inputRef)}
-          onBlur={onBlur}
-        />
+        <>
+          {CustomInput ? (
+            <CustomInput
+              fieldController={fieldController}
+              fieldState={fieldState}
+              {...restProps}
+            />
+          ) : (
+            <input
+              ref={inputRef}
+              className={cn(styles.field, styles.input, styles.managedFile)}
+              name={fieldController.name}
+              minLength={field?.['#minlength']}
+              maxLength={field?.['#maxlength']}
+              placeholder={field?.['#placeholder']}
+              type="file"
+              accept={fileExtensions}
+              onChange={(e) => handleFileChange(e, fieldController, inputRef)}
+              onBlur={onBlur}
+            />
+          )}
+        </>
       )}
     </Wrapper>
   )
