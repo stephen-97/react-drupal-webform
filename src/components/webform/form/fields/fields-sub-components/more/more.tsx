@@ -9,10 +9,11 @@ import cn from 'classnames'
 const More = ({
   innerPropsContainer,
   innerPropsButton,
-  more,
-  custom_component_wysiwyg,
+  innerPropsWysiwyg,
+  moreTitle,
+  customComponentWysiwyg,
 }: IMoreProps) => {
-  const CustomWysiwyg = custom_component_wysiwyg ?? Wysiwyg
+  const CustomWysiwyg = customComponentWysiwyg ?? Wysiwyg
   const { className: containerClassName, ...containerProps } =
     innerPropsContainer ?? {}
   const { className: buttonClassName, ...buttonProps } = innerPropsButton ?? {}
@@ -26,16 +27,17 @@ const More = ({
   return (
     <div className={cn(styles.more, containerClassName)} {...containerProps}>
       <button
+        type="button"
         className={cn(styles.button, buttonClassName, {
           [styles.opened]: open,
         })}
         onClick={handleClick}
         {...buttonProps}
       >
-        {more?.more_title}
+        {moreTitle}
       </button>
-      {open && more?.processed_more_text && (
-        <CustomWysiwyg processed={more?.processed_more_text} as={'div'} />
+      {open && innerPropsWysiwyg?.processed && (
+        <CustomWysiwyg as={'div'} {...innerPropsWysiwyg} />
       )}
     </div>
   )

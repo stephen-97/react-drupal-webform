@@ -63,6 +63,7 @@ export type TWebformClassNames = {
     fieldManagedFileInfo?: string
     fieldMore?: string
     fieldHelp?: string
+    fieldWysiwyg?: string
   }
   states?: {
     fieldError?: string

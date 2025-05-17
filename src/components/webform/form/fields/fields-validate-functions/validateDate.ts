@@ -6,7 +6,7 @@ export const validateDate = ({
   yupObject,
   defaultValues,
   key,
-  visibility,
+  required,
   defaultFieldValues,
   defaultFieldStateMessages,
 }: TFieldValidate) => {
@@ -21,7 +21,7 @@ export const validateDate = ({
     .nullable()
     .typeError('Invalid date')
 
-  yupObject[key] = visibility
+  yupObject[key] = required
     ? schema.required(requiredMessage)
     : schema.notRequired()
 

@@ -4,9 +4,6 @@ import Webform from '@/components/webform/webform'
 import { UseFormProps } from 'react-hook-form'
 import styles from './webformContainer.module.scss'
 import errorMessageCustom from '@/components/webform/custom-components/errorMessageCustom'
-import wrapperCustom from '@/components/webform/custom-components/wrapperCustom'
-import customManagedFileInfo from '@/components/webform/custom-components/customManagedFileInfo'
-import moreCustom from '@/components/webform/custom-components/moreCustom'
 
 export type TWebformContainer = {
   elementsSource: string

@@ -44,7 +44,11 @@ const DefaultWrapper = ({
           }}
           custom_component_help={components.help}
           title={field['#title']}
+          isRequired={field?.['#required']}
           innerPropsHelpComponent={{
+            innerProps: {
+              className: classNames.general.fieldHelp,
+            },
             helps: {
               help: field?.['#help'],
               processed_help_title: field?.['#help_title'],
@@ -66,7 +70,11 @@ const DefaultWrapper = ({
         <CustomDescription
           custom_component_wysiwyg={components.wysiwyg}
           innerProps={{
-            className: classNames.general.fieldDescription,
+            className: cn(
+              classNames.general.fieldDescription,
+              styles.wysiwyg,
+              classNames.general.fieldWysiwyg
+            ),
           }}
           processed={
             (field?.['#description'] ?? field?.['#file_placeholder']) || ''
@@ -81,11 +89,12 @@ const DefaultWrapper = ({
           innerPropsContainer={{
             className: classNames.general.fieldMore,
           }}
-          custom_component_wysiwyg={components.wysiwyg}
-          more={{
-            more_title: field['#more_title'],
-            processed_more_text: field['#more'],
+          innerPropsWysiwyg={{
+            className: cn(styles.wysiwyg, classNames.general.fieldWysiwyg),
+            processed: field['#more'],
           }}
+          customComponentWysiwyg={components.wysiwyg}
+          moreTitle={field['#more_title']}
         />
       )}
       {typeof stateError?.message === 'string' &&

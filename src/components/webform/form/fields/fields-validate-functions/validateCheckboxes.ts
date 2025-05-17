@@ -7,7 +7,7 @@ export const validateCheckboxes = ({
   defaultValues,
   key,
   field,
-  visibility,
+  required,
   valueFormat,
   defaultFieldStateMessages,
 }: TFieldValidate) => {
@@ -27,7 +27,7 @@ export const validateCheckboxes = ({
       schema = array()
         .of(string().oneOf(optionKeys))
         .default(() => [])
-      if (visibility) {
+      if (required) {
         schema = schema.min(1)
       }
       defaultValues[key] = ''
@@ -37,7 +37,7 @@ export const validateCheckboxes = ({
       schema = array()
         .of(string().oneOf(optionKeys))
         .default(() => [])
-      if (visibility) {
+      if (required) {
         schema = schema.min(1)
       }
       defaultValues[key] = ''
@@ -53,7 +53,7 @@ export const validateCheckboxes = ({
         )
         .default(() => [])
 
-      if (visibility) {
+      if (required) {
         schema = schema.min(1)
       }
       defaultValues[key] = []
@@ -62,7 +62,7 @@ export const validateCheckboxes = ({
     case 'booleanMap':
       schema = object()
 
-      if (visibility) {
+      if (required) {
         schema = object().test(
           'at-least-one-true',
           'required field',
@@ -80,7 +80,7 @@ export const validateCheckboxes = ({
       break
   }
 
-  if (visibility) {
+  if (required) {
     schema = schema.required(requiredMessage)
   }
 

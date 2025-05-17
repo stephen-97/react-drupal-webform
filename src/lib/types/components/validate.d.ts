@@ -11,7 +11,7 @@ export interface TFieldValidate {
   defaultValues: Record<string, any>
   key: string
   field: TElementSource
-  visibility: boolean
+  required: boolean
   options?: string[]
   valueFormat: TWebformValueFormat
   defaultFieldValues: Required<TWebformDefaultFieldValues>

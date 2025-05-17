@@ -10,7 +10,7 @@ export const validateEmail = ({
   defaultValues,
   key,
   field,
-  visibility,
+  required,
   defaultFieldValues,
   defaultFieldStateMessages,
 }: TFieldValidate) => {
@@ -25,7 +25,7 @@ export const validateEmail = ({
     })
     .email(errorMessage)
 
-  yupObject[key] = visibility
+  yupObject[key] = required
     ? schema.required(requiredMessage)
     : schema.notRequired()
 

@@ -39,8 +39,6 @@ export const renderManagedFile = ({
     } catch (err) {}
   }
 
-  console.log(field)
-
   return (
     <Wrapper
       field={field}

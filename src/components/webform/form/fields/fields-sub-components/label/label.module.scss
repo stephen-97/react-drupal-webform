@@ -2,6 +2,17 @@
   .label {
     font-size: var(--font-size-s);
     font-weight: var(--font-weight-semibold);
+    color: var(--color-title);
     margin-block-end: .5rem;
+    &.isRequired {
+      &::after {
+        content: "*";
+        color: var(--danger);
+        line-height: 1;
+        margin-inline: .15em;
+        vertical-align: text-top;
+        background: none;
+      }
+    }
   }
 }

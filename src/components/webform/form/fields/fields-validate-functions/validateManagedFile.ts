@@ -7,7 +7,7 @@ export const validateManagedFile = ({
   defaultValues,
   key,
   field,
-  visibility,
+  required,
   defaultFieldValues,
   defaultFieldStateMessages,
 }: TFieldValidate) => {
@@ -18,7 +18,7 @@ export const validateManagedFile = ({
 
   const schema = mixed<File>()
     .test('fileRequired', 'file is required', (value: any) => {
-      if (visibility) {
+      if (required) {
         return value instanceof File && value.size > 0
       }
       return true
@@ -34,6 +34,6 @@ export const validateManagedFile = ({
       }
     )
 
-  yupObject[key] = visibility ? schema.required(requiredMessage) : schema
+  yupObject[key] = required ? schema.required(requiredMessage) : schema
   defaultValues[key] = defaultFieldValues.managedFile
 }

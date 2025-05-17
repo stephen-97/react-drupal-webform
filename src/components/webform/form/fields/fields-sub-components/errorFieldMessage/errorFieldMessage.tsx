@@ -9,10 +9,10 @@ const ErrorFieldMessage = ({
   className,
 }: IErrorMessageWebformProps) => {
   return (
-    <label className={cn(styles.errorFieldMessage, className)}>
+    <div className={cn(styles.errorFieldMessage, className)}>
       {message && <span>{message}</span>}
       {children}
-    </label>
+    </div>
   )
 }
 

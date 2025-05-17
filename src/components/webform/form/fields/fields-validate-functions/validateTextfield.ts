@@ -6,7 +6,7 @@ export const validateTextField = ({
   yupObject,
   defaultValues,
   key,
-  visibility,
+  required,
   defaultFieldValues,
   defaultFieldStateMessages,
 }: TFieldValidate) => {
@@ -14,7 +14,7 @@ export const validateTextField = ({
     defaultFieldStateMessages,
     'textfield'
   )
-  const message = (yupObject[key] = visibility
+  const message = (yupObject[key] = required
     ? string().required(requiredMessage)
     : string())
 
