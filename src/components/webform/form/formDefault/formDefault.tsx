@@ -13,7 +13,7 @@ import {
 import { DeepRequired, useForm } from 'react-hook-form'
 import { useYupValidationResolver } from '@/lib/functions/webform_yup_functions/webform_yup_functions'
 import * as yup from 'yup'
-import { TElementSource, TFieldObj } from '@/lib/types/components/field'
+import { TElementSource } from '@/lib/types/components/field'
 
 type TMultiStepExtra = {
   step: number

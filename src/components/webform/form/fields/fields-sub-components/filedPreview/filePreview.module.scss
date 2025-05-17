@@ -1,0 +1,15 @@
+.filePreview {
+  display: flex;
+  .fileInfo {
+    padding: 0.5rem 1rem 0.5rem 0;
+    .fileName {
+      .link {
+        color: var(--primary-color)
+      }
+    }
+    .fileSize {
+      display: inline-block;
+      margin-left: .5rem;
+    }
+  }
+}

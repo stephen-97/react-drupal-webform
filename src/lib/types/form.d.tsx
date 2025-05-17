@@ -11,6 +11,15 @@ import { IDescriptionProps } from '@/lib/types/components/description'
 import { IManagedFileInfoProps } from '@/lib/types/components/managedFileInfo'
 import { IMoreProps } from '@/lib/types/components/more'
 
+export type TFileWithBase64 = {
+  name: string
+  size: number
+  type: string
+  lastModified: number
+  lastModifiedDate: number
+  base64: string
+}
+
 export type TYup = {
   yupUseFormProps: Omit<UseFormProps, 'resolver'>
   yupObject?: Record<string, any>

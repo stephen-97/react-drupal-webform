@@ -27,7 +27,7 @@ export const defaultValuesObj: Required<TWebformDefaultFieldValues> = {
   number: '',
   tel: '',
   date: '',
-  managedFile: '',
+  managedFile: {},
   select: '',
 }
 
@@ -75,6 +75,7 @@ export const defaultValuesClassnames: DeepRequired<TWebformClassNames> = {
     fieldHelp: '',
     fieldManagedFileInfo: '',
     fieldMore: '',
+    fieldWysiwyg: '',
   },
   states: {
     fieldError: '',

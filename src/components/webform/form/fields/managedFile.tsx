@@ -4,6 +4,9 @@ import { useController } from 'react-hook-form'
 import { TFieldObj } from '@/lib/types/components/field'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
 import React, { useRef } from 'react'
+import { handleFileChange } from '@/lib/functions/webform_fields_functions/webform_fields_functions'
+import { TFileWithBase64 } from '@/lib/types/form.d'
+import FilePreview from '@/components/webform/form/fields/fields-sub-components/filedPreview/filePreview'
 
 export const renderManagedFile = ({
   onBlur,
@@ -27,16 +30,19 @@ export const renderManagedFile = ({
     .map((ext) => `.${ext}`)
     .join(', ')
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    try {
-      const { files } = event.target
-      if (files && files.length > 0 && inputRef?.current) {
-        const filesArray = [...files]
-        fieldController.onChange(filesArray[0])
-        inputRef.current.value = ''
-      }
-      // eslint-disable-next-line no-unused-vars
-    } catch (err) {}
+  const value: TFileWithBase64 | {} = fieldController.value
+
+  const handleRemove = () => {
+    fieldController.onChange({})
+  }
+
+  const isFileWithBase64 = (obj: any): obj is TFileWithBase64 => {
+    return (
+      obj &&
+      typeof obj === 'object' &&
+      'base64' in obj &&
+      typeof obj.base64 === 'string'
+    )
   }
 
   return (
@@ -44,21 +50,25 @@ export const renderManagedFile = ({
       field={field}
       classNames={classNames}
       components={components}
-      classNameFieldName={'fieldInput'}
+      classNameFieldName="fieldInput"
       key={keyForMap}
     >
-      <input
-        ref={inputRef}
-        className={cn(styles.field, styles.input, styles.managedFile)}
-        name={fieldController.name}
-        minLength={field?.['#minlength']}
-        maxLength={field?.['#maxlength']}
-        placeholder={field?.['#placeholder']}
-        type={'file'}
-        accept={fileExtensions}
-        onChange={handleFileChange}
-        onBlur={onBlur}
-      />
+      {isFileWithBase64(value) ? (
+        <FilePreview value={value} handleRemove={() => handleRemove()} />
+      ) : (
+        <input
+          ref={inputRef}
+          className={cn(styles.field, styles.input, styles.managedFile)}
+          name={fieldController.name}
+          minLength={field?.['#minlength']}
+          maxLength={field?.['#maxlength']}
+          placeholder={field?.['#placeholder']}
+          type="file"
+          accept={fileExtensions}
+          onChange={(e) => handleFileChange(e, fieldController, inputRef)}
+          onBlur={onBlur}
+        />
+      )}
     </Wrapper>
   )
 }
