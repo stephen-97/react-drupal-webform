@@ -14,7 +14,7 @@ export const renderManagedFile = (props: TFieldObj) => {
   const { components, field, classNames, onBlur, control, keyForMap } =
     restProps
   const inputRef = useRef<HTMLInputElement>(null)
-  const CustomInput = components?.inputFile
+  const CustomInputFile = components?.managedFile
 
   const { field: fieldController, fieldState } = useController<any>({
     name: key,
@@ -50,20 +50,27 @@ export const renderManagedFile = (props: TFieldObj) => {
       classNameFieldName="fieldInput"
       key={keyForMap}
     >
-      {isFileWithBase64(value) ? (
-        <FilePreview value={value} handleRemove={() => handleRemove()} />
+      {CustomInputFile ? (
+        <CustomInputFile
+          fieldController={fieldController}
+          fieldState={fieldState}
+          {...restProps}
+        />
       ) : (
         <>
-          {CustomInput ? (
-            <CustomInput
-              fieldController={fieldController}
-              fieldState={fieldState}
-              {...restProps}
-            />
+          {isFileWithBase64(value) ? (
+            <FilePreview value={value} handleRemove={() => handleRemove()} />
           ) : (
             <input
               ref={inputRef}
-              className={cn(styles.field, styles.input, styles.managedFile)}
+              className={cn(
+                styles.field,
+                styles.input,
+                styles[field?.['#type']],
+                {
+                  [styles.error]: fieldState.error,
+                }
+              )}
               name={fieldController.name}
               minLength={field?.['#minlength']}
               maxLength={field?.['#maxlength']}

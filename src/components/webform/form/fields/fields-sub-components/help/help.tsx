@@ -40,7 +40,6 @@ const Help = ({ innerProps, custom_component_wysiwyg, helps }: IHelpProps) => {
     <button
       className={cn(styles.help, className)}
       ref={buttonRef}
-      aria-hidden={'true'}
       type="button"
       {...restInnerProps}
     >
