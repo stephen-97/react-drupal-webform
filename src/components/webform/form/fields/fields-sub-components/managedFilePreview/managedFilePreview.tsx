@@ -1,16 +1,16 @@
-import styles from './filePreview.module.scss'
-import { IFilePreviewWebformProps } from '@/lib/types/components/filePreview'
+import styles from './managedFilePreview.module.scss'
+import { IManagedFilePreviewWebformProps } from '@/lib/types/components/filePreview'
 import React from 'react'
 import { TFileWithBase64 } from '@/lib/types/form.d'
 import { base64ToBlob } from '@/lib/functions/webform_fields_functions/webform_fields_file_functions'
 import cn from 'classnames'
 import Button from '@/components/webform/form/fields/fields-sub-components/buttons/button/button'
 
-const FilePreview = ({
+const ManagedFilePreview = ({
   innerProps,
   value,
   handleRemove,
-}: IFilePreviewWebformProps) => {
+}: IManagedFilePreviewWebformProps) => {
   const { className, ...restInnerProps } = innerProps ?? {}
 
   const fileValue = value as TFileWithBase64
@@ -43,4 +43,4 @@ const FilePreview = ({
   )
 }
 
-export default FilePreview
+export default ManagedFilePreview

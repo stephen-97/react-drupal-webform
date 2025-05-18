@@ -10,6 +10,7 @@ import { IHelpProps } from '@/lib/types/components/help'
 import { IDescriptionProps } from '@/lib/types/components/description'
 import { IManagedFileInfoProps } from '@/lib/types/components/managedFileInfo'
 import { IMoreProps } from '@/lib/types/components/more'
+import { IManagedFilePreviewWebformProps } from '@/lib/types/components/filePreview'
 
 export type TFileWithBase64 = {
   name: string
@@ -99,6 +100,9 @@ export type TWebformCustomComponents = {
   errorFieldMessage?: (_props: IErrorMessageWebformProps) => JSX.Element | null
   input?: (_props: TFieldObjCustom) => JSX.Element | null
   managedFile?: (_props: TFieldObjCustom) => JSX.Element | null
+  managedFilePreview?: (
+    _props: IManagedFilePreviewWebformProps
+  ) => JSX.Element | null
   select?: (_props: TFieldObjCustom) => JSX.Element | null
   checkboxes?: (_props: TFieldObjCustom) => JSX.Element | null
   wysiwyg?: (_props: IWysiwygProps) => JSX.Element | null

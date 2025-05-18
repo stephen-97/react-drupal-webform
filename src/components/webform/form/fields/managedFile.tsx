@@ -6,7 +6,7 @@ import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrap
 import React, { useRef } from 'react'
 import { handleFileChange } from '@/lib/functions/webform_fields_functions/webform_fields_functions'
 import { TFileWithBase64 } from '@/lib/types/form.d'
-import FilePreview from '@/components/webform/form/fields/fields-sub-components/filedPreview/filePreview'
+import ManagedFilePreview from '@/components/webform/form/fields/fields-sub-components/managedFilePreview/managedFilePreview'
 
 export const renderManagedFile = (props: TFieldObj) => {
   const { key, ...restProps } = props
@@ -15,6 +15,8 @@ export const renderManagedFile = (props: TFieldObj) => {
     restProps
   const inputRef = useRef<HTMLInputElement>(null)
   const CustomInputFile = components?.managedFile
+  const CustomManagedFilePreview =
+    components?.managedFilePreview ?? ManagedFilePreview
 
   const { field: fieldController, fieldState } = useController<any>({
     name: key,
@@ -59,7 +61,10 @@ export const renderManagedFile = (props: TFieldObj) => {
       ) : (
         <>
           {isFileWithBase64(value) ? (
-            <FilePreview value={value} handleRemove={() => handleRemove()} />
+            <CustomManagedFilePreview
+              value={value}
+              handleRemove={() => handleRemove()}
+            />
           ) : (
             <input
               ref={inputRef}

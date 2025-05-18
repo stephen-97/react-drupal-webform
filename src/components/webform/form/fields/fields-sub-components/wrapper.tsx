@@ -24,6 +24,7 @@ const DefaultWrapper = ({
   const CustomManagedFileInfo = components?.managedFileInfo ?? ManagedFileInfo
   const CustomMore = components?.more ?? More
 
+  console.log(classNames.types[field['#type']])
   return (
     <div
       className={cn(
