@@ -8,6 +8,8 @@ import { createRoot } from 'react-dom/client'
 import Wysiwyg from '@/components/webform/form/fields/fields-special-components/wysiwyg/wysiwyg'
 
 const Help = ({ innerProps, custom_component_wysiwyg, helps }: IHelpProps) => {
+  const { className, ...restInnerProps } = innerProps ?? {}
+
   const buttonRef = useRef<HTMLButtonElement>(null)
   const CustomWysiwyg = custom_component_wysiwyg ?? Wysiwyg
 
@@ -36,10 +38,10 @@ const Help = ({ innerProps, custom_component_wysiwyg, helps }: IHelpProps) => {
 
   return (
     <button
-      className={cn(styles.help)}
+      className={cn(styles.help, className)}
       ref={buttonRef}
-      aria-hidden={'true'}
-      {...innerProps}
+      type="button"
+      {...restInnerProps}
     >
       ?
     </button>

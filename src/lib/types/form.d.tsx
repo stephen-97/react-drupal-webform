@@ -9,6 +9,17 @@ import { IWysiwygProps } from '@/lib/types/components/wysiwyg'
 import { IHelpProps } from '@/lib/types/components/help'
 import { IDescriptionProps } from '@/lib/types/components/description'
 import { IManagedFileInfoProps } from '@/lib/types/components/managedFileInfo'
+import { IMoreProps } from '@/lib/types/components/more'
+import { IManagedFilePreviewWebformProps } from '@/lib/types/components/filePreview'
+
+export type TFileWithBase64 = {
+  name: string
+  size: number
+  type: string
+  lastModified: number
+  lastModifiedDate: number
+  base64: string
+}
 
 export type TYup = {
   yupUseFormProps: Omit<UseFormProps, 'resolver'>
@@ -46,6 +57,8 @@ export type TWebformMessageSpecificFields = {
   [K in TWebformStatesFieldTypes]?: string | null
 }
 
+export type TWrapperCategory = 'textInput' | 'selectionInput' | 'booleanInput'
+
 export type TWebformClassNameFields = {
   fieldInput?: string
   fieldSelect?: string
@@ -55,20 +68,53 @@ export type TWebformClassNameFields = {
 }
 
 export type TWebformClassNames = {
+  wrappers?: {
+    base?: string
+    byCategory?: {
+      textInput?: string
+      selectionInput?: string
+      booleanInput?: string
+    }
+    byFieldType?: Partial<Record<TDrupal_FieldType, string>>
+  }
   general?: {
-    fieldWrapper?: string
     fieldLabel?: string
     fieldDescription?: string
     fieldManagedFileInfo?: string
     fieldMore?: string
     fieldHelp?: string
+    fieldWysiwyg?: string
   }
   states?: {
     fieldError?: string
     fieldErrorMessage?: string
   }
-  fields?: TWebformClassNameFields
-  types?: Partial<Record<TDrupal_FieldType, string>>
+
+  textInputs?: {
+    base?: string
+    types?: Partial<
+      Record<
+        'text' | 'email' | 'number' | 'tel' | 'textarea' | 'textfield',
+        string
+      >
+    >
+  }
+
+  selectionInputs?: {
+    base?: string
+    types?: Partial<Record<'select' | 'radios', string>>
+  }
+
+  booleanInputs?: {
+    base?: string
+    types?: Partial<Record<'checkbox' | 'checkboxes', string>>
+  }
+
+  specific?: {
+    managedFile?: string
+    date?: string
+    markup?: string
+  }
 }
 
 export type TWebformStateMessages = {
@@ -87,12 +133,17 @@ export type TWebformCustomComponents = {
   wrapper?: (_props: IWrapperWebformProps) => JSX.Element | null
   errorFieldMessage?: (_props: IErrorMessageWebformProps) => JSX.Element | null
   input?: (_props: TFieldObjCustom) => JSX.Element | null
+  managedFile?: (_props: TFieldObjCustom) => JSX.Element | null
+  managedFilePreview?: (
+    _props: IManagedFilePreviewWebformProps
+  ) => JSX.Element | null
   select?: (_props: TFieldObjCustom) => JSX.Element | null
   checkboxes?: (_props: TFieldObjCustom) => JSX.Element | null
   wysiwyg?: (_props: IWysiwygProps) => JSX.Element | null
   help?: (_props: IHelpProps) => JSX.Element | null
   description?: (_props: IDescriptionProps) => JSX.Element | null
   managedFileInfo?: (_props: IManagedFileInfoProps) => JSX.Element | null
+  more?: (_props: IMoreProps) => JSX.Element | null
 }
 
 export type TWebform = {

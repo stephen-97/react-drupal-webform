@@ -6,26 +6,28 @@ import styles from './label.module.scss'
 
 const Label = ({
   title,
-  className,
-  children,
   innerProps,
   isRequired,
-  helps,
-  custom_component_wysiwyg,
+  innerPropsHelpComponent,
   custom_component_help,
 }: ILabelWebformProps) => {
   const CustomHelp = custom_component_help ?? Help
+  const { className, ...restInnerProps } = innerProps ?? {}
 
   return (
-    <div className={cn(styles.labelContainer, className)} {...innerProps}>
-      {title && <label className={styles.label}>{title}</label>}
-      {((helps?.help?.length ?? 0) > 0 ||
-        (helps?.processed_help_title?.length ?? 0) > 0) && (
-        <CustomHelp
-          helps={helps}
-          custom_component_wysiwyg={custom_component_wysiwyg}
-        />
+    <div className={cn(styles.labelContainer, className)} {...restInnerProps}>
+      {title && (
+        <label
+          className={cn(styles.label, {
+            [styles.isRequired]: isRequired,
+          })}
+        >
+          {title}
+        </label>
       )}
+      {((innerPropsHelpComponent.helps?.help?.length ?? 0) > 0 ||
+        (innerPropsHelpComponent.helps?.processed_help_title?.length ?? 0) >
+          0) && <CustomHelp {...innerPropsHelpComponent} />}
     </div>
   )
 }

@@ -1,11 +1,8 @@
-import { string } from 'yup'
 import cn from 'classnames'
 import styles from './field.module.scss'
-import { TFieldValidate } from '@/lib/types/components/validate'
 import { useController } from 'react-hook-form'
 import { TFieldObj } from '@/lib/types/components/field'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
-import { getRequiredMessage } from '@/lib/functions/webform_validation_functions/webform_validation_functions'
 
 export const renderTextArea = ({
   onBlur,
@@ -31,9 +28,15 @@ export const renderTextArea = ({
       key={keyForMap}
     >
       <textarea
-        className={cn(styles.field, styles.textarea, {
-          [styles.error]: fieldState.error,
-        })}
+        className={cn(
+          classNames.textInputs.types.textarea,
+          classNames.textInputs.base,
+          styles.field,
+          styles.textarea,
+          {
+            [styles.error]: fieldState.error,
+          }
+        )}
         name={fieldController.name}
         minLength={field?.['#minlength']}
         maxLength={field?.['#maxlength']}
@@ -45,22 +48,4 @@ export const renderTextArea = ({
       />
     </Wrapper>
   )
-}
-
-export const validateTextArea = ({
-  yupObject,
-  defaultValues,
-  key,
-  visibility,
-  defaultFieldValues,
-  defaultFieldStateMessages,
-}: TFieldValidate) => {
-  const requiredMessage = getRequiredMessage(
-    defaultFieldStateMessages,
-    'textarea'
-  )
-
-  yupObject[key] = visibility ? string().required(requiredMessage) : string()
-
-  defaultValues[key] = defaultFieldValues.textarea
 }

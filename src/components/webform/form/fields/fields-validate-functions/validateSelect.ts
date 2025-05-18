@@ -7,7 +7,7 @@ export const validateSelect = ({
   defaultValues,
   key,
   field,
-  visibility,
+  required,
   valueFormat,
   defaultFieldStateMessages,
 }: TFieldValidate) => {
@@ -20,13 +20,11 @@ export const validateSelect = ({
 
   let schema: any = string().oneOf(optionKeys.concat(''))
 
-  if (visibility) {
+  if (required) {
     schema = schema.required(requiredMessage)
   }
 
   const { select: selectFormat } = valueFormat
-
-  console.log(selectFormat)
 
   switch (selectFormat) {
     case 'key':
@@ -41,7 +39,7 @@ export const validateSelect = ({
       break
     case 'keyValue':
       schema = object()
-      if (visibility) {
+      if (required) {
         schema = schema.transform((value: any) => {
           const key = Object.keys(value || {})[0]
           if (optionKeys.includes(key)) {
@@ -55,7 +53,7 @@ export const validateSelect = ({
     case 'booleanMap':
       schema = object()
 
-      if (visibility) {
+      if (required) {
         schema = schema.test(
           'at-least-one-true',
           'at-least-one-true',

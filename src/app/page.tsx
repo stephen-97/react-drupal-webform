@@ -1,6 +1,4 @@
 import styles from './page.module.css'
-import getForm from '@/lib/requests/get-form'
-import { drupal } from '@/lib/drupal'
 
 interface IHomePage {
   params: {

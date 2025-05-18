@@ -1,10 +1,33 @@
 
 :root {
+  --border-form-element: #8e929c;
+  --color-text: #222330;
+  --color-text-light: #545560;
+  --background: #F9FBFE;
+  --foreground: #171717;
+  --primary-color: #2f6dd0;
+  --primary-color-light: #2f6dd026;
+  --danger: #cc3d3d;
+
+  // fonts
+  --font-size-xxs: .75rem;
   --font-size-xs: .79rem;
   --font-size-s: .875rem;
+  --input-font-size: 1rem;
   --font-weight-semibold: 525;
-  --background: #ffffff;
-  --foreground: #171717;
+
+  // form element title
+  --color-title: #222330;
+
+  // button
+  --color-button-text: #fff;
+
+  // input
+  --input-bg: #fff;
+  --input-padding-vertical: .75rem;
+  --input-pading-horizontal: .75rem;
+  --input-line-height: 1.5rem;
+  --input-focus: #007dfa80;
 }
 
 

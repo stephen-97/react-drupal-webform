@@ -6,10 +6,10 @@ export const validateNumber = ({
   defaultValues,
   key,
   field,
-  visibility,
+  required,
   defaultFieldValues,
 }: TFieldValidate) => {
-  yupObject[key] = visibility ? string().required('required field') : string()
+  yupObject[key] = required ? string().required('required field') : string()
 
   defaultValues[key] = defaultFieldValues.number
 }

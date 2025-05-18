@@ -83,7 +83,7 @@ export type TFieldObj = {
   isValid?: boolean
   isMultiStep?: boolean
   valueFormat: Required<TWebformValueFormat>
-  classNames: Required<TWebformClassNames>
+  classNames: DeepRequired<TWebformClassNames>
   components: TWebformCustomComponents
 }
 

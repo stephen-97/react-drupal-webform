@@ -6,7 +6,7 @@ export const validateTel = ({
   yupObject,
   defaultValues,
   key,
-  visibility,
+  required,
   defaultFieldValues,
   defaultFieldStateMessages,
 }: TFieldValidate) => {
@@ -16,7 +16,7 @@ export const validateTel = ({
     message: "it's not a number",
     excludeEmptyString: true,
   })
-  yupObject[key] = visibility ? schema.required(requiredMessage) : schema
+  yupObject[key] = required ? schema.required(requiredMessage) : schema
 
   defaultValues[key] = defaultFieldValues.tel
 }

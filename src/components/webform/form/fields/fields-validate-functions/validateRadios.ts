@@ -7,7 +7,7 @@ export const validateRadio = ({
   defaultValues,
   key,
   field,
-  visibility,
+  required,
   valueFormat,
   defaultFieldValues,
   defaultFieldStateMessages,
@@ -20,7 +20,7 @@ export const validateRadio = ({
   let schema: StringSchema | ObjectSchema<Record<string, boolean>> =
     string().oneOf(optionKeys.concat(''))
 
-  if (visibility) {
+  if (required) {
     schema = schema.required('required field')
   }
 

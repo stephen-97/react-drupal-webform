@@ -4,19 +4,21 @@ import { useController } from 'react-hook-form'
 import { TFieldObj } from '@/lib/types/components/field'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
 import React, { useRef } from 'react'
+import { handleFileChange } from '@/lib/functions/webform_fields_functions/webform_fields_functions'
+import { TFileWithBase64 } from '@/lib/types/form.d'
+import ManagedFilePreview from '@/components/webform/form/fields/fields-sub-components/managedFilePreview/managedFilePreview'
 
-export const renderManagedFile = ({
-  onBlur,
-  control,
-  key,
-  keyForMap,
-  field,
-  classNames,
-  components,
-}: TFieldObj) => {
+export const renderManagedFile = (props: TFieldObj) => {
+  const { key, ...restProps } = props
+
+  const { components, field, classNames, onBlur, control, keyForMap } =
+    restProps
   const inputRef = useRef<HTMLInputElement>(null)
+  const CustomInputFile = components?.managedFile
+  const CustomManagedFilePreview =
+    components?.managedFilePreview ?? ManagedFilePreview
 
-  const { field: fieldController } = useController<any>({
+  const { field: fieldController, fieldState } = useController<any>({
     name: key,
     control,
   })
@@ -27,40 +29,66 @@ export const renderManagedFile = ({
     .map((ext) => `.${ext}`)
     .join(', ')
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    try {
-      const { files } = event.target
-      if (files && files.length > 0 && inputRef?.current) {
-        const filesArray = [...files]
-        fieldController.onChange(filesArray[0])
-        inputRef.current.value = ''
-      }
-      // eslint-disable-next-line no-unused-vars
-    } catch (err) {}
+  const value: TFileWithBase64 | {} = fieldController.value
+
+  const handleRemove = () => {
+    fieldController.onChange({})
   }
 
-  console.log(field)
+  const isFileWithBase64 = (obj: any): obj is TFileWithBase64 => {
+    return (
+      obj &&
+      typeof obj === 'object' &&
+      'base64' in obj &&
+      typeof obj.base64 === 'string'
+    )
+  }
 
   return (
     <Wrapper
       field={field}
       classNames={classNames}
       components={components}
-      classNameFieldName={'fieldInput'}
+      classNameFieldName="fieldInput"
       key={keyForMap}
     >
-      <input
-        ref={inputRef}
-        className={cn(styles.field, styles.input, styles.managedFile)}
-        name={fieldController.name}
-        minLength={field?.['#minlength']}
-        maxLength={field?.['#maxlength']}
-        placeholder={field?.['#placeholder']}
-        type={'file'}
-        accept={fileExtensions}
-        onChange={handleFileChange}
-        onBlur={onBlur}
-      />
+      {CustomInputFile ? (
+        <CustomInputFile
+          fieldController={fieldController}
+          fieldState={fieldState}
+          {...restProps}
+        />
+      ) : (
+        <>
+          {isFileWithBase64(value) ? (
+            <CustomManagedFilePreview
+              value={value}
+              handleRemove={() => handleRemove()}
+            />
+          ) : (
+            <input
+              ref={inputRef}
+              className={cn(
+                classNames.specific.managedFile,
+                styles.field,
+                styles.input,
+                styles[field?.['#type']],
+                {
+                  [styles.error]: fieldState.error,
+                }
+              )}
+              name={fieldController.name}
+              minLength={field?.['#minlength']}
+              maxLength={field?.['#maxlength']}
+              placeholder={field?.['#placeholder']}
+              type="file"
+              accept={fileExtensions}
+              onChange={(e) => handleFileChange(e, fieldController, inputRef)}
+              onBlur={onBlur}
+            />
+          )}
+        </>
+      )}
     </Wrapper>
   )
 }

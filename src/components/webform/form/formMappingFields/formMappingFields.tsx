@@ -4,10 +4,7 @@ import { renderCheckboxes } from '@/components/webform/form/fields/chexkboxes'
 import { renderSelect } from '@/components/webform/form/fields/select'
 import { renderMarkup } from '@/components/webform/form/fields/markup'
 import { renderCheckbox } from '@/components/webform/form/fields/checkbox'
-import {
-  renderTextArea,
-  validateTextArea,
-} from '@/components/webform/form/fields/textarea'
+import { renderTextArea } from '@/components/webform/form/fields/textarea'
 import { renderManagedFile } from '@/components/webform/form/fields/managedFile'
 import { IFormMappingField } from '@/lib/types/components/formMappingField'
 import { validateEmail } from '@/components/webform/form/fields/fields-validate-functions/validateEmail'
@@ -21,6 +18,7 @@ import { validateCheckboxes } from '@/components/webform/form/fields/fields-vali
 import { validateSelect } from '@/components/webform/form/fields/fields-validate-functions/validateSelect'
 import { validateManagedFile } from '@/components/webform/form/fields/fields-validate-functions/validateManagedFile'
 import { renderInput } from '@/components/webform/form/fields/input'
+import { validateTextArea } from '@/components/webform/form/fields/fields-validate-functions/validateTextArea'
 
 const FormMappingFields = (): IFormMappingField => ({
   textfield: {

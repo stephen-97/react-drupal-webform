@@ -1,14 +1,17 @@
-.button {
-  background: none;
-  border: none;
-  &::before {
-    content: "► ";
-    font-size: 0.8em;
-    cursor: pointer;
-  }
-  &.opened {
+.more {
+  .button {
+    background: none;
+    border: none;
     &::before {
-      content: "▼ ";
+      content: "► ";
+      font-size: 0.8em;
+      cursor: pointer;
+    }
+    &.opened {
+      &::before {
+        content: "▼ ";
+      }
     }
   }
 }
+

@@ -2,10 +2,7 @@ import cn from 'classnames'
 import styles from './field.module.scss'
 import { useController } from 'react-hook-form'
 import { TFieldObj } from '@/lib/types/components/field'
-import {
-  handleChangeOptions,
-  handleChangeOptionsCheckboxes,
-} from '@/lib/functions/webform_fields_functions/webform_fields_functions'
+import { handleChangeOptionsCheckboxes } from '@/lib/functions/webform_fields_functions/webform_fields_functions'
 import { TFormatFieldMulti } from '@/lib/types/form.d'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
 

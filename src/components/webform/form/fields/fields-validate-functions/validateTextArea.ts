@@ -1,25 +1,21 @@
 import { TFieldValidate } from '@/lib/types/components/validate'
 import { getRequiredMessage } from '@/lib/functions/webform_validation_functions/webform_validation_functions'
-import { boolean } from 'yup'
+import { string } from 'yup'
 
-export const validateCheckbox = ({
+export const validateTextArea = ({
   yupObject,
   defaultValues,
   key,
-  field,
   required,
   defaultFieldValues,
   defaultFieldStateMessages,
 }: TFieldValidate) => {
   const requiredMessage = getRequiredMessage(
     defaultFieldStateMessages,
-    'checkbox'
+    'textarea'
   )
 
-  yupObject[key] = required
-    ? boolean().oneOf([true], requiredMessage)
-    : boolean()
+  yupObject[key] = required ? string().required(requiredMessage) : string()
 
-  defaultValues[key] =
-    Boolean(field?.['#default_value']) ?? defaultFieldValues.checkbox
+  defaultValues[key] = defaultFieldValues.textarea
 }
