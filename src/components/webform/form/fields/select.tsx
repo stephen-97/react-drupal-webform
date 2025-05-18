@@ -50,9 +50,15 @@ export const renderSelect = (props: TFieldObj) => {
         />
       ) : (
         <select
-          className={cn(styles.field, styles[field?.['#type']], {
-            [styles.error]: fieldState.error,
-          })}
+          className={cn(
+            classNames.selectionInputs.types?.select,
+            classNames.selectionInputs.base,
+            styles.field,
+            styles[field?.['#type']],
+            {
+              [styles.error]: fieldState.error,
+            }
+          )}
           name={fieldController.name}
           onChange={(e) =>
             handleChangeOptions(

@@ -7,6 +7,8 @@ import { IWrapperWebformProps } from '@/lib/types/components/wrapper'
 import Description from '@/components/webform/form/fields/fields-sub-components/description/description'
 import More from '@/components/webform/form/fields/fields-sub-components/more/more'
 import ManagedFileInfo from '@/components/webform/form/fields/fields-sub-components/managedFileInfo/managedFileInfo'
+import { getWrapperCategory } from '@/lib/functions/webform_fields_functions/webform_fields_functions'
+import { TDrupal_FieldType } from '@/lib/types/components/field'
 
 const DefaultWrapper = ({
   children,
@@ -24,14 +26,20 @@ const DefaultWrapper = ({
   const CustomManagedFileInfo = components?.managedFileInfo ?? ManagedFileInfo
   const CustomMore = components?.more ?? More
 
-  console.log(classNames.types[field['#type']])
+  const wrapperCategory = getWrapperCategory(
+    field['#type'] as TDrupal_FieldType
+  )
+
+  console.log(classNames)
   return (
     <div
       className={cn(
         ...(field?.['#attributes']?.class ?? []),
-        classNames.types[field['#type']],
-        classNames.fields?.[classNameFieldName],
-        classNames.general.fieldWrapper,
+        classNames.wrappers?.byFieldType?.[field['#type']],
+        wrapperCategory
+          ? classNames.wrappers?.byCategory?.[wrapperCategory]
+          : undefined,
+        classNames.wrappers?.base,
         {
           [classNames.states.fieldError ?? '']: Boolean(stateError),
         },

@@ -68,38 +68,68 @@ export const defaultValuesFieldStateMessages: DeepRequired<TWebformStateMessages
   }
 
 export const defaultValuesClassnames: DeepRequired<TWebformClassNames> = {
+  wrappers: {
+    base: '',
+    byCategory: {
+      textInput: '',
+      selectionInput: '',
+      booleanInput: '',
+    },
+    byFieldType: {
+      checkbox: '',
+      checkboxes: '',
+      date: '',
+      email: '',
+      webform_markup: '',
+      textarea: '',
+      textfield: '',
+      number: '',
+      tel: '',
+      select: '',
+      managed_file: '',
+    },
+  },
   general: {
-    fieldWrapper: '',
     fieldLabel: '',
     fieldDescription: '',
-    fieldHelp: '',
     fieldManagedFileInfo: '',
     fieldMore: '',
+    fieldHelp: '',
     fieldWysiwyg: '',
   },
   states: {
     fieldError: '',
     fieldErrorMessage: '',
   },
-  fields: {
-    fieldInput: '',
-    fieldSelect: '',
-    fieldCheckboxes: '',
-    fieldRadio: '',
-    fieldTextarea: '',
+  textInputs: {
+    base: '',
+    types: {
+      text: '',
+      email: '',
+      number: '',
+      tel: '',
+      textarea: '',
+      textfield: '',
+    },
   },
-  types: {
-    checkbox: '',
-    checkboxes: '',
-    tel: '',
-    textfield: '',
-    textarea: '',
+  selectionInputs: {
+    base: '',
+    types: {
+      select: '',
+      radios: '',
+    },
+  },
+  booleanInputs: {
+    base: '',
+    types: {
+      checkbox: '',
+      checkboxes: '',
+    },
+  },
+  specific: {
+    managedFile: '',
     date: '',
-    email: '',
-    webform_markup: '',
-    select: '',
-    number: '',
-    managed_file: '',
+    markup: '',
   },
 }
 

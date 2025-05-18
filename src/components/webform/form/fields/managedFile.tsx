@@ -69,6 +69,7 @@ export const renderManagedFile = (props: TFieldObj) => {
             <input
               ref={inputRef}
               className={cn(
+                classNames.specific.managedFile,
                 styles.field,
                 styles.input,
                 styles[field?.['#type']],

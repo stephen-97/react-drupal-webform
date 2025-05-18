@@ -36,17 +36,21 @@ const WebformContainer = ({
         errorFieldMessage: errorMessageCustom,
       }}
       classNames={{
+        wrappers: {
+          base: styles.fieldWrapper,
+          byCategory: {
+            textInput: styles.fieldTextInput,
+          },
+          byFieldType: {
+            textfield: styles.textfield,
+          },
+        },
         general: {
-          fieldWrapper: styles.fieldWrapper,
           fieldLabel: styles.fieldLabel,
         },
         states: {
           fieldError: styles.fieldError,
           fieldErrorMessage: styles.fieldErrorMessage,
-        },
-        types: {
-          textfield: styles.textfield,
-          select: styles.select,
         },
       }}
       defaultFieldStateMessages={{

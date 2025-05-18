@@ -1,7 +1,8 @@
-import { TFormatFieldMulti } from '@/lib/types/form.d'
+import { TFormatFieldMulti, TWrapperCategory } from '@/lib/types/form.d'
 import { ControllerRenderProps } from 'react-hook-form'
 import React from 'react'
 import { fileToBase64 } from '@/lib/functions/webform_fields_functions/webform_fields_file_functions'
+import { TDrupal_FieldType } from '@/lib/types/components/field'
 
 const handleChangeOptions = (
   selectedKey: string,
@@ -158,4 +159,19 @@ const handleFileChange = async (
   }
 }
 
-export { handleChangeOptions, handleFileChange, handleChangeOptionsCheckboxes }
+const getWrapperCategory = (
+  type: TDrupal_FieldType
+): TWrapperCategory | undefined => {
+  if (['textfield', 'textarea', 'email', 'number', 'tel'].includes(type))
+    return 'textInput'
+  if (['select', 'radios'].includes(type)) return 'selectionInput'
+  if (['checkbox', 'checkboxes'].includes(type)) return 'booleanInput'
+  return undefined
+}
+
+export {
+  handleChangeOptions,
+  handleFileChange,
+  handleChangeOptionsCheckboxes,
+  getWrapperCategory,
+}

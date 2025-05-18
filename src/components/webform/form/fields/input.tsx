@@ -52,9 +52,15 @@ export const renderInput = (props: TFieldObj) => {
         />
       ) : (
         <input
-          className={cn(styles.field, styles.input, styles[field?.['#type']], {
-            [styles.error]: fieldState.error,
-          })}
+          className={cn(
+            classNames.textInputs.base,
+            styles.field,
+            styles.input,
+            styles[field?.['#type']],
+            {
+              [styles.error]: fieldState.error,
+            }
+          )}
           name={fieldController.name}
           minLength={field?.['#minlength']}
           maxLength={field?.['#maxlength']}

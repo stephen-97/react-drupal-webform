@@ -28,9 +28,15 @@ export const renderTextArea = ({
       key={keyForMap}
     >
       <textarea
-        className={cn(styles.field, styles.textarea, {
-          [styles.error]: fieldState.error,
-        })}
+        className={cn(
+          classNames.textInputs.types.textarea,
+          classNames.textInputs.base,
+          styles.field,
+          styles.textarea,
+          {
+            [styles.error]: fieldState.error,
+          }
+        )}
         name={fieldController.name}
         minLength={field?.['#minlength']}
         maxLength={field?.['#maxlength']}

@@ -66,7 +66,8 @@ const FormDefault = ({
       type !== 'webform_actions' &&
       type !== 'textfield' &&
       type !== 'checkboxes' &&
-      type !== 'managed_file'
+      type !== 'managed_file' &&
+      type !== 'number'
     ) {
       return null
     }
@@ -116,7 +117,8 @@ const FormDefault = ({
           type !== 'webform_actions' &&
           type !== 'textfield' &&
           type !== 'checkboxes' &&
-          type !== 'managed_file'
+          type !== 'managed_file' &&
+          type !== 'number'
         ) {
           return null
         }

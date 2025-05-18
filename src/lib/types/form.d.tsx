@@ -57,6 +57,8 @@ export type TWebformMessageSpecificFields = {
   [K in TWebformStatesFieldTypes]?: string | null
 }
 
+export type TWrapperCategory = 'textInput' | 'selectionInput' | 'booleanInput'
+
 export type TWebformClassNameFields = {
   fieldInput?: string
   fieldSelect?: string
@@ -66,8 +68,16 @@ export type TWebformClassNameFields = {
 }
 
 export type TWebformClassNames = {
+  wrappers?: {
+    base?: string
+    byCategory?: {
+      textInput?: string
+      selectionInput?: string
+      booleanInput?: string
+    }
+    byFieldType?: Partial<Record<TDrupal_FieldType, string>>
+  }
   general?: {
-    fieldWrapper?: string
     fieldLabel?: string
     fieldDescription?: string
     fieldManagedFileInfo?: string
@@ -79,8 +89,32 @@ export type TWebformClassNames = {
     fieldError?: string
     fieldErrorMessage?: string
   }
-  fields?: TWebformClassNameFields
-  types?: Partial<Record<TDrupal_FieldType, string>>
+
+  textInputs?: {
+    base?: string
+    types?: Partial<
+      Record<
+        'text' | 'email' | 'number' | 'tel' | 'textarea' | 'textfield',
+        string
+      >
+    >
+  }
+
+  selectionInputs?: {
+    base?: string
+    types?: Partial<Record<'select' | 'radios', string>>
+  }
+
+  booleanInputs?: {
+    base?: string
+    types?: Partial<Record<'checkbox' | 'checkboxes', string>>
+  }
+
+  specific?: {
+    managedFile?: string
+    date?: string
+    markup?: string
+  }
 }
 
 export type TWebformStateMessages = {
