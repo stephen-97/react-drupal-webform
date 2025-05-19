@@ -55,3 +55,12 @@
   flex-direction: row;
 }
 
+.radiosGroupWrapper {
+  display: flex;
+  flex-direction: column;
+  .radioInput {
+    height: 1.313rem;
+    aspect-ratio: 1 / 1;
+  }
+}
+

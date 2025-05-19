@@ -1,10 +1,8 @@
-import { string, object, StringSchema, ObjectSchema } from 'yup'
 import cn from 'classnames'
 import styles from './field.module.scss'
 import { useController } from 'react-hook-form'
 import { TFieldObj } from '@/lib/types/components/field'
 import { handleChangeOptions } from '@/lib/functions/webform_fields_functions/webform_fields_functions'
-import { TFormatFieldMulti } from '@/lib/types/form.d'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
 
 export const renderRadio = ({
@@ -40,14 +38,20 @@ export const renderRadio = ({
       stateError={fieldState.error}
       key={keyForMap}
     >
-      <div className={cn(classNames.fields.radios?.groupWrapper)}>
+      <div
+        className={cn(
+          classNames.fields.radios?.groupWrapper,
+          styles.radiosGroupWrapper
+        )}
+      >
         {optionsObj.map(([key, value], i) => (
           <label className={cn(classNames.fields.radios?.itemWrapper)} key={i}>
             <input
               className={cn(
                 classNames.fields.radios?.input,
                 styles.field,
-                styles.input
+                styles.input,
+                styles.radioInput
               )}
               name={fieldController.name}
               type={'radio'}

@@ -67,7 +67,7 @@ const FormDefault = ({
       type !== 'textfield' &&
       type !== 'checkboxes' &&
       type !== 'managed_file' &&
-      type !== 'number'
+      type !== 'radios'
     ) {
       return null
     }
@@ -118,7 +118,7 @@ const FormDefault = ({
           type !== 'textfield' &&
           type !== 'checkboxes' &&
           type !== 'managed_file' &&
-          type !== 'number'
+          type !== 'radios'
         ) {
           return null
         }
