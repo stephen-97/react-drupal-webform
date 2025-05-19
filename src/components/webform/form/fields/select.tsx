@@ -51,8 +51,7 @@ export const renderSelect = (props: TFieldObj) => {
       ) : (
         <select
           className={cn(
-            classNames.selectionInputs.types?.select,
-            classNames.selectionInputs.base,
+            classNames.fields.select?.select,
             styles.field,
             styles[field?.['#type']],
             {
@@ -69,11 +68,15 @@ export const renderSelect = (props: TFieldObj) => {
             )
           }
         >
-          <option value="">
+          <option className={classNames.fields.select.option} value="">
             {field?.['#placeholder'] ?? '-- Select an option --'}
           </option>
           {optionsObj.map(([key, value], i) => (
-            <option key={i} value={key}>
+            <option
+              className={classNames.fields.select.option}
+              key={i}
+              value={key}
+            >
               {value}
             </option>
           ))}

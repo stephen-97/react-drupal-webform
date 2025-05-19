@@ -14,7 +14,7 @@ export const renderMarkup = ({ field, keyForMap, classNames }: TFieldObj) => {
       key={keyForMap}
       className={cn(
         ...(field?.['#attributes']?.class ?? []),
-        classNames.specific.markup,
+        classNames.fields.markup.base,
         styles.fieldWrapper
       )}
       dangerouslySetInnerHTML={{

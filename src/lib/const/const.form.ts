@@ -101,35 +101,44 @@ export const defaultValuesClassnames: DeepRequired<TWebformClassNames> = {
     fieldError: '',
     fieldErrorMessage: '',
   },
-  textInputs: {
-    base: '',
-    types: {
-      text: '',
-      email: '',
-      number: '',
-      tel: '',
-      textarea: '',
-      textfield: '',
+  fields: {
+    textInputs: {
+      base: '',
+      types: {
+        text: '',
+        email: '',
+        number: '',
+        tel: '',
+        textarea: '',
+        textfield: '',
+      },
     },
-  },
-  selectionInputs: {
-    base: '',
-    types: {
+    checkboxes: {
+      groupWrapper: '',
+      itemWrapper: '',
+      input: '',
+      label: '',
+    },
+    checkbox: {
+      input: '',
+      label: '',
+    },
+    radios: {
+      groupWrapper: '',
+      itemWrapper: '',
+      input: '',
+      label: '',
+    },
+    select: {
       select: '',
-      radios: '',
+      option: '',
     },
-  },
-  booleanInputs: {
-    base: '',
-    types: {
-      checkbox: '',
-      checkboxes: '',
+    managedFile: {
+      input: '',
     },
-  },
-  specific: {
-    managedFile: '',
-    date: '',
-    markup: '',
+    markup: {
+      base: '',
+    },
   },
 }
 

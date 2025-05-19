@@ -90,30 +90,42 @@ export type TWebformClassNames = {
     fieldErrorMessage?: string
   }
 
-  textInputs?: {
-    base?: string
-    types?: Partial<
-      Record<
-        'text' | 'email' | 'number' | 'tel' | 'textarea' | 'textfield',
-        string
+  fields?: {
+    textInputs?: {
+      base?: string
+      types?: Partial<
+        Record<
+          'text' | 'email' | 'number' | 'tel' | 'textarea' | 'textfield',
+          string
+        >
       >
-    >
-  }
-
-  selectionInputs?: {
-    base?: string
-    types?: Partial<Record<'select' | 'radios', string>>
-  }
-
-  booleanInputs?: {
-    base?: string
-    types?: Partial<Record<'checkbox' | 'checkboxes', string>>
-  }
-
-  specific?: {
-    managedFile?: string
-    date?: string
-    markup?: string
+    }
+    checkboxes?: {
+      groupWrapper?: string
+      itemWrapper?: string
+      input?: string
+      label?: string
+    }
+    checkbox?: {
+      input?: string
+      label?: string
+    }
+    radios?: {
+      groupWrapper?: string
+      itemWrapper?: string
+      input?: string
+      label?: string
+    }
+    select?: {
+      select?: string
+      option?: string
+    }
+    managedFile?: {
+      input?: string
+    }
+    markup?: {
+      base?: string
+    }
   }
 }
 

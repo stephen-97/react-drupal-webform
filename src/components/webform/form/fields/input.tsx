@@ -53,8 +53,12 @@ export const renderInput = (props: TFieldObj) => {
       ) : (
         <input
           className={cn(
-            classNames.textInputs.base,
-            styles.field,
+            classNames.fields.textInputs.base,
+            classNames.fields.textInputs.types[
+              field?.[
+                '#type'
+              ] as keyof typeof classNames.fields.textInputs.types
+            ],
             styles.input,
             styles[field?.['#type']],
             {

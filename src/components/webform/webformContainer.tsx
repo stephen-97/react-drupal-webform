@@ -52,6 +52,17 @@ const WebformContainer = ({
           fieldError: styles.fieldError,
           fieldErrorMessage: styles.fieldErrorMessage,
         },
+        fields: {
+          textInputs: {
+            base: styles.inputBase,
+            types: {
+              number: styles.number,
+            },
+          },
+          select: {
+            select: styles.select,
+          },
+        },
       }}
       defaultFieldStateMessages={{
         general: {

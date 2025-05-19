@@ -49,11 +49,26 @@ export const renderCheckboxes = (props: TFieldObj) => {
           {...restProps}
         />
       ) : (
-        <div className={styles.checkboxes}>
+        <div
+          className={cn(
+            classNames.fields.checkboxes?.groupWrapper,
+            styles.checkboxes
+          )}
+        >
           {optionsObj.map(([key, value], i) => (
-            <div className={styles.checkbox} key={i}>
+            <div
+              className={cn(
+                classNames.fields.checkboxes?.itemWrapper,
+                styles.checkbox
+              )}
+              key={i}
+            >
               <input
-                className={cn(styles.field, styles.checkboxeInput)}
+                className={cn(
+                  classNames.fields.checkboxes?.itemWrapper,
+                  styles.field,
+                  styles.checkboxeInput
+                )}
                 name={fieldController.name}
                 type={'checkbox'}
                 value={key}
@@ -69,7 +84,9 @@ export const renderCheckboxes = (props: TFieldObj) => {
                 }
                 onBlur={onBlur}
               />
-              <label>{value}</label>
+              <label className={classNames.fields.checkboxes.label}>
+                {value}
+              </label>
             </div>
           ))}
         </div>
