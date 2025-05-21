@@ -16,6 +16,7 @@ type TDrupal_FieldType =
   | 'webform_markup'
   | 'textarea'
   | 'textfield'
+  | 'radio'
   | 'number'
   | 'tel'
   | 'select'

@@ -64,21 +64,7 @@ const WebformContainer = ({
           },
         },
       }}
-      defaultFieldStateMessages={{
-        general: {
-          errorMessage: 'Error Message is here',
-          requiredMessage: 'Field is required NO',
-        },
-        fields: {
-          errorMessages: {
-            email: 'Wrong email',
-          },
-          requiredMessages: {
-            textfield: 'The textfield is required',
-            textarea: 'Textarea is required',
-          },
-        },
-      }}
+      defaultFieldStateMessages={{}}
     />
   )
 }

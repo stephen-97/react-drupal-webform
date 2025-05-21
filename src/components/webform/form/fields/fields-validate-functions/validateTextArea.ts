@@ -1,5 +1,8 @@
 import { TFieldValidate } from '@/lib/types/components/validate'
-import { getRequiredMessage } from '@/lib/functions/webform_validation_functions/webform_validation_functions'
+import {
+  formatMessage,
+  getRequiredMessage,
+} from '@/lib/functions/webform_validation_functions/webform_validation_functions'
 import { string } from 'yup'
 
 export const validateTextArea = ({
@@ -9,10 +12,11 @@ export const validateTextArea = ({
   required,
   defaultFieldValues,
   defaultFieldStateMessages,
+  field,
 }: TFieldValidate) => {
-  const requiredMessage = getRequiredMessage(
-    defaultFieldStateMessages,
-    'textarea'
+  const requiredMessage = formatMessage(
+    getRequiredMessage(defaultFieldStateMessages, 'textarea') ?? '',
+    field?.['#title']
   )
 
   yupObject[key] = required ? string().required(requiredMessage) : string()

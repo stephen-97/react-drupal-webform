@@ -1,5 +1,8 @@
 import { TFieldValidate } from '@/lib/types/components/validate'
-import { getRequiredMessage } from '@/lib/functions/webform_validation_functions/webform_validation_functions'
+import {
+  formatMessage,
+  getRequiredMessage,
+} from '@/lib/functions/webform_validation_functions/webform_validation_functions'
 import { object, ObjectSchema, string } from 'yup'
 
 export const validateSelect = ({
@@ -9,14 +12,10 @@ export const validateSelect = ({
   field,
   required,
   valueFormat,
-  defaultFieldStateMessages,
+  requiredMessage,
 }: TFieldValidate) => {
   const options = field['#options']
   const optionKeys = Object.keys(options)
-  const requiredMessage = getRequiredMessage(
-    defaultFieldStateMessages,
-    'select'
-  )
 
   let schema: any = string().oneOf(optionKeys.concat(''))
 

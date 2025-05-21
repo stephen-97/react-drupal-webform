@@ -1,5 +1,4 @@
 import { TFieldValidate } from '@/lib/types/components/validate'
-import { getRequiredMessage } from '@/lib/functions/webform_validation_functions/webform_validation_functions'
 import { array, object, ObjectSchema, string } from 'yup'
 
 export const validateCheckboxes = ({
@@ -9,14 +8,10 @@ export const validateCheckboxes = ({
   field,
   required,
   valueFormat,
-  defaultFieldStateMessages,
+  requiredMessage,
 }: TFieldValidate) => {
   const options = field['#options']
   const optionKeys = Object.keys(options)
-  const requiredMessage = getRequiredMessage(
-    defaultFieldStateMessages,
-    'checkboxes'
-  )
 
   const { checkboxes: checkboxesFormat } = valueFormat
 

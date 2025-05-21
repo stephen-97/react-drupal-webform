@@ -36,25 +36,12 @@ export type TWebformValueFormat = {
 
 export type TDefaultValue = string | number | boolean | Record<string, any>
 
-export type TWebformStatesFieldTypes =
-  | 'textfield'
-  | 'textarea'
-  | 'email'
-  | 'radio'
-  | 'checkboxes'
-  | 'checkbox'
-  | 'number'
-  | 'tel'
-  | 'date'
-  | 'managedFile'
-  | 'select'
-
 export type TWebformDefaultFieldValues = {
-  [K in TWebformStatesFieldTypes]?: TDefaultValue
+  [K in TDrupal_FieldType]?: TDefaultValue
 }
 
 export type TWebformMessageSpecificFields = {
-  [K in TWebformStatesFieldTypes]?: string | null
+  [K in TDrupal_FieldType]?: string | null
 }
 
 export type TWrapperCategory = 'textInput' | 'selectionInput' | 'booleanInput'

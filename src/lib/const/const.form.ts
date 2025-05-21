@@ -27,15 +27,16 @@ export const defaultValuesObj: Required<TWebformDefaultFieldValues> = {
   number: '',
   tel: '',
   date: '',
-  managedFile: {},
+  managed_file: {},
   select: '',
+  webform_markup: '',
 }
 
 export const defaultValuesFieldStateMessages: DeepRequired<TWebformStateMessages> =
   {
     general: {
-      errorMessage: 'Field Error Mince',
-      requiredMessage: 'Field is Required',
+      errorMessage: 'Error',
+      requiredMessage: 'Field "{fieldName}" is required.',
     },
     fields: {
       errorMessages: {
@@ -45,11 +46,12 @@ export const defaultValuesFieldStateMessages: DeepRequired<TWebformStateMessages
         radio: '',
         checkboxes: '',
         checkbox: '',
-        number: '',
-        tel: '',
-        date: '',
-        managedFile: '',
+        number: 'Please enter a number.',
+        tel: 'Please enter a valid phone number.',
+        date: 'Invalid date format.',
+        managed_file: '',
         select: '',
+        webform_markup: '',
       },
       requiredMessages: {
         textfield: '',
@@ -61,8 +63,9 @@ export const defaultValuesFieldStateMessages: DeepRequired<TWebformStateMessages
         number: '',
         tel: '',
         date: '',
-        managedFile: '',
+        managed_file: '',
         select: '',
+        webform_markup: '',
       },
     },
   }
@@ -83,6 +86,7 @@ export const defaultValuesClassnames: DeepRequired<TWebformClassNames> = {
       webform_markup: '',
       textarea: '',
       textfield: '',
+      radio: '',
       number: '',
       tel: '',
       select: '',

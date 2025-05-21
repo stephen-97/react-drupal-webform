@@ -45,15 +45,17 @@ export const renderRadio = ({
         )}
       >
         {optionsObj.map(([key, value], i) => (
-          <label className={cn(classNames.fields.radios?.itemWrapper)} key={i}>
+          <div
+            className={cn(
+              classNames.fields.radios?.itemWrapper,
+              styles.radiosItemWrapper
+            )}
+            key={i}
+          >
             <input
-              className={cn(
-                classNames.fields.radios?.input,
-                styles.field,
-                styles.input,
-                styles.radioInput
-              )}
+              className={cn(classNames.fields.radios?.input, styles.radioInput)}
               name={fieldController.name}
+              id={`radios-${keyForMap}-${i}`}
               type={'radio'}
               value={key}
               onChange={(e) =>
@@ -66,8 +68,13 @@ export const renderRadio = ({
               }
               onBlur={onBlur}
             />
-            <span className={cn(classNames.fields.radios.label)}>{value}</span>
-          </label>
+            <label
+              htmlFor={`radio-buttons-${keyForMap}-${i}`}
+              className={cn(classNames.fields.radios.label, styles.radioLabel)}
+            >
+              {value}
+            </label>
+          </div>
         ))}
       </div>
     </Wrapper>

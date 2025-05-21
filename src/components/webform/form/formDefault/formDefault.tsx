@@ -14,6 +14,11 @@ import { DeepRequired, useForm } from 'react-hook-form'
 import { useYupValidationResolver } from '@/lib/functions/webform_yup_functions/webform_yup_functions'
 import * as yup from 'yup'
 import { TElementSource } from '@/lib/types/components/field'
+import {
+  formatMessage,
+  getErrorMessage,
+  getRequiredMessage,
+} from '@/lib/functions/webform_validation_functions/webform_validation_functions'
 
 type TMultiStepExtra = {
   step: number
@@ -61,13 +66,23 @@ const FormDefault = ({
     const type: string = elementsSource[key]['#type']
     const field: TElementSource = elementsSource[key]
     const required = field?.['#required']
+    const requiredMessage = formatMessage(
+      getRequiredMessage(defaultFieldStateMessages, field?.['#type']) ?? '',
+      field?.['#title']
+    )
+
+    const errorMessage = formatMessage(
+      getErrorMessage(defaultFieldStateMessages, field?.['#type']) ?? '',
+      field?.['#title']
+    )
+
     if (
       type !== 'select' &&
       type !== 'webform_actions' &&
       type !== 'textfield' &&
       type !== 'checkboxes' &&
       type !== 'managed_file' &&
-      type !== 'radios'
+      type !== 'tel'
     ) {
       return null
     }
@@ -80,6 +95,8 @@ const FormDefault = ({
       valueFormat,
       defaultFieldValues,
       defaultFieldStateMessages,
+      requiredMessage,
+      errorMessage,
     })
   })
 
@@ -118,7 +135,7 @@ const FormDefault = ({
           type !== 'textfield' &&
           type !== 'checkboxes' &&
           type !== 'managed_file' &&
-          type !== 'radios'
+          type !== 'tel'
         ) {
           return null
         }
@@ -127,7 +144,7 @@ const FormDefault = ({
             control,
             index,
             key,
-            keyForMap: `${elementsSource[key]?.['#title']}-${multiStepExtra?.step}-${index}`,
+            keyForMap: `${key}-${multiStepExtra?.step ? `${multiStepExtra?.step}-` : ''}${index}`,
             field: elementsSource[key],
             submitButtonRef,
             isValid,

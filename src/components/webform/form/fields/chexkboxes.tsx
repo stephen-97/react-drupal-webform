@@ -67,10 +67,11 @@ export const renderCheckboxes = (props: TFieldObj) => {
                 className={cn(
                   classNames.fields.checkboxes?.itemWrapper,
                   styles.field,
-                  styles.checkboxeInput
+                  styles.checkboxInput
                 )}
                 name={fieldController.name}
                 type={'checkbox'}
+                id={`checkboxes-${keyForMap}-${i}`}
                 value={key}
                 onChange={(e) =>
                   handleChangeOptionsCheckboxes(
@@ -84,7 +85,10 @@ export const renderCheckboxes = (props: TFieldObj) => {
                 }
                 onBlur={onBlur}
               />
-              <label className={classNames.fields.checkboxes.label}>
+              <label
+                htmlFor={`checkboxes-${keyForMap}-${i}`}
+                className={classNames.fields.checkboxes.label}
+              >
                 {value}
               </label>
             </div>
