@@ -7,10 +7,16 @@
 .prefixSuffixContainer {
   display: flex;
   align-items: center;
-  gap: .5rem
+  gap: .5rem;
+  .fieldContainer {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem
+  }
 }
 
 .wysiwyg {
   color: var(--color-text-light);
   font-size: var(--font-size-xs);
 }
+

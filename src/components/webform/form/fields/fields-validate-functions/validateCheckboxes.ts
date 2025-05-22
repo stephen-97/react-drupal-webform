@@ -23,7 +23,7 @@ export const validateCheckboxes = ({
         .of(string().oneOf(optionKeys))
         .default(() => [])
       if (required) {
-        schema = schema.min(1)
+        schema = schema.min(1, requiredMessage)
       }
       defaultValues[key] = ''
       break
@@ -33,7 +33,7 @@ export const validateCheckboxes = ({
         .of(string().oneOf(optionKeys))
         .default(() => [])
       if (required) {
-        schema = schema.min(1)
+        schema = schema.min(1, requiredMessage)
       }
       defaultValues[key] = ''
       break
@@ -49,7 +49,7 @@ export const validateCheckboxes = ({
         .default(() => [])
 
       if (required) {
-        schema = schema.min(1)
+        schema = schema.min(1, requiredMessage)
       }
       defaultValues[key] = []
       break
@@ -60,7 +60,7 @@ export const validateCheckboxes = ({
       if (required) {
         schema = object().test(
           'at-least-one-true',
-          'required field',
+          requiredMessage,
           (value) => value && Object.values(value).some((v) => v === true)
         ) as ObjectSchema<Record<string, boolean>>
       }
@@ -74,6 +74,8 @@ export const validateCheckboxes = ({
       )
       break
   }
+
+  console.log(requiredMessage)
 
   if (required) {
     schema = schema.required(requiredMessage)

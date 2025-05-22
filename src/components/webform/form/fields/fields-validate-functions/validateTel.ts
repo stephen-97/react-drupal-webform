@@ -7,7 +7,6 @@ export const validateTel = ({
   key,
   required,
   defaultFieldValues,
-  defaultFieldStateMessages,
   requiredMessage,
   errorMessage,
 }: TFieldValidate) => {

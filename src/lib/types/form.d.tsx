@@ -44,6 +44,24 @@ export type TWebformMessageSpecificFields = {
   [K in TDrupal_FieldType]?: string | null
 }
 
+type TWebformRequiredMessageFields = {
+  [K in Exclude<TDrupal_FieldType, 'webform_markup' | 'webform_actions'>]?:
+    | string
+    | null
+}
+
+type TWebformErrorMessageFields = {
+  [K in Exclude<
+    TDrupal_FieldType,
+    | 'webform_markup'
+    | 'webform_actions'
+    | 'radio'
+    | 'checkbox'
+    | 'checkboxes'
+    | 'select'
+  >]?: string | null
+}
+
 export type TWrapperCategory = 'textInput' | 'selectionInput' | 'booleanInput'
 
 export type TWebformClassNameFields = {
@@ -122,8 +140,8 @@ export type TWebformStateMessages = {
     requiredMessage?: string
   }
   fields?: {
-    errorMessages?: TWebformMessageSpecificFields
-    requiredMessages?: TWebformMessageSpecificFields
+    errorMessages?: TWebformErrorMessageFields
+    requiredMessages?: TWebformRequiredMessageFields
   }
 }
 

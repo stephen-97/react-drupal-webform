@@ -14,6 +14,7 @@ type TDrupal_FieldType =
   | 'date'
   | 'email'
   | 'webform_markup'
+  | 'webform_actions'
   | 'textarea'
   | 'textfield'
   | 'radio'
