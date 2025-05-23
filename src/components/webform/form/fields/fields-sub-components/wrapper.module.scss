@@ -11,7 +11,9 @@
   .fieldContainer {
     display: flex;
     flex-direction: column;
-    gap: .5rem
+    gap: .5rem;
+    min-width: 0;
+    flex: 1;
   }
 }
 

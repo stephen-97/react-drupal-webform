@@ -5,13 +5,13 @@ import { TFieldObj } from '@/lib/types/components/field'
 import styles from './field.module.scss'
 import cn from 'classnames'
 
-export const renderMarkup = ({ field, keyForMap, classNames }: TFieldObj) => {
+export const renderMarkup = ({ field, key, classNames }: TFieldObj) => {
   if (!(field?.['#markup'] && field?.['#markup']?.length > 0)) {
     return null
   }
   return (
     <div
-      key={keyForMap}
+      key={key}
       className={cn(
         ...(field?.['#attributes']?.class ?? []),
         classNames.fields.markup.base,

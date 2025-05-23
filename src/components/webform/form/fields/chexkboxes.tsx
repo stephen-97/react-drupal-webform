@@ -7,16 +7,8 @@ import { TFormatFieldMulti } from '@/lib/types/form.d'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
 
 export const renderCheckboxes = (props: TFieldObj) => {
-  const {
-    control,
-    key,
-    keyForMap,
-    field,
-    components,
-    classNames,
-    onBlur,
-    valueFormat,
-  } = props
+  const { control, key, field, components, classNames, onBlur, valueFormat } =
+    props
   if (!field?.['#options']) {
     return null
   }
@@ -39,8 +31,12 @@ export const renderCheckboxes = (props: TFieldObj) => {
       classNames={classNames}
       classNameFieldName={'fieldCheckboxes'}
       stateError={fieldState.error}
-      key={keyForMap}
+      key={key}
       components={components}
+      fieldKey={key}
+      innerPropsLabel={{
+        htmlFor: '',
+      }}
     >
       {CustomCheckboxes ? (
         <CustomCheckboxes
@@ -71,7 +67,7 @@ export const renderCheckboxes = (props: TFieldObj) => {
                 )}
                 name={fieldController.name}
                 type={'checkbox'}
-                id={`checkboxes-${keyForMap}-${i}`}
+                id={`checkboxes-${key}-${i}`}
                 value={key}
                 onChange={(e) =>
                   handleChangeOptionsCheckboxes(
@@ -86,8 +82,8 @@ export const renderCheckboxes = (props: TFieldObj) => {
                 onBlur={onBlur}
               />
               <label
-                htmlFor={`checkboxes-${keyForMap}-${i}`}
-                className={classNames.fields.checkboxes.label}
+                htmlFor={`checkboxes-${key}-${i}`}
+                className={cn(classNames.fields.checkboxes.label)}
               >
                 {value}
               </label>

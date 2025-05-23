@@ -6,8 +6,7 @@ import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrap
 import { HTMLInputTypeAttribute } from 'react'
 
 export const renderInput = (props: TFieldObj) => {
-  const { control, key, keyForMap, field, components, classNames, onBlur } =
-    props
+  const { control, key, field, components, classNames, onBlur } = props
 
   const { key: _, ...restProps } = props
 
@@ -42,7 +41,8 @@ export const renderInput = (props: TFieldObj) => {
       classNameFieldName={'fieldInput'}
       stateError={fieldState.error}
       components={components}
-      key={keyForMap}
+      key={key}
+      fieldKey={key}
     >
       {CustomInput ? (
         <CustomInput
@@ -52,6 +52,7 @@ export const renderInput = (props: TFieldObj) => {
         />
       ) : (
         <input
+          id={key}
           className={cn(
             classNames.fields.textInputs.base,
             classNames.fields.textInputs.types[
@@ -73,6 +74,7 @@ export const renderInput = (props: TFieldObj) => {
           onChange={(e) => fieldController.onChange?.(e)}
           value={fieldController?.value ?? ''}
           onBlur={onBlur}
+          required={field?.['#required']}
         />
       )}
     </Wrapper>

@@ -7,16 +7,8 @@ import cn from 'classnames'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
 
 export const renderSelect = (props: TFieldObj) => {
-  const {
-    control,
-    key,
-    keyForMap,
-    field,
-    components,
-    classNames,
-    onBlur,
-    valueFormat,
-  } = props
+  const { control, key, field, components, classNames, onBlur, valueFormat } =
+    props
   const { key: _, ...restProps } = props
 
   const { field: fieldController, fieldState } = useController<any>({
@@ -40,7 +32,8 @@ export const renderSelect = (props: TFieldObj) => {
       classNameFieldName={'fieldSelect'}
       components={components}
       stateError={fieldState.error}
-      key={keyForMap}
+      key={key}
+      fieldKey={key}
     >
       {CustomSelect ? (
         <CustomSelect
@@ -58,6 +51,7 @@ export const renderSelect = (props: TFieldObj) => {
               [styles.error]: fieldState.error,
             }
           )}
+          id={key}
           name={fieldController.name}
           onChange={(e) =>
             handleChangeOptions(

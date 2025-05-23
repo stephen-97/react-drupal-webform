@@ -6,6 +6,7 @@ import {
 } from '@/lib/types/form.d'
 import { FieldError } from 'react-hook-form'
 import { TElementSource } from '@/lib/types/components/field'
+import { jsx } from '@emotion/react'
 
 export interface IWrapperWebformProps {
   children: ReactElement
@@ -16,4 +17,6 @@ export interface IWrapperWebformProps {
   classNameFieldName: keyof Required<TWebformClassNameFields>
   stateError?: FieldError | undefined
   components: TWebformCustomComponents
+  fieldKey: string
+  innerPropsLabel?: jsx.JSX.IntrinsicElements['label']
 }

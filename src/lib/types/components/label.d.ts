@@ -2,12 +2,11 @@ import React from 'react'
 import { jsx } from '@emotion/react'
 import { TWebformCustomComponents } from '@/lib/types/form.d'
 import { IHelpProps } from '@/lib/types/components/help'
-import { IRequiredWebformProps } from '@/lib/types/components/required'
 
 export interface ILabelWebformProps {
   title?: string
   children?: React.ReactNode
-  innerProps?: jsx.JSX.IntrinsicElements['div']
+  innerProps?: jsx.JSX.IntrinsicElements['label']
   custom_component_help?: TWebformCustomComponents['help']
   isRequired?: boolean
   innerPropsHelpComponent: IHelpProps

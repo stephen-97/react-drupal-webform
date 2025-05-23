@@ -8,7 +8,6 @@ export const renderTextArea = ({
   onBlur,
   control,
   key,
-  keyForMap,
   field,
   classNames,
   components,
@@ -25,7 +24,8 @@ export const renderTextArea = ({
       classNameFieldName={'fieldTextarea'}
       components={components}
       stateError={fieldState.error}
-      key={keyForMap}
+      key={key}
+      fieldKey={key}
     >
       <textarea
         className={cn(

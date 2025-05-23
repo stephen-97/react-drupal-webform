@@ -82,7 +82,7 @@ const FormDefault = ({
       type !== 'textfield' &&
       type !== 'checkboxes' &&
       type !== 'managed_file' &&
-      type !== 'tel'
+      type !== 'radios'
     ) {
       return null
     }
@@ -135,7 +135,7 @@ const FormDefault = ({
           type !== 'textfield' &&
           type !== 'checkboxes' &&
           type !== 'managed_file' &&
-          type !== 'tel'
+          type !== 'radios'
         ) {
           return null
         }
@@ -144,7 +144,7 @@ const FormDefault = ({
             control,
             index,
             key,
-            keyForMap: `${key}-${multiStepExtra?.step ? `${multiStepExtra?.step}-` : ''}${index}`,
+            keyForMap: `${key}`,
             field: elementsSource[key],
             submitButtonRef,
             isValid,

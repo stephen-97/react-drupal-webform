@@ -16,8 +16,9 @@ const DefaultWrapper = ({
   classNames,
   isLabel = true,
   stateError = undefined,
-  classNameFieldName,
   components,
+  fieldKey,
+  innerPropsLabel,
 }: IWrapperWebformProps) => {
   const CustomLabel = components?.label ?? Label
   const CustomErrorFieldMessage =
@@ -29,8 +30,6 @@ const DefaultWrapper = ({
   const wrapperCategory = getWrapperCategory(
     field['#type'] as TDrupal_FieldType
   )
-
-  console.log(classNames)
   return (
     <div
       className={cn(
@@ -49,7 +48,10 @@ const DefaultWrapper = ({
       {isLabel && field?.['#title'] && (
         <CustomLabel
           innerProps={{
-            className: classNames.general.fieldLabel,
+            ...innerPropsLabel,
+            className:
+              innerPropsLabel?.className ?? classNames.general.fieldLabel,
+            htmlFor: innerPropsLabel?.htmlFor ?? fieldKey,
           }}
           custom_component_help={components.help}
           title={field['#title']}
@@ -127,29 +129,10 @@ const DefaultWrapper = ({
     </div>
   )
 }
-const Wrapper = ({
-  children,
-  field,
-  classNames,
-  isLabel = true,
-  stateError = undefined,
-  classNameFieldName,
-  components,
-}: IWrapperWebformProps) => {
-  const WrapperComponent = components?.wrapper ?? DefaultWrapper
+const Wrapper = (props: IWrapperWebformProps) => {
+  const WrapperComponent = props.components?.wrapper ?? DefaultWrapper
 
-  return (
-    <WrapperComponent
-      field={field}
-      classNames={classNames}
-      stateError={stateError}
-      classNameFieldName={classNameFieldName}
-      isLabel={isLabel}
-      components={components}
-    >
-      {children}
-    </WrapperComponent>
-  )
+  return <WrapperComponent {...props}>{props.children}</WrapperComponent>
 }
 
 export { DefaultWrapper }

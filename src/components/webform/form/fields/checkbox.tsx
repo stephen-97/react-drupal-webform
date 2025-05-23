@@ -25,8 +25,9 @@ export const renderCheckbox = ({
       classNames={classNames}
       classNameFieldName={'fieldCheckboxes'}
       stateError={fieldState.error}
-      key={keyForMap}
+      key={key}
       components={components}
+      fieldKey={key}
     >
       <>
         <input

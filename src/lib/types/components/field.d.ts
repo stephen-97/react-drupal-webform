@@ -80,7 +80,6 @@ export type TFieldObj = {
   field: TElementSource
   control: Control<{}, any>
   onBlur?: FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>
-  keyForMap: string
   submitButtonRef?: any
   isValid?: boolean
   isMultiStep?: boolean

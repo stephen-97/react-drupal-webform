@@ -9,7 +9,6 @@ export const renderRadio = ({
   onBlur,
   control,
   key,
-  keyForMap,
   field,
   valueFormat,
   classNames,
@@ -36,7 +35,11 @@ export const renderRadio = ({
       classNameFieldName={'fieldRadio'}
       components={components}
       stateError={fieldState.error}
-      key={keyForMap}
+      key={key}
+      fieldKey={key}
+      innerPropsLabel={{
+        htmlFor: '',
+      }}
     >
       <div
         className={cn(
@@ -55,7 +58,7 @@ export const renderRadio = ({
             <input
               className={cn(classNames.fields.radios?.input, styles.radioInput)}
               name={fieldController.name}
-              id={`radios-${keyForMap}-${i}`}
+              id={`${key}-${i}`}
               type={'radio'}
               value={key}
               onChange={(e) =>
@@ -69,7 +72,7 @@ export const renderRadio = ({
               onBlur={onBlur}
             />
             <label
-              htmlFor={`radio-buttons-${keyForMap}-${i}`}
+              htmlFor={`${key}-${i}`}
               className={cn(classNames.fields.radios.label, styles.radioLabel)}
             >
               {value}

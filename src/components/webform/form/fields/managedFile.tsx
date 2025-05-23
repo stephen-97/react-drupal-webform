@@ -11,8 +11,7 @@ import ManagedFilePreview from '@/components/webform/form/fields/fields-sub-comp
 export const renderManagedFile = (props: TFieldObj) => {
   const { key, ...restProps } = props
 
-  const { components, field, classNames, onBlur, control, keyForMap } =
-    restProps
+  const { components, field, classNames, onBlur, control } = restProps
   const inputRef = useRef<HTMLInputElement>(null)
   const CustomInputFile = components?.managedFile
   const CustomManagedFilePreview =
@@ -50,7 +49,8 @@ export const renderManagedFile = (props: TFieldObj) => {
       classNames={classNames}
       components={components}
       classNameFieldName="fieldInput"
-      key={keyForMap}
+      key={key}
+      fieldKey={key}
     >
       {CustomInputFile ? (
         <CustomInputFile
@@ -67,6 +67,7 @@ export const renderManagedFile = (props: TFieldObj) => {
             />
           ) : (
             <input
+              id={key}
               ref={inputRef}
               className={cn(
                 classNames.fields.managedFile.input,
