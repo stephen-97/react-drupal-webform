@@ -1,5 +1,7 @@
 'use client'
 
+require('@/lib/wdyr')
+
 import Webform from '@/components/webform/webform'
 import { UseFormProps } from 'react-hook-form'
 import styles from './webformContainer.module.scss'
@@ -75,4 +77,5 @@ const WebformContainer = ({
   )
 }
 
+WebformContainer.whyDidYouRender = true
 export default WebformContainer

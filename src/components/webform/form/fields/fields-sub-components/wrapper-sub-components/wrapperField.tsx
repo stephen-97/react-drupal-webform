@@ -46,4 +46,4 @@ const WrapperField = ({
   )
 }
 
-export default WrapperField
+export default React.memo(WrapperField)

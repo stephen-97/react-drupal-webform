@@ -11,4 +11,4 @@ const WrapperManagedFileInfo = ({
   return <CustomManagedFileInfo field={field} />
 }
 
-export default WrapperManagedFileInfo
+export default React.memo(WrapperManagedFileInfo)

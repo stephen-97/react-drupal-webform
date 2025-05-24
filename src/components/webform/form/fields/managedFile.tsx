@@ -8,7 +8,7 @@ import { handleFileChange } from '@/lib/functions/webform_fields_functions/webfo
 import { TFileWithBase64 } from '@/lib/types/form.d'
 import ManagedFilePreview from '@/components/webform/form/fields/fields-sub-components/managedFilePreview/managedFilePreview'
 
-export const renderManagedFile = (props: TFieldObj) => {
+const renderManagedFile = (props: TFieldObj) => {
   const { key, ...restProps } = props
 
   const { components, field, classNames, onBlur, control } = restProps
@@ -93,3 +93,5 @@ export const renderManagedFile = (props: TFieldObj) => {
     </Wrapper>
   )
 }
+
+export default renderManagedFile

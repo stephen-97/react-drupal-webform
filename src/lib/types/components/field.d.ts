@@ -50,6 +50,9 @@ type TElementSource = {
   '#field_prefix'?: string
   '#field_suffix'?: string
   '#submit__label'?: string
+  '#states': {
+    visible: Record<string, Record<string, string>>
+  }
   '#attributes'?: {
     class?: string[]
   }

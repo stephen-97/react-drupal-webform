@@ -75,8 +75,6 @@ export const validateCheckboxes = ({
       break
   }
 
-  console.log(requiredMessage)
-
   if (required) {
     schema = schema.required(requiredMessage)
   }

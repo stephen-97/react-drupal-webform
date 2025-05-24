@@ -10,21 +10,27 @@ import WrapperDescription from '@/components/webform/form/fields/fields-sub-comp
 import WrapperMore from '@/components/webform/form/fields/fields-sub-components/wrapper-sub-components/wrapperMore'
 import WrapperManagedFileInfo from '@/components/webform/form/fields/fields-sub-components/wrapper-sub-components/wrapperManagedFileInfo'
 
-const DefaultWrapper = ({
-  children,
-  field,
-  classNames,
-  isLabel = true,
-  stateError = undefined,
-  components,
-  fieldKey,
-  innerPropsLabelComponent,
-  wrapperElement = 'div',
-}: IWrapperWebformProps) => {
+const Wrapper = (props: IWrapperWebformProps) => {
+  const {
+    children,
+    field,
+    classNames,
+    isLabel = true,
+    stateError,
+    components,
+    fieldKey,
+    innerPropsLabelComponent,
+    wrapperElement = 'div',
+  } = props
+
+  const CustomWrapper = components?.wrapper
+  if (CustomWrapper) {
+    return <CustomWrapper {...props}>{children}</CustomWrapper>
+  }
+
   const wrapperCategory = getWrapperCategory(
     field['#type'] as TDrupal_FieldType
   )
-
   const WrapperElement = wrapperElement
 
   return (
@@ -55,8 +61,10 @@ const DefaultWrapper = ({
         field={field}
         classNames={classNames}
         components={components}
-        children={children}
-      />
+        stateError={stateError}
+      >
+        {children}
+      </WrapperField>
       {(field?.['#description'] || field?.['#file_placeholder']) && (
         <WrapperDescription
           field={field}
@@ -78,11 +86,5 @@ const DefaultWrapper = ({
     </WrapperElement>
   )
 }
-const Wrapper = (props: IWrapperWebformProps) => {
-  const WrapperComponent = props.components?.wrapper ?? DefaultWrapper
 
-  return <WrapperComponent {...props}>{props.children}</WrapperComponent>
-}
-
-export { DefaultWrapper }
-export default Wrapper
+export default React.memo(Wrapper)

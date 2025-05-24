@@ -85,4 +85,4 @@ const WrapperLabel = ({
   )
 }
 
-export default WrapperLabel
+export default React.memo(WrapperLabel)

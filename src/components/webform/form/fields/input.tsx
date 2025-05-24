@@ -1,11 +1,12 @@
+import React, { HTMLInputTypeAttribute } from 'react'
+
 import cn from 'classnames'
 import styles from './field.module.scss'
 import { useController } from 'react-hook-form'
 import { TFieldObj } from '@/lib/types/components/field'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
-import { HTMLInputTypeAttribute } from 'react'
 
-export const renderInput = (props: TFieldObj) => {
+const renderInput = (props: TFieldObj) => {
   const { control, key, field, components, classNames, onBlur } = props
 
   const { key: _, ...restProps } = props
@@ -80,3 +81,5 @@ export const renderInput = (props: TFieldObj) => {
     </Wrapper>
   )
 }
+
+export default renderInput

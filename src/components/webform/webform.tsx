@@ -19,6 +19,7 @@ import {
   mergeObjects,
 } from '@/lib/functions/utils_functions'
 import { DeepRequired } from 'react-hook-form'
+import { useMemo } from 'react'
 
 const Webform = ({
   elementsSource,
@@ -32,25 +33,39 @@ const Webform = ({
 }: TWebform) => {
   const { yupObject = {}, yupDefaultValues = {} } = yup
 
-  const mergedValueFormat: Required<TWebformValueFormat> = {
-    ...defaultValueFormatObj,
-    ...valueFormat,
-  }
-  const mergedDefaultFieldValues: Required<TWebformDefaultFieldValues> = {
-    ...defaultFieldValues,
-    ...defaultValuesObj,
-  }
+  const mergedValueFormat = useMemo(
+    () => ({
+      ...defaultValueFormatObj,
+      ...valueFormat,
+    }),
+    [valueFormat]
+  )
 
-  const mergedDefaultValuesStateMessages: DeepRequired<TWebformStateMessages> =
-    deepMergeDefaults(
-      defaultValuesFieldStateMessages,
-      defaultFieldStateMessages as Partial<TWebformStateMessages>
-    ) as DeepRequired<TWebformStateMessages>
+  const mergedDefaultFieldValues = useMemo(
+    () => ({
+      ...defaultFieldValues,
+      ...defaultValuesObj,
+    }),
+    [defaultFieldValues]
+  )
 
-  const mergedClassNames = mergeObjects(
-    defaultValuesClassnames,
-    classNames
-  ) as Required<TWebformClassNames>
+  const mergedDefaultValuesStateMessages = useMemo(
+    () =>
+      deepMergeDefaults(
+        defaultValuesFieldStateMessages,
+        defaultFieldStateMessages as Partial<TWebformStateMessages>
+      ) as DeepRequired<TWebformStateMessages>,
+    [defaultFieldStateMessages]
+  )
+
+  const mergedClassNames = useMemo(
+    () =>
+      mergeObjects(
+        defaultValuesClassnames,
+        classNames
+      ) as Required<TWebformClassNames>,
+    [classNames]
+  )
 
   const { is_multi_step, elements_sources, multi_step_extra } =
     getWebformProperties(elementsSource)
@@ -61,6 +76,8 @@ const Webform = ({
         multi_step_extra as TMultiStepProperties
       return <></>
     }
+
+    console.log('test')
 
     return (
       <FormDefault

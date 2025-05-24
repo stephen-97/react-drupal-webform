@@ -29,4 +29,4 @@ const WrapperMore = ({
   )
 }
 
-export default WrapperMore
+export default React.memo(WrapperMore)

@@ -28,4 +28,4 @@ const WrapperDescription = ({
   )
 }
 
-export default WrapperDescription
+export default React.memo(WrapperDescription)

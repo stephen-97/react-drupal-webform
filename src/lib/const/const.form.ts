@@ -6,10 +6,10 @@ import {
 } from '@/lib/types/form.d'
 import { DeepRequired } from 'react-hook-form'
 import Label from '@/components/webform/form/fields/fields-sub-components/label/label'
-import { DefaultWrapper } from '@/components/webform/form/fields/fields-sub-components/wrapper'
 import ErrorFieldMessage from '@/components/webform/form/fields/fields-sub-components/errorFieldMessage/errorFieldMessage'
 import FieldObjCustom from '@/components/webform/form/fields/fields-special-components/fieldObjCustom'
 import FieldWysiwygCustom from '@/components/webform/form/fields/fields-special-components/fieldWysiwygCustom'
+import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
 
 export const defaultValueFormatObj: Required<TWebformValueFormat> = {
   radio: 'booleanMap',
@@ -30,6 +30,7 @@ export const defaultValuesObj: Required<TWebformDefaultFieldValues> = {
   managed_file: {},
   select: '',
   webform_markup: '',
+  webform_actions: '',
 }
 
 export const defaultValuesFieldStateMessages: DeepRequired<TWebformStateMessages> =
@@ -43,15 +44,10 @@ export const defaultValuesFieldStateMessages: DeepRequired<TWebformStateMessages
         textfield: '',
         textarea: '',
         email: '',
-        radio: '',
-        checkboxes: '',
-        checkbox: '',
         number: 'Please enter a number.',
         tel: 'Please enter a valid phone number.',
         date: 'Invalid date format.',
         managed_file: '',
-        select: '',
-        webform_markup: '',
       },
       requiredMessages: {
         textfield: '',
@@ -65,7 +61,6 @@ export const defaultValuesFieldStateMessages: DeepRequired<TWebformStateMessages
         date: '',
         managed_file: '',
         select: '',
-        webform_markup: '',
       },
     },
   }
@@ -91,6 +86,7 @@ export const defaultValuesClassnames: DeepRequired<TWebformClassNames> = {
       tel: '',
       select: '',
       managed_file: '',
+      webform_actions: '',
     },
   },
   general: {
@@ -148,7 +144,7 @@ export const defaultValuesClassnames: DeepRequired<TWebformClassNames> = {
 
 export const components = {
   LabelWebform: Label,
-  WrapperWebform: DefaultWrapper,
+  WrapperWebform: Wrapper,
   ErrorFieldMessageWebform: ErrorFieldMessage,
   Input: FieldObjCustom,
   Select: FieldObjCustom,

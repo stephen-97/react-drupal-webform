@@ -1,5 +1,6 @@
 'use client'
 
+import React from 'react'
 import DOMPurify from 'isomorphic-dompurify'
 import { IWysiwygProps } from '@/lib/types/components/wysiwyg'
 import cn from 'classnames'
@@ -23,4 +24,4 @@ const Wysiwyg = ({
   )
 }
 
-export default Wysiwyg
+export default React.memo(Wysiwyg)
