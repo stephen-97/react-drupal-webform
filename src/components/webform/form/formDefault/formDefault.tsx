@@ -10,7 +10,7 @@ import {
   TWebformStateMessages,
   TWebformValueFormat,
 } from '@/lib/types/form.d'
-import { DeepRequired, useForm } from 'react-hook-form'
+import { DeepRequired, useForm, useWatch } from 'react-hook-form'
 import { useYupValidationResolver } from '@/lib/functions/webform_yup_functions/webform_yup_functions'
 import * as yup from 'yup'
 import {
@@ -18,7 +18,12 @@ import {
   getErrorMessage,
   getRequiredMessage,
 } from '@/lib/functions/webform_validation_functions/webform_validation_functions'
-import { TElementSource } from '@/lib/types/components/field'
+import { TDrupal_FieldType } from '@/lib/types/components/field'
+import FormFieldRendered from '@/components/webform/form/formDefault/formFieldRendered'
+import {
+  getDependentFields,
+  shouldFieldBeVisible,
+} from '@/lib/functions/webform_fields_functions/webform_fields_conditional_functions'
 
 type TMultiStepExtra = {
   step: number
@@ -40,80 +45,6 @@ type TFormDefault = Omit<
   components?: any
 }
 
-type FieldRendererProps = {
-  control: any
-  index: number
-  fieldKey: string
-  field: TElementSource
-  isValid: boolean
-  valueFormat: Required<TWebformValueFormat>
-  components?: any
-  classNames: Required<TWebformClassNames>
-  submitButtonRef: React.RefObject<HTMLButtonElement>
-  isMultiStep: boolean
-}
-
-const FieldRenderer = React.memo(
-  ({
-    control,
-    index,
-    fieldKey,
-    field,
-    isValid,
-    valueFormat,
-    components,
-    classNames,
-    submitButtonRef,
-    isMultiStep,
-  }: FieldRendererProps) => {
-    const type: string = field['#type'] ?? 'default'
-
-    // Filtrage ici aussi pour éviter rendus inutiles
-    if (
-      type !== 'select' &&
-      type !== 'webform_actions' &&
-      type !== 'textfield' &&
-      type !== 'checkboxes' &&
-      type !== 'managed_file' &&
-      type !== 'radios'
-    ) {
-      return null
-    }
-
-    const elementRenderer = FormMappingFields[type]?.element
-
-    if (!elementRenderer) return null
-
-    return elementRenderer({
-      control,
-      index,
-      key: fieldKey,
-      keyForMap: fieldKey,
-      field,
-      submitButtonRef,
-      isValid,
-      valueFormat,
-      isMultiStep,
-      components,
-      classNames,
-    })
-  },
-  (prevProps, nextProps) => {
-    // Comparaison personnalisée simple pour éviter rerender inutile
-    const shouldRerender =
-      prevProps.isValid !== nextProps.isValid ||
-      prevProps.fieldKey !== nextProps.fieldKey ||
-      prevProps.field['#type'] !== nextProps.field['#type'] ||
-      prevProps.field['#required'] !== nextProps.field['#required']
-
-    if (shouldRerender) {
-      // console.log(`[FieldRenderer] rerender: ${nextProps.fieldKey}`)
-    }
-
-    return !shouldRerender
-  }
-)
-
 const FormDefault = ({
   elementsSource,
   multiStepExtra,
@@ -129,13 +60,12 @@ const FormDefault = ({
   const { yupUseFormProps } = yupObj
   const isMultiStep = Boolean(multiStepExtra)
 
-  // Construire defaultValues et yupObject (schema)
   const defaultValues: Record<string, any> = {}
   const yupObject: Record<string, any> = {}
 
   Object.keys(elementsSource).forEach((key) => {
     const field = elementsSource[key]
-    const type: string = field['#type']
+    const type: TDrupal_FieldType = field['#type']
     const required = field?.['#required']
     const requiredMessage = formatMessage(
       getRequiredMessage(defaultFieldStateMessages, type) ?? '',
@@ -178,11 +108,25 @@ const FormDefault = ({
     handleSubmit,
     formState: { isValid },
     control,
+    watch,
   } = useForm({
     ...yupUseFormProps,
     defaultValues,
     resolver,
   })
+
+  const dependentFields = useMemo(() => {
+    return getDependentFields(elementsSource)
+  }, [elementsSource])
+
+  const watchedValuesArray = useWatch({ control, name: dependentFields })
+
+  const watchedValues = useMemo(() => {
+    return dependentFields.reduce<Record<string, any>>((acc, key, i) => {
+      acc[key] = watchedValuesArray?.[i]
+      return acc
+    }, {})
+  }, [watchedValuesArray, dependentFields])
 
   const onFormSubmit = useCallback(async (data: typeof defaultValues) => {
     console.log('data', data)
@@ -196,21 +140,26 @@ const FormDefault = ({
 
   return (
     <form className={styles.formDefault} onSubmit={handleSubmit(onFormSubmit)}>
-      {Object.keys(elementsSource).map((key, index) => (
-        <FieldRenderer
-          key={key}
-          fieldKey={key}
-          control={control}
-          index={index}
-          field={elementsSource[key]}
-          isValid={isValid}
-          valueFormat={valueFormat}
-          components={components}
-          classNames={classNames}
-          submitButtonRef={submitButtonRef}
-          isMultiStep={isMultiStep}
-        />
-      ))}
+      {Object.keys(elementsSource).map((key, index) => {
+        if (!shouldFieldBeVisible(key, elementsSource, watchedValues))
+          return null
+
+        return (
+          <FormFieldRendered
+            key={key}
+            fieldKey={key}
+            control={control}
+            index={index}
+            field={elementsSource[key]}
+            isValid={isValid}
+            valueFormat={valueFormat}
+            components={components}
+            classNames={classNames}
+            submitButtonRef={submitButtonRef}
+            isMultiStep={isMultiStep}
+          />
+        )
+      })}
       {externalSubmitButtonRef && (
         <button type="submit" ref={externalSubmitButtonRef}></button>
       )}

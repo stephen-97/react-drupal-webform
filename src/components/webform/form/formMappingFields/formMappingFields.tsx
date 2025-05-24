@@ -18,7 +18,6 @@ import { validateSelect } from '@/components/webform/form/fields/fields-validate
 import { validateManagedFile } from '@/components/webform/form/fields/fields-validate-functions/validateManagedFile'
 import { validateTextArea } from '@/components/webform/form/fields/fields-validate-functions/validateTextArea'
 import renderInput from '@/components/webform/form/fields/input'
-import React from 'react'
 import renderManagedFile from '@/components/webform/form/fields/managedFile'
 
 const FormMappingFields: IFormMappingField = {
