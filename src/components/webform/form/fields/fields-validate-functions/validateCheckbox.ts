@@ -1,5 +1,4 @@
 import { TFieldValidate } from '@/lib/types/components/validate'
-import { getRequiredMessage } from '@/lib/functions/webform_validation_functions/webform_validation_functions'
 import { boolean } from 'yup'
 
 export const validateCheckbox = ({
@@ -9,13 +8,8 @@ export const validateCheckbox = ({
   field,
   required,
   defaultFieldValues,
-  defaultFieldStateMessages,
+  requiredMessage,
 }: TFieldValidate) => {
-  const requiredMessage = getRequiredMessage(
-    defaultFieldStateMessages,
-    'checkbox'
-  )
-
   yupObject[key] = required
     ? boolean().oneOf([true], requiredMessage)
     : boolean()

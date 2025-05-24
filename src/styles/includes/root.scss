@@ -1,8 +1,10 @@
 
 :root {
+  --border-color: #222330;
   --border-form-element: #8e929c;
   --color-text: #222330;
   --color-text-light: #545560;
+  --color-focus: #007dfa99;
   --background: #F9FBFE;
   --foreground: #171717;
   --primary-color: #2f6dd0;
@@ -16,6 +18,9 @@
   --input-font-size: 1rem;
   --font-weight-semibold: 525;
 
+  //focus
+  --color-focus-border: #00000033;
+
   // form element title
   --color-title: #222330;
 
@@ -28,6 +33,7 @@
   --input-pading-horizontal: .75rem;
   --input-line-height: 1.5rem;
   --input-focus: #007dfa80;
+  --input-border-color: #919297;
 }
 
 

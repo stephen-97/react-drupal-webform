@@ -1,16 +1,25 @@
 .fieldWrapper {
   display: flex;
   flex-direction: column;
-  gap: .5rem
+  gap: .5rem;
+  border: none;
 }
 
 .prefixSuffixContainer {
   display: flex;
   align-items: center;
-  gap: .5rem
+  gap: .5rem;
+  .fieldContainer {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    min-width: 0;
+    flex: 1;
+  }
 }
 
 .wysiwyg {
   color: var(--color-text-light);
   font-size: var(--font-size-xs);
 }
+

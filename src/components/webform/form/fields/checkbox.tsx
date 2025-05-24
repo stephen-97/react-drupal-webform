@@ -1,6 +1,7 @@
 import { useController } from 'react-hook-form'
 import { TFieldObj } from '@/lib/types/components/field'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
+import cn from 'classnames'
 
 export const renderCheckbox = ({
   onBlur,
@@ -24,11 +25,13 @@ export const renderCheckbox = ({
       classNames={classNames}
       classNameFieldName={'fieldCheckboxes'}
       stateError={fieldState.error}
-      key={keyForMap}
+      key={key}
       components={components}
+      fieldKey={key}
     >
       <>
         <input
+          className={cn(classNames.fields.checkbox.input)}
           name={fieldController.name}
           checked={Boolean(fieldController.value)}
           type={'checkbox'}
@@ -36,7 +39,7 @@ export const renderCheckbox = ({
           onChange={(e) => fieldController.onChange?.(e.target.checked)}
           onBlur={onBlur}
         />
-        <span>{title}</span>
+        <span className={classNames.fields.checkbox.label}>{title}</span>
       </>
     </Wrapper>
   )

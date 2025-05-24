@@ -6,10 +6,10 @@ import {
 } from '@/lib/types/form.d'
 import { DeepRequired } from 'react-hook-form'
 import Label from '@/components/webform/form/fields/fields-sub-components/label/label'
-import { DefaultWrapper } from '@/components/webform/form/fields/fields-sub-components/wrapper'
 import ErrorFieldMessage from '@/components/webform/form/fields/fields-sub-components/errorFieldMessage/errorFieldMessage'
 import FieldObjCustom from '@/components/webform/form/fields/fields-special-components/fieldObjCustom'
 import FieldWysiwygCustom from '@/components/webform/form/fields/fields-special-components/fieldWysiwygCustom'
+import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
 
 export const defaultValueFormatObj: Required<TWebformValueFormat> = {
   radio: 'booleanMap',
@@ -27,29 +27,27 @@ export const defaultValuesObj: Required<TWebformDefaultFieldValues> = {
   number: '',
   tel: '',
   date: '',
-  managedFile: {},
+  managed_file: {},
   select: '',
+  webform_markup: '',
+  webform_actions: '',
 }
 
 export const defaultValuesFieldStateMessages: DeepRequired<TWebformStateMessages> =
   {
     general: {
-      errorMessage: 'Field Error Mince',
-      requiredMessage: 'Field is Required',
+      errorMessage: 'Error',
+      requiredMessage: 'Field "{fieldName}" is required.',
     },
     fields: {
       errorMessages: {
         textfield: '',
         textarea: '',
         email: '',
-        radio: '',
-        checkboxes: '',
-        checkbox: '',
-        number: '',
-        tel: '',
-        date: '',
-        managedFile: '',
-        select: '',
+        number: 'Please enter a number.',
+        tel: 'Please enter a valid phone number.',
+        date: 'Invalid date format.',
+        managed_file: '',
       },
       requiredMessages: {
         textfield: '',
@@ -61,7 +59,7 @@ export const defaultValuesFieldStateMessages: DeepRequired<TWebformStateMessages
         number: '',
         tel: '',
         date: '',
-        managedFile: '',
+        managed_file: '',
         select: '',
       },
     },
@@ -83,10 +81,12 @@ export const defaultValuesClassnames: DeepRequired<TWebformClassNames> = {
       webform_markup: '',
       textarea: '',
       textfield: '',
+      radio: '',
       number: '',
       tel: '',
       select: '',
       managed_file: '',
+      webform_actions: '',
     },
   },
   general: {
@@ -101,41 +101,50 @@ export const defaultValuesClassnames: DeepRequired<TWebformClassNames> = {
     fieldError: '',
     fieldErrorMessage: '',
   },
-  textInputs: {
-    base: '',
-    types: {
-      text: '',
-      email: '',
-      number: '',
-      tel: '',
-      textarea: '',
-      textfield: '',
+  fields: {
+    textInputs: {
+      base: '',
+      types: {
+        text: '',
+        email: '',
+        number: '',
+        tel: '',
+        textarea: '',
+        textfield: '',
+      },
     },
-  },
-  selectionInputs: {
-    base: '',
-    types: {
+    checkboxes: {
+      groupWrapper: '',
+      itemWrapper: '',
+      input: '',
+      label: '',
+    },
+    checkbox: {
+      input: '',
+      label: '',
+    },
+    radios: {
+      groupWrapper: '',
+      itemWrapper: '',
+      input: '',
+      label: '',
+    },
+    select: {
       select: '',
-      radios: '',
+      option: '',
     },
-  },
-  booleanInputs: {
-    base: '',
-    types: {
-      checkbox: '',
-      checkboxes: '',
+    managedFile: {
+      input: '',
     },
-  },
-  specific: {
-    managedFile: '',
-    date: '',
-    markup: '',
+    markup: {
+      base: '',
+    },
   },
 }
 
 export const components = {
   LabelWebform: Label,
-  WrapperWebform: DefaultWrapper,
+  WrapperWebform: Wrapper,
   ErrorFieldMessageWebform: ErrorFieldMessage,
   Input: FieldObjCustom,
   Select: FieldObjCustom,

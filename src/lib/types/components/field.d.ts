@@ -14,8 +14,10 @@ type TDrupal_FieldType =
   | 'date'
   | 'email'
   | 'webform_markup'
+  | 'webform_actions'
   | 'textarea'
   | 'textfield'
+  | 'radio'
   | 'number'
   | 'tel'
   | 'select'
@@ -48,6 +50,9 @@ type TElementSource = {
   '#field_prefix'?: string
   '#field_suffix'?: string
   '#submit__label'?: string
+  '#states': {
+    visible: Record<string, Record<string, string>>
+  }
   '#attributes'?: {
     class?: string[]
   }
@@ -78,7 +83,6 @@ export type TFieldObj = {
   field: TElementSource
   control: Control<{}, any>
   onBlur?: FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>
-  keyForMap: string
   submitButtonRef?: any
   isValid?: boolean
   isMultiStep?: boolean

@@ -1,5 +1,8 @@
 import { TFieldValidate } from '@/lib/types/components/validate'
-import { getRequiredMessage } from '@/lib/functions/webform_validation_functions/webform_validation_functions'
+import {
+  formatMessage,
+  getRequiredMessage,
+} from '@/lib/functions/webform_validation_functions/webform_validation_functions'
 import { mixed } from 'yup'
 
 export const validateManagedFile = ({
@@ -9,13 +12,8 @@ export const validateManagedFile = ({
   field,
   required,
   defaultFieldValues,
-  defaultFieldStateMessages,
+  requiredMessage,
 }: TFieldValidate) => {
-  const requiredMessage = getRequiredMessage(
-    defaultFieldStateMessages,
-    'managedFile'
-  )
-
   const schema = mixed<File>()
     .test('fileRequired', 'file is required', (value: any) => {
       if (required) {
@@ -35,5 +33,5 @@ export const validateManagedFile = ({
     )
 
   yupObject[key] = required ? schema.required(requiredMessage) : schema
-  defaultValues[key] = defaultFieldValues.managedFile
+  defaultValues[key] = defaultFieldValues.managed_file
 }

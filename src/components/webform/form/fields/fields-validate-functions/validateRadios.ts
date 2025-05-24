@@ -1,5 +1,8 @@
 import { TFieldValidate } from '@/lib/types/components/validate'
-import { getRequiredMessage } from '@/lib/functions/webform_validation_functions/webform_validation_functions'
+import {
+  formatMessage,
+  getRequiredMessage,
+} from '@/lib/functions/webform_validation_functions/webform_validation_functions'
 import { object, ObjectSchema, string, StringSchema } from 'yup'
 
 export const validateRadio = ({
@@ -10,12 +13,10 @@ export const validateRadio = ({
   required,
   valueFormat,
   defaultFieldValues,
-  defaultFieldStateMessages,
+  requiredMessage,
 }: TFieldValidate) => {
   const options = field['#options']
   const optionKeys = Object.keys(options)
-
-  const requiredMessage = getRequiredMessage(defaultFieldStateMessages, 'radio')
 
   let schema: StringSchema | ObjectSchema<Record<string, boolean>> =
     string().oneOf(optionKeys.concat(''))

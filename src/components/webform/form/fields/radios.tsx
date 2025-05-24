@@ -1,17 +1,14 @@
-import { string, object, StringSchema, ObjectSchema } from 'yup'
 import cn from 'classnames'
 import styles from './field.module.scss'
 import { useController } from 'react-hook-form'
 import { TFieldObj } from '@/lib/types/components/field'
 import { handleChangeOptions } from '@/lib/functions/webform_fields_functions/webform_fields_functions'
-import { TFormatFieldMulti } from '@/lib/types/form.d'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
 
 export const renderRadio = ({
   onBlur,
   control,
   key,
-  keyForMap,
   field,
   valueFormat,
   classNames,
@@ -38,14 +35,31 @@ export const renderRadio = ({
       classNameFieldName={'fieldRadio'}
       components={components}
       stateError={fieldState.error}
-      key={keyForMap}
+      key={key}
+      fieldKey={key}
+      wrapperElement={'fieldset'}
+      innerPropsLabelComponent={{
+        wrapperElement: 'legend',
+      }}
     >
-      <>
+      <div
+        className={cn(
+          classNames.fields.radios?.groupWrapper,
+          styles.radiosGroupWrapper
+        )}
+      >
         {optionsObj.map(([key, value], i) => (
-          <label key={i}>
+          <div
+            className={cn(
+              classNames.fields.radios?.itemWrapper,
+              styles.radiosItemWrapper
+            )}
+            key={i}
+          >
             <input
-              className={cn(styles.field, styles.input)}
+              className={cn(classNames.fields.radios?.input, styles.radioInput)}
               name={fieldController.name}
+              id={`${key}-${i}`}
               type={'radio'}
               value={key}
               onChange={(e) =>
@@ -58,10 +72,15 @@ export const renderRadio = ({
               }
               onBlur={onBlur}
             />
-            <span>{value}</span>
-          </label>
+            <label
+              htmlFor={`${key}-${i}`}
+              className={cn(classNames.fields.radios.label, styles.radioLabel)}
+            >
+              {value}
+            </label>
+          </div>
         ))}
-      </>
+      </div>
     </Wrapper>
   )
 }

@@ -1,5 +1,4 @@
 import { TFieldValidate } from '@/lib/types/components/validate'
-import { getRequiredMessage } from '@/lib/functions/webform_validation_functions/webform_validation_functions'
 import { string } from 'yup'
 
 export const validateTel = ({
@@ -8,12 +7,11 @@ export const validateTel = ({
   key,
   required,
   defaultFieldValues,
-  defaultFieldStateMessages,
+  requiredMessage,
+  errorMessage,
 }: TFieldValidate) => {
-  const requiredMessage = getRequiredMessage(defaultFieldStateMessages, 'tel')
-
   const schema = string().matches(/^[0-9]+$/, {
-    message: "it's not a number",
+    message: errorMessage,
     excludeEmptyString: true,
   })
   yupObject[key] = required ? schema.required(requiredMessage) : schema

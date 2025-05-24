@@ -8,11 +8,10 @@ import { handleFileChange } from '@/lib/functions/webform_fields_functions/webfo
 import { TFileWithBase64 } from '@/lib/types/form.d'
 import ManagedFilePreview from '@/components/webform/form/fields/fields-sub-components/managedFilePreview/managedFilePreview'
 
-export const renderManagedFile = (props: TFieldObj) => {
+const renderManagedFile = (props: TFieldObj) => {
   const { key, ...restProps } = props
 
-  const { components, field, classNames, onBlur, control, keyForMap } =
-    restProps
+  const { components, field, classNames, onBlur, control } = restProps
   const inputRef = useRef<HTMLInputElement>(null)
   const CustomInputFile = components?.managedFile
   const CustomManagedFilePreview =
@@ -50,7 +49,8 @@ export const renderManagedFile = (props: TFieldObj) => {
       classNames={classNames}
       components={components}
       classNameFieldName="fieldInput"
-      key={keyForMap}
+      key={key}
+      fieldKey={key}
     >
       {CustomInputFile ? (
         <CustomInputFile
@@ -67,9 +67,10 @@ export const renderManagedFile = (props: TFieldObj) => {
             />
           ) : (
             <input
+              id={key}
               ref={inputRef}
               className={cn(
-                classNames.specific.managedFile,
+                classNames.fields.managedFile.input,
                 styles.field,
                 styles.input,
                 styles[field?.['#type']],
@@ -92,3 +93,5 @@ export const renderManagedFile = (props: TFieldObj) => {
     </Wrapper>
   )
 }
+
+export default renderManagedFile

@@ -1,4 +1,4 @@
-import { ReactElement } from 'react'
+import { JSX, ReactElement } from 'react'
 import {
   TWebformClassNameFields,
   TWebformClassNames,
@@ -6,6 +6,7 @@ import {
 } from '@/lib/types/form.d'
 import { FieldError } from 'react-hook-form'
 import { TElementSource } from '@/lib/types/components/field'
+import { ILabelWebformProps } from '@/lib/types/components/label'
 
 export interface IWrapperWebformProps {
   children: ReactElement
@@ -16,4 +17,7 @@ export interface IWrapperWebformProps {
   classNameFieldName: keyof Required<TWebformClassNameFields>
   stateError?: FieldError | undefined
   components: TWebformCustomComponents
+  fieldKey: string
+  innerPropsLabelComponent?: Partial<ILabelWebformProps>
+  wrapperElement?: keyof JSX.IntrinsicElements
 }

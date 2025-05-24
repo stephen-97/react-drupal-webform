@@ -36,25 +36,30 @@ export type TWebformValueFormat = {
 
 export type TDefaultValue = string | number | boolean | Record<string, any>
 
-export type TWebformStatesFieldTypes =
-  | 'textfield'
-  | 'textarea'
-  | 'email'
-  | 'radio'
-  | 'checkboxes'
-  | 'checkbox'
-  | 'number'
-  | 'tel'
-  | 'date'
-  | 'managedFile'
-  | 'select'
-
 export type TWebformDefaultFieldValues = {
-  [K in TWebformStatesFieldTypes]?: TDefaultValue
+  [K in TDrupal_FieldType]?: TDefaultValue
 }
 
 export type TWebformMessageSpecificFields = {
-  [K in TWebformStatesFieldTypes]?: string | null
+  [K in TDrupal_FieldType]?: string | null
+}
+
+type TWebformRequiredMessageFields = {
+  [K in Exclude<TDrupal_FieldType, 'webform_markup' | 'webform_actions'>]?:
+    | string
+    | null
+}
+
+type TWebformErrorMessageFields = {
+  [K in Exclude<
+    TDrupal_FieldType,
+    | 'webform_markup'
+    | 'webform_actions'
+    | 'radio'
+    | 'checkbox'
+    | 'checkboxes'
+    | 'select'
+  >]?: string | null
 }
 
 export type TWrapperCategory = 'textInput' | 'selectionInput' | 'booleanInput'
@@ -90,30 +95,42 @@ export type TWebformClassNames = {
     fieldErrorMessage?: string
   }
 
-  textInputs?: {
-    base?: string
-    types?: Partial<
-      Record<
-        'text' | 'email' | 'number' | 'tel' | 'textarea' | 'textfield',
-        string
+  fields?: {
+    textInputs?: {
+      base?: string
+      types?: Partial<
+        Record<
+          'text' | 'email' | 'number' | 'tel' | 'textarea' | 'textfield',
+          string
+        >
       >
-    >
-  }
-
-  selectionInputs?: {
-    base?: string
-    types?: Partial<Record<'select' | 'radios', string>>
-  }
-
-  booleanInputs?: {
-    base?: string
-    types?: Partial<Record<'checkbox' | 'checkboxes', string>>
-  }
-
-  specific?: {
-    managedFile?: string
-    date?: string
-    markup?: string
+    }
+    checkboxes?: {
+      groupWrapper?: string
+      itemWrapper?: string
+      input?: string
+      label?: string
+    }
+    checkbox?: {
+      input?: string
+      label?: string
+    }
+    radios?: {
+      groupWrapper?: string
+      itemWrapper?: string
+      input?: string
+      label?: string
+    }
+    select?: {
+      select?: string
+      option?: string
+    }
+    managedFile?: {
+      input?: string
+    }
+    markup?: {
+      base?: string
+    }
   }
 }
 
@@ -123,8 +140,8 @@ export type TWebformStateMessages = {
     requiredMessage?: string
   }
   fields?: {
-    errorMessages?: TWebformMessageSpecificFields
-    requiredMessages?: TWebformMessageSpecificFields
+    errorMessages?: TWebformErrorMessageFields
+    requiredMessages?: TWebformRequiredMessageFields
   }
 }
 

@@ -7,16 +7,8 @@ import cn from 'classnames'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
 
 export const renderSelect = (props: TFieldObj) => {
-  const {
-    control,
-    key,
-    keyForMap,
-    field,
-    components,
-    classNames,
-    onBlur,
-    valueFormat,
-  } = props
+  const { control, key, field, components, classNames, onBlur, valueFormat } =
+    props
   const { key: _, ...restProps } = props
 
   const { field: fieldController, fieldState } = useController<any>({
@@ -40,7 +32,8 @@ export const renderSelect = (props: TFieldObj) => {
       classNameFieldName={'fieldSelect'}
       components={components}
       stateError={fieldState.error}
-      key={keyForMap}
+      key={key}
+      fieldKey={key}
     >
       {CustomSelect ? (
         <CustomSelect
@@ -51,14 +44,15 @@ export const renderSelect = (props: TFieldObj) => {
       ) : (
         <select
           className={cn(
-            classNames.selectionInputs.types?.select,
-            classNames.selectionInputs.base,
+            classNames.fields.select?.select,
             styles.field,
             styles[field?.['#type']],
             {
               [styles.error]: fieldState.error,
             }
           )}
+          required={field?.['#required']}
+          id={key}
           name={fieldController.name}
           onChange={(e) =>
             handleChangeOptions(
@@ -69,11 +63,15 @@ export const renderSelect = (props: TFieldObj) => {
             )
           }
         >
-          <option value="">
+          <option className={classNames.fields.select.option} value="">
             {field?.['#placeholder'] ?? '-- Select an option --'}
           </option>
           {optionsObj.map(([key, value], i) => (
-            <option key={i} value={key}>
+            <option
+              className={classNames.fields.select.option}
+              key={i}
+              value={key}
+            >
               {value}
             </option>
           ))}

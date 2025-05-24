@@ -1,5 +1,7 @@
 'use client'
 
+require('@/lib/wdyr')
+
 import Webform from '@/components/webform/webform'
 import { UseFormProps } from 'react-hook-form'
 import styles from './webformContainer.module.scss'
@@ -26,8 +28,8 @@ const WebformContainer = ({
       yup={{ yupUseFormProps }}
       valueFormat={{
         radio: 'value',
-        select: 'booleanMap',
-        checkboxes: 'keyValue',
+        select: 'value',
+        checkboxes: 'booleanMap',
       }}
       defaultFieldValues={{
         textfield: '',
@@ -52,19 +54,22 @@ const WebformContainer = ({
           fieldError: styles.fieldError,
           fieldErrorMessage: styles.fieldErrorMessage,
         },
+        fields: {
+          textInputs: {
+            base: styles.inputBase,
+            types: {
+              number: styles.number,
+            },
+          },
+          select: {
+            select: styles.select,
+          },
+        },
       }}
       defaultFieldStateMessages={{
-        general: {
-          errorMessage: 'Error Message is here',
-          requiredMessage: 'Field is required NO',
-        },
         fields: {
           errorMessages: {
             email: 'Wrong email',
-          },
-          requiredMessages: {
-            textfield: 'The textfield is required',
-            textarea: 'Textarea is required',
           },
         },
       }}
@@ -72,4 +77,5 @@ const WebformContainer = ({
   )
 }
 
+WebformContainer.whyDidYouRender = true
 export default WebformContainer

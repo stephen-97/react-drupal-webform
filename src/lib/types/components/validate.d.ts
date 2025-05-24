@@ -16,4 +16,6 @@ export interface TFieldValidate {
   valueFormat: TWebformValueFormat
   defaultFieldValues: Required<TWebformDefaultFieldValues>
   defaultFieldStateMessages: DeepRequired<TWebformStateMessages>
+  requiredMessage: string
+  errorMessage: string
 }

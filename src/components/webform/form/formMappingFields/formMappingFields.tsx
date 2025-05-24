@@ -5,7 +5,6 @@ import { renderSelect } from '@/components/webform/form/fields/select'
 import { renderMarkup } from '@/components/webform/form/fields/markup'
 import { renderCheckbox } from '@/components/webform/form/fields/checkbox'
 import { renderTextArea } from '@/components/webform/form/fields/textarea'
-import { renderManagedFile } from '@/components/webform/form/fields/managedFile'
 import { IFormMappingField } from '@/lib/types/components/formMappingField'
 import { validateEmail } from '@/components/webform/form/fields/fields-validate-functions/validateEmail'
 import { validateTel } from '@/components/webform/form/fields/fields-validate-functions/validateTel'
@@ -17,10 +16,12 @@ import { validateCheckbox } from '@/components/webform/form/fields/fields-valida
 import { validateCheckboxes } from '@/components/webform/form/fields/fields-validate-functions/validateCheckboxes'
 import { validateSelect } from '@/components/webform/form/fields/fields-validate-functions/validateSelect'
 import { validateManagedFile } from '@/components/webform/form/fields/fields-validate-functions/validateManagedFile'
-import { renderInput } from '@/components/webform/form/fields/input'
 import { validateTextArea } from '@/components/webform/form/fields/fields-validate-functions/validateTextArea'
+import renderInput from '@/components/webform/form/fields/input'
+import React from 'react'
+import renderManagedFile from '@/components/webform/form/fields/managedFile'
 
-const FormMappingFields = (): IFormMappingField => ({
+const FormMappingFields: IFormMappingField = {
   textfield: {
     element: renderInput,
     validator: validateTextField,
@@ -77,6 +78,6 @@ const FormMappingFields = (): IFormMappingField => ({
     element: null,
     validator: null,
   },
-})
+}
 
 export default FormMappingFields

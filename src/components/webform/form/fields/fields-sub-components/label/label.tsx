@@ -10,25 +10,31 @@ const Label = ({
   isRequired,
   innerPropsHelpComponent,
   custom_component_help,
+  wrapperElement,
 }: ILabelWebformProps) => {
   const CustomHelp = custom_component_help ?? Help
-  const { className, ...restInnerProps } = innerProps ?? {}
+  const Element = wrapperElement ?? 'label'
+
+  const filteredInnerProps = Object.fromEntries(
+    Object.entries(innerProps ?? {}).filter(
+      ([_, value]) => value !== '' && value !== undefined
+    )
+  )
+
+  const { className, ...restInnerProps } = filteredInnerProps ?? {}
 
   return (
-    <div className={cn(styles.labelContainer, className)} {...restInnerProps}>
-      {title && (
-        <label
-          className={cn(styles.label, {
-            [styles.isRequired]: isRequired,
-          })}
-        >
-          {title}
-        </label>
-      )}
+    <Element
+      className={cn(styles.label, className, {
+        [styles.isRequired]: isRequired,
+      })}
+      {...restInnerProps}
+    >
+      {title}
       {((innerPropsHelpComponent.helps?.help?.length ?? 0) > 0 ||
         (innerPropsHelpComponent.helps?.processed_help_title?.length ?? 0) >
           0) && <CustomHelp {...innerPropsHelpComponent} />}
-    </div>
+    </Element>
   )
 }
 

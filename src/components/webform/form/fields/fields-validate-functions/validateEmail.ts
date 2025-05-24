@@ -1,5 +1,6 @@
 import { TFieldValidate } from '@/lib/types/components/validate'
 import {
+  formatMessage,
   getErrorMessage,
   getRequiredMessage,
 } from '@/lib/functions/webform_validation_functions/webform_validation_functions'
@@ -9,14 +10,11 @@ export const validateEmail = ({
   yupObject,
   defaultValues,
   key,
-  field,
   required,
   defaultFieldValues,
-  defaultFieldStateMessages,
+  requiredMessage,
+  errorMessage,
 }: TFieldValidate) => {
-  const requiredMessage = getRequiredMessage(defaultFieldStateMessages, 'email')
-  const errorMessage = getErrorMessage(defaultFieldStateMessages, 'email')
-
   const emailWithTLDRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
   const schema = string()
     .test('valid-email-format', 'invalid email', (value) => {

@@ -6,12 +6,11 @@ import { TFieldObj } from '@/lib/types/components/field'
 export const renderAction = ({
   field,
   key,
-  keyForMap,
   submitButtonRef,
   isValid,
 }: TFieldObj) => {
   return (
-    <React.Fragment key={keyForMap}>
+    <React.Fragment key={key}>
       <button
         className={cn(styles.button, ...(field?.['#attributes']?.class ?? []))}
         type={'submit'}

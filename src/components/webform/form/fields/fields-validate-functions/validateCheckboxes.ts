@@ -1,5 +1,4 @@
 import { TFieldValidate } from '@/lib/types/components/validate'
-import { getRequiredMessage } from '@/lib/functions/webform_validation_functions/webform_validation_functions'
 import { array, object, ObjectSchema, string } from 'yup'
 
 export const validateCheckboxes = ({
@@ -9,14 +8,10 @@ export const validateCheckboxes = ({
   field,
   required,
   valueFormat,
-  defaultFieldStateMessages,
+  requiredMessage,
 }: TFieldValidate) => {
   const options = field['#options']
   const optionKeys = Object.keys(options)
-  const requiredMessage = getRequiredMessage(
-    defaultFieldStateMessages,
-    'checkboxes'
-  )
 
   const { checkboxes: checkboxesFormat } = valueFormat
 
@@ -28,7 +23,7 @@ export const validateCheckboxes = ({
         .of(string().oneOf(optionKeys))
         .default(() => [])
       if (required) {
-        schema = schema.min(1)
+        schema = schema.min(1, requiredMessage)
       }
       defaultValues[key] = ''
       break
@@ -38,7 +33,7 @@ export const validateCheckboxes = ({
         .of(string().oneOf(optionKeys))
         .default(() => [])
       if (required) {
-        schema = schema.min(1)
+        schema = schema.min(1, requiredMessage)
       }
       defaultValues[key] = ''
       break
@@ -54,7 +49,7 @@ export const validateCheckboxes = ({
         .default(() => [])
 
       if (required) {
-        schema = schema.min(1)
+        schema = schema.min(1, requiredMessage)
       }
       defaultValues[key] = []
       break
@@ -65,7 +60,7 @@ export const validateCheckboxes = ({
       if (required) {
         schema = object().test(
           'at-least-one-true',
-          'required field',
+          requiredMessage,
           (value) => value && Object.values(value).some((v) => v === true)
         ) as ObjectSchema<Record<string, boolean>>
       }
