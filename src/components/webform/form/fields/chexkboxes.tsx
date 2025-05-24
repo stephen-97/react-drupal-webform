@@ -34,8 +34,9 @@ export const renderCheckboxes = (props: TFieldObj) => {
       key={key}
       components={components}
       fieldKey={key}
-      innerPropsLabel={{
-        htmlFor: '',
+      wrapperElement={'fieldset'}
+      innerPropsLabelComponent={{
+        wrapperElement: 'legend',
       }}
     >
       {CustomCheckboxes ? (

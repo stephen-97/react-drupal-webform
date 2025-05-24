@@ -37,8 +37,9 @@ export const renderRadio = ({
       stateError={fieldState.error}
       key={key}
       fieldKey={key}
-      innerPropsLabel={{
-        htmlFor: '',
+      wrapperElement={'fieldset'}
+      innerPropsLabelComponent={{
+        wrapperElement: 'legend',
       }}
     >
       <div

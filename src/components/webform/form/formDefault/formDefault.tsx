@@ -114,6 +114,8 @@ const FormDefault = ({
     resolver,
   })
 
+  console.log(elementsSource)
+
   const onFormSubmit = async (data: typeof defaultValues) => {
     console.log('data', data)
   }
