@@ -63,6 +63,10 @@ const FormDefault = ({
   const defaultValues: Record<string, any> = {}
   const yupObject: Record<string, any> = {}
 
+  const dependentFields = useMemo(() => {
+    return getDependentFields(elementsSource)
+  }, [elementsSource])
+
   Object.keys(elementsSource).forEach((key) => {
     const field = elementsSource[key]
     const type: TDrupal_FieldType = field['#type']
@@ -75,7 +79,6 @@ const FormDefault = ({
       getErrorMessage(defaultFieldStateMessages, type) ?? '',
       field?.['#title']
     )
-
     if (
       type !== 'select' &&
       type !== 'webform_actions' &&
@@ -87,6 +90,7 @@ const FormDefault = ({
       return
     }
 
+    // Appliquer defaultValues / validation même si invisible (RHForm a besoin de tout dès le départ)
     FormMappingFields[type ?? 'default']?.validator?.({
       yupObject,
       defaultValues,
@@ -108,16 +112,11 @@ const FormDefault = ({
     handleSubmit,
     formState: { isValid },
     control,
-    watch,
   } = useForm({
     ...yupUseFormProps,
     defaultValues,
     resolver,
   })
-
-  const dependentFields = useMemo(() => {
-    return getDependentFields(elementsSource)
-  }, [elementsSource])
 
   const watchedValuesArray = useWatch({ control, name: dependentFields })
 
