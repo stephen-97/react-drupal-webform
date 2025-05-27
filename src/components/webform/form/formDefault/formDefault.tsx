@@ -21,6 +21,7 @@ import {
 import { TDrupal_FieldType } from '@/lib/types/components/field'
 import FormFieldRendered from '@/components/webform/form/formDefault/formFieldRendered'
 import {
+  generateFormSchemaAndDefaults,
   getDependentFields,
   shouldFieldBeVisible,
 } from '@/lib/functions/webform_fields_functions/webform_fields_conditional_functions'
@@ -43,6 +44,9 @@ type TFormDefault = Omit<
   defaultFieldStateMessages: DeepRequired<TWebformStateMessages>
   classNames: Required<TWebformClassNames>
   components?: any
+  yup: {
+    yupUseFormProps?: Record<string, any>
+  }
 }
 
 const FormDefault = ({
@@ -57,65 +61,33 @@ const FormDefault = ({
   classNames,
 }: TFormDefault) => {
   const submitButtonRef = useRef<HTMLButtonElement>(null)
-  const { yupUseFormProps } = yupObj
+  const { yupUseFormProps } = yupObj || {}
   const isMultiStep = Boolean(multiStepExtra)
 
-  const defaultValues: Record<string, any> = {}
-  const yupObject: Record<string, any> = {}
+  const dependentFields = useMemo(
+    () => getDependentFields(elementsSource),
+    [elementsSource]
+  )
 
-  const dependentFields = useMemo(() => {
-    return getDependentFields(elementsSource)
-  }, [elementsSource])
-
-  Object.keys(elementsSource).forEach((key) => {
-    const field = elementsSource[key]
-    const type: TDrupal_FieldType = field['#type']
-    const required = field?.['#required']
-    const requiredMessage = formatMessage(
-      getRequiredMessage(defaultFieldStateMessages, type) ?? '',
-      field?.['#title']
-    )
-    const errorMessage = formatMessage(
-      getErrorMessage(defaultFieldStateMessages, type) ?? '',
-      field?.['#title']
-    )
-    if (
-      type !== 'select' &&
-      type !== 'webform_actions' &&
-      type !== 'textfield' &&
-      type !== 'checkboxes' &&
-      type !== 'managed_file' &&
-      type !== 'radios'
-    ) {
-      return
-    }
-
-    // Appliquer defaultValues / validation même si invisible (RHForm a besoin de tout dès le départ)
-    FormMappingFields[type ?? 'default']?.validator?.({
-      yupObject,
-      defaultValues,
-      key,
-      field,
-      required: Boolean(required),
-      valueFormat,
-      defaultFieldValues,
-      defaultFieldStateMessages,
-      requiredMessage,
-      errorMessage,
+  const dummyDefaultValues = useMemo(() => {
+    const allDefaults: Record<string, any> = {}
+    Object.keys(elementsSource).forEach((key) => {
+      allDefaults[key] = ''
     })
-  })
-
-  const yupSchema = useMemo(() => yup.object(yupObject), [yupObject])
-  const resolver = useYupValidationResolver(yupSchema)
+    return allDefaults
+  }, [elementsSource])
 
   const {
     handleSubmit,
     formState: { isValid },
     control,
+    reset,
+    getValues,
   } = useForm({
     ...yupUseFormProps,
-    defaultValues,
-    resolver,
+    mode: 'all',
+    criteriaMode: 'all',
+    defaultValues: dummyDefaultValues,
   })
 
   const watchedValuesArray = useWatch({ control, name: dependentFields })
@@ -126,6 +98,36 @@ const FormDefault = ({
       return acc
     }, {})
   }, [watchedValuesArray, dependentFields])
+
+  const visibleElementsKeys = useMemo(() => {
+    return Object.keys(elementsSource).filter((key) =>
+      shouldFieldBeVisible(key, elementsSource, watchedValues)
+    )
+  }, [watchedValues, elementsSource])
+
+  const { defaultValues, validationSchema } = useMemo(() => {
+    return generateFormSchemaAndDefaults({
+      elementsSource,
+      visibleElementsKeys,
+      valueFormat,
+      defaultFieldValues,
+      defaultFieldStateMessages,
+    })
+  }, [
+    elementsSource,
+    visibleElementsKeys,
+    valueFormat,
+    defaultFieldValues,
+    defaultFieldStateMessages,
+  ])
+
+  const resolver = useYupValidationResolver(validationSchema)
+
+  useEffect(() => {
+    reset({ ...defaultValues, ...getValues() }, { keepValues: true })
+  }, [defaultValues, validationSchema])
+
+  control._options.resolver = resolver
 
   const onFormSubmit = useCallback(async (data: typeof defaultValues) => {
     console.log('data', data)
@@ -139,28 +141,27 @@ const FormDefault = ({
 
   return (
     <form className={styles.formDefault} onSubmit={handleSubmit(onFormSubmit)}>
-      {Object.keys(elementsSource).map((key, index) => {
-        if (!shouldFieldBeVisible(key, elementsSource, watchedValues))
-          return null
-
-        return (
-          <FormFieldRendered
-            key={key}
-            fieldKey={key}
-            control={control}
-            index={index}
-            field={elementsSource[key]}
-            isValid={isValid}
-            valueFormat={valueFormat}
-            components={components}
-            classNames={classNames}
-            submitButtonRef={submitButtonRef}
-            isMultiStep={isMultiStep}
-          />
-        )
-      })}
+      {visibleElementsKeys.map((key, index) => (
+        <FormFieldRendered
+          key={key}
+          fieldKey={key}
+          control={control}
+          index={index}
+          field={elementsSource[key]}
+          isValid={isValid}
+          valueFormat={valueFormat}
+          components={components}
+          classNames={classNames}
+          submitButtonRef={submitButtonRef}
+          isMultiStep={isMultiStep}
+        />
+      ))}
       {externalSubmitButtonRef && (
-        <button type="submit" ref={externalSubmitButtonRef}></button>
+        <button
+          type="submit"
+          ref={externalSubmitButtonRef}
+          style={{ display: 'none' }}
+        />
       )}
     </form>
   )
