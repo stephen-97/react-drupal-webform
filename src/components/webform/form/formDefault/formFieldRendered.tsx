@@ -37,7 +37,8 @@ const FormFieldRendered = ({
     type !== 'checkboxes' &&
     type !== 'managed_file' &&
     type !== 'tel' &&
-    type !== 'radios'
+    type !== 'radios' &&
+    type !== 'number'
   ) {
     return null
   }

@@ -26,7 +26,7 @@ export const renderRadio = ({
     control,
   })
 
-  const { radio: radioFormat } = valueFormat
+  const { radios: radioFormat } = valueFormat
 
   return (
     <Wrapper

@@ -1,9 +1,12 @@
-import { TFieldValidate } from '@/lib/types/components/validate'
 import {
-  formatMessage,
-  getRequiredMessage,
-} from '@/lib/functions/webform_validation_functions/webform_validation_functions'
-import { object, ObjectSchema, string, StringSchema } from 'yup'
+  string,
+  object,
+  ObjectSchema,
+  MixedSchema,
+  mixed,
+  StringSchema,
+} from 'yup'
+import { TFieldValidate } from '@/lib/types/components/validate'
 
 export const validateRadio = ({
   yupObject,
@@ -15,41 +18,72 @@ export const validateRadio = ({
   defaultFieldValues,
   requiredMessage,
 }: TFieldValidate) => {
-  const options = field['#options']
+  const options = field['#options'] as Record<string, string>
   const optionKeys = Object.keys(options)
+  const optionValues = Object.values(options)
 
-  let schema: StringSchema | ObjectSchema<Record<string, boolean>> =
-    string().oneOf(optionKeys.concat(''))
+  // on déclare MixedSchema pour englober StringSchema || ObjectSchema
+  let schema
 
-  if (required) {
-    schema = schema.required('required field')
-  }
-
-  const { radio: radioFormat } = valueFormat
-
-  switch (radioFormat) {
+  switch (valueFormat.radios) {
     case 'key':
-      schema = schema.transform((value: any) =>
-        optionKeys.includes(value) ? value : ''
-      )
+      schema = string()
+      if (required) {
+        schema = (schema as StringSchema)
+          .oneOf(optionKeys, requiredMessage)
+          .required(requiredMessage)
+      } else {
+        schema = (schema as StringSchema)
+          .oneOf(['', ...optionKeys], requiredMessage)
+          .notRequired()
+      }
       break
     case 'value':
-      schema = schema.transform((value: any) => options[value] || '')
+      schema = string()
+      if (required) {
+        schema = (schema as StringSchema)
+          .oneOf(optionValues, requiredMessage)
+          .required(requiredMessage)
+      } else {
+        schema = (schema as StringSchema)
+          .oneOf(['', ...optionValues], requiredMessage)
+          .notRequired()
+      }
       break
+
     case 'keyValue':
-      schema = schema.transform((value: any) =>
-        optionKeys.includes(value) ? { [value]: options[value] } : {}
-      )
+      schema = mixed().test('valid-keyValue', requiredMessage, (val) => {
+        if (!required && (val === '' || val == null)) {
+          return true
+        }
+        if (typeof val !== 'object' || val === null) {
+          return false
+        }
+        const keys = Object.keys(val as Record<string, any>)
+        if (keys.length !== 1) {
+          return false
+        }
+        const k = keys[0]
+        return options[k] === (val as any)[k]
+      })
       break
+
     case 'booleanMap':
       schema = object().test(
         'at-least-one-true',
         requiredMessage,
-        (value) => value && Object.values(value).some((v) => v === true)
-      ) as ObjectSchema<Record<string, boolean>>
+        (map) => Boolean(map) && Object.values(map).some((b) => b === true)
+      )
       break
+
+    default:
+      schema = string()
+  }
+
+  if (required) {
+    schema = schema.required(requiredMessage)
   }
 
   yupObject[key] = schema
-  defaultValues[key] = defaultFieldValues.radio
+  defaultValues[key] = defaultFieldValues.radios
 }

@@ -2,7 +2,6 @@
 
 import styles from './formDefault.module.scss'
 import React, { useEffect, useMemo, useRef, useCallback } from 'react'
-import FormMappingFields from '@/components/webform/form/formMappingFields/formMappingFields'
 import {
   TWebform,
   TWebformClassNames,
@@ -12,18 +11,12 @@ import {
 } from '@/lib/types/form.d'
 import { DeepRequired, useForm, useWatch } from 'react-hook-form'
 import { useYupValidationResolver } from '@/lib/functions/webform_yup_functions/webform_yup_functions'
-import * as yup from 'yup'
-import {
-  formatMessage,
-  getErrorMessage,
-  getRequiredMessage,
-} from '@/lib/functions/webform_validation_functions/webform_validation_functions'
-import { TDrupal_FieldType } from '@/lib/types/components/field'
 import FormFieldRendered from '@/components/webform/form/formDefault/formFieldRendered'
 import {
   generateFormSchemaAndDefaults,
   getDependentFields,
   shouldFieldBeVisible,
+  TDependentField,
 } from '@/lib/functions/webform_fields_functions/webform_fields_conditional_functions'
 
 type TMultiStepExtra = {
@@ -64,9 +57,14 @@ const FormDefault = ({
   const { yupUseFormProps } = yupObj || {}
   const isMultiStep = Boolean(multiStepExtra)
 
-  const dependentFields = useMemo(
+  const dependentFields: TDependentField[] = useMemo(
     () => getDependentFields(elementsSource),
     [elementsSource]
+  )
+
+  const dependentFieldNames = useMemo(
+    () => dependentFields.map((dep) => dep.name),
+    [dependentFields]
   )
 
   const dummyDefaultValues = useMemo(() => {
@@ -90,20 +88,20 @@ const FormDefault = ({
     defaultValues: dummyDefaultValues,
   })
 
-  const watchedValuesArray = useWatch({ control, name: dependentFields })
+  const watchedValuesArray = useWatch({ control, name: dependentFieldNames })
 
   const watchedValues = useMemo(() => {
     return dependentFields.reduce<Record<string, any>>((acc, key, i) => {
-      acc[key] = watchedValuesArray?.[i]
+      acc[key.name] = watchedValuesArray?.[i]
       return acc
     }, {})
   }, [watchedValuesArray, dependentFields])
 
   const visibleElementsKeys = useMemo(() => {
     return Object.keys(elementsSource).filter((key) =>
-      shouldFieldBeVisible(key, elementsSource, watchedValues)
+      shouldFieldBeVisible(key, elementsSource, watchedValues, valueFormat)
     )
-  }, [watchedValues, elementsSource])
+  }, [watchedValues, elementsSource, valueFormat])
 
   const { defaultValues, validationSchema } = useMemo(() => {
     return generateFormSchemaAndDefaults({

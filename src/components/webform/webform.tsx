@@ -77,8 +77,6 @@ const Webform = ({
       return <></>
     }
 
-    console.log('test')
-
     return (
       <FormDefault
         yup={{ ...yup, yupObject, yupDefaultValues }}

@@ -1,4 +1,5 @@
 import {
+  TFormatFieldMulti,
   TWebformDefaultFieldValues,
   TWebformStateMessages,
   TWebformValueFormat,
@@ -13,47 +14,98 @@ import {
 import FormMappingFields from '@/components/webform/form/formMappingFields/formMappingFields'
 import * as yup from 'yup'
 
-export const shouldFieldBeVisible = (
+export function shouldFieldBeVisible(
   fieldKey: string,
   elementsSource: Record<string, any>,
-  watchedValues: Record<string, any>
-): boolean => {
-  const field = elementsSource[fieldKey]
-  const visibleStates = field?.['#states']?.visible
+  watchedValues: Record<string, string>,
+  valueFormat: Record<string, TFormatFieldMulti>
+): boolean {
+  const fieldConfig = elementsSource[fieldKey]
+  const visibleStates = fieldConfig?.['#states']?.visible
+  if (!visibleStates) {
+    return true
+  }
 
-  if (!visibleStates) return true
+  return Object.entries(visibleStates).every(
+    ([selector, conditions]: [string, any]) => {
+      const match = selector.match(/:input\[name="([^"]+)"\]/)
+      if (!match) {
+        return true
+      }
 
-  return Object.entries(visibleStates).every(([selector, expectedRaw]) => {
-    const match = selector.match(/:input\[name="([^"]+)"\]/)
-    if (!match) return true
+      const depName = match[1]
+      const depConfig = elementsSource[depName]
+      const depType = depConfig?.['#type']
+      const format = valueFormat[depType] || 'key'
+      const watched = watchedValues[depName]
+      const options = depConfig?.['#options'] || {}
 
-    const dependentKey = match[1]
-    const currentValue = watchedValues[dependentKey]
-    const expectedValue =
-      typeof expectedRaw === 'object' &&
-      expectedRaw !== null &&
-      'value' in expectedRaw
-        ? expectedRaw.value
-        : expectedRaw
+      if (watched === undefined) return false
 
-    return currentValue === expectedValue
-  })
+      if (conditions.hasOwnProperty('value')) {
+        const expectedKey: string = conditions.value
+
+        switch (format) {
+          case 'key':
+            return watched === expectedKey
+
+          case 'value':
+            const expectedValue = options[expectedKey] ?? expectedKey
+            return watched === expectedValue
+
+          case 'keyValue':
+            if (typeof watched !== 'object' || watched === null) return false
+            if (Array.isArray(expectedKey)) {
+              return expectedKey.every(
+                (key: string) =>
+                  key in watched &&
+                  (watched as Record<string, any>)[key] === options[key]
+              )
+            }
+            return (
+              expectedKey in (watched as Record<string, any>) &&
+              (watched as Record<string, any>)[expectedKey] ===
+                options[expectedKey]
+            )
+
+          case 'booleanMap':
+            if (typeof watched !== 'object' || watched === null) return false
+            if (Array.isArray(expectedKey)) {
+              return expectedKey.every((k: string) => watched[k] === true)
+            }
+            return watched[expectedKey] === true
+
+          default:
+            return true
+        }
+      }
+      return true
+    }
+  )
 }
 
-export const getDependentFields = (elementsSource: Record<string, any>) => {
-  const deps = new Set<string>()
+export type TDependentField = { name: string; type: string }
 
-  Object.values(elementsSource).forEach((field) => {
-    const visibleStates = field?.['#states']?.visible
+export function getDependentFields(
+  elementsSource: Record<string, any>
+): TDependentField[] {
+  const depsMap = new Map<string, string>()
+
+  Object.entries(elementsSource).forEach(([_, fieldConfig]) => {
+    const visibleStates = fieldConfig?.['#states']?.visible
     if (!visibleStates) return
 
     Object.keys(visibleStates).forEach((selector) => {
       const match = selector.match(/:input\[name="([^"]+)"\]/)
-      if (match) deps.add(match[1])
+      if (match) {
+        const depName = match[1]
+        const depType = elementsSource[depName]?.['#type'] || 'unknown'
+        depsMap.set(depName, depType)
+      }
     })
   })
 
-  return Array.from(deps)
+  return Array.from(depsMap.entries()).map(([name, type]) => ({ name, type }))
 }
 
 export const generateFormSchemaAndDefaults = ({
@@ -92,7 +144,8 @@ export const generateFormSchemaAndDefaults = ({
       type !== 'checkboxes' &&
       type !== 'managed_file' &&
       type !== 'radios' &&
-      type !== 'tel'
+      type !== 'tel' &&
+      type !== 'number'
     ) {
       return
     }

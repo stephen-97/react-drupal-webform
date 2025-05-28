@@ -27,8 +27,8 @@ const WebformContainer = ({
       confirmationPath={confirmationPath}
       yup={{ yupUseFormProps }}
       valueFormat={{
-        radio: 'key',
-        select: 'value',
+        radios: 'key',
+        select: 'booleanMap',
         checkboxes: 'booleanMap',
       }}
       defaultFieldValues={{
