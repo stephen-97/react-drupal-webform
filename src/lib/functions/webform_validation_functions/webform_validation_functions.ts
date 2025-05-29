@@ -7,10 +7,13 @@ export const getRequiredMessage = (
   stateFieldName: TDrupal_FieldType
 ) => {
   if (
-    defaultFieldStateMessages.fields['requiredMessages'][stateFieldName]
-      ?.length > 0
+    (defaultFieldStateMessages.fields['requiredMessages'] as any)[
+      stateFieldName
+    ]?.length > 0
   ) {
-    return defaultFieldStateMessages.fields['requiredMessages'][stateFieldName]
+    return (defaultFieldStateMessages.fields['requiredMessages'] as any)[
+      stateFieldName
+    ]
   }
   return defaultFieldStateMessages.general.requiredMessage
 }
@@ -20,10 +23,12 @@ export const getErrorMessage = (
   stateFieldName: TDrupal_FieldType
 ) => {
   if (
-    defaultFieldStateMessages.fields['errorMessages'][stateFieldName]?.length >
-    0
+    (defaultFieldStateMessages.fields['errorMessages'] as any)[stateFieldName]
+      ?.length > 0
   ) {
-    return defaultFieldStateMessages.fields['errorMessages'][stateFieldName]
+    return (defaultFieldStateMessages.fields['errorMessages'] as any)[
+      stateFieldName
+    ]
   }
   return defaultFieldStateMessages.general.errorMessage
 }

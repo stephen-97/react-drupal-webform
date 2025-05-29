@@ -4,11 +4,16 @@ import styles from './custom.module.scss'
 import { IWrapperWebformProps } from '@/lib/types/components/wrapper'
 import cn from 'classnames'
 
-const WrapperCustom = ({ className, ...props }: IWrapperWebformProps) => {
+const WrapperCustom = ({
+  className,
+  field,
+  ...props
+}: IWrapperWebformProps) => {
   return (
-    <components.WrapperWebform className={cn(styles.wrapperCustom)} {...props}>
+    <div className={cn(styles.wrapperCustom, className)}>
+      <label>{field?.['#title']}</label>
       {props.children}
-    </components.WrapperWebform>
+    </div>
   )
 }
 export default WrapperCustom

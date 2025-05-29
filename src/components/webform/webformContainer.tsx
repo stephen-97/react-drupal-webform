@@ -1,5 +1,7 @@
 'use client'
 
+import WrapperCustom from '@/components/webform/custom-components/wrapperCustom'
+
 require('@/lib/wdyr')
 
 import Webform from '@/components/webform/webform'

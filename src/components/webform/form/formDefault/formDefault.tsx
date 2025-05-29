@@ -137,6 +137,9 @@ const FormDefault = ({
     }
   }, [isValid, externalSubmitButtonRef])
 
+  //console.log(watchedValues)
+  //console.log(elementsSource)
+
   return (
     <form className={styles.formDefault} onSubmit={handleSubmit(onFormSubmit)}>
       {visibleElementsKeys.map((key, index) => (
