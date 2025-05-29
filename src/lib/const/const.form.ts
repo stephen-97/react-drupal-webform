@@ -12,7 +12,7 @@ import FieldWysiwygCustom from '@/components/webform/form/fields/fields-special-
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
 
 export const defaultValueFormatObj: Required<TWebformValueFormat> = {
-  radio: 'booleanMap',
+  radios: 'booleanMap',
   select: 'booleanMap',
   checkboxes: 'booleanMap',
 }
@@ -21,7 +21,7 @@ export const defaultValuesObj: Required<TWebformDefaultFieldValues> = {
   textfield: '',
   textarea: '',
   email: '',
-  radio: '',
+  radios: '',
   checkboxes: [],
   checkbox: false,
   number: '',
@@ -48,12 +48,13 @@ export const defaultValuesFieldStateMessages: DeepRequired<TWebformStateMessages
         tel: 'Please enter a valid phone number.',
         date: 'Invalid date format.',
         managed_file: '',
+        radios: '',
       },
       requiredMessages: {
         textfield: '',
         textarea: '',
         email: '',
-        radio: '',
+        radios: '',
         checkboxes: '',
         checkbox: '',
         number: '',
@@ -81,7 +82,7 @@ export const defaultValuesClassnames: DeepRequired<TWebformClassNames> = {
       webform_markup: '',
       textarea: '',
       textfield: '',
-      radio: '',
+      radios: '',
       number: '',
       tel: '',
       select: '',

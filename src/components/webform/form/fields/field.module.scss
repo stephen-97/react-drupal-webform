@@ -24,6 +24,20 @@
 .button {
   height: 3rem;
   cursor: pointer;
+  background-color: var(--primary-color);
+  border: 2px solid var(--primary-color);
+  box-shadow: .1rem .25rem .5rem var(--primary-color-light);
+  font-size: var(--font-size-s);
+  color: var(--color-button-text);
+  font-weight: 525;
+  margin-block: .5rem;
+  border-radius: .5rem;
+  &[disabled] {
+    cursor: not-allowed;
+    opacity: 0.5;
+    box-shadow: none;
+    pointer-events: none;
+  }
 }
 
 .fieldWrapper {

@@ -1,5 +1,7 @@
 'use client'
 
+import WrapperCustom from '@/components/webform/custom-components/wrapperCustom'
+
 require('@/lib/wdyr')
 
 import Webform from '@/components/webform/webform'
@@ -27,8 +29,8 @@ const WebformContainer = ({
       confirmationPath={confirmationPath}
       yup={{ yupUseFormProps }}
       valueFormat={{
-        radio: 'value',
-        select: 'value',
+        radios: 'booleanMap',
+        select: 'key',
         checkboxes: 'booleanMap',
       }}
       defaultFieldValues={{
@@ -53,17 +55,6 @@ const WebformContainer = ({
         states: {
           fieldError: styles.fieldError,
           fieldErrorMessage: styles.fieldErrorMessage,
-        },
-        fields: {
-          textInputs: {
-            base: styles.inputBase,
-            types: {
-              number: styles.number,
-            },
-          },
-          select: {
-            select: styles.select,
-          },
         },
       }}
       defaultFieldStateMessages={{

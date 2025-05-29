@@ -17,7 +17,7 @@ type TDrupal_FieldType =
   | 'webform_actions'
   | 'textarea'
   | 'textfield'
-  | 'radio'
+  | 'radios'
   | 'number'
   | 'tel'
   | 'select'
@@ -72,10 +72,6 @@ type TFieldValidate = {
   defaultFieldValues: Required<TWebformDefaultFieldValues>
   defaultFieldStateMessages: DeepRequired<TWebformStateMessages>
 }
-
-type TMultiFieldNames = 'radios' | 'select' | 'checkboxes'
-type TSingleFieldNames = 'number' | 'textfield' | 'email'
-type TFieldNames = TMultiFieldNames & TSingleFieldNames
 
 export type TFieldObj = {
   index: number

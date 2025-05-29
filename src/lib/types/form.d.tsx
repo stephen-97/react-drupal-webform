@@ -29,7 +29,7 @@ export type TYup = {
 export type TFormatFieldMulti = 'key' | 'value' | 'keyValue' | 'booleanMap'
 
 export type TWebformValueFormat = {
-  radio?: TFormatFieldMulti
+  radios?: TFormatFieldMulti
   select?: TFormatFieldMulti
   checkboxes?: TFormatFieldMulti
 }
