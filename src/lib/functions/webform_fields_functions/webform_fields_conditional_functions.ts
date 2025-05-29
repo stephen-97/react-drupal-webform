@@ -14,6 +14,48 @@ import {
 import FormMappingFields from '@/components/webform/form/formMappingFields/formMappingFields'
 import * as yup from 'yup'
 
+export const checkVisibilityCondition = (
+  format: TFormatFieldMulti,
+  depConfig: any,
+  watched: any,
+  expectedKeyOrValue: any
+): boolean => {
+  switch (format) {
+    case 'key':
+      return watched === expectedKeyOrValue
+    case 'value': {
+      const options = depConfig['#options'] || {}
+      const expectedValue = options[expectedKeyOrValue] ?? expectedKeyOrValue
+      return watched === expectedValue
+    }
+    case 'keyValue': {
+      if (typeof watched !== 'object' || watched === null) return false
+      const optionsKV: Record<string, any> = depConfig['#options'] || {}
+      const expected = expectedKeyOrValue
+      if (Array.isArray(expected)) {
+        return expected.every(
+          (key: string) =>
+            key in watched &&
+            (watched as Record<string, any>)[key] === optionsKV[key]
+        )
+      }
+      return (
+        expected in (watched as Record<string, any>) &&
+        (watched as Record<string, any>)[expected] === optionsKV[expected]
+      )
+    }
+    case 'booleanMap': {
+      if (typeof watched !== 'object' || watched === null) return false
+      if (Array.isArray(expectedKeyOrValue)) {
+        return expectedKeyOrValue.every((k: string) => watched[k] === true)
+      }
+      return watched[expectedKeyOrValue] === true
+    }
+    default:
+      return false
+  }
+}
+
 export function shouldFieldBeVisible(
   fieldKey: string,
   elementsSource: Record<string, any>,
@@ -25,63 +67,53 @@ export function shouldFieldBeVisible(
   if (!visibleStates) {
     return true
   }
-
-  return Object.entries(visibleStates).every(
-    ([selector, conditions]: [string, any]) => {
-      const match = selector.match(/:input\[name="([^"]+)"\]/)
-      if (!match) {
+  if (!Array.isArray(visibleStates)) {
+    return Object.entries(visibleStates as Record<string, any>).every(
+      ([selector, conditions]) => {
+        const match = selector.match(/:input\[name="([^"]+)"\]/)
+        if (!match) return true
+        const depName = match[1]
+        const depConfig = elementsSource[depName]
+        const depType = depConfig?.['#type']
+        const format = valueFormat[depType] || 'key'
+        const watched = watchedValues[depName]
+        if (watched === undefined) return false
+        if (conditions.hasOwnProperty('value')) {
+          return checkVisibilityCondition(
+            format,
+            depConfig,
+            watched,
+            conditions.value
+          )
+        }
         return true
       }
-
-      const depName = match[1]
-      const depConfig = elementsSource[depName]
-      const depType = depConfig?.['#type']
-      const format = valueFormat[depType] || 'key'
-      const watched = watchedValues[depName]
-      const options = depConfig?.['#options'] || {}
-
-      if (watched === undefined) return false
-
-      if (conditions.hasOwnProperty('value')) {
-        const expectedKey: string = conditions.value
-
-        switch (format) {
-          case 'key':
-            return watched === expectedKey
-
-          case 'value':
-            const expectedValue = options[expectedKey] ?? expectedKey
-            return watched === expectedValue
-
-          case 'keyValue':
-            if (typeof watched !== 'object' || watched === null) return false
-            if (Array.isArray(expectedKey)) {
-              return expectedKey.every(
-                (key: string) =>
-                  key in watched &&
-                  (watched as Record<string, any>)[key] === options[key]
-              )
-            }
-            return (
-              expectedKey in (watched as Record<string, any>) &&
-              (watched as Record<string, any>)[expectedKey] ===
-                options[expectedKey]
-            )
-
-          case 'booleanMap':
-            if (typeof watched !== 'object' || watched === null) return false
-            if (Array.isArray(expectedKey)) {
-              return expectedKey.every((k: string) => watched[k] === true)
-            }
-            return watched[expectedKey] === true
-
-          default:
-            return true
+    )
+  }
+  return visibleStates.some((stateCond: any) => {
+    if (typeof stateCond !== 'object' || stateCond === null) return false
+    return Object.entries(stateCond as Record<string, any>).every(
+      ([selector, conditions]) => {
+        const match = selector.match(/:input\[name="([^"]+)"\]/)
+        if (!match) return true
+        const depName = match[1]
+        const depConfig = elementsSource[depName]
+        const depType = depConfig?.['#type']
+        const format = valueFormat[depType] || 'key'
+        const watched = watchedValues[depName]
+        if (watched === undefined) return false
+        if (conditions.hasOwnProperty('value')) {
+          return checkVisibilityCondition(
+            format,
+            depConfig,
+            watched,
+            conditions.value
+          )
         }
+        return true
       }
-      return true
-    }
-  )
+    )
+  })
 }
 
 export type TDependentField = { name: string; type: string }
@@ -94,15 +126,28 @@ export function getDependentFields(
   Object.entries(elementsSource).forEach(([_, fieldConfig]) => {
     const visibleStates = fieldConfig?.['#states']?.visible
     if (!visibleStates) return
-
-    Object.keys(visibleStates).forEach((selector) => {
-      const match = selector.match(/:input\[name="([^"]+)"\]/)
-      if (match) {
-        const depName = match[1]
-        const depType = elementsSource[depName]?.['#type'] || 'unknown'
-        depsMap.set(depName, depType)
-      }
-    })
+    if (Array.isArray(visibleStates)) {
+      visibleStates.forEach((stateCond: any) => {
+        if (typeof stateCond !== 'object' || stateCond === null) return
+        Object.keys(stateCond).forEach((selector) => {
+          const match = selector.match(/:input\[name="([^"]+)"\]/)
+          if (match) {
+            const depName = match[1]
+            const depType = elementsSource[depName]?.['#type'] || 'unknown'
+            depsMap.set(depName, depType)
+          }
+        })
+      })
+    } else {
+      Object.keys(visibleStates).forEach((selector) => {
+        const match = selector.match(/:input\[name="([^"]+)"\]/)
+        if (match) {
+          const depName = match[1]
+          const depType = elementsSource[depName]?.['#type'] || 'unknown'
+          depsMap.set(depName, depType)
+        }
+      })
+    }
   })
 
   return Array.from(depsMap.entries()).map(([name, type]) => ({ name, type }))
