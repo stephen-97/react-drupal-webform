@@ -20,6 +20,7 @@ import {
 } from '@/lib/functions/utils_functions'
 import { DeepRequired } from 'react-hook-form'
 import { useMemo } from 'react'
+import FormMultiStep from '@/components/webform/form/formMultiStep/formMultiStep'
 
 const Webform = ({
   elementsSource,
@@ -67,21 +68,33 @@ const Webform = ({
     [classNames]
   )
 
-  const { is_multi_step, elements_sources, multi_step_extra } =
+  const { isMultiStep, elementsSources, multiStepExtra } =
     getWebformProperties(elementsSource)
 
   const Form = () => {
-    if (is_multi_step) {
+    if (isMultiStep) {
+      console.log(elementsSources, 'here')
       const { only_steps_elements, only_action_element } =
-        multi_step_extra as TMultiStepProperties
-      return <></>
+        multiStepExtra as TMultiStepProperties
+      return (
+        <FormMultiStep
+          yup={{ ...yup, yupObject, yupDefaultValues }}
+          confirmationPath={'/'}
+          elementsSource={elementsSources}
+          valueFormat={mergedValueFormat}
+          defaultFieldValues={mergedDefaultFieldValues}
+          defaultFieldStateMessages={mergedDefaultValuesStateMessages}
+          classNames={mergedClassNames}
+          components={components}
+        />
+      )
     }
 
     return (
       <FormDefault
         yup={{ ...yup, yupObject, yupDefaultValues }}
         confirmationPath={'/'}
-        elementsSource={elements_sources}
+        elementsSource={elementsSources}
         valueFormat={mergedValueFormat}
         defaultFieldValues={mergedDefaultFieldValues}
         defaultFieldStateMessages={mergedDefaultValuesStateMessages}
