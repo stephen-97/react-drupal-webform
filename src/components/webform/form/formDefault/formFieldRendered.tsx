@@ -34,6 +34,8 @@ const FormFieldRendered = ({
     type !== 'select' &&
     type !== 'webform_actions' &&
     type !== 'textfield' &&
+    type !== 'email' &&
+    type !== 'textarea' &&
     type !== 'checkboxes' &&
     type !== 'managed_file' &&
     type !== 'tel' &&
