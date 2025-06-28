@@ -1,7 +1,6 @@
 'use client'
 
 import styles from './formMultiStep.module.scss'
-import stylesField from '../fields/field.module.scss'
 import React, { useEffect, useMemo, useRef, useCallback, useState } from 'react'
 import {
   TWebform,
@@ -20,6 +19,8 @@ import {
   TDependentField,
 } from '@/lib/functions/webform_fields_functions/webform_fields_conditional_functions'
 import cn from 'classnames'
+import MultiStepActions from '@/components/webform/form/formMultiStep/multiStepActions/multiStepActions'
+import MultiStepStepper from '@/components/webform/form/formMultiStep/multiStepStepper/multiStepStepper'
 
 type TMultiStepExtra = {
   step: number
@@ -155,27 +156,23 @@ const FormMultiStep = ({
     reset({ ...defaultValues, ...getValues() }, { keepValues: true })
   }, [defaultValues, validationSchema])
 
-  // --- Submit multi step ---
   const onFormSubmit = useCallback(
     async (data: typeof defaultValues) => {
       if (step < stepKeys.length - 1) {
         setStep((s) => s + 1)
       } else {
-        // Dernier step, soumets le form final (ou callback parent)
         console.log('SUBMIT FINAL DATA', getValues())
       }
     },
     [step, stepKeys, getValues]
   )
 
-  // -- Option: désactive le bouton submit si invalide
   useEffect(() => {
     if (externalSubmitButtonRef?.current) {
       externalSubmitButtonRef.current.disabled = !isValid
     }
   }, [isValid, externalSubmitButtonRef])
 
-  // -- Navigation manuelle (back)
   const goPrev = () => setStep((s) => Math.max(s - 1, 0))
 
   useEffect(() => {
@@ -185,44 +182,42 @@ const FormMultiStep = ({
   }, [isValid, externalSubmitButtonRef])
 
   return (
-    <form
-      className={styles.formMultiStep}
-      onSubmit={handleSubmit(onFormSubmit)}
-    >
-      {visibleElementsKeys.map((key, index) => (
-        <FormFieldRendered
-          key={key}
-          fieldKey={key}
-          control={control}
-          index={index}
-          field={currentStepObj[key]}
-          isValid={isValid}
-          valueFormat={valueFormat}
+    <div>
+      <MultiStepStepper
+        step={step}
+        isStepValid={isValid}
+        components={components}
+        currentStepObj={currentStepObj}
+      />
+      <form
+        className={styles.formMultiStep}
+        onSubmit={handleSubmit(onFormSubmit)}
+      >
+        {visibleElementsKeys.map((key, index) => (
+          <FormFieldRendered
+            key={key}
+            fieldKey={key}
+            control={control}
+            index={index}
+            field={currentStepObj[key]}
+            isValid={isValid}
+            valueFormat={valueFormat}
+            components={components}
+            classNames={classNames}
+            submitButtonRef={submitButtonRef}
+            isMultiStep={true}
+          />
+        ))}
+        <MultiStepActions
+          step={step}
+          goPrev={goPrev}
+          previousButtonLabel={previousButtonLabel}
+          nextButtonLabel={nextButtonLabel}
+          isStepValid={isValid}
           components={components}
-          classNames={classNames}
-          submitButtonRef={submitButtonRef}
-          isMultiStep={true}
         />
-      ))}
-      <div className={styles.actions}>
-        {step > 0 && (
-          <button
-            className={cn(stylesField.button, styles.button)}
-            type="button"
-            onClick={goPrev}
-          >
-            {previousButtonLabel?.length > 0 ? previousButtonLabel : 'prev'}
-          </button>
-        )}
-        <button
-          className={cn(stylesField.button, styles.button)}
-          disabled={!isValid}
-          type="submit"
-        >
-          {nextButtonLabel?.length > 0 ? nextButtonLabel : 'Next'}
-        </button>
-      </div>
-    </form>
+      </form>
+    </div>
   )
 }
 

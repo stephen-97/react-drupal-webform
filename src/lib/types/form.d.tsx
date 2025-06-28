@@ -11,6 +11,7 @@ import { IDescriptionProps } from '@/lib/types/components/description'
 import { IManagedFileInfoProps } from '@/lib/types/components/managedFileInfo'
 import { IMoreProps } from '@/lib/types/components/more'
 import { IManagedFilePreviewWebformProps } from '@/lib/types/components/filePreview'
+import { IMultiStepActionsProps } from '@/lib/types/components/multiStepActions'
 
 export type TFileWithBase64 = {
   name: string
@@ -161,6 +162,7 @@ export type TWebformCustomComponents = {
   description?: (_props: IDescriptionProps) => JSX.Element | null
   managedFileInfo?: (_props: IManagedFileInfoProps) => JSX.Element | null
   more?: (_props: IMoreProps) => JSX.Element | null
+  multiStepActions?: (_props: IMultiStepActionsProps) => JSX.Element | null
 }
 
 export type TWebform = {
