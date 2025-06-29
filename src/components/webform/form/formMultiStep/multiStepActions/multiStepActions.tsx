@@ -23,7 +23,6 @@ const MultiStepActions = (props: IMultiStepActionsProps) => {
     return <CustomMultiStepActions {...props} />
   }
 
-  console.log('a', classNames.multiStep.actionsButtonPrev)
   return (
     <div
       className={cn(

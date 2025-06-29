@@ -73,9 +73,10 @@ const Webform = ({
 
   const Form = () => {
     if (isMultiStep) {
-      console.log(elementsSources)
-      const { only_steps_elements, only_action_element } =
-        multiStepExtra as TMultiStepProperties
+      console.log(elementsSources, multiStepExtra)
+
+      //const { only_steps_elements, only_action_element } =
+      //         multiStepExtra as TMultiStepProperties
       return (
         <FormMultiStep
           yup={{ ...yup, yupObject, yupDefaultValues }}

@@ -1,7 +1,7 @@
 'use client'
 
 import styles from './formMultiStep.module.scss'
-import React, { useEffect, useMemo, useRef, useCallback, useState } from 'react'
+import React, { useEffect, useMemo, useCallback, useState } from 'react'
 import {
   TWebform,
   TWebformClassNames,
@@ -20,6 +20,11 @@ import {
 } from '@/lib/functions/webform_fields_functions/webform_fields_conditional_functions'
 import MultiStepActions from '@/components/webform/form/formMultiStep/multiStepActions/multiStepActions'
 import MultiStepStepper from '@/components/webform/form/formMultiStep/multiStepStepper/multiStepStepper'
+import {
+  getAllFieldNames,
+  getDummyDefaultMultiStep,
+} from '@/lib/functions/webform_multistep_functions/webform_multistep_functions'
+import { getVisibleStepKeys } from '@/lib/functions/webform_multistep_functions/webform_multistep_conditional_functions/webform_multistep_conditional_functions'
 
 type TMultiStepExtra = {
   step: number
@@ -53,12 +58,66 @@ const FormMultiStep = ({
   components,
   classNames,
 }: TFormMultiStep) => {
-  const [step, setStep] = useState<number>(0)
-  const stepKeys: string[] = Object.keys(elementsSource)
-  const currentStepKey = stepKeys[step]
+  const stepKeys: string[] = useMemo(
+    () => Object.keys(elementsSource),
+    [elementsSource]
+  )
+  const allFieldNames = useMemo(
+    () => getAllFieldNames(elementsSource),
+    [elementsSource]
+  )
+
+  const dummyDefaultValues = useMemo(
+    () => getDummyDefaultMultiStep(elementsSource),
+    [elementsSource]
+  )
+
+  const { yupUseFormProps } = yupObj || {}
+
+  const {
+    handleSubmit,
+    formState: { isValid },
+    control,
+    reset,
+    getValues,
+  } = useForm({
+    ...yupUseFormProps,
+    mode: 'all',
+    criteriaMode: 'all',
+    defaultValues: dummyDefaultValues,
+  })
+
+  const watchedValuesArray = useWatch({ control, name: allFieldNames })
+  const watchedValuesAllFields: Record<string, any> = useMemo(() => {
+    return allFieldNames.reduce<Record<string, any>>((acc, key, i) => {
+      acc[key] = watchedValuesArray?.[i]
+      return acc
+    }, {})
+  }, [watchedValuesArray, allFieldNames])
+
+  const visibleStepKeys = useMemo(
+    () =>
+      getVisibleStepKeys(
+        stepKeys,
+        elementsSource,
+        watchedValuesAllFields,
+        valueFormat
+      ),
+    [elementsSource, stepKeys, watchedValuesAllFields, valueFormat]
+  )
+
+  const [stepIndex, setStepIndex] = useState<number>(0)
+
+  useEffect(() => {
+    if (stepIndex > visibleStepKeys.length - 1) {
+      setStepIndex(visibleStepKeys.length - 1)
+    }
+  }, [visibleStepKeys, stepIndex])
+
+  const currentStepKey = visibleStepKeys[stepIndex]
   const currentStepObj = elementsSource[currentStepKey]
-  const previousButtonLabel = elementsSource[step]?.['#prev_button_label']
-  const nextButtonLabel = elementsSource[step]?.['#next_button_label']
+  const previousButtonLabel = currentStepObj?.['#prev_button_label']
+  const nextButtonLabel = currentStepObj?.['#next_button_label']
 
   const currentFieldKeys = useMemo(
     () =>
@@ -80,53 +139,28 @@ const FormMultiStep = ({
     [dependentFields]
   )
 
-  const dummyDefaultValues = useMemo(() => {
-    const allDefaults: Record<string, any> = {}
-    stepKeys.forEach((stepKey) => {
-      const stepObj = elementsSource[stepKey]
-      Object.keys(stepObj).forEach((key) => {
-        if (
-          !key.startsWith('#') &&
-          typeof stepObj[key] === 'object' &&
-          Boolean(stepObj[key]['#type'])
-        ) {
-          allDefaults[key] = ''
-        }
-      })
-    })
-    return allDefaults
-  }, [elementsSource, stepKeys])
-
-  const { yupUseFormProps } = yupObj || {}
-
-  const {
-    handleSubmit,
-    formState: { isValid },
+  const watchedStepValuesArray = useWatch({
     control,
-    reset,
-    getValues,
-  } = useForm({
-    ...yupUseFormProps,
-    mode: 'all',
-    criteriaMode: 'all',
-    defaultValues: dummyDefaultValues,
+    name: dependentFieldNames,
   })
-
-  // Watch values for the current step (pour conditionnels)
-  const watchedValuesArray = useWatch({ control, name: dependentFieldNames })
-  const watchedValues = useMemo(() => {
+  const watchedStepValues = useMemo(() => {
     return dependentFields.reduce<Record<string, any>>((acc, key, i) => {
-      acc[key.name] = watchedValuesArray?.[i]
+      acc[key.name] = watchedStepValuesArray?.[i]
       return acc
     }, {})
-  }, [watchedValuesArray, dependentFields])
+  }, [watchedStepValuesArray, dependentFields])
 
   const visibleElementsKeys = useMemo(
     () =>
       currentFieldKeys.filter((key) =>
-        shouldFieldBeVisible(key, currentStepObj, watchedValues, valueFormat)
+        shouldFieldBeVisible(
+          key,
+          currentStepObj,
+          watchedStepValues,
+          valueFormat
+        )
       ),
-    [currentFieldKeys, currentStepObj, valueFormat, watchedValues]
+    [currentFieldKeys, currentStepObj, valueFormat, watchedStepValues]
   )
 
   const { defaultValues, validationSchema } = useMemo(() => {
@@ -154,22 +188,41 @@ const FormMultiStep = ({
 
   const onFormSubmit = useCallback(
     async (data: typeof defaultValues) => {
-      if (step < stepKeys.length - 1) {
-        setStep((s) => s + 1)
+      // 1. Récupère les noms de tous les champs visibles sur toutes les étapes affichées
+      const visibleFieldNames = visibleStepKeys.flatMap((stepKey) => {
+        const stepObj = elementsSource[stepKey]
+        return Object.keys(stepObj).filter(
+          (key) =>
+            !key.startsWith('#') &&
+            typeof stepObj[key] === 'object' &&
+            Boolean(stepObj[key]['#type'])
+        )
+      })
+
+      // 2. Ne garde que ces champs-là dans le data final
+      const filteredData = Object.fromEntries(
+        Object.entries(getValues()).filter(([k]) =>
+          visibleFieldNames.includes(k)
+        )
+      )
+
+      if (stepIndex < visibleStepKeys.length - 1) {
+        setStepIndex((idx) => idx + 1)
       } else {
-        console.log('SUBMIT FINAL DATA', getValues())
+        console.log('SUBMIT FINAL DATA', filteredData)
+        // ...submit filteredData au back
       }
     },
-    [step, stepKeys, getValues]
+    [stepIndex, visibleStepKeys, elementsSource, getValues]
   )
 
-  const goPrev = () => setStep((s) => Math.max(s - 1, 0))
+  const goPrev = () => setStepIndex((idx) => Math.max(idx - 1, 0))
 
   return (
     <div>
       <MultiStepStepper
-        step={step}
-        totalSteps={stepKeys?.length}
+        step={stepIndex}
+        totalSteps={visibleStepKeys.length}
         isStepValid={isValid}
         components={components}
         currentStepObj={currentStepObj}
@@ -194,7 +247,7 @@ const FormMultiStep = ({
           />
         ))}
         <MultiStepActions
-          step={step}
+          step={stepIndex}
           goPrev={goPrev}
           previousButtonLabel={previousButtonLabel}
           nextButtonLabel={nextButtonLabel}

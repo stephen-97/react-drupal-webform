@@ -53,5 +53,43 @@ const getMultiStepProperties = (
   }
 }
 
+export const getAllFieldNames = (
+  elementsSource: Record<string, any>
+): string[] => {
+  const allFields: string[] = []
+  Object.values(elementsSource).forEach((stepObj: any) => {
+    Object.keys(stepObj).forEach((fieldKey) => {
+      if (
+        !fieldKey.startsWith('#') &&
+        typeof stepObj[fieldKey] === 'object' &&
+        Boolean(stepObj[fieldKey]['#type'])
+      ) {
+        allFields.push(fieldKey)
+      }
+    })
+  })
+  return allFields
+}
+
+export const getDummyDefaultMultiStep = (
+  elementsSource: Record<string, any>
+) => {
+  const allDefaults: Record<string, any> = {}
+
+  Object.values(elementsSource).forEach((stepObj) => {
+    Object.keys(stepObj).forEach((key) => {
+      if (
+        !key.startsWith('#') &&
+        typeof stepObj[key] === 'object' &&
+        Boolean(stepObj[key]['#type'])
+      ) {
+        allDefaults[key] = ''
+      }
+    })
+  })
+
+  return allDefaults
+}
+
 export type { TMultiStepProperties }
 export { getMultiStepProperties, isMultiStep, cleanMultiStepFormObj }
