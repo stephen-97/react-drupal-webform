@@ -18,7 +18,6 @@ import {
   shouldFieldBeVisible,
   TDependentField,
 } from '@/lib/functions/webform_fields_functions/webform_fields_conditional_functions'
-import cn from 'classnames'
 import MultiStepActions from '@/components/webform/form/formMultiStep/multiStepActions/multiStepActions'
 import MultiStepStepper from '@/components/webform/form/formMultiStep/multiStepStepper/multiStepStepper'
 
@@ -32,7 +31,6 @@ type TFormMultiStep = Omit<
   TWebform,
   'elementsSource' | 'valueFormat' | 'defaultFieldValues' | 'classNames'
 > & {
-  submitButtonRef?: React.RefObject<HTMLButtonElement>
   multiStepExtra?: TMultiStepExtra
   elementsSource: Record<string, any>
   valueFormat: Required<TWebformValueFormat>
@@ -51,12 +49,10 @@ const FormMultiStep = ({
   valueFormat,
   defaultFieldValues,
   yup: yupObj,
-  submitButtonRef: externalSubmitButtonRef,
   defaultFieldStateMessages,
   components,
   classNames,
 }: TFormMultiStep) => {
-  const submitButtonRef = useRef<HTMLButtonElement>(null)
   const [step, setStep] = useState<number>(0)
   const stepKeys: string[] = Object.keys(elementsSource)
   const currentStepKey = stepKeys[step]
@@ -167,27 +163,17 @@ const FormMultiStep = ({
     [step, stepKeys, getValues]
   )
 
-  useEffect(() => {
-    if (externalSubmitButtonRef?.current) {
-      externalSubmitButtonRef.current.disabled = !isValid
-    }
-  }, [isValid, externalSubmitButtonRef])
-
   const goPrev = () => setStep((s) => Math.max(s - 1, 0))
-
-  useEffect(() => {
-    if (externalSubmitButtonRef?.current) {
-      externalSubmitButtonRef.current.disabled = !isValid
-    }
-  }, [isValid, externalSubmitButtonRef])
 
   return (
     <div>
       <MultiStepStepper
         step={step}
+        totalSteps={stepKeys?.length}
         isStepValid={isValid}
         components={components}
         currentStepObj={currentStepObj}
+        classNames={classNames}
       />
       <form
         className={styles.formMultiStep}
@@ -204,7 +190,6 @@ const FormMultiStep = ({
             valueFormat={valueFormat}
             components={components}
             classNames={classNames}
-            submitButtonRef={submitButtonRef}
             isMultiStep={true}
           />
         ))}
@@ -215,6 +200,7 @@ const FormMultiStep = ({
           nextButtonLabel={nextButtonLabel}
           isStepValid={isValid}
           components={components}
+          classNames={classNames}
         />
       </form>
     </div>

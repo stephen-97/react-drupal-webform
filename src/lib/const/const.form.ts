@@ -141,6 +141,18 @@ export const defaultValuesClassnames: DeepRequired<TWebformClassNames> = {
       base: '',
     },
   },
+  multiStep: {
+    stepperContainer: '',
+    stepperHeader: '',
+    stepperTitle: '',
+    stepperCounter: '',
+    stepperProgressBarContainer: '',
+    stepperProgressBar: '',
+    actionsContainer: '',
+    actionsButtons: '',
+    actionsButtonPrev: '',
+    actionsButtonsNext: '',
+  },
 }
 
 export const components = {

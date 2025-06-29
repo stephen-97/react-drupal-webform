@@ -1,7 +1,7 @@
 'use client'
 
 import styles from './formDefault.module.scss'
-import React, { useEffect, useMemo, useRef, useCallback } from 'react'
+import React, { useEffect, useMemo, useCallback } from 'react'
 import {
   TWebform,
   TWebformClassNames,
@@ -29,7 +29,6 @@ type TFormDefault = Omit<
   TWebform,
   'elementsSource' | 'valueFormat' | 'defaultFieldValues' | 'classNames'
 > & {
-  submitButtonRef?: React.RefObject<HTMLButtonElement>
   multiStepExtra?: TMultiStepExtra
   elementsSource: Record<string, any>
   valueFormat: Required<TWebformValueFormat>
@@ -48,12 +47,10 @@ const FormDefault = ({
   valueFormat,
   defaultFieldValues,
   yup: yupObj,
-  submitButtonRef: externalSubmitButtonRef,
   defaultFieldStateMessages,
   components,
   classNames,
 }: TFormDefault) => {
-  const submitButtonRef = useRef<HTMLButtonElement>(null)
   const { yupUseFormProps } = yupObj || {}
   const isMultiStep = Boolean(multiStepExtra)
 
@@ -131,12 +128,6 @@ const FormDefault = ({
     console.log('data', data)
   }, [])
 
-  useEffect(() => {
-    if (externalSubmitButtonRef?.current) {
-      externalSubmitButtonRef.current.disabled = !isValid
-    }
-  }, [isValid, externalSubmitButtonRef])
-
   return (
     <form className={styles.formDefault} onSubmit={handleSubmit(onFormSubmit)}>
       {visibleElementsKeys.map((key, index) => (
@@ -150,17 +141,9 @@ const FormDefault = ({
           valueFormat={valueFormat}
           components={components}
           classNames={classNames}
-          submitButtonRef={submitButtonRef}
           isMultiStep={isMultiStep}
         />
       ))}
-      {externalSubmitButtonRef && (
-        <button
-          type="submit"
-          ref={externalSubmitButtonRef}
-          style={{ display: 'none' }}
-        />
-      )}
     </form>
   )
 }

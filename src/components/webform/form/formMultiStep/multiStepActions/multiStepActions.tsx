@@ -14,6 +14,7 @@ const MultiStepActions = (props: IMultiStepActionsProps) => {
     nextButtonLabel,
     goPrev,
     components,
+    classNames,
   } = props
 
   const CustomMultiStepActions = components?.multiStepActions
@@ -22,11 +23,22 @@ const MultiStepActions = (props: IMultiStepActionsProps) => {
     return <CustomMultiStepActions {...props} />
   }
 
+  console.log('a', classNames.multiStep.actionsButtonPrev)
   return (
-    <div className={styles.multiStepActions}>
+    <div
+      className={cn(
+        styles.multiStepActions,
+        classNames.multiStep.actionsContainer
+      )}
+    >
       {step > 0 && (
         <button
-          className={cn(stylesField.button, styles.button)}
+          className={cn(
+            stylesField.button,
+            styles.button,
+            classNames.multiStep.actionsButtons,
+            classNames.multiStep.actionsButtonPrev
+          )}
           type="button"
           onClick={goPrev}
         >
@@ -36,7 +48,12 @@ const MultiStepActions = (props: IMultiStepActionsProps) => {
         </button>
       )}
       <button
-        className={cn(stylesField.button, styles.button)}
+        className={cn(
+          stylesField.button,
+          styles.button,
+          classNames.multiStep.actionsButtons,
+          classNames.multiStep.actionsButtonsNext
+        )}
         disabled={!isStepValid}
         type="submit"
       >

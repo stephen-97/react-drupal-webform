@@ -12,7 +12,6 @@ type TFieldRendererProps = {
   valueFormat: Required<TWebformValueFormat>
   components?: any
   classNames: Required<TWebformClassNames>
-  submitButtonRef: React.RefObject<HTMLButtonElement | null>
   isMultiStep: boolean
 }
 
@@ -25,7 +24,6 @@ const FormFieldRendered = ({
   valueFormat,
   components,
   classNames,
-  submitButtonRef,
   isMultiStep,
 }: TFieldRendererProps) => {
   const type: string = field['#type'] ?? 'default'
@@ -55,7 +53,6 @@ const FormFieldRendered = ({
     key: fieldKey,
     keyForMap: fieldKey,
     field,
-    submitButtonRef,
     isValid,
     valueFormat,
     isMultiStep,

@@ -12,6 +12,7 @@ import { IManagedFileInfoProps } from '@/lib/types/components/managedFileInfo'
 import { IMoreProps } from '@/lib/types/components/more'
 import { IManagedFilePreviewWebformProps } from '@/lib/types/components/filePreview'
 import { IMultiStepActionsProps } from '@/lib/types/components/multiStepActions'
+import { IMultiStepStepperProps } from '@/lib/types/components/multiStepStepper'
 
 export type TFileWithBase64 = {
   name: string
@@ -95,7 +96,6 @@ export type TWebformClassNames = {
     fieldError?: string
     fieldErrorMessage?: string
   }
-
   fields?: {
     textInputs?: {
       base?: string
@@ -133,6 +133,18 @@ export type TWebformClassNames = {
       base?: string
     }
   }
+  multiStep?: {
+    stepperContainer?: string
+    stepperHeader?: string
+    stepperTitle?: string
+    stepperCounter?: string
+    stepperProgressBarContainer?: string
+    stepperProgressBar?: string
+    actionsContainer?: string
+    actionsButtons?: string
+    actionsButtonPrev?: string
+    actionsButtonsNext?: string
+  }
 }
 
 export type TWebformStateMessages = {
@@ -163,6 +175,7 @@ export type TWebformCustomComponents = {
   managedFileInfo?: (_props: IManagedFileInfoProps) => JSX.Element | null
   more?: (_props: IMoreProps) => JSX.Element | null
   multiStepActions?: (_props: IMultiStepActionsProps) => JSX.Element | null
+  multiStepStepper?: (_props: IMultiStepStepperProps) => JSX.Element | null
 }
 
 export type TWebform = {
