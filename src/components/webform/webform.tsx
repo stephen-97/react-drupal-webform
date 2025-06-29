@@ -73,8 +73,6 @@ const Webform = ({
 
   const Form = () => {
     if (isMultiStep) {
-      console.log(elementsSources, multiStepExtra)
-
       //const { only_steps_elements, only_action_element } =
       //         multiStepExtra as TMultiStepProperties
       return (

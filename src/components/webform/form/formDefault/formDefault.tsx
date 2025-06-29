@@ -128,6 +128,8 @@ const FormDefault = ({
     console.log('data', data)
   }, [])
 
+  console.log(isValid)
+
   return (
     <form className={styles.formDefault} onSubmit={handleSubmit(onFormSubmit)}>
       {visibleElementsKeys.map((key, index) => (

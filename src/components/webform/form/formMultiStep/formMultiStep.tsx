@@ -2,14 +2,7 @@
 
 import styles from './formMultiStep.module.scss'
 import React, { useEffect, useMemo, useCallback, useState } from 'react'
-import {
-  TWebform,
-  TWebformClassNames,
-  TWebformDefaultFieldValues,
-  TWebformStateMessages,
-  TWebformValueFormat,
-} from '@/lib/types/form.d'
-import { DeepRequired, useForm, useWatch } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 import { useYupValidationResolver } from '@/lib/functions/webform_yup_functions/webform_yup_functions'
 import FormFieldRendered from '@/components/webform/form/formDefault/formFieldRendered'
 import {
@@ -23,41 +16,23 @@ import MultiStepStepper from '@/components/webform/form/formMultiStep/multiStepS
 import {
   getAllFieldNames,
   getDummyDefaultMultiStep,
+  getAllDefaultValuesFromAllSteps,
 } from '@/lib/functions/webform_multistep_functions/webform_multistep_functions'
-import { getVisibleStepKeys } from '@/lib/functions/webform_multistep_functions/webform_multistep_conditional_functions/webform_multistep_conditional_functions'
-
-type TMultiStepExtra = {
-  step: number
-  lastStep: number
-  isConditionalMultiStep: boolean
-}
-
-type TFormMultiStep = Omit<
-  TWebform,
-  'elementsSource' | 'valueFormat' | 'defaultFieldValues' | 'classNames'
-> & {
-  multiStepExtra?: TMultiStepExtra
-  elementsSource: Record<string, any>
-  valueFormat: Required<TWebformValueFormat>
-  defaultFieldValues: Required<TWebformDefaultFieldValues>
-  defaultFieldStateMessages: DeepRequired<TWebformStateMessages>
-  classNames: Required<TWebformClassNames>
-  components?: any
-  yup: {
-    yupUseFormProps?: Record<string, any>
-  }
-}
+import {
+  getAllVisibleFieldNames,
+  getVisibleStepKeys,
+} from '@/lib/functions/webform_multistep_functions/webform_multistep_conditional_functions/webform_multistep_conditional_functions'
+import { TFormMultiStepProps } from '@/lib/types/components/formMultiStep'
 
 const FormMultiStep = ({
   elementsSource,
-  multiStepExtra,
   valueFormat,
   defaultFieldValues,
   yup: yupObj,
   defaultFieldStateMessages,
   components,
   classNames,
-}: TFormMultiStep) => {
+}: TFormMultiStepProps) => {
   const stepKeys: string[] = useMemo(
     () => Object.keys(elementsSource),
     [elementsSource]
@@ -162,6 +137,16 @@ const FormMultiStep = ({
       ),
     [currentFieldKeys, currentStepObj, valueFormat, watchedStepValues]
   )
+  const allDefaultValues = useMemo(
+    () =>
+      getAllDefaultValuesFromAllSteps({
+        elementsSource,
+        valueFormat,
+        defaultFieldValues,
+        defaultFieldStateMessages,
+      }),
+    [elementsSource, valueFormat, defaultFieldValues, defaultFieldStateMessages]
+  )
 
   const { defaultValues, validationSchema } = useMemo(() => {
     return generateFormSchemaAndDefaults({
@@ -187,33 +172,50 @@ const FormMultiStep = ({
   }, [defaultValues, validationSchema])
 
   const onFormSubmit = useCallback(
-    async (data: typeof defaultValues) => {
-      // 1. Récupère les noms de tous les champs visibles sur toutes les étapes affichées
-      const visibleFieldNames = visibleStepKeys.flatMap((stepKey) => {
-        const stepObj = elementsSource[stepKey]
-        return Object.keys(stepObj).filter(
-          (key) =>
-            !key.startsWith('#') &&
-            typeof stepObj[key] === 'object' &&
-            Boolean(stepObj[key]['#type'])
-        )
-      })
-
-      // 2. Ne garde que ces champs-là dans le data final
-      const filteredData = Object.fromEntries(
-        Object.entries(getValues()).filter(([k]) =>
-          visibleFieldNames.includes(k)
-        )
+    async (data: typeof allDefaultValues) => {
+      const allCurrentValues = getValues()
+      const visibleFieldNames = getAllVisibleFieldNames(
+        visibleStepKeys,
+        elementsSource,
+        watchedValuesAllFields,
+        valueFormat
       )
+
+      let dataToSend: Record<string, any> = {}
+
+      if (/* mets ici ton booléen (genre filterHiddenFieldsOnSubmit) */ true) {
+        dataToSend = Object.fromEntries(
+          Object.keys(allDefaultValues).map((fieldName) => [
+            fieldName,
+            visibleFieldNames.includes(fieldName)
+              ? allCurrentValues[fieldName]
+              : allDefaultValues[fieldName], // valeur par défaut récupérée via la nouvelle fonction
+          ])
+        )
+      } else {
+        dataToSend = Object.fromEntries(
+          visibleFieldNames.map((fieldName) => [
+            fieldName,
+            allCurrentValues[fieldName],
+          ])
+        )
+      }
 
       if (stepIndex < visibleStepKeys.length - 1) {
         setStepIndex((idx) => idx + 1)
       } else {
-        console.log('SUBMIT FINAL DATA', filteredData)
-        // ...submit filteredData au back
+        console.log('SUBMIT FINAL DATA', dataToSend)
       }
     },
-    [stepIndex, visibleStepKeys, elementsSource, getValues]
+    [
+      stepIndex,
+      visibleStepKeys,
+      elementsSource,
+      getValues,
+      watchedValuesAllFields,
+      valueFormat,
+      allDefaultValues,
+    ]
   )
 
   const goPrev = () => setStepIndex((idx) => Math.max(idx - 1, 0))
@@ -260,6 +262,5 @@ const FormMultiStep = ({
   )
 }
 
-export type { TMultiStepExtra }
 FormMultiStep.whyDidYouRender = true
 export default React.memo(FormMultiStep)

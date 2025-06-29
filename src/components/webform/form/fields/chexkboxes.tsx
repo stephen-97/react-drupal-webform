@@ -70,6 +70,7 @@ export const renderCheckboxes = (props: TFieldObj) => {
                 type={'checkbox'}
                 id={`checkboxes-${key}-${i}`}
                 value={key}
+                checked={Boolean(fieldController.value?.[key])}
                 onChange={(e) =>
                   handleChangeOptionsCheckboxes(
                     e.target.value,

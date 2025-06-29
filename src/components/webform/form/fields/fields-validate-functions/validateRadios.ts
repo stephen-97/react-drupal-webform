@@ -1,11 +1,4 @@
-import {
-  string,
-  object,
-  ObjectSchema,
-  MixedSchema,
-  mixed,
-  StringSchema,
-} from 'yup'
+import { string, object, mixed, StringSchema } from 'yup'
 import { TFieldValidate } from '@/lib/types/components/validate'
 
 export const validateRadio = ({
@@ -22,7 +15,6 @@ export const validateRadio = ({
   const optionKeys = Object.keys(options)
   const optionValues = Object.values(options)
 
-  // on déclare MixedSchema pour englober StringSchema || ObjectSchema
   let schema
 
   switch (valueFormat.radios) {

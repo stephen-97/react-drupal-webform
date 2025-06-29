@@ -124,14 +124,35 @@ export const getVisibleStepKeys = (
 ) => {
   return stepKeys.filter((stepKey) => {
     const stepObj = elementsSource[stepKey]
-    // -- une étape est visible si pas de #states OU si shouldFieldBeVisible pour la step elle-même
     if (!stepObj['#states'] || !stepObj['#states'].visible) return true
-    // On utilise shouldFieldBeVisible en passant la step elle-même comme "field"
     return shouldFieldBeVisible(
       stepKey,
-      elementsSource, // On passe toutes les étapes (car condition peut dépendre de n'importe quel field)
+      elementsSource,
       watchedValuesAllFields,
       valueFormat
+    )
+  })
+}
+
+export const getAllVisibleFieldNames = (
+  visibleStepKeys: string[],
+  elementsSource: Record<string, any>,
+  watchedValuesAllFields: Record<string, any>,
+  valueFormat: Required<TWebformValueFormat>
+): string[] => {
+  return visibleStepKeys.flatMap((stepKey) => {
+    const stepObj = elementsSource[stepKey]
+    return Object.keys(stepObj).filter(
+      (fieldKey) =>
+        !fieldKey.startsWith('#') &&
+        typeof stepObj[fieldKey] === 'object' &&
+        Boolean(stepObj[fieldKey]['#type']) &&
+        shouldFieldBeVisible(
+          fieldKey,
+          stepObj,
+          watchedValuesAllFields,
+          valueFormat
+        )
     )
   })
 }

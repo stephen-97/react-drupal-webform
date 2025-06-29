@@ -51,6 +51,7 @@ export const renderSelect = (props: TFieldObj) => {
               [styles.error]: fieldState.error,
             }
           )}
+          value={fieldController.value ?? ''}
           required={field?.['#required']}
           id={key}
           name={fieldController.name}

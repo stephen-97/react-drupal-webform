@@ -3,6 +3,13 @@ import {
   TConditionalStepsProperties,
 } from '@/lib/functions/webform_multistep_functions/webform_multistep_conditional_functions/webform_multistep_conditional_functions'
 import { TKeyValue } from '@/lib/functions/webform_functions'
+import {
+  TWebformDefaultFieldValues,
+  TWebformStateMessages,
+  TWebformValueFormat,
+} from '@/lib/types/form.d'
+import { DeepRequired } from 'react-hook-form'
+import { generateFormSchemaAndDefaults } from '@/lib/functions/webform_fields_functions/webform_fields_conditional_functions'
 
 type TCleanedStepElements = {
   only_steps_elements: TKeyValue<any>
@@ -89,6 +96,41 @@ export const getDummyDefaultMultiStep = (
   })
 
   return allDefaults
+}
+
+export const getAllDefaultValuesFromAllSteps = ({
+  elementsSource,
+  valueFormat,
+  defaultFieldValues,
+  defaultFieldStateMessages,
+}: {
+  elementsSource: Record<string, any>
+  valueFormat: Required<TWebformValueFormat>
+  defaultFieldValues: Required<TWebformDefaultFieldValues>
+  defaultFieldStateMessages: DeepRequired<TWebformStateMessages>
+}) => {
+  let allDefaultValues: Record<string, any> = {}
+
+  Object.entries(elementsSource).forEach(([stepKey, stepObj]) => {
+    const fieldKeys = Object.keys(stepObj).filter(
+      (key) =>
+        !key.startsWith('#') &&
+        typeof stepObj[key] === 'object' &&
+        Boolean(stepObj[key]['#type'])
+    )
+    // Utilise generateFormSchemaAndDefaults pour cette étape
+    const { defaultValues } = generateFormSchemaAndDefaults({
+      elementsSource: stepObj,
+      visibleElementsKeys: fieldKeys,
+      valueFormat,
+      defaultFieldValues,
+      defaultFieldStateMessages,
+    })
+    // Merge dans l’objet global
+    allDefaultValues = { ...allDefaultValues, ...defaultValues }
+  })
+
+  return allDefaultValues
 }
 
 export type { TMultiStepProperties }

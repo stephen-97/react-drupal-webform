@@ -169,6 +169,32 @@ const getWrapperCategory = (
   return undefined
 }
 
+export const getRadioChecked = ({
+  radioFormat,
+  optionKey,
+  optionValue,
+  fieldControllerValue,
+}: {
+  radioFormat: string
+  optionKey: string
+  optionValue: string
+  fieldControllerValue: any
+}) => {
+  if (radioFormat === 'booleanMap') {
+    return Boolean(fieldControllerValue?.[optionKey])
+  }
+  if (radioFormat === 'key') {
+    return fieldControllerValue === optionKey
+  }
+  if (radioFormat === 'value') {
+    return fieldControllerValue === optionValue
+  }
+  if (radioFormat === 'keyValue') {
+    return fieldControllerValue?.key === optionKey
+  }
+  return false
+}
+
 export {
   handleChangeOptions,
   handleFileChange,

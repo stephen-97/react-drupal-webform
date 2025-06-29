@@ -182,19 +182,6 @@ export const generateFormSchemaAndDefaults = ({
       field?.['#title']
     )
 
-    if (
-      type !== 'select' &&
-      type !== 'webform_actions' &&
-      type !== 'textfield' &&
-      type !== 'checkboxes' &&
-      type !== 'managed_file' &&
-      type !== 'radios' &&
-      type !== 'tel' &&
-      type !== 'number'
-    ) {
-      return
-    }
-
     FormMappingFields[type ?? 'default']?.validator?.({
       yupObject: yupObjLocal,
       defaultValues: defaults,
