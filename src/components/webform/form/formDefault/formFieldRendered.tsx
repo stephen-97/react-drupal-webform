@@ -28,21 +28,6 @@ const FormFieldRendered = ({
 }: TFieldRendererProps) => {
   const type: string = field['#type'] ?? 'default'
 
-  if (
-    type !== 'select' &&
-    type !== 'webform_actions' &&
-    type !== 'textfield' &&
-    type !== 'email' &&
-    type !== 'textarea' &&
-    type !== 'checkboxes' &&
-    type !== 'managed_file' &&
-    type !== 'tel' &&
-    type !== 'radios' &&
-    type !== 'number'
-  ) {
-    return null
-  }
-
   const elementRenderer = FormMappingFields[type]?.element
 
   if (!elementRenderer) return null
