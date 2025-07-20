@@ -128,25 +128,30 @@ const FormDefault = ({
     console.log('data', data)
   }, [])
 
-  console.log(isValid)
+  console.log('elementsSource', elementsSource)
 
   return (
-    <form className={styles.formDefault} onSubmit={handleSubmit(onFormSubmit)}>
-      {visibleElementsKeys.map((key, index) => (
-        <FormFieldRendered
-          key={key}
-          fieldKey={key}
-          control={control}
-          index={index}
-          field={elementsSource[key]}
-          isValid={isValid}
-          valueFormat={valueFormat}
-          components={components}
-          classNames={classNames}
-          isMultiStep={isMultiStep}
-        />
-      ))}
-    </form>
+    <>
+      <form
+        className={styles.formDefault}
+        onSubmit={handleSubmit(onFormSubmit)}
+      >
+        {visibleElementsKeys.map((key, index) => (
+          <FormFieldRendered
+            key={key}
+            fieldKey={key}
+            control={control}
+            index={index}
+            field={elementsSource[key]}
+            isValid={isValid}
+            valueFormat={valueFormat}
+            components={components}
+            classNames={classNames}
+            isMultiStep={isMultiStep}
+          />
+        ))}
+      </form>
+    </>
   )
 }
 

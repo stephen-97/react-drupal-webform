@@ -9,6 +9,7 @@ import { IMultiStepActionsProps } from '@/lib/types/components/multiStepActions'
 const MultiStepActions = (props: IMultiStepActionsProps) => {
   const {
     step,
+    totalSteps,
     previousButtonLabel,
     isStepValid,
     nextButtonLabel,
@@ -22,6 +23,8 @@ const MultiStepActions = (props: IMultiStepActionsProps) => {
   if (CustomMultiStepActions) {
     return <CustomMultiStepActions {...props} />
   }
+
+  const isLastStep = step === totalSteps - 1
 
   return (
     <div
@@ -56,9 +59,11 @@ const MultiStepActions = (props: IMultiStepActionsProps) => {
         disabled={!isStepValid}
         type="submit"
       >
-        {nextButtonLabel && nextButtonLabel?.length > 0
-          ? nextButtonLabel
-          : 'Next'}
+        {isLastStep
+          ? 'Submit'
+          : nextButtonLabel && nextButtonLabel.length > 0
+            ? nextButtonLabel
+            : 'Next'}
       </button>
     </div>
   )

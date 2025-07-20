@@ -12,4 +12,5 @@ export interface IMultiStepActionsProps {
   goPrev: React.MouseEventHandler<HTMLButtonElement>
   components: TWebformCustomComponents
   classNames: Required<TWebformClassNames>
+  totalSteps: number
 }

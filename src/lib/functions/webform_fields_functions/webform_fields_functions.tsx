@@ -195,6 +195,42 @@ export const getRadioChecked = ({
   return false
 }
 
+export const getCheckboxChecked = ({
+  checkboxesFormat,
+  optionKey,
+  optionValue,
+  fieldControllerValue,
+}: {
+  checkboxesFormat: string
+  optionKey: string
+  optionValue: string
+  fieldControllerValue: any
+}) => {
+  if (checkboxesFormat === 'booleanMap') {
+    return Boolean(fieldControllerValue?.[optionKey])
+  }
+  if (checkboxesFormat === 'key') {
+    return (
+      Array.isArray(fieldControllerValue) &&
+      fieldControllerValue.includes(optionKey)
+    )
+  }
+  if (checkboxesFormat === 'value') {
+    return (
+      Array.isArray(fieldControllerValue) &&
+      fieldControllerValue.includes(optionValue)
+    )
+  }
+  if (checkboxesFormat === 'keyValue') {
+    return (
+      Array.isArray(fieldControllerValue) &&
+      fieldControllerValue.some(
+        (entry: Record<string, string>) => Object.keys(entry)[0] === optionKey
+      )
+    )
+  }
+  return false
+}
 export {
   handleChangeOptions,
   handleFileChange,

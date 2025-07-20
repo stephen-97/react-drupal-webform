@@ -121,6 +121,7 @@ export const defaultValuesClassnames: DeepRequired<TWebformClassNames> = {
       label: '',
     },
     checkbox: {
+      itemWrapper: '',
       input: '',
       label: '',
     },

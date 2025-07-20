@@ -113,6 +113,7 @@ export type TWebformClassNames = {
       label?: string
     }
     checkbox?: {
+      itemWrapper?: string
       input?: string
       label?: string
     }

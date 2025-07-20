@@ -31,17 +31,6 @@ export const renderRadio = ({
 
   const { radios: radioFormat } = valueFormat
 
-  const checked =
-    radioFormat === 'booleanMap'
-      ? Boolean(fieldController.value?.[key])
-      : radioFormat === 'key'
-        ? fieldController.value === key
-        : radioFormat === 'value'
-          ? fieldController.value === value
-          : radioFormat === 'keyValue'
-            ? fieldController.value?.key === key
-            : false
-
   return (
     <Wrapper
       field={field}
@@ -79,10 +68,7 @@ export const renderRadio = ({
               key={i}
             >
               <input
-                className={cn(
-                  classNames.fields.radios?.input,
-                  styles.radioInput
-                )}
+                className={cn(classNames.fields.radios?.input)}
                 name={fieldController.name}
                 id={`${optionKey}-${i}`}
                 type={'radio'}

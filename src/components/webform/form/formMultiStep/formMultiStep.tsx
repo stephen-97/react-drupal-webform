@@ -83,6 +83,11 @@ const FormMultiStep = ({
 
   const [stepIndex, setStepIndex] = useState<number>(0)
 
+  // ⬇️ Stocke le merge progressif des watchedStepValues de toutes les étapes précédentes
+  const [allWatchedSteps, setAllWatchedSteps] = useState<Record<string, any>>(
+    {}
+  )
+
   useEffect(() => {
     if (stepIndex > visibleStepKeys.length - 1) {
       setStepIndex(visibleStepKeys.length - 1)
@@ -105,6 +110,7 @@ const FormMultiStep = ({
     [currentStepObj]
   )
 
+  // Champs dépendants (pour l'étape actuelle)
   const dependentFields: TDependentField[] = useMemo(
     () => getDependentFields(currentStepObj),
     [currentStepObj]
@@ -113,7 +119,6 @@ const FormMultiStep = ({
     () => dependentFields.map((dep) => dep.name),
     [dependentFields]
   )
-
   const watchedStepValuesArray = useWatch({
     control,
     name: dependentFieldNames,
@@ -125,18 +130,28 @@ const FormMultiStep = ({
     }, {})
   }, [watchedStepValuesArray, dependentFields])
 
+  // ⬇️ Merge de toutes les watched des steps précédents + celles de la step actuelle
+  const watchedStepValuesGlobal = useMemo(
+    () => ({
+      ...allWatchedSteps,
+      ...watchedStepValues,
+    }),
+    [allWatchedSteps, watchedStepValues]
+  )
+
   const visibleElementsKeys = useMemo(
     () =>
       currentFieldKeys.filter((key) =>
         shouldFieldBeVisible(
           key,
           currentStepObj,
-          watchedStepValues,
+          watchedStepValuesGlobal,
           valueFormat
         )
       ),
-    [currentFieldKeys, currentStepObj, valueFormat, watchedStepValues]
+    [currentFieldKeys, currentStepObj, valueFormat, watchedStepValuesGlobal]
   )
+
   const allDefaultValues = useMemo(
     () =>
       getAllDefaultValuesFromAllSteps({
@@ -171,6 +186,13 @@ const FormMultiStep = ({
     reset({ ...defaultValues, ...getValues() }, { keepValues: true })
   }, [defaultValues, validationSchema])
 
+  const goNext = () => {
+    setAllWatchedSteps((prev) => ({ ...prev, ...watchedStepValues }))
+    setStepIndex((idx) => idx + 1)
+  }
+
+  const goPrev = () => setStepIndex((idx) => Math.max(idx - 1, 0))
+
   const onFormSubmit = useCallback(
     async (data: typeof allDefaultValues) => {
       const allCurrentValues = getValues()
@@ -189,7 +211,7 @@ const FormMultiStep = ({
             fieldName,
             visibleFieldNames.includes(fieldName)
               ? allCurrentValues[fieldName]
-              : allDefaultValues[fieldName], // valeur par défaut récupérée via la nouvelle fonction
+              : allDefaultValues[fieldName],
           ])
         )
       } else {
@@ -202,7 +224,7 @@ const FormMultiStep = ({
       }
 
       if (stepIndex < visibleStepKeys.length - 1) {
-        setStepIndex((idx) => idx + 1)
+        goNext()
       } else {
         console.log('SUBMIT FINAL DATA', dataToSend)
       }
@@ -215,10 +237,9 @@ const FormMultiStep = ({
       watchedValuesAllFields,
       valueFormat,
       allDefaultValues,
+      goNext,
     ]
   )
-
-  const goPrev = () => setStepIndex((idx) => Math.max(idx - 1, 0))
 
   return (
     <div>
@@ -250,6 +271,7 @@ const FormMultiStep = ({
         ))}
         <MultiStepActions
           step={stepIndex}
+          totalSteps={visibleStepKeys.length}
           goPrev={goPrev}
           previousButtonLabel={previousButtonLabel}
           nextButtonLabel={nextButtonLabel}
