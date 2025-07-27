@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   TWebformClassNames,
   TWebformCustomComponents,
@@ -9,8 +8,11 @@ export interface IMultiStepActionsProps {
   previousButtonLabel?: string
   nextButtonLabel?: string
   isStepValid: boolean
-  goPrev: React.MouseEventHandler<HTMLButtonElement>
   components: TWebformCustomComponents
   classNames: Required<TWebformClassNames>
   totalSteps: number
+  buttonsOnClick: {
+    prev: () => void
+    next: () => void
+  }
 }

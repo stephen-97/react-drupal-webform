@@ -1,12 +1,9 @@
 import { getWebformProperties } from '@/lib/functions/webform_functions'
-import { TMultiStepProperties } from '@/lib/functions/webform_multistep_functions/webform_multistep_functions'
 import FormDefault from '@/components/webform/form/formDefault/formDefault'
 import {
   TWebform,
   TWebformClassNames,
-  TWebformDefaultFieldValues,
   TWebformStateMessages,
-  TWebformValueFormat,
 } from '@/lib/types/form.d'
 import {
   defaultValueFormatObj,
@@ -24,13 +21,14 @@ import FormMultiStep from '@/components/webform/form/formMultiStep/formMultiStep
 
 const Webform = ({
   elementsSource,
-  confirmationPath,
   yup,
   valueFormat = {},
   defaultFieldValues = {},
   classNames = {},
   defaultFieldStateMessages = {},
   components,
+  onSubmit,
+  includeInactiveFieldsInSubmit = true,
 }: TWebform) => {
   const { yupObject = {}, yupDefaultValues = {} } = yup
 
@@ -75,13 +73,14 @@ const Webform = ({
       return (
         <FormMultiStep
           yup={{ ...yup, yupObject, yupDefaultValues }}
-          confirmationPath={'/'}
           elementsSource={elementsSources}
           valueFormat={mergedValueFormat}
           defaultFieldValues={mergedDefaultFieldValues}
           defaultFieldStateMessages={mergedDefaultValuesStateMessages}
           classNames={mergedClassNames}
           components={components}
+          onSubmit={onSubmit}
+          includeInactiveFieldsInSubmit={includeInactiveFieldsInSubmit}
         />
       )
     }
@@ -89,13 +88,14 @@ const Webform = ({
     return (
       <FormDefault
         yup={{ ...yup, yupObject, yupDefaultValues }}
-        confirmationPath={'/'}
         elementsSource={elementsSources}
         valueFormat={mergedValueFormat}
         defaultFieldValues={mergedDefaultFieldValues}
         defaultFieldStateMessages={mergedDefaultValuesStateMessages}
         classNames={mergedClassNames}
         components={components}
+        onSubmit={onSubmit}
+        includeInactiveFieldsInSubmit={includeInactiveFieldsInSubmit}
       />
     )
   }

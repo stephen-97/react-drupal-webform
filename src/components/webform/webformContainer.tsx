@@ -24,7 +24,7 @@ const WebformContainer = ({
   return (
     <Webform
       elementsSource={elementsSource}
-      confirmationPath={confirmationPath}
+      onSubmit={(data) => console.log(data)}
       yup={{ yupUseFormProps }}
       valueFormat={{
         radios: 'booleanMap',
@@ -53,13 +53,6 @@ const WebformContainer = ({
         states: {
           fieldError: styles.fieldError,
           fieldErrorMessage: styles.fieldErrorMessage,
-        },
-      }}
-      defaultFieldStateMessages={{
-        fields: {
-          errorMessages: {
-            email: 'Wrong email',
-          },
         },
       }}
     />

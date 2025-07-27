@@ -160,7 +160,6 @@ export function shouldMultiStepFieldBeVisible(
       }
     )
   }
-  // Cas array (syntaxe avancée)
   return (visibleStates as any[]).some((stateCond: any) => {
     if (typeof stateCond !== 'object' || stateCond === null) return false
     return Object.entries(stateCond as Record<string, any>).every(
@@ -240,6 +239,8 @@ export const generateFormSchemaAndDefaults = ({
   const defaults: Record<string, any> = {}
   const yupObjLocal: Record<string, any> = {}
 
+  console.log('visibleElementsKeys', visibleElementsKeys)
+
   visibleElementsKeys.forEach((key) => {
     const field = elementsSource[key]
     const type: TDrupal_FieldType = field['#type']
@@ -252,6 +253,7 @@ export const generateFormSchemaAndDefaults = ({
       getErrorMessage(defaultFieldStateMessages, type) ?? '',
       field?.['#title']
     )
+    console.log('type', type)
 
     FormMappingFields[type ?? 'default']?.validator?.({
       yupObject: yupObjLocal,

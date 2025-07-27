@@ -32,6 +32,8 @@ const FormMultiStep = ({
   defaultFieldStateMessages,
   components,
   classNames,
+  onSubmit,
+  includeInactiveFieldsInSubmit,
 }: TFormMultiStepProps) => {
   const stepKeys: string[] = useMemo(
     () => Object.keys(elementsSource),
@@ -83,7 +85,6 @@ const FormMultiStep = ({
 
   const [stepIndex, setStepIndex] = useState<number>(0)
 
-  // ⬇️ Stocke le merge progressif des watchedStepValues de toutes les étapes précédentes
   const [allWatchedSteps, setAllWatchedSteps] = useState<Record<string, any>>(
     {}
   )
@@ -110,7 +111,6 @@ const FormMultiStep = ({
     [currentStepObj]
   )
 
-  // Champs dépendants (pour l'étape actuelle)
   const dependentFields: TDependentField[] = useMemo(
     () => getDependentFields(currentStepObj),
     [currentStepObj]
@@ -130,7 +130,6 @@ const FormMultiStep = ({
     }, {})
   }, [watchedStepValuesArray, dependentFields])
 
-  // ⬇️ Merge de toutes les watched des steps précédents + celles de la step actuelle
   const watchedStepValuesGlobal = useMemo(
     () => ({
       ...allWatchedSteps,
@@ -193,53 +192,46 @@ const FormMultiStep = ({
 
   const goPrev = () => setStepIndex((idx) => Math.max(idx - 1, 0))
 
-  const onFormSubmit = useCallback(
-    async (data: typeof allDefaultValues) => {
-      const allCurrentValues = getValues()
-      const visibleFieldNames = getAllVisibleFieldNames(
-        visibleStepKeys,
-        elementsSource,
-        watchedValuesAllFields,
-        valueFormat
-      )
-
-      let dataToSend: Record<string, any> = {}
-
-      if (/* mets ici ton booléen (genre filterHiddenFieldsOnSubmit) */ true) {
-        dataToSend = Object.fromEntries(
-          Object.keys(allDefaultValues).map((fieldName) => [
-            fieldName,
-            visibleFieldNames.includes(fieldName)
-              ? allCurrentValues[fieldName]
-              : allDefaultValues[fieldName],
-          ])
-        )
-      } else {
-        dataToSend = Object.fromEntries(
-          visibleFieldNames.map((fieldName) => [
-            fieldName,
-            allCurrentValues[fieldName],
-          ])
-        )
-      }
-
-      if (stepIndex < visibleStepKeys.length - 1) {
-        goNext()
-      } else {
-        console.log('SUBMIT FINAL DATA', dataToSend)
-      }
-    },
-    [
-      stepIndex,
+  const onFormSubmit = useCallback(async () => {
+    const allCurrentValues = getValues()
+    const visibleFieldNames = getAllVisibleFieldNames(
       visibleStepKeys,
       elementsSource,
-      getValues,
       watchedValuesAllFields,
-      valueFormat,
-      allDefaultValues,
-      goNext,
-    ]
-  )
+      valueFormat
+    )
+    let dataToSend: Record<string, any> = {}
+
+    if (includeInactiveFieldsInSubmit) {
+      dataToSend = Object.fromEntries(
+        Object.keys(allDefaultValues).map((fieldName) => [
+          fieldName,
+          visibleFieldNames.includes(fieldName)
+            ? allCurrentValues[fieldName]
+            : allDefaultValues[fieldName],
+        ])
+      )
+    } else {
+      dataToSend = Object.fromEntries(
+        visibleFieldNames.map((fieldName) => [
+          fieldName,
+          allCurrentValues[fieldName],
+        ])
+      )
+    }
+
+    if (onSubmit) {
+      onSubmit(dataToSend)
+    }
+  }, [
+    visibleStepKeys,
+    elementsSource,
+    getValues,
+    watchedValuesAllFields,
+    valueFormat,
+    allDefaultValues,
+    onSubmit,
+  ])
 
   return (
     <div>
@@ -272,12 +264,15 @@ const FormMultiStep = ({
         <MultiStepActions
           step={stepIndex}
           totalSteps={visibleStepKeys.length}
-          goPrev={goPrev}
           previousButtonLabel={previousButtonLabel}
           nextButtonLabel={nextButtonLabel}
           isStepValid={isValid}
           components={components}
           classNames={classNames}
+          buttonsOnClick={{
+            prev: goPrev,
+            next: goNext,
+          }}
         />
       </form>
     </div>

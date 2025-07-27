@@ -39,6 +39,8 @@ type TFormDefault = Omit<
   yup: {
     yupUseFormProps?: Record<string, any>
   }
+  includeInactiveFieldsInSubmit?: boolean
+  onSubmit?: (data: Record<string, any>) => void
 }
 
 const FormDefault = ({
@@ -50,6 +52,8 @@ const FormDefault = ({
   defaultFieldStateMessages,
   components,
   classNames,
+  includeInactiveFieldsInSubmit,
+  onSubmit,
 }: TFormDefault) => {
   const { yupUseFormProps } = yupObj || {}
   const isMultiStep = Boolean(multiStepExtra)
@@ -74,7 +78,7 @@ const FormDefault = ({
 
   const {
     handleSubmit,
-    formState: { isValid },
+    formState: { isValid, errors },
     control,
     reset,
     getValues,
@@ -93,6 +97,8 @@ const FormDefault = ({
       return acc
     }, {})
   }, [watchedValuesArray, dependentFields])
+
+  console.log('ici', elementsSource)
 
   const visibleElementsKeys = useMemo(() => {
     return Object.keys(elementsSource).filter((key) =>
@@ -124,34 +130,47 @@ const FormDefault = ({
 
   control._options.resolver = resolver
 
-  const onFormSubmit = useCallback(async (data: typeof defaultValues) => {
-    console.log('data', data)
-  }, [])
+  const elementsKeysToRender = useMemo(() => {
+    return visibleElementsKeys
+  }, [elementsSource, visibleElementsKeys])
 
-  console.log('elementsSource', elementsSource)
+  const handleFormSubmit = useCallback(
+    (data: Record<string, any>) => {
+      if (onSubmit) {
+        if (includeInactiveFieldsInSubmit) {
+          onSubmit(data)
+        } else {
+          const filtered = Object.fromEntries(
+            visibleElementsKeys.map((key) => [key, data[key]])
+          )
+          console.log(visibleElementsKeys)
+          onSubmit(filtered)
+        }
+      }
+    },
+    [onSubmit, includeInactiveFieldsInSubmit, visibleElementsKeys]
+  )
 
   return (
-    <>
-      <form
-        className={styles.formDefault}
-        onSubmit={handleSubmit(onFormSubmit)}
-      >
-        {visibleElementsKeys.map((key, index) => (
-          <FormFieldRendered
-            key={key}
-            fieldKey={key}
-            control={control}
-            index={index}
-            field={elementsSource[key]}
-            isValid={isValid}
-            valueFormat={valueFormat}
-            components={components}
-            classNames={classNames}
-            isMultiStep={isMultiStep}
-          />
-        ))}
-      </form>
-    </>
+    <form
+      className={styles.formDefault}
+      onSubmit={handleSubmit(handleFormSubmit)}
+    >
+      {elementsKeysToRender.map((key, index) => (
+        <FormFieldRendered
+          key={key}
+          fieldKey={key}
+          control={control}
+          index={index}
+          field={elementsSource[key]}
+          isValid={isValid}
+          valueFormat={valueFormat}
+          components={components}
+          classNames={classNames}
+          isMultiStep={isMultiStep}
+        />
+      ))}
+    </form>
   )
 }
 

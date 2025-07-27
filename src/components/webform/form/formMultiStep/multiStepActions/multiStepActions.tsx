@@ -13,9 +13,9 @@ const MultiStepActions = (props: IMultiStepActionsProps) => {
     previousButtonLabel,
     isStepValid,
     nextButtonLabel,
-    goPrev,
     components,
     classNames,
+    buttonsOnClick,
   } = props
 
   const CustomMultiStepActions = components?.multiStepActions
@@ -42,7 +42,7 @@ const MultiStepActions = (props: IMultiStepActionsProps) => {
             classNames.multiStep.actionsButtonPrev
           )}
           type="button"
-          onClick={goPrev}
+          onClick={buttonsOnClick.prev}
         >
           {previousButtonLabel && previousButtonLabel.length > 0
             ? previousButtonLabel
@@ -57,7 +57,8 @@ const MultiStepActions = (props: IMultiStepActionsProps) => {
           classNames.multiStep.actionsButtonsNext
         )}
         disabled={!isStepValid}
-        type="submit"
+        type={isLastStep ? 'submit' : 'button'}
+        onClick={() => (!isLastStep ? buttonsOnClick.next() : null)}
       >
         {isLastStep
           ? 'Submit'

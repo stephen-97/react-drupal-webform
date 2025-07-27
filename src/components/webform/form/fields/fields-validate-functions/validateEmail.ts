@@ -1,9 +1,4 @@
 import { TFieldValidate } from '@/lib/types/components/validate'
-import {
-  formatMessage,
-  getErrorMessage,
-  getRequiredMessage,
-} from '@/lib/functions/webform_validation_functions/webform_validation_functions'
 import { string } from 'yup'
 
 export const validateEmail = ({
@@ -26,8 +21,6 @@ export const validateEmail = ({
   yupObject[key] = required
     ? schema.required(requiredMessage)
     : schema.notRequired()
-
-  defaultValues[key] = ''
 
   defaultValues[key] = defaultFieldValues.email
 }

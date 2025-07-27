@@ -181,7 +181,6 @@ export type TWebformCustomComponents = {
 
 export type TWebform = {
   elementsSource: string
-  confirmationPath: string
   yup: TYup
   components?: TWebformCustomComponents
   validators?: any
@@ -189,4 +188,6 @@ export type TWebform = {
   defaultFieldValues?: TWebformDefaultFieldValues
   classNames?: TWebformClassNames
   defaultFieldStateMessages?: TWebformStateMessages
+  onSubmit: (_data: Record<string, any>) => void
+  includeInactiveFieldsInSubmit?: boolean
 }
