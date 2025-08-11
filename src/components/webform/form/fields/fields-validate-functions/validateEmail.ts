@@ -10,6 +10,7 @@ export const validateEmail = ({
   requiredMessage,
   errorMessage,
 }: TFieldValidate) => {
+  console.log('errorMessage', errorMessage)
   const emailWithTLDRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
   const schema = string()
     .test('valid-email-format', 'invalid email', (value) => {

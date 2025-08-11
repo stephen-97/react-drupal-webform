@@ -1,4 +1,4 @@
-import { UseFormProps } from 'react-hook-form'
+import { DeepRequired, UseFormProps } from 'react-hook-form'
 import { JSX } from 'react'
 import { ILabelWebformProps } from '@/lib/types/components/label'
 import { TDrupal_FieldType } from '@/lib/types/components/field'
@@ -23,11 +23,6 @@ export type TFileWithBase64 = {
   base64: string
 }
 
-export type TYup = {
-  yupUseFormProps: Omit<UseFormProps, 'resolver'>
-  yupObject?: Record<string, any>
-  yupDefaultValues?: Record<string, any>
-}
 export type TFormatFieldMulti = 'key' | 'value' | 'keyValue' | 'booleanMap'
 
 export type TWebformValueFormat = {
@@ -181,13 +176,12 @@ export type TWebformCustomComponents = {
 
 export type TWebform = {
   elementsSource: string
-  yup: TYup
   components?: TWebformCustomComponents
   validators?: any
   valueFormat?: TWebformValueFormat
   defaultFieldValues?: TWebformDefaultFieldValues
   classNames?: TWebformClassNames
   defaultFieldStateMessages?: TWebformStateMessages
-  onSubmit: (_data: Record<string, any>) => void
+  onSubmit: (_data: Record<string, any>) => void | Promise<any>
   includeInactiveFieldsInSubmit?: boolean
 }

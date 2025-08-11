@@ -1,12 +1,12 @@
-import { Control, DeepRequired } from 'react-hook-form'
+import { Control, DeepRequired, FormState } from 'react-hook-form'
 import {
-  TWebformClassNames,
   TWebformCustomComponents,
   TWebformDefaultFieldValues,
   TWebformStateMessages,
   TWebformValueFormat,
 } from '@/lib/types/form.d'
 import { FocusEventHandler } from 'react'
+import { TDeepRequiredClassNames } from '@/lib/types/deepRequired'
 
 type TDrupal_FieldType =
   | 'checkbox'
@@ -80,11 +80,11 @@ export type TFieldObj = {
   control: Control<{}, any>
   onBlur?: FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>
   submitButtonRef?: any
-  isValid?: boolean
   isMultiStep?: boolean
   valueFormat: Required<TWebformValueFormat>
-  classNames: DeepRequired<TWebformClassNames>
+  classNames: TDeepRequiredClassNames
   components: TWebformCustomComponents
+  formState: FormState<any>
 }
 
 export type {

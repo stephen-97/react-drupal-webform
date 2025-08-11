@@ -28,10 +28,14 @@
 }
 
 .button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
   height: 3rem;
   cursor: pointer;
-  background-color: var(--primary-color);
-  border: 2px solid var(--primary-color);
+  background-color: var(--bg-gray-light);
+  border: 2px solid var(--bg-gray-light);
   box-shadow: .1rem .25rem .5rem var(--primary-color-light);
   font-size: var(--font-size-s);
   color: var(--color-button-text);

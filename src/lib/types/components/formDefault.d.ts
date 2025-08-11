@@ -7,10 +7,18 @@ import {
 import { DeepRequired } from 'react-hook-form'
 import { TDeepRequiredClassNames } from '@/lib/types/deepRequired'
 
-export type TFormMultiStepProps = Omit<
-  TWebform,
-  'elementsSource' | 'valueFormat' | 'defaultFieldValues' | 'classNames'
-> & {
+type TMultiStepExtra = {
+  step: number
+  lastStep: number
+  isConditionalMultiStep: boolean
+}
+
+export interface IFormDefaultWebformProps
+  extends Omit<
+    TWebform,
+    'elementsSource' | 'valueFormat' | 'defaultFieldValues' | 'classNames'
+  > {
+  multiStepExtra?: TMultiStepExtra
   elementsSource: Record<string, any>
   valueFormat: Required<TWebformValueFormat>
   defaultFieldValues: Required<TWebformDefaultFieldValues>
@@ -20,4 +28,6 @@ export type TFormMultiStepProps = Omit<
   yup: {
     yupUseFormProps?: Record<string, any>
   }
+  includeInactiveFieldsInSubmit?: boolean
+  onSubmit?: (data: Record<string, any>) => void
 }

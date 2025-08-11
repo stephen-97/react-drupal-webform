@@ -1,10 +1,7 @@
 import { getWebformProperties } from '@/lib/functions/webform_functions'
 import FormDefault from '@/components/webform/form/formDefault/formDefault'
-import {
-  TWebform,
-  TWebformClassNames,
-  TWebformStateMessages,
-} from '@/lib/types/form.d'
+import { TWebform, TWebformStateMessages } from '@/lib/types/form.d'
+import { TDeepRequiredClassNames } from '@/lib/types/deepRequired'
 import {
   defaultValueFormatObj,
   defaultValuesClassnames,
@@ -15,13 +12,12 @@ import {
   deepMergeDefaults,
   mergeObjects,
 } from '@/lib/functions/utils_functions'
-import { DeepRequired } from 'react-hook-form'
+import { DeepRequired, UseFormProps } from 'react-hook-form'
 import { useMemo } from 'react'
 import FormMultiStep from '@/components/webform/form/formMultiStep/formMultiStep'
 
 const Webform = ({
   elementsSource,
-  yup,
   valueFormat = {},
   defaultFieldValues = {},
   classNames = {},
@@ -30,7 +26,10 @@ const Webform = ({
   onSubmit,
   includeInactiveFieldsInSubmit = true,
 }: TWebform) => {
-  const { yupObject = {}, yupDefaultValues = {} } = yup
+  const yupUseFormProps: UseFormProps = {
+    mode: 'onChange',
+    reValidateMode: 'onBlur',
+  }
 
   const mergedValueFormat = useMemo(
     () => ({
@@ -57,12 +56,12 @@ const Webform = ({
     [defaultFieldStateMessages]
   )
 
-  const mergedClassNames = useMemo(
+  const mergedClassNames: TDeepRequiredClassNames = useMemo(
     () =>
       mergeObjects(
         defaultValuesClassnames,
         classNames
-      ) as Required<TWebformClassNames>,
+      ) as TDeepRequiredClassNames,
     [classNames]
   )
 
@@ -72,7 +71,7 @@ const Webform = ({
     if (isMultiStep) {
       return (
         <FormMultiStep
-          yup={{ ...yup, yupObject, yupDefaultValues }}
+          yup={{ yupUseFormProps }}
           elementsSource={elementsSources}
           valueFormat={mergedValueFormat}
           defaultFieldValues={mergedDefaultFieldValues}
@@ -87,7 +86,7 @@ const Webform = ({
 
     return (
       <FormDefault
-        yup={{ ...yup, yupObject, yupDefaultValues }}
+        yup={{ yupUseFormProps }}
         elementsSource={elementsSources}
         valueFormat={mergedValueFormat}
         defaultFieldValues={mergedDefaultFieldValues}

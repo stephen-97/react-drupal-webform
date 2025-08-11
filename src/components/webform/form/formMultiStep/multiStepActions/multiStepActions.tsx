@@ -5,18 +5,21 @@ import stylesField from '../../fields/field.module.scss'
 import React from 'react'
 import cn from 'classnames'
 import { IMultiStepActionsProps } from '@/lib/types/components/multiStepActions'
+import Loader from '@/components/webform/form/fields/fields-sub-components/loader/loader'
 
 const MultiStepActions = (props: IMultiStepActionsProps) => {
   const {
     step,
     totalSteps,
     previousButtonLabel,
-    isStepValid,
     nextButtonLabel,
     components,
     classNames,
     buttonsOnClick,
+    formState,
   } = props
+
+  const { isSubmitting, isValid: isStepValid } = formState
 
   const CustomMultiStepActions = components?.multiStepActions
 
@@ -56,10 +59,17 @@ const MultiStepActions = (props: IMultiStepActionsProps) => {
           classNames.multiStep.actionsButtons,
           classNames.multiStep.actionsButtonsNext
         )}
-        disabled={!isStepValid}
+        disabled={!isStepValid || isSubmitting}
         type={isLastStep ? 'submit' : 'button'}
-        onClick={() => (!isLastStep ? buttonsOnClick.next() : null)}
+        onClick={(e) => {
+          if (!isLastStep) {
+            e.preventDefault()
+            e.stopPropagation()
+            buttonsOnClick.next()
+          }
+        }}
       >
+        {isSubmitting && <Loader />}
         {isLastStep
           ? 'Submit'
           : nextButtonLabel && nextButtonLabel.length > 0

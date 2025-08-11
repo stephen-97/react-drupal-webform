@@ -4,7 +4,6 @@ import { useController } from 'react-hook-form'
 import { TFieldObj } from '@/lib/types/components/field'
 import {
   getCheckboxChecked,
-  getRadioChecked,
   handleChangeOptionsCheckboxes,
 } from '@/lib/functions/webform_fields_functions/webform_fields_functions'
 import { TFormatFieldMulti } from '@/lib/types/form.d'

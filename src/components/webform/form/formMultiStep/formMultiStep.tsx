@@ -51,18 +51,14 @@ const FormMultiStep = ({
 
   const { yupUseFormProps } = yupObj || {}
 
-  const {
-    handleSubmit,
-    formState: { isValid },
-    control,
-    reset,
-    getValues,
-  } = useForm({
+  const { handleSubmit, formState, control, reset, getValues } = useForm({
     ...yupUseFormProps,
     mode: 'all',
     criteriaMode: 'all',
     defaultValues: dummyDefaultValues,
   })
+
+  const { isValid } = formState
 
   const watchedValuesArray = useWatch({ control, name: allFieldNames })
   const watchedValuesAllFields: Record<string, any> = useMemo(() => {
@@ -219,9 +215,8 @@ const FormMultiStep = ({
         ])
       )
     }
-
     if (onSubmit) {
-      onSubmit(dataToSend)
+      await onSubmit(dataToSend)
     }
   }, [
     visibleStepKeys,
@@ -254,19 +249,19 @@ const FormMultiStep = ({
             control={control}
             index={index}
             field={currentStepObj[key]}
-            isValid={isValid}
             valueFormat={valueFormat}
             components={components}
             classNames={classNames}
             isMultiStep={true}
+            formState={formState}
           />
         ))}
         <MultiStepActions
           step={stepIndex}
           totalSteps={visibleStepKeys.length}
+          formState={formState}
           previousButtonLabel={previousButtonLabel}
           nextButtonLabel={nextButtonLabel}
-          isStepValid={isValid}
           components={components}
           classNames={classNames}
           buttonsOnClick={{

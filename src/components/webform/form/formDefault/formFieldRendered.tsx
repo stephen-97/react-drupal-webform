@@ -1,31 +1,18 @@
 import React from 'react'
 import FormMappingFields from '@/components/webform/form/formMappingFields/formMappingFields'
-import { TElementSource } from '@/lib/types/components/field'
-import { TWebformClassNames, TWebformValueFormat } from '@/lib/types/form.d'
-
-type TFieldRendererProps = {
-  control: any
-  index: number
-  fieldKey: string
-  field: TElementSource
-  isValid: boolean
-  valueFormat: Required<TWebformValueFormat>
-  components?: any
-  classNames: Required<TWebformClassNames>
-  isMultiStep: boolean
-}
+import { IFieldRendererWebformProps } from '@/lib/types/components/formFieldRendered'
 
 const FormFieldRendered = ({
   control,
   index,
   fieldKey,
   field,
-  isValid,
+  formState,
   valueFormat,
   components,
   classNames,
   isMultiStep,
-}: TFieldRendererProps) => {
+}: IFieldRendererWebformProps) => {
   const type: string = field['#type'] ?? 'default'
 
   const elementRenderer = FormMappingFields[type]?.element
@@ -36,13 +23,12 @@ const FormFieldRendered = ({
     control,
     index,
     key: fieldKey,
-    keyForMap: fieldKey,
     field,
-    isValid,
     valueFormat,
     isMultiStep,
     components,
     classNames,
+    formState,
   })
 }
 
