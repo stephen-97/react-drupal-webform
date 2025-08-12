@@ -1,4 +1,5 @@
 import {
+  TWebformCustomValidators,
   TWebformDefaultFieldValues,
   TWebformStateMessages,
   TWebformValueFormat,
@@ -16,6 +17,7 @@ export interface TFieldValidate {
   valueFormat: TWebformValueFormat
   defaultFieldValues: Required<TWebformDefaultFieldValues>
   defaultFieldStateMessages: DeepRequired<TWebformStateMessages>
+  customValidators?: TWebformCustomValidators
   requiredMessage: string
   errorMessage: string
 }

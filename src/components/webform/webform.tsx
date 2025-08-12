@@ -1,13 +1,7 @@
 import { getWebformProperties } from '@/lib/functions/webform_functions'
-import { TMultiStepProperties } from '@/lib/functions/webform_multistep_functions/webform_multistep_functions'
 import FormDefault from '@/components/webform/form/formDefault/formDefault'
-import {
-  TWebform,
-  TWebformClassNames,
-  TWebformDefaultFieldValues,
-  TWebformStateMessages,
-  TWebformValueFormat,
-} from '@/lib/types/form.d'
+import { TWebform, TWebformStateMessages } from '@/lib/types/form.d'
+import { TDeepRequiredClassNames } from '@/lib/types/deepRequired'
 import {
   defaultValueFormatObj,
   defaultValuesClassnames,
@@ -18,21 +12,25 @@ import {
   deepMergeDefaults,
   mergeObjects,
 } from '@/lib/functions/utils_functions'
-import { DeepRequired } from 'react-hook-form'
+import { DeepRequired, UseFormProps } from 'react-hook-form'
 import { useMemo } from 'react'
 import FormMultiStep from '@/components/webform/form/formMultiStep/formMultiStep'
 
 const Webform = ({
   elementsSource,
-  confirmationPath,
-  yup,
   valueFormat = {},
   defaultFieldValues = {},
   classNames = {},
   defaultFieldStateMessages = {},
   components,
+  onSubmit,
+  includeInactiveFieldsInSubmit = true,
+  customValidators,
 }: TWebform) => {
-  const { yupObject = {}, yupDefaultValues = {} } = yup
+  const yupUseFormProps: UseFormProps = {
+    mode: 'onChange',
+    reValidateMode: 'onBlur',
+  }
 
   const mergedValueFormat = useMemo(
     () => ({
@@ -59,47 +57,47 @@ const Webform = ({
     [defaultFieldStateMessages]
   )
 
-  const mergedClassNames = useMemo(
+  const mergedClassNames: TDeepRequiredClassNames = useMemo(
     () =>
       mergeObjects(
         defaultValuesClassnames,
         classNames
-      ) as Required<TWebformClassNames>,
+      ) as TDeepRequiredClassNames,
     [classNames]
   )
 
-  const { isMultiStep, elementsSources, multiStepExtra } =
-    getWebformProperties(elementsSource)
+  const { isMultiStep, elementsSources } = getWebformProperties(elementsSource)
 
   const Form = () => {
     if (isMultiStep) {
-      console.log(elementsSources, 'here')
-      const { only_steps_elements, only_action_element } =
-        multiStepExtra as TMultiStepProperties
       return (
         <FormMultiStep
-          yup={{ ...yup, yupObject, yupDefaultValues }}
-          confirmationPath={'/'}
+          yup={{ yupUseFormProps }}
           elementsSource={elementsSources}
           valueFormat={mergedValueFormat}
           defaultFieldValues={mergedDefaultFieldValues}
           defaultFieldStateMessages={mergedDefaultValuesStateMessages}
           classNames={mergedClassNames}
           components={components}
+          onSubmit={onSubmit}
+          includeInactiveFieldsInSubmit={includeInactiveFieldsInSubmit}
+          customValidators={customValidators}
         />
       )
     }
 
     return (
       <FormDefault
-        yup={{ ...yup, yupObject, yupDefaultValues }}
-        confirmationPath={'/'}
+        yup={{ yupUseFormProps }}
         elementsSource={elementsSources}
         valueFormat={mergedValueFormat}
         defaultFieldValues={mergedDefaultFieldValues}
         defaultFieldStateMessages={mergedDefaultValuesStateMessages}
         classNames={mergedClassNames}
         components={components}
+        onSubmit={onSubmit}
+        includeInactiveFieldsInSubmit={includeInactiveFieldsInSubmit}
+        customValidators={customValidators}
       />
     )
   }

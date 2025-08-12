@@ -1,5 +1,6 @@
 import {
   TFormatFieldMulti,
+  TWebformCustomValidators,
   TWebformDefaultFieldValues,
   TWebformStateMessages,
   TWebformValueFormat,
@@ -116,6 +117,76 @@ export function shouldFieldBeVisible(
   })
 }
 
+export function shouldMultiStepFieldBeVisible(
+  fieldKey: string,
+  elementsSource: Record<string, any>,
+  watchedStepValues: Record<string, any>,
+  prevStepValues: Record<string, any>,
+  currentFieldKeys: string[],
+  valueFormat: Record<string, any>
+): boolean {
+  const fieldConfig = elementsSource[fieldKey]
+  const visibleStates = fieldConfig?.['#states']?.visible
+  if (!visibleStates) return true
+
+  // Résolution de la valeur de dépendance, selon où elle se trouve
+  function getDependencyValue(depName: string) {
+    if (currentFieldKeys.includes(depName)) {
+      return watchedStepValues[depName]
+    }
+    return prevStepValues[depName]
+  }
+
+  // Cas objet classique
+  if (!Array.isArray(visibleStates)) {
+    return Object.entries(visibleStates as Record<string, any>).every(
+      ([selector, conditions]) => {
+        const match = selector.match(/:input\[name="([^"]+)"\]/)
+        if (!match) return true
+        const depName = match[1]
+        const depConfig = elementsSource[depName]
+        const depType = depConfig?.['#type']
+        const format = valueFormat[depType] || 'key'
+        const watched = getDependencyValue(depName)
+        if (watched === undefined) return false
+        if (conditions.hasOwnProperty('value')) {
+          return checkVisibilityCondition(
+            format,
+            depConfig,
+            watched,
+            conditions.value
+          )
+        }
+        return true
+      }
+    )
+  }
+  return (visibleStates as any[]).some((stateCond: any) => {
+    if (typeof stateCond !== 'object' || stateCond === null) return false
+    return Object.entries(stateCond as Record<string, any>).every(
+      ([selector, conditions]) => {
+        const match = selector.match(/:input\[name="([^"]+)"\]/)
+        if (!match) return true
+        const depName = match[1]
+        const depConfig = elementsSource[depName]
+        const depType = depConfig?.['#type']
+        const format = valueFormat[depType] || 'key'
+        const watched = getDependencyValue(depName)
+        if (watched === undefined) return false
+        if (conditions.hasOwnProperty('value')) {
+          return checkVisibilityCondition(
+            format,
+            depConfig,
+            watched,
+            conditions.value
+          )
+        }
+        return true
+      }
+    )
+  })
+}
+
 export type TDependentField = { name: string; type: string }
 
 export function getDependentFields(
@@ -159,12 +230,14 @@ export const generateFormSchemaAndDefaults = ({
   valueFormat,
   defaultFieldValues,
   defaultFieldStateMessages,
+  customValidators,
 }: {
   elementsSource: Record<string, any>
   visibleElementsKeys: string[]
   valueFormat: Required<TWebformValueFormat>
   defaultFieldValues: Required<TWebformDefaultFieldValues>
   defaultFieldStateMessages: DeepRequired<TWebformStateMessages>
+  customValidators?: TWebformCustomValidators
 }) => {
   const defaults: Record<string, any> = {}
   const yupObjLocal: Record<string, any> = {}
@@ -182,19 +255,6 @@ export const generateFormSchemaAndDefaults = ({
       field?.['#title']
     )
 
-    if (
-      type !== 'select' &&
-      type !== 'webform_actions' &&
-      type !== 'textfield' &&
-      type !== 'checkboxes' &&
-      type !== 'managed_file' &&
-      type !== 'radios' &&
-      type !== 'tel' &&
-      type !== 'number'
-    ) {
-      return
-    }
-
     FormMappingFields[type ?? 'default']?.validator?.({
       yupObject: yupObjLocal,
       defaultValues: defaults,
@@ -205,6 +265,7 @@ export const generateFormSchemaAndDefaults = ({
       defaultFieldValues,
       defaultFieldStateMessages,
       requiredMessage,
+      customValidators,
       errorMessage,
     })
   })

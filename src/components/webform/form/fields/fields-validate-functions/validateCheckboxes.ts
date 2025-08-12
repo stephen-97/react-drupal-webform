@@ -1,40 +1,35 @@
 import { TFieldValidate } from '@/lib/types/components/validate'
-import { array, object, ObjectSchema, string } from 'yup'
+import { array, object, ObjectSchema, string, AnySchema } from 'yup'
+import { resolveCustomValidator } from '@/lib/functions/webform_validation_functions/webform_validation_functions'
+import { TDrupal_FieldType_Validate } from '@/lib/functions/webform_validation_functions/webform_validation_functions'
 
-export const validateCheckboxes = ({
-  yupObject,
-  defaultValues,
-  key,
-  field,
-  required,
-  valueFormat,
-  requiredMessage,
-}: TFieldValidate) => {
+export const validateCheckboxes = (props: TFieldValidate) => {
+  const {
+    yupObject,
+    defaultValues,
+    key,
+    field,
+    required,
+    valueFormat,
+    requiredMessage,
+    customValidators,
+  } = props
+
+  const type = field?.['#type'] as TDrupal_FieldType_Validate
+
   const options = field['#options']
   const optionKeys = Object.keys(options)
-
   const { checkboxes: checkboxesFormat } = valueFormat
 
   let schema: any
 
   switch (checkboxesFormat) {
     case 'key':
-      schema = array()
-        .of(string().oneOf(optionKeys))
-        .default(() => [])
-      if (required) {
-        schema = schema.min(1, requiredMessage)
-      }
-      defaultValues[key] = ''
-      break
-
     case 'value':
       schema = array()
         .of(string().oneOf(optionKeys))
         .default(() => [])
-      if (required) {
-        schema = schema.min(1, requiredMessage)
-      }
+      if (required) schema = schema.min(1, requiredMessage)
       defaultValues[key] = ''
       break
 
@@ -47,16 +42,12 @@ export const validateCheckboxes = ({
           })
         )
         .default(() => [])
-
-      if (required) {
-        schema = schema.min(1, requiredMessage)
-      }
+      if (required) schema = schema.min(1, requiredMessage)
       defaultValues[key] = []
       break
 
     case 'booleanMap':
       schema = object()
-
       if (required) {
         schema = object().test(
           'at-least-one-true',
@@ -64,20 +55,25 @@ export const validateCheckboxes = ({
           (value) => value && Object.values(value).some((v) => v === true)
         ) as ObjectSchema<Record<string, boolean>>
       }
-
       defaultValues[key] = optionKeys.reduce(
-        (acc, key) => {
-          acc[key] = false
+        (acc, optKey) => {
+          acc[optKey] = false
           return acc
         },
         {} as Record<string, boolean>
       )
       break
+
+    default:
+      schema = array().default(() => [])
+      defaultValues[key] = []
+      break
   }
 
-  if (required) {
-    schema = schema.required(requiredMessage)
-  }
+  const customSchema =
+    resolveCustomValidator(customValidators, key, type, props) ?? schema
 
-  yupObject[key] = schema
+  yupObject[key] = required
+    ? customSchema.required(requiredMessage)
+    : customSchema.notRequired()
 }

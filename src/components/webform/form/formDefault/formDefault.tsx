@@ -1,15 +1,8 @@
 'use client'
 
 import styles from './formDefault.module.scss'
-import React, { useEffect, useMemo, useRef, useCallback } from 'react'
-import {
-  TWebform,
-  TWebformClassNames,
-  TWebformDefaultFieldValues,
-  TWebformStateMessages,
-  TWebformValueFormat,
-} from '@/lib/types/form.d'
-import { DeepRequired, useForm, useWatch } from 'react-hook-form'
+import React, { useEffect, useMemo, useCallback } from 'react'
+import { useForm, useWatch } from 'react-hook-form'
 import { useYupValidationResolver } from '@/lib/functions/webform_yup_functions/webform_yup_functions'
 import FormFieldRendered from '@/components/webform/form/formDefault/formFieldRendered'
 import {
@@ -18,29 +11,7 @@ import {
   shouldFieldBeVisible,
   TDependentField,
 } from '@/lib/functions/webform_fields_functions/webform_fields_conditional_functions'
-
-type TMultiStepExtra = {
-  step: number
-  lastStep: number
-  isConditionalMultiStep: boolean
-}
-
-type TFormDefault = Omit<
-  TWebform,
-  'elementsSource' | 'valueFormat' | 'defaultFieldValues' | 'classNames'
-> & {
-  submitButtonRef?: React.RefObject<HTMLButtonElement>
-  multiStepExtra?: TMultiStepExtra
-  elementsSource: Record<string, any>
-  valueFormat: Required<TWebformValueFormat>
-  defaultFieldValues: Required<TWebformDefaultFieldValues>
-  defaultFieldStateMessages: DeepRequired<TWebformStateMessages>
-  classNames: Required<TWebformClassNames>
-  components?: any
-  yup: {
-    yupUseFormProps?: Record<string, any>
-  }
-}
+import { IFormDefaultWebformProps } from '@/lib/types/components/formDefault'
 
 const FormDefault = ({
   elementsSource,
@@ -48,12 +19,13 @@ const FormDefault = ({
   valueFormat,
   defaultFieldValues,
   yup: yupObj,
-  submitButtonRef: externalSubmitButtonRef,
   defaultFieldStateMessages,
   components,
   classNames,
-}: TFormDefault) => {
-  const submitButtonRef = useRef<HTMLButtonElement>(null)
+  includeInactiveFieldsInSubmit,
+  onSubmit,
+  customValidators,
+}: IFormDefaultWebformProps) => {
   const { yupUseFormProps } = yupObj || {}
   const isMultiStep = Boolean(multiStepExtra)
 
@@ -75,13 +47,7 @@ const FormDefault = ({
     return allDefaults
   }, [elementsSource])
 
-  const {
-    handleSubmit,
-    formState: { isValid },
-    control,
-    reset,
-    getValues,
-  } = useForm({
+  const { handleSubmit, formState, control, reset, getValues } = useForm({
     ...yupUseFormProps,
     mode: 'all',
     criteriaMode: 'all',
@@ -110,6 +76,7 @@ const FormDefault = ({
       valueFormat,
       defaultFieldValues,
       defaultFieldStateMessages,
+      customValidators,
     })
   }, [
     elementsSource,
@@ -127,45 +94,47 @@ const FormDefault = ({
 
   control._options.resolver = resolver
 
-  const onFormSubmit = useCallback(async (data: typeof defaultValues) => {
-    console.log('data', data)
-  }, [])
+  const elementsKeysToRender = useMemo(() => {
+    return visibleElementsKeys
+  }, [elementsSource, visibleElementsKeys])
 
-  useEffect(() => {
-    if (externalSubmitButtonRef?.current) {
-      externalSubmitButtonRef.current.disabled = !isValid
-    }
-  }, [isValid, externalSubmitButtonRef])
+  const handleFormSubmit = useCallback(
+    async (data: Record<string, any>) => {
+      if (!onSubmit) return
+
+      if (includeInactiveFieldsInSubmit) {
+        await onSubmit(data)
+      } else {
+        const filtered = Object.fromEntries(
+          visibleElementsKeys.map((key) => [key, data[key]])
+        )
+        await onSubmit(filtered)
+      }
+    },
+    [onSubmit, includeInactiveFieldsInSubmit, visibleElementsKeys]
+  )
 
   return (
-    <form className={styles.formDefault} onSubmit={handleSubmit(onFormSubmit)}>
-      {visibleElementsKeys.map((key, index) => (
+    <form
+      className={styles.formDefault}
+      onSubmit={handleSubmit(handleFormSubmit)}
+    >
+      {elementsKeysToRender.map((key, index) => (
         <FormFieldRendered
           key={key}
           fieldKey={key}
           control={control}
           index={index}
           field={elementsSource[key]}
-          isValid={isValid}
           valueFormat={valueFormat}
           components={components}
+          formState={formState}
           classNames={classNames}
-          submitButtonRef={submitButtonRef}
           isMultiStep={isMultiStep}
         />
       ))}
-      {externalSubmitButtonRef && (
-        <button
-          type="submit"
-          ref={externalSubmitButtonRef}
-          style={{ display: 'none' }}
-        />
-      )}
     </form>
   )
 }
-
-export type { TMultiStepExtra }
-
 FormDefault.whyDidYouRender = true
 export default React.memo(FormDefault)

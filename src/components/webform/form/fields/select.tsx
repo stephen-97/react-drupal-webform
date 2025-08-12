@@ -1,14 +1,12 @@
 import styles from './field.module.scss'
 import { useController } from 'react-hook-form'
 import { TFieldObj } from '@/lib/types/components/field'
-import { TFormatFieldMulti } from '@/lib/types/form.d'
 import { handleChangeOptions } from '@/lib/functions/webform_fields_functions/webform_fields_functions'
 import cn from 'classnames'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
 
 export const renderSelect = (props: TFieldObj) => {
-  const { control, key, field, components, classNames, onBlur, valueFormat } =
-    props
+  const { control, key, field, components, classNames, valueFormat } = props
   const { key: _, ...restProps } = props
 
   const { field: fieldController, fieldState } = useController<any>({
@@ -66,13 +64,13 @@ export const renderSelect = (props: TFieldObj) => {
           <option className={classNames.fields.select.option} value="">
             {field?.['#placeholder'] ?? '-- Select an option --'}
           </option>
-          {optionsObj.map(([key, value], i) => (
+          {optionsObj.map(([optionKey, optionValue], i) => (
             <option
               className={classNames.fields.select.option}
               key={i}
-              value={key}
+              value={optionKey}
             >
-              {value}
+              {optionValue}
             </option>
           ))}
         </select>

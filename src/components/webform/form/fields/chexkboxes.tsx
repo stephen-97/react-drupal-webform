@@ -2,7 +2,10 @@ import cn from 'classnames'
 import styles from './field.module.scss'
 import { useController } from 'react-hook-form'
 import { TFieldObj } from '@/lib/types/components/field'
-import { handleChangeOptionsCheckboxes } from '@/lib/functions/webform_fields_functions/webform_fields_functions'
+import {
+  getCheckboxChecked,
+  handleChangeOptionsCheckboxes,
+} from '@/lib/functions/webform_fields_functions/webform_fields_functions'
 import { TFormatFieldMulti } from '@/lib/types/form.d'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
 
@@ -52,44 +55,52 @@ export const renderCheckboxes = (props: TFieldObj) => {
             styles.checkboxes
           )}
         >
-          {optionsObj.map(([key, value], i) => (
-            <div
-              className={cn(
-                classNames.fields.checkboxes?.itemWrapper,
-                styles.checkbox
-              )}
-              key={i}
-            >
-              <input
+          {optionsObj.map(([optionKey, optionValue], i) => {
+            const checked = getCheckboxChecked({
+              checkboxesFormat,
+              optionKey,
+              optionValue,
+              fieldControllerValue: fieldController.value,
+            })
+            return (
+              <div
                 className={cn(
                   classNames.fields.checkboxes?.itemWrapper,
-                  styles.field,
-                  styles.checkboxInput
+                  styles.checkbox
                 )}
-                name={fieldController.name}
-                type={'checkbox'}
-                id={`checkboxes-${key}-${i}`}
-                value={key}
-                onChange={(e) =>
-                  handleChangeOptionsCheckboxes(
-                    e.target.value,
-                    e.target.checked,
-                    checkboxesFormat as TFormatFieldMulti,
-                    fieldController,
-                    options,
-                    optionsObj
-                  )
-                }
-                onBlur={onBlur}
-              />
-              <label
-                htmlFor={`checkboxes-${key}-${i}`}
-                className={cn(classNames.fields.checkboxes.label)}
+                key={i}
               >
-                {value}
-              </label>
-            </div>
-          ))}
+                <input
+                  className={cn(
+                    classNames.fields.checkboxes?.itemWrapper,
+                    styles.field
+                  )}
+                  name={fieldController.name}
+                  type={'checkbox'}
+                  id={`checkboxes-${optionKey}-${i}`}
+                  value={optionKey}
+                  checked={checked}
+                  onChange={(e) =>
+                    handleChangeOptionsCheckboxes(
+                      e.target.value,
+                      e.target.checked,
+                      checkboxesFormat as TFormatFieldMulti,
+                      fieldController,
+                      options,
+                      optionsObj
+                    )
+                  }
+                  onBlur={onBlur}
+                />
+                <label
+                  htmlFor={`checkboxes-${optionKey}-${i}`}
+                  className={cn(classNames.fields.checkboxes.label)}
+                >
+                  {optionValue}
+                </label>
+              </div>
+            )
+          })}
         </div>
       )}
     </Wrapper>

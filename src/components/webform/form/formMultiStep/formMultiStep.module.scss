@@ -3,13 +3,3 @@
   gap: 1.5rem;
   flex-direction: column;
 }
-
-.actions {
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  gap: 1rem;
-  .button {
-    width: calc(50% - .5rem);
-  }
-}

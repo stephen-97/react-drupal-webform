@@ -1,4 +1,3 @@
-import { IWrapperWebformProps } from '@/lib/types/components/wrapper'
 import { TElementSource } from '@/lib/types/components/field'
 import {
   TWebformClassNames,

@@ -1,42 +1,55 @@
 'use client'
 
+import { string } from 'yup'
+
 require('@/lib/wdyr')
 
 import Webform from '@/components/webform/webform'
-import { UseFormProps } from 'react-hook-form'
 import styles from './webformContainer.module.scss'
 import errorMessageCustom from '@/components/webform/custom-components/errorMessageCustom'
+import { customValidatorObj } from '@/components/webform/custom-data/customValidatorObj'
 
 export type TWebformContainer = {
   elementsSource: string
-  confirmationPath: string
 }
 
-const WebformContainer = ({
-  elementsSource,
-  confirmationPath,
-}: TWebformContainer) => {
-  const yupUseFormProps: UseFormProps = {
-    mode: 'onChange',
-    reValidateMode: 'onBlur',
+const WebformContainer = ({ elementsSource }: TWebformContainer) => {
+  const fakeSubmit = (data: Record<any, string>) => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({
+          success: true,
+          message: 'Formulaire soumis avec succès (fake).',
+          data,
+        })
+      }, 3000)
+    })
+  }
+
+  const handleSubmit = async (formData: Record<any, string>) => {
+    console.log('result', formData)
+    return fakeSubmit(formData)
+      .then((response: any) => {
+        console.log(response.message)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
   }
 
   return (
     <Webform
       elementsSource={elementsSource}
-      confirmationPath={confirmationPath}
-      yup={{ yupUseFormProps }}
+      onSubmit={(data) => handleSubmit(data)}
       valueFormat={{
         radios: 'booleanMap',
-        select: 'key',
-        checkboxes: 'booleanMap',
-      }}
-      defaultFieldValues={{
-        textfield: '',
+        select: 'booleanMap',
+        checkboxes: 'keyValue',
       }}
       components={{
         errorFieldMessage: errorMessageCustom,
       }}
+      customValidators={customValidatorObj}
       classNames={{
         wrappers: {
           base: styles.fieldWrapper,
@@ -53,13 +66,6 @@ const WebformContainer = ({
         states: {
           fieldError: styles.fieldError,
           fieldErrorMessage: styles.fieldErrorMessage,
-        },
-      }}
-      defaultFieldStateMessages={{
-        fields: {
-          errorMessages: {
-            email: 'Wrong email',
-          },
         },
       }}
     />

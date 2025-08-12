@@ -1,5 +1,4 @@
 import {
-  TWebformClassNames,
   TWebformDefaultFieldValues,
   TWebformStateMessages,
   TWebformValueFormat,
@@ -10,6 +9,7 @@ import ErrorFieldMessage from '@/components/webform/form/fields/fields-sub-compo
 import FieldObjCustom from '@/components/webform/form/fields/fields-special-components/fieldObjCustom'
 import FieldWysiwygCustom from '@/components/webform/form/fields/fields-special-components/fieldWysiwygCustom'
 import Wrapper from '@/components/webform/form/fields/fields-sub-components/wrapper'
+import { TDeepRequiredClassNames } from '@/lib/types/deepRequired'
 
 export const defaultValueFormatObj: Required<TWebformValueFormat> = {
   radios: 'booleanMap',
@@ -36,14 +36,14 @@ export const defaultValuesObj: Required<TWebformDefaultFieldValues> = {
 export const defaultValuesFieldStateMessages: DeepRequired<TWebformStateMessages> =
   {
     general: {
-      errorMessage: 'Error',
+      errorMessage: '',
       requiredMessage: 'Field "{fieldName}" is required.',
     },
     fields: {
       errorMessages: {
         textfield: '',
         textarea: '',
-        email: '',
+        email: 'Please enter a valid email address (e.g., name@example.com).',
         number: 'Please enter a number.',
         tel: 'Please enter a valid phone number.',
         date: 'Invalid date format.',
@@ -66,7 +66,7 @@ export const defaultValuesFieldStateMessages: DeepRequired<TWebformStateMessages
     },
   }
 
-export const defaultValuesClassnames: DeepRequired<TWebformClassNames> = {
+export const defaultValuesClassnames: TDeepRequiredClassNames = {
   wrappers: {
     base: '',
     byCategory: {
@@ -121,6 +121,7 @@ export const defaultValuesClassnames: DeepRequired<TWebformClassNames> = {
       label: '',
     },
     checkbox: {
+      itemWrapper: '',
       input: '',
       label: '',
     },
@@ -140,6 +141,18 @@ export const defaultValuesClassnames: DeepRequired<TWebformClassNames> = {
     markup: {
       base: '',
     },
+  },
+  multiStep: {
+    stepperContainer: '',
+    stepperHeader: '',
+    stepperTitle: '',
+    stepperCounter: '',
+    stepperProgressBarContainer: '',
+    stepperProgressBar: '',
+    actionsContainer: '',
+    actionsButtons: '',
+    actionsButtonPrev: '',
+    actionsButtonsNext: '',
   },
 }
 
