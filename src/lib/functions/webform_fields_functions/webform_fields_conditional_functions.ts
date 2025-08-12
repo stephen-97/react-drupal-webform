@@ -1,5 +1,6 @@
 import {
   TFormatFieldMulti,
+  TWebformCustomValidators,
   TWebformDefaultFieldValues,
   TWebformStateMessages,
   TWebformValueFormat,
@@ -229,12 +230,14 @@ export const generateFormSchemaAndDefaults = ({
   valueFormat,
   defaultFieldValues,
   defaultFieldStateMessages,
+  customValidators,
 }: {
   elementsSource: Record<string, any>
   visibleElementsKeys: string[]
   valueFormat: Required<TWebformValueFormat>
   defaultFieldValues: Required<TWebformDefaultFieldValues>
   defaultFieldStateMessages: DeepRequired<TWebformStateMessages>
+  customValidators?: TWebformCustomValidators
 }) => {
   const defaults: Record<string, any> = {}
   const yupObjLocal: Record<string, any> = {}
@@ -262,6 +265,7 @@ export const generateFormSchemaAndDefaults = ({
       defaultFieldValues,
       defaultFieldStateMessages,
       requiredMessage,
+      customValidators,
       errorMessage,
     })
   })

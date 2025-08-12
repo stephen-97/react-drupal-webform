@@ -3,9 +3,9 @@ import { components } from '@/lib/const/const.form'
 import styles from './custom.module.scss'
 import { ILabelWebformProps } from '@/lib/types/components/label'
 
-const LabelCustom = ({ className, ...props }: ILabelWebformProps) => {
+const LabelCustom = ({ ...props }: ILabelWebformProps) => {
   return (
-    <components.LabelWebform className={styles.customLabel} {...props}>
+    <components.LabelWebform {...props}>
       <div>*</div>
     </components.LabelWebform>
   )

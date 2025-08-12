@@ -1,10 +1,13 @@
 'use client'
 
+import { string } from 'yup'
+
 require('@/lib/wdyr')
 
 import Webform from '@/components/webform/webform'
 import styles from './webformContainer.module.scss'
 import errorMessageCustom from '@/components/webform/custom-components/errorMessageCustom'
+import { customValidatorObj } from '@/components/webform/custom-data/customValidatorObj'
 
 export type TWebformContainer = {
   elementsSource: string
@@ -46,6 +49,7 @@ const WebformContainer = ({ elementsSource }: TWebformContainer) => {
       components={{
         errorFieldMessage: errorMessageCustom,
       }}
+      customValidators={customValidatorObj}
       classNames={{
         wrappers: {
           base: styles.fieldWrapper,

@@ -25,6 +25,7 @@ const Webform = ({
   components,
   onSubmit,
   includeInactiveFieldsInSubmit = true,
+  customValidators,
 }: TWebform) => {
   const yupUseFormProps: UseFormProps = {
     mode: 'onChange',
@@ -80,6 +81,7 @@ const Webform = ({
           components={components}
           onSubmit={onSubmit}
           includeInactiveFieldsInSubmit={includeInactiveFieldsInSubmit}
+          customValidators={customValidators}
         />
       )
     }
@@ -95,6 +97,7 @@ const Webform = ({
         components={components}
         onSubmit={onSubmit}
         includeInactiveFieldsInSubmit={includeInactiveFieldsInSubmit}
+        customValidators={customValidators}
       />
     )
   }

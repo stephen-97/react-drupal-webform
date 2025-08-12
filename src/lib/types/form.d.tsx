@@ -1,4 +1,4 @@
-import { DeepRequired, UseFormProps } from 'react-hook-form'
+import { AnySchema } from 'yup'
 import { JSX } from 'react'
 import { ILabelWebformProps } from '@/lib/types/components/label'
 import { TDrupal_FieldType } from '@/lib/types/components/field'
@@ -13,6 +13,7 @@ import { IMoreProps } from '@/lib/types/components/more'
 import { IManagedFilePreviewWebformProps } from '@/lib/types/components/filePreview'
 import { IMultiStepActionsProps } from '@/lib/types/components/multiStepActions'
 import { IMultiStepStepperProps } from '@/lib/types/components/multiStepStepper'
+import { TFieldValidate } from '@/lib/types/components/validate'
 
 export type TFileWithBase64 = {
   name: string
@@ -35,10 +36,6 @@ export type TDefaultValue = string | number | boolean | Record<string, any>
 
 export type TWebformDefaultFieldValues = {
   [K in TDrupal_FieldType]?: TDefaultValue
-}
-
-export type TWebformMessageSpecificFields = {
-  [K in TDrupal_FieldType]?: string | null
 }
 
 type TWebformRequiredMessageFields = {
@@ -174,12 +171,27 @@ export type TWebformCustomComponents = {
   multiStepStepper?: (_props: IMultiStepStepperProps) => JSX.Element | null
 }
 
+export type TWebformValidatorFactory = (
+  ctx: TFieldValidate
+) => AnySchema | null | undefined
+
+export type TWebformCustomValidators = {
+  byType?: Partial<
+    Record<
+      Exclude<TDrupal_FieldType, 'webform_markup' | 'webform_actions'>,
+      TWebformValidatorFactory
+    >
+  >
+  byId?: Partial<Record<string, TWebformValidatorFactory>>
+}
+
 export type TWebform = {
   elementsSource: string
   components?: TWebformCustomComponents
   validators?: any
   valueFormat?: TWebformValueFormat
   defaultFieldValues?: TWebformDefaultFieldValues
+  customValidators?: TWebformCustomValidators
   classNames?: TWebformClassNames
   defaultFieldStateMessages?: TWebformStateMessages
   onSubmit: (_data: Record<string, any>) => void | Promise<any>

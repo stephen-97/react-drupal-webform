@@ -34,6 +34,7 @@ const FormMultiStep = ({
   classNames,
   onSubmit,
   includeInactiveFieldsInSubmit,
+  customValidators,
 }: TFormMultiStepProps) => {
   const stepKeys: string[] = useMemo(
     () => Object.keys(elementsSource),
@@ -165,6 +166,7 @@ const FormMultiStep = ({
       valueFormat,
       defaultFieldValues,
       defaultFieldStateMessages,
+      customValidators,
     })
   }, [
     currentStepObj,

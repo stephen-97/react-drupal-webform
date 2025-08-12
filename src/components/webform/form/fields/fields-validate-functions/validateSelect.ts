@@ -1,79 +1,54 @@
+import { object, ObjectSchema, string } from 'yup'
 import { TFieldValidate } from '@/lib/types/components/validate'
 import {
-  formatMessage,
-  getRequiredMessage,
+  resolveCustomValidator,
+  TDrupal_FieldType_Validate,
 } from '@/lib/functions/webform_validation_functions/webform_validation_functions'
-import { object, ObjectSchema, string } from 'yup'
-export const validateSelect = ({
-  yupObject,
-  defaultValues,
-  key,
-  field,
-  required,
-  valueFormat,
-  requiredMessage,
-}: TFieldValidate) => {
+
+export const validateSelect = (props: TFieldValidate) => {
+  const {
+    yupObject,
+    defaultValues,
+    key,
+    field,
+    required,
+    valueFormat,
+    requiredMessage,
+    customValidators,
+  } = props
+
+  const type = field?.['#type'] as TDrupal_FieldType_Validate
   const options = field['#options']
   const optionKeys = Object.keys(options)
 
-  const { select: selectFormat } = valueFormat
+  let defaultSchema: any
 
-  let schema: any
-
-  switch (selectFormat) {
+  switch (valueFormat.select) {
     case 'key':
-      schema = string()
+      defaultSchema = string()
         .oneOf(optionKeys.concat(''))
         .transform((value: any) => (optionKeys.includes(value) ? value : ''))
-      if (required) {
-        schema = schema.required(requiredMessage)
-      }
       defaultValues[key] = ''
       break
 
     case 'value':
       const optionValues: string[] = Object.values(options)
-      schema = string()
+      defaultSchema = string()
         .oneOf(optionValues.concat(''))
         .transform((value: any) => (optionValues.includes(value) ? value : ''))
-      if (required) {
-        schema = schema.required(requiredMessage)
-      }
       defaultValues[key] = ''
       break
 
     case 'keyValue':
-      schema = object().transform((value: any) => {
-        const key = Object.keys(value || {})[0]
-        if (optionKeys.includes(key)) {
-          return value
-        }
-        return {}
+      defaultSchema = object().transform((value: any) => {
+        const k = Object.keys(value || {})[0]
+        return optionKeys.includes(k) ? value : {}
       })
-      if (required) {
-        schema = schema.test(
-          'valid-keyValue',
-          requiredMessage,
-          (value: any) => {
-            if (!value || typeof value !== 'object') return false
-            const key = Object.keys(value)[0]
-            return key && optionKeys.includes(key)
-          }
-        )
-      }
       defaultValues[key] = {}
       break
 
     case 'booleanMap':
-      schema = object()
-      if (required) {
-        schema = schema.test(
-          'at-least-one-true',
-          requiredMessage,
-          (value: Record<string, any>) =>
-            value && Object.values(value).some((v) => v === true)
-        ) as ObjectSchema<Record<string, boolean>>
-      }
+      defaultSchema = object()
       defaultValues[key] = optionKeys.reduce(
         (acc, key) => {
           acc[key] = false
@@ -82,7 +57,16 @@ export const validateSelect = ({
         {} as Record<string, boolean>
       )
       break
+
+    default:
+      defaultSchema = string()
+      defaultValues[key] = ''
   }
 
-  yupObject[key] = schema
+  const customSchema =
+    resolveCustomValidator(customValidators, key, type, props) ?? defaultSchema
+
+  yupObject[key] = required
+    ? (customSchema as any).required(requiredMessage)
+    : customSchema
 }

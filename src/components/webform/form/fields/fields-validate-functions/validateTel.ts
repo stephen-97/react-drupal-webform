@@ -1,20 +1,36 @@
-import { TFieldValidate } from '@/lib/types/components/validate'
 import { string } from 'yup'
+import { TFieldValidate } from '@/lib/types/components/validate'
+import {
+  resolveCustomValidator,
+  TDrupal_FieldType_Validate,
+} from '@/lib/functions/webform_validation_functions/webform_validation_functions'
 
-export const validateTel = ({
-  yupObject,
-  defaultValues,
-  key,
-  required,
-  defaultFieldValues,
-  requiredMessage,
-  errorMessage,
-}: TFieldValidate) => {
-  const schema = string().matches(/^[0-9]+$/, {
+export const validateTel = (props: TFieldValidate) => {
+  const {
+    yupObject,
+    defaultValues,
+    key,
+    field,
+    required,
+    defaultFieldValues,
+    requiredMessage,
+    errorMessage,
+    customValidators,
+  } = props
+
+  const type = field?.['#type'] as TDrupal_FieldType_Validate
+
+  const defaultSchema = string().matches(/^[0-9]+$/, {
     message: errorMessage,
     excludeEmptyString: true,
   })
-  yupObject[key] = required ? schema.required(requiredMessage) : schema
+
+  const customSchema =
+    resolveCustomValidator(customValidators, key, type, props) ?? defaultSchema
+
+  yupObject[key] = required
+    ? (customSchema as any).required(requiredMessage)
+    : customSchema
 
   defaultValues[key] = defaultFieldValues.tel
 }

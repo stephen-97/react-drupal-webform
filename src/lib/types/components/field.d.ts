@@ -61,18 +61,6 @@ type TElementSource = {
   }
 }
 
-type TFieldValidate = {
-  yupObject: Record<string, any>
-  defaultValues: Record<string, any>
-  key: string
-  field: TElementSource
-  visibility: boolean
-  options?: string[]
-  valueFormat: TWebformValueFormat
-  defaultFieldValues: Required<TWebformDefaultFieldValues>
-  defaultFieldStateMessages: DeepRequired<TWebformStateMessages>
-}
-
 export type TFieldObj = {
   index: number
   key: string
@@ -89,7 +77,6 @@ export type TFieldObj = {
 
 export type {
   TElementSource,
-  TFieldValidate,
   TFieldMultiNames,
   TMultiFieldNames,
   TSingleFieldNames,

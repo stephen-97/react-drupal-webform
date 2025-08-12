@@ -1,5 +1,5 @@
 import { ReactElement } from 'react'
-import { TFieldValidate } from '@/lib/types/field'
+import { TFieldValidate } from '@/lib/types/components/validate'
 import { TFieldObj } from '@/lib/types/components/field'
 
 type TElementFunction = (_props: TFieldObj) => ReactElement | null

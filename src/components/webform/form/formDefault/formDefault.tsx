@@ -24,6 +24,7 @@ const FormDefault = ({
   classNames,
   includeInactiveFieldsInSubmit,
   onSubmit,
+  customValidators,
 }: IFormDefaultWebformProps) => {
   const { yupUseFormProps } = yupObj || {}
   const isMultiStep = Boolean(multiStepExtra)
@@ -75,6 +76,7 @@ const FormDefault = ({
       valueFormat,
       defaultFieldValues,
       defaultFieldStateMessages,
+      customValidators,
     })
   }, [
     elementsSource,
