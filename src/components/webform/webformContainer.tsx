@@ -1,13 +1,13 @@
 'use client'
 
-import { string } from 'yup'
+import YAML from 'yaml'
 
 require('@/lib/wdyr')
 
-import Webform from '@/components/webform/webform'
+import { Webform } from '../../../packages/webform-components'
 import styles from './webformContainer.module.scss'
-import errorMessageCustom from '@/components/webform/custom-components/errorMessageCustom'
 import { customValidatorObj } from '@/components/webform/custom-data/customValidatorObj'
+import CustomMultiStepActions from '@/components/webform/custom-components/customMultiStepActions'
 
 export type TWebformContainer = {
   elementsSource: string
@@ -37,19 +37,17 @@ const WebformContainer = ({ elementsSource }: TWebformContainer) => {
       })
   }
 
+  const correctElementsSource = YAML.parse(elementsSource)
+
   return (
     <Webform
-      elementsSource={elementsSource}
+      elementsSource={correctElementsSource}
       onSubmit={(data) => handleSubmit(data)}
       valueFormat={{
         radios: 'booleanMap',
         select: 'booleanMap',
         checkboxes: 'keyValue',
       }}
-      components={{
-        errorFieldMessage: errorMessageCustom,
-      }}
-      customValidators={customValidatorObj}
       classNames={{
         wrappers: {
           base: styles.fieldWrapper,
@@ -62,6 +60,7 @@ const WebformContainer = ({ elementsSource }: TWebformContainer) => {
         },
         general: {
           fieldLabel: styles.fieldLabel,
+          fieldHelp: '',
         },
         states: {
           fieldError: styles.fieldError,
@@ -74,3 +73,34 @@ const WebformContainer = ({ elementsSource }: TWebformContainer) => {
 
 WebformContainer.whyDidYouRender = true
 export default WebformContainer
+
+/**
+ * <Webform
+ *       elementsSource={correctElementsSource}
+ *       onSubmit={(data) => handleSubmit(data)}
+ *       valueFormat={{
+ *         radios: 'booleanMap',
+ *         select: 'booleanMap',
+ *         checkboxes: 'keyValue',
+ *       }}
+ *       customValidators={customValidatorObj}
+ *       classNames={{
+ *         wrappers: {
+ *           base: styles.fieldWrapper,
+ *           byCategory: {
+ *             textInput: styles.fieldTextInput,
+ *           },
+ *           byFieldType: {
+ *             textfield: styles.textfield,
+ *           },
+ *         },
+ *         general: {
+ *           fieldLabel: styles.fieldLabel,
+ *         },
+ *         states: {
+ *           fieldError: styles.fieldError,
+ *           fieldErrorMessage: styles.fieldErrorMessage,
+ *         },
+ *       }}
+ *     />
+ */

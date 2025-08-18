@@ -1,0 +1,80 @@
+import { renderAction } from "../fields/action";
+import { renderRadio } from "../fields/radios";
+import { renderCheckboxes } from "../fields/chexkboxes";
+import { renderSelect } from "../fields/select";
+import { renderMarkup } from "../fields/markup";
+import { renderCheckbox } from "../fields/checkbox";
+import { renderTextArea } from "../fields/textarea";
+import { validateEmail } from "../fields/fields-validate-functions/validateEmail";
+import { validateTel } from "../fields/fields-validate-functions/validateTel";
+import { validateNumber } from "../fields/fields-validate-functions/validateNumber";
+import { validateTextField } from "../fields/fields-validate-functions/validateTextfield";
+import { validateDate } from "../fields/fields-validate-functions/validateDate";
+import { validateRadio } from "../fields/fields-validate-functions/validateRadios";
+import { validateCheckbox } from "../fields/fields-validate-functions/validateCheckbox";
+import { validateCheckboxes } from "../fields/fields-validate-functions/validateCheckboxes";
+import { validateSelect } from "../fields/fields-validate-functions/validateSelect";
+import { validateManagedFile } from "../fields/fields-validate-functions/validateManagedFile";
+import { validateTextArea } from "../fields/fields-validate-functions/validateTextArea";
+import renderInput from "../fields/input";
+import renderManagedFile from "../fields/managedFile";
+const FormMappingFields = {
+    textfield: {
+        element: renderInput,
+        validator: validateTextField,
+    },
+    textarea: {
+        element: renderTextArea,
+        validator: validateTextArea,
+    },
+    radios: {
+        element: renderRadio,
+        validator: validateRadio,
+    },
+    webform_actions: {
+        element: renderAction,
+        validator: null,
+    },
+    checkbox: {
+        element: renderCheckbox,
+        validator: validateCheckbox,
+    },
+    checkboxes: {
+        element: renderCheckboxes,
+        validator: validateCheckboxes,
+    },
+    number: {
+        element: renderInput,
+        validator: validateNumber,
+    },
+    tel: {
+        element: renderInput,
+        validator: validateTel,
+    },
+    select: {
+        element: renderSelect,
+        validator: validateSelect,
+    },
+    email: {
+        element: renderInput,
+        validator: validateEmail,
+    },
+    date: {
+        element: renderInput,
+        validator: validateDate,
+    },
+    webform_markup: {
+        element: renderMarkup,
+        validator: null,
+    },
+    managed_file: {
+        element: renderManagedFile,
+        validator: validateManagedFile,
+    },
+    default: {
+        element: null,
+        validator: null,
+    },
+};
+export default FormMappingFields;
+//# sourceMappingURL=formMappingFields.js.map

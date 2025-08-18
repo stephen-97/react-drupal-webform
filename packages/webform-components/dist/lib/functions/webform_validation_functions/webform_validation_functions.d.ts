@@ -1,0 +1,10 @@
+import { TWebformCustomValidators, TWebformStateMessages } from "../../types/form.d";
+import { DeepRequired } from 'react-hook-form';
+import { TDrupal_FieldType } from "../../types/components/field";
+import { AnySchema } from 'yup';
+import { TFieldValidate } from "../../types/components/validate";
+export declare const getRequiredMessage: (defaultFieldStateMessages: DeepRequired<TWebformStateMessages>, stateFieldName: TDrupal_FieldType) => any;
+export declare const getErrorMessage: (defaultFieldStateMessages: DeepRequired<TWebformStateMessages>, stateFieldName: TDrupal_FieldType) => any;
+export declare const formatMessage: (template: string, fieldName: string) => string;
+export type TDrupal_FieldType_Validate = Exclude<TDrupal_FieldType, 'webform_markup' | 'webform_actions'>;
+export declare const resolveCustomValidator: <S extends AnySchema>(customValidators: TWebformCustomValidators | undefined, key: string, type: TDrupal_FieldType_Validate | undefined, args: TFieldValidate) => S | null;

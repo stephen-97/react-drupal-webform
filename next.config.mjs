@@ -17,10 +17,13 @@ const nextConfig = {
         ];
     },
     sassOptions: {
-        includePaths: [path.join(__dirname, 'src', 'styles')],
-        prependData: `@use "helpers";`
+        includePaths: [path.join(__dirname, "src", "styles")],
+        prependData: `@use "helpers";`,
     },
     productionBrowserSourceMaps: true,
+
+    // 🚀 transpile ton package local
+    transpilePackages: ["webform-components"],
 };
 
 export default nextConfig;

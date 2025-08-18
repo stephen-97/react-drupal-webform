@@ -6,7 +6,7 @@ import prettier from "eslint-plugin-prettier";
 
 const config = [
   {
-    files: ["src/**/*.{js,jsx,ts,tsx}"],
+    files: ["src/**/*.{js,jsx,ts,tsx}", "packages/**/*.{js,jsx,ts,tsx}"],
     languageOptions: {
       parser: typescriptParser,
       parserOptions: {

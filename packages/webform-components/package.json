@@ -1,0 +1,23 @@
+{
+  "name": "webform-components",
+  "version": "1.0.0",
+  "description": "React Webform components for Drupal",
+  "author": "Stephen Loiola Bastos",
+  "license": "MIT",
+  "private": false,
+  "main": "src/index.tsx",
+  "module": "src/index.tsx",
+  "types": "src/index.tsx",
+  "sideEffects": ["**/*.scss"],
+  "peerDependencies": {
+    "@tippyjs/react": "^4.2.6",
+    "react": ">=18",
+    "react-dom": ">=18",
+    "yup": "^1.6.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}
