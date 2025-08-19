@@ -1,11 +1,11 @@
 import {
   TWebformCustomValidators,
   TWebformStateMessages,
-} from "../../types/form.d"
+} from '../../types/form.d'
 import { DeepRequired } from 'react-hook-form'
-import { TDrupal_FieldType } from "../../types/components/field"
+import { TDrupal_FieldType } from '../../types/components/field'
 import { AnySchema, StringSchema } from 'yup'
-import { TFieldValidate } from "../../types/components/validate"
+import { TFieldValidate } from '../../types/components/validate'
 
 export const getRequiredMessage = (
   defaultFieldStateMessages: DeepRequired<TWebformStateMessages>,
@@ -55,16 +55,36 @@ export const resolveCustomValidator = <S extends AnySchema>(
 ): S | null => {
   if (!customValidators) return null
 
-  // Vérifie par ID d'abord
   const byId = customValidators.byId?.[key]
   if (byId) {
     return byId(args) as unknown as S
   }
 
-  // Sinon vérifie par type
   if (type && customValidators.byType?.[type]) {
     return customValidators.byType[type]!(args) as unknown as S
   }
 
   return null
+}
+
+export const getDummyDefaultFormDefault = (
+  elementsSource: Record<string, any>
+): Record<string, any> => {
+  const allDefaults: Record<string, any> = {}
+
+  Object.keys(elementsSource).forEach((key) => {
+    const field = elementsSource[key]
+    const type: TDrupal_FieldType = field?.['#type']
+    if (
+      ['container', 'webform_flexbox', 'webform_section', 'details'].includes(
+        type
+      )
+    ) {
+      return
+    }
+
+    allDefaults[key] = ''
+  })
+
+  return allDefaults
 }

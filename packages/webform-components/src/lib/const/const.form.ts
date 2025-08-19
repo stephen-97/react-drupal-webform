@@ -2,14 +2,14 @@ import {
   TWebformDefaultFieldValues,
   TWebformStateMessages,
   TWebformValueFormat,
-} from "../types/form.d"
+} from '../types/form.d'
 import { DeepRequired } from 'react-hook-form'
-import Label from "../../components/form/fields/fields-sub-components/label/label"
-import ErrorFieldMessage from "../../components/form/fields/fields-sub-components/errorFieldMessage/errorFieldMessage"
-import FieldObjCustom from "../../components/form/fields/fields-special-components/fieldObjCustom"
-import FieldWysiwygCustom from "../../components/form/fields/fields-special-components/fieldWysiwygCustom"
-import Wrapper from "../../components/form/fields/fields-sub-components/wrapper"
-import { TDeepRequiredClassNames } from "../types/deepRequired"
+import Label from '../../components/form/fields/fields-sub-components/label/label'
+import ErrorFieldMessage from '../../components/form/fields/fields-sub-components/errorFieldMessage/errorFieldMessage'
+import FieldObjCustom from '../../components/form/fields/fields-special-components/fieldObjCustom'
+import FieldWysiwygCustom from '../../components/form/fields/fields-special-components/fieldWysiwygCustom'
+import Wrapper from '../../components/form/fields/fields-sub-components/wrapper'
+import { TDeepRequiredClassNames } from '../types/deepRequired'
 
 export const defaultValueFormatObj: Required<TWebformValueFormat> = {
   radios: 'booleanMap',
@@ -31,6 +31,7 @@ export const defaultValuesObj: Required<TWebformDefaultFieldValues> = {
   select: '',
   webform_markup: '',
   webform_actions: '',
+  hidden: '',
 }
 
 export const defaultValuesFieldStateMessages: DeepRequired<TWebformStateMessages> =
@@ -49,6 +50,7 @@ export const defaultValuesFieldStateMessages: DeepRequired<TWebformStateMessages
         date: 'Invalid date format.',
         managed_file: '',
         radios: '',
+        hidden: '',
       },
       requiredMessages: {
         textfield: '',
@@ -62,6 +64,7 @@ export const defaultValuesFieldStateMessages: DeepRequired<TWebformStateMessages
         date: '',
         managed_file: '',
         select: '',
+        hidden: '',
       },
     },
   }
@@ -88,6 +91,7 @@ export const defaultValuesClassnames: TDeepRequiredClassNames = {
       select: '',
       managed_file: '',
       webform_actions: '',
+      hidden: '',
     },
   },
   general: {
@@ -140,6 +144,11 @@ export const defaultValuesClassnames: TDeepRequiredClassNames = {
     },
     markup: {
       base: '',
+    },
+    layout: {
+      wrapper: '',
+      title: '',
+      inner: '',
     },
   },
   multiStep: {

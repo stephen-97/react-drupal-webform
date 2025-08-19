@@ -48,6 +48,7 @@ const WebformContainer = ({ elementsSource }: TWebformContainer) => {
         select: 'booleanMap',
         checkboxes: 'keyValue',
       }}
+      includeInactiveFieldsInSubmit={false}
       classNames={{
         wrappers: {
           base: styles.fieldWrapper,
@@ -59,7 +60,6 @@ const WebformContainer = ({ elementsSource }: TWebformContainer) => {
           },
         },
         general: {
-          fieldLabel: styles.fieldLabel,
           fieldHelp: '',
         },
         states: {

@@ -4,15 +4,15 @@ import {
   TWebformDefaultFieldValues,
   TWebformStateMessages,
   TWebformValueFormat,
-} from "../../types/form.d"
+} from '../../types/form.d'
 import { DeepRequired } from 'react-hook-form'
-import { TDrupal_FieldType } from "../../types/components/field"
+import { TDrupal_FieldType } from '../../types/components/field'
 import {
   formatMessage,
   getErrorMessage,
   getRequiredMessage,
-} from "../webform_validation_functions/webform_validation_functions"
-import FormMappingFields from "../../../components/form/formMappingFields/formMappingFields"
+} from '../webform_validation_functions/webform_validation_functions'
+import FormMappingFields from '../../../components/form/formMappingFields/formMappingFields'
 import * as yup from 'yup'
 
 export const checkVisibilityCondition = (
@@ -63,6 +63,7 @@ export function shouldFieldBeVisible(
   watchedValues: Record<string, string>,
   valueFormat: Record<string, TFormatFieldMulti>
 ): boolean {
+  console.log('step', elementsSource)
   const fieldConfig = elementsSource[fieldKey]
   const visibleStates = fieldConfig?.['#states']?.visible
   if (!visibleStates) {
@@ -102,76 +103,6 @@ export function shouldFieldBeVisible(
         const depType = depConfig?.['#type']
         const format = valueFormat[depType] || 'key'
         const watched = watchedValues[depName]
-        if (watched === undefined) return false
-        if (conditions.hasOwnProperty('value')) {
-          return checkVisibilityCondition(
-            format,
-            depConfig,
-            watched,
-            conditions.value
-          )
-        }
-        return true
-      }
-    )
-  })
-}
-
-export function shouldMultiStepFieldBeVisible(
-  fieldKey: string,
-  elementsSource: Record<string, any>,
-  watchedStepValues: Record<string, any>,
-  prevStepValues: Record<string, any>,
-  currentFieldKeys: string[],
-  valueFormat: Record<string, any>
-): boolean {
-  const fieldConfig = elementsSource[fieldKey]
-  const visibleStates = fieldConfig?.['#states']?.visible
-  if (!visibleStates) return true
-
-  // Résolution de la valeur de dépendance, selon où elle se trouve
-  function getDependencyValue(depName: string) {
-    if (currentFieldKeys.includes(depName)) {
-      return watchedStepValues[depName]
-    }
-    return prevStepValues[depName]
-  }
-
-  // Cas objet classique
-  if (!Array.isArray(visibleStates)) {
-    return Object.entries(visibleStates as Record<string, any>).every(
-      ([selector, conditions]) => {
-        const match = selector.match(/:input\[name="([^"]+)"\]/)
-        if (!match) return true
-        const depName = match[1]
-        const depConfig = elementsSource[depName]
-        const depType = depConfig?.['#type']
-        const format = valueFormat[depType] || 'key'
-        const watched = getDependencyValue(depName)
-        if (watched === undefined) return false
-        if (conditions.hasOwnProperty('value')) {
-          return checkVisibilityCondition(
-            format,
-            depConfig,
-            watched,
-            conditions.value
-          )
-        }
-        return true
-      }
-    )
-  }
-  return (visibleStates as any[]).some((stateCond: any) => {
-    if (typeof stateCond !== 'object' || stateCond === null) return false
-    return Object.entries(stateCond as Record<string, any>).every(
-      ([selector, conditions]) => {
-        const match = selector.match(/:input\[name="([^"]+)"\]/)
-        if (!match) return true
-        const depName = match[1]
-        const depConfig = elementsSource[depName]
-        const depType = depConfig?.['#type']
-        const format = valueFormat[depType] || 'key'
-        const watched = getDependencyValue(depName)
         if (watched === undefined) return false
         if (conditions.hasOwnProperty('value')) {
           return checkVisibilityCondition(
@@ -242,9 +173,11 @@ export const generateFormSchemaAndDefaults = ({
   const defaults: Record<string, any> = {}
   const yupObjLocal: Record<string, any> = {}
 
+  console.log('here', elementsSource, visibleElementsKeys)
+
   visibleElementsKeys.forEach((key) => {
     const field = elementsSource[key]
-    const type: TDrupal_FieldType = field['#type']
+    const type: TDrupal_FieldType = field?.['#type']
     const required = field?.['#required']
     const requiredMessage = formatMessage(
       getRequiredMessage(defaultFieldStateMessages, type) ?? '',

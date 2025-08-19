@@ -22,6 +22,7 @@ import renderManagedFile from '../fields/managedFile'
 import { renderHidden } from '../fields/hidden'
 import { validateHidden } from '../fields/fields-validate-functions/validateHidden'
 import renderLayout from '../fields/layout'
+import { validateLayout } from '../fields/fields-validate-functions/validateLayout'
 
 const FormMappingFields: IFormMappingField = {
   textfield: {
@@ -82,19 +83,19 @@ const FormMappingFields: IFormMappingField = {
   },
   container: {
     element: renderLayout,
-    validator: null,
+    validator: validateLayout,
   },
   details: {
     element: renderLayout,
-    validator: null,
+    validator: validateLayout,
   },
   webform_flexbox: {
     element: renderLayout,
-    validator: null,
+    validator: validateLayout,
   },
   webform_section: {
     element: renderLayout,
-    validator: null,
+    validator: validateLayout,
   },
   default: {
     element: null,

@@ -1,6 +1,6 @@
-import { TKeyValue } from "../../webform_functions"
-import { TWebformValueFormat } from "../../../types/form.d"
-import { shouldFieldBeVisible } from "../../webform_fields_functions/webform_fields_conditional_functions"
+import { TKeyValue } from '../../webform_functions'
+import { TWebformValueFormat } from '../../../types/form.d'
+import { shouldFieldBeVisible } from '../../webform_fields_functions/webform_fields_conditional_functions'
 
 type TConditionalSteps = {
   key: string
@@ -155,6 +155,42 @@ export const getAllVisibleFieldNames = (
         )
     )
   })
+}
+
+export function getAllVisibleFields(
+  obj: Record<string, any>,
+  watchedValues: Record<string, any>,
+  valueFormat: Record<string, any>
+): string[] {
+  let visibleKeys: string[] = []
+
+  for (const key of Object.keys(obj)) {
+    if (key.startsWith('#')) continue
+    const field = obj[key]
+    if (!field || typeof field !== 'object') continue
+
+    if (field['#type']) {
+      if (shouldFieldBeVisible(key, obj, watchedValues, valueFormat)) {
+        visibleKeys.push(key)
+
+        // descente récursive si c’est un layout
+        if (
+          [
+            'webform_section',
+            'webform_flexbox',
+            'container',
+            'details',
+          ].includes(field['#type'])
+        ) {
+          visibleKeys = [
+            ...visibleKeys,
+            ...getAllVisibleFields(field, watchedValues, valueFormat),
+          ]
+        }
+      }
+    }
+  }
+  return visibleKeys
 }
 
 export type { TConditionalSteps, TConditionalStepsProperties }

@@ -12,6 +12,7 @@ import {
   TDependentField,
 } from '../../../lib/functions/webform_fields_functions/webform_fields_conditional_functions'
 import { IFormDefaultWebformProps } from '../../../lib/types/components/formDefault'
+import { getDummyDefaultFormDefault } from '../../../lib/functions/webform_validation_functions/webform_validation_functions'
 
 const FormDefault = ({
   elementsSource,
@@ -26,7 +27,6 @@ const FormDefault = ({
   onSubmit,
   customValidators,
 }: IFormDefaultWebformProps) => {
-  console.log('ici', elementsSource)
   const { yupUseFormProps } = yupObj || {}
   const isMultiStep = Boolean(multiStepExtra)
 
@@ -40,13 +40,10 @@ const FormDefault = ({
     [dependentFields]
   )
 
-  const dummyDefaultValues = useMemo(() => {
-    const allDefaults: Record<string, any> = {}
-    Object.keys(elementsSource).forEach((key) => {
-      allDefaults[key] = ''
-    })
-    return allDefaults
-  }, [elementsSource])
+  const dummyDefaultValues = useMemo(
+    () => getDummyDefaultFormDefault(elementsSource),
+    [elementsSource]
+  )
 
   const methods = useForm({
     ...yupUseFormProps,

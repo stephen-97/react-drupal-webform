@@ -1,19 +1,20 @@
 import { AnySchema } from 'yup'
 import { JSX } from 'react'
-import { ILabelWebformProps } from "./components/label"
-import { TDrupal_FieldType } from "./components/field"
-import { IWrapperWebformProps } from "./components/wrapper"
-import { IErrorMessageWebformProps } from "./components/errorMessage"
-import { TFieldWebformObjCustom } from "../../components/form/fields/fields-special-components/fieldObjCustom"
-import { IWysiwygProps } from "./components/wysiwyg"
-import { IHelpProps } from "./components/help"
-import { IDescriptionWebformProps } from "./components/description"
-import { IManagedFileInfoProps } from "./components/managedFileInfo"
-import { IMoreProps } from "./components/more"
-import { IManagedFilePreviewWebformProps } from "./components/filePreview"
-import { IMultiStepActionsProps } from "./components/multiStepActions"
-import { IMultiStepStepperProps } from "./components/multiStepStepper"
-import { TFieldValidate } from "./components/validate"
+import { ILabelWebformProps } from './components/label'
+import { TDrupal_FieldType } from './components/field'
+import { IWrapperWebformProps } from './components/wrapper'
+import { IErrorMessageWebformProps } from './components/errorMessage'
+import { TFieldWebformObjCustom } from '../../components/form/fields/fields-special-components/fieldObjCustom'
+import { IWysiwygProps } from './components/wysiwyg'
+import { IHelpProps } from './components/help'
+import { IDescriptionWebformProps } from './components/description'
+import { IManagedFileInfoProps } from './components/managedFileInfo'
+import { IMoreProps } from './components/more'
+import { IManagedFilePreviewWebformProps } from './components/filePreview'
+import { IMultiStepActionsProps } from './components/multiStepActions'
+import { IMultiStepStepperProps } from './components/multiStepStepper'
+import { TFieldValidate } from './components/validate'
+import { ILayoutWrapperProps } from './components/layoutWrapper'
 
 export type TFileWithBase64 = {
   name: string
@@ -125,6 +126,11 @@ export type TWebformClassNames = {
     markup?: {
       base?: string
     }
+    layout?: {
+      wrapper?: string
+      title?: string
+      inner?: string
+    }
   }
   multiStep?: {
     stepperContainer?: string
@@ -169,6 +175,7 @@ export type TWebformCustomComponents = {
   more?: (_props: IMoreProps) => JSX.Element | null
   multiStepActions?: (_props: IMultiStepActionsProps) => JSX.Element | null
   multiStepStepper?: (_props: IMultiStepStepperProps) => JSX.Element | null
+  layout?: (_props: ILayoutWrapperProps) => JSX.Element | null
 }
 
 export type TWebformValidatorFactory = (
