@@ -18,14 +18,11 @@ const renderLayout = (
       {childKeys.map((childKey, i) => {
         const child = (field as any)[childKey]
 
-        console.log('watchedValues', watchedValues)
-
         const isVisible = shouldFieldBeVisible(
           childKey,
           field,
           watchedValues ?? {}
         )
-        console.log('childKey childKeys', childKey, childKeys, isVisible)
 
         if (!isVisible) return null
 

@@ -15,9 +15,16 @@ import * as yup from 'yup'
 
 export const checkVisibilityCondition = (
   watched: any,
-  expectedKey: any
+  expectedValue: any,
+  mode: 'is' | 'isNot' = 'is'
 ): boolean => {
-  return watched === expectedKey
+  if (mode === 'is') {
+    return watched === expectedValue
+  }
+  if (mode === 'isNot') {
+    return watched !== expectedValue
+  }
+  return false
 }
 
 export function shouldFieldBeVisible(
@@ -27,41 +34,34 @@ export function shouldFieldBeVisible(
 ): boolean {
   const fieldConfig = elementsSource[fieldKey]
   const visibleStates = fieldConfig?.['#states']?.visible
-  if (!visibleStates) {
-    return true
-  }
+  if (!visibleStates) return true
+
+  const evaluate = (states: Record<string, any>) =>
+    Object.entries(states).every(([selector, conditions]) => {
+      const match = selector.match(/:input\[name="([^"]+)"\]/)
+      if (!match) return true
+      const depName = match[1]
+      const watched = watchedValues[depName]
+      if (watched === undefined) return false
+
+      console.log('conditions', conditions)
+      if ('value' in conditions) {
+        return checkVisibilityCondition(watched, conditions.value, 'is')
+      }
+      if ('!value' in conditions) {
+        return checkVisibilityCondition(watched, conditions['!value'], 'isNot')
+      }
+
+      return true
+    })
 
   if (!Array.isArray(visibleStates)) {
-    return Object.entries(visibleStates as Record<string, any>).every(
-      ([selector, conditions]) => {
-        const match = selector.match(/:input\[name="([^"]+)"\]/)
-        if (!match) return true
-        const depName = match[1]
-        const watched = watchedValues[depName]
-        if (watched === undefined) return false
-        if (conditions.hasOwnProperty('value')) {
-          return checkVisibilityCondition(watched, conditions.value)
-        }
-        return true
-      }
-    )
+    return evaluate(visibleStates as Record<string, any>)
   }
 
   return visibleStates.some((stateCond: any) => {
     if (typeof stateCond !== 'object' || stateCond === null) return false
-    return Object.entries(stateCond as Record<string, any>).every(
-      ([selector, conditions]) => {
-        const match = selector.match(/:input\[name="([^"]+)"\]/)
-        if (!match) return true
-        const depName = match[1]
-        const watched = watchedValues[depName]
-        if (watched === undefined) return false
-        if (conditions.hasOwnProperty('value')) {
-          return checkVisibilityCondition(watched, conditions.value)
-        }
-        return true
-      }
-    )
+    return evaluate(stateCond as Record<string, any>)
   })
 }
 
@@ -75,7 +75,7 @@ const LAYOUT_TYPES: ReadonlySet<string> = new Set([
   'fieldset',
 ])
 
-function isLayoutType(type: unknown): type is string {
+export function isLayoutType(type: unknown): type is string {
   return typeof type === 'string' && LAYOUT_TYPES.has(type)
 }
 

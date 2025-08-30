@@ -10,6 +10,7 @@ import {
   getDependentFields,
   shouldFieldBeVisible,
   TDependentField,
+  isLayoutType,
 } from '../../../lib/functions/webform_fields_functions/webform_fields_conditional_functions'
 import { IFormDefaultWebformProps } from '../../../lib/types/components/formDefault'
 import { getDummyDefaultFormDefault } from '../../../lib/functions/webform_validation_functions/webform_validation_functions'
@@ -62,8 +63,6 @@ const FormDefault = ({
     }, {})
   }, [watchedValuesArray, dependentFields])
 
-  console.log('dependentFields', dependentFields)
-
   const visibleElementsKeys = useMemo(() => {
     return Object.keys(elementsSource).filter((key) =>
       shouldFieldBeVisible(key, elementsSource, watchedValues)
@@ -96,10 +95,6 @@ const FormDefault = ({
 
   control._options.resolver = resolver
 
-  const elementsKeysToRender = useMemo(() => {
-    return visibleElementsKeys
-  }, [elementsSource, visibleElementsKeys])
-
   const handleFormSubmit = useCallback(
     async (data: Record<string, any>) => {
       if (!onSubmit) return
@@ -116,30 +111,32 @@ const FormDefault = ({
     [onSubmit, includeInactiveFieldsInSubmit, visibleElementsKeys]
   )
 
-  //console.log('elementsKeysToRender', elementsKeysToRender, elementsSource)
-
-  const allWatchedValues = useWatch({ control })
-  console.log('allWatchedValues', allWatchedValues)
-  console.log('elementsKeysToRender', elementsKeysToRender)
-
+  console.log('element', elementsSource)
   return (
     <FormProvider {...methods}>
       <form
         className={styles.formDefault}
         onSubmit={handleSubmit(handleFormSubmit)}
       >
-        {elementsKeysToRender.map((key, index) => (
-          <FormFieldRendered
-            key={key}
-            fieldKey={key}
-            index={index}
-            field={elementsSource[key]}
-            components={components}
-            classNames={classNames}
-            isMultiStep={isMultiStep}
-            watchedValues={watchedValues}
-          />
-        ))}
+        {visibleElementsKeys.map((key, index) => {
+          const field = elementsSource[key]
+          const type = field['#type']
+
+          const isLayout = isLayoutType(type)
+
+          return (
+            <FormFieldRendered
+              key={key}
+              fieldKey={key}
+              index={index}
+              field={field}
+              components={components}
+              classNames={classNames}
+              isMultiStep={isMultiStep}
+              {...(isLayout ? { watchedValues } : {})}
+            />
+          )
+        })}
       </form>
     </FormProvider>
   )
