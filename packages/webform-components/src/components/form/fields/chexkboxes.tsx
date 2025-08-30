@@ -2,15 +2,11 @@ import cn from 'classnames'
 import styles from './field.module.scss'
 import { useController, useFormContext } from 'react-hook-form'
 import { TFieldWebformObj } from '../../../lib/types/components/field'
-import {
-  getCheckboxChecked,
-  handleChangeOptionsCheckboxes,
-} from '../../../lib/functions/webform_fields_functions/webform_fields_functions'
-import { TFormatFieldMulti } from '../../../lib/types/form.d'
+import { handleChangeOptionsCheckboxes } from '../../../lib/functions/webform_fields_functions/webform_fields_functions'
 import Wrapper from './fields-sub-components/wrapper'
 
 export const renderCheckboxes = (props: TFieldWebformObj) => {
-  const { key, field, components, classNames, onBlur, valueFormat } = props
+  const { key, field, components, classNames, onBlur } = props
   const { control } = useFormContext()
 
   if (!field?.['#options']) {
@@ -25,7 +21,6 @@ export const renderCheckboxes = (props: TFieldWebformObj) => {
     control,
   })
 
-  const { checkboxes: checkboxesFormat } = valueFormat
   const { key: _, ...restProps } = props
 
   const CustomCheckboxes = components?.checkboxes
@@ -58,12 +53,10 @@ export const renderCheckboxes = (props: TFieldWebformObj) => {
           )}
         >
           {optionsObj.map(([optionKey, optionValue], i) => {
-            const checked = getCheckboxChecked({
-              checkboxesFormat,
-              optionKey,
-              optionValue,
-              fieldControllerValue: fieldController.value,
-            })
+            const checked = Array.isArray(fieldController.value)
+              ? fieldController.value.includes(optionKey)
+              : false
+
             return (
               <div
                 className={cn(
@@ -78,7 +71,7 @@ export const renderCheckboxes = (props: TFieldWebformObj) => {
                     styles.field
                   )}
                   name={fieldController.name}
-                  type={'checkbox'}
+                  type="checkbox"
                   id={`checkboxes-${optionKey}-${i}`}
                   value={optionKey}
                   checked={checked}
@@ -86,10 +79,7 @@ export const renderCheckboxes = (props: TFieldWebformObj) => {
                     handleChangeOptionsCheckboxes(
                       e.target.value,
                       e.target.checked,
-                      checkboxesFormat as TFormatFieldMulti,
-                      fieldController,
-                      options,
-                      optionsObj
+                      fieldController
                     )
                   }
                   onBlur={onBlur}

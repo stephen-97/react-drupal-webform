@@ -6,7 +6,6 @@ const FormFieldRendered = ({
   index,
   fieldKey,
   field,
-  valueFormat,
   components,
   classNames,
   isMultiStep,
@@ -22,13 +21,13 @@ const FormFieldRendered = ({
     'webform_flexbox',
     'container',
     'details',
+    'fieldset',
   ].includes(type)
 
   return elementRenderer({
     index,
     key: fieldKey,
     field,
-    valueFormat,
     isMultiStep,
     components,
     classNames,

@@ -6,7 +6,7 @@ import cn from 'classnames'
 import Wrapper from './fields-sub-components/wrapper'
 
 export const renderSelect = (props: TFieldWebformObj) => {
-  const { key, field, components, classNames, valueFormat } = props
+  const { key, field, components, classNames } = props
   const { key: _, ...restProps } = props
 
   const { control } = useFormContext()
@@ -22,7 +22,6 @@ export const renderSelect = (props: TFieldWebformObj) => {
 
   const options: Record<string, string> = field['#options']
   const optionsObj: [string, string][] = Object.entries(options)
-  const { select: selectFormat } = valueFormat
 
   const CustomSelect = components?.select
 
@@ -56,14 +55,7 @@ export const renderSelect = (props: TFieldWebformObj) => {
           id={key}
           name={fieldController.name}
           value={fieldController.value ?? ''}
-          onChange={(e) =>
-            handleChangeOptions(
-              e.target.value,
-              selectFormat,
-              fieldController,
-              options
-            )
-          }
+          onChange={(e) => handleChangeOptions(e.target.value, fieldController)}
         >
           <option className={classNames.fields.select.option} value="">
             {field?.['#placeholder'] ?? '-- Select an option --'}

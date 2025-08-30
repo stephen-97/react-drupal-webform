@@ -27,7 +27,6 @@ import { MultiStepProvider } from './multiStepContext'
 
 const FormMultiStep = ({
   elementsSource,
-  valueFormat,
   defaultFieldValues,
   yup: yupObj,
   defaultFieldStateMessages,
@@ -70,17 +69,9 @@ const FormMultiStep = ({
     }, {})
   }, [watchedValuesArray, allFieldNames])
 
-  //console.log('watchedValuesArray', watchedValuesArray)
-
   const visibleStepKeys = useMemo(
-    () =>
-      getVisibleStepKeys(
-        stepKeys,
-        elementsSource,
-        watchedValuesAllFields,
-        valueFormat
-      ),
-    [elementsSource, stepKeys, watchedValuesAllFields, valueFormat]
+    () => getVisibleStepKeys(stepKeys, elementsSource, watchedValuesAllFields),
+    [elementsSource, stepKeys, watchedValuesAllFields]
   )
 
   const [stepIndex, setStepIndex] = useState<number>(0)
@@ -129,46 +120,33 @@ const FormMultiStep = ({
     }, {})
   }, [watchedStepValuesArray, dependentFields])
 
-  //console.log('watched step values', watchedStepValues, dependentFields)
-
   const watchedStepValuesGlobal = useMemo(
     () => ({ ...allWatchedSteps, ...watchedStepValues }),
     [allWatchedSteps, watchedStepValues]
   )
 
-  console.log('currentFieldKeys', currentFieldKeys)
-
   const visibleElementsKeys = useMemo(
     () =>
       currentFieldKeys.filter((key) =>
-        shouldFieldBeVisible(
-          key,
-          currentStepObj,
-          watchedStepValuesGlobal,
-          valueFormat
-        )
+        shouldFieldBeVisible(key, currentStepObj, watchedStepValuesGlobal)
       ),
-    [currentFieldKeys, currentStepObj, valueFormat, watchedStepValuesGlobal]
+    [currentFieldKeys, currentStepObj, watchedStepValuesGlobal]
   )
-
-  console.log('visibleElementsKeys', visibleElementsKeys)
 
   const allDefaultValues = useMemo(
     () =>
       getAllDefaultValuesFromAllSteps({
         elementsSource,
-        valueFormat,
         defaultFieldValues,
         defaultFieldStateMessages,
       }),
-    [elementsSource, valueFormat, defaultFieldValues, defaultFieldStateMessages]
+    [elementsSource, defaultFieldValues, defaultFieldStateMessages]
   )
 
   const { defaultValues, validationSchema } = useMemo(() => {
     return generateFormSchemaAndDefaults({
       elementsSource: currentStepObj,
       visibleElementsKeys,
-      valueFormat,
       defaultFieldValues,
       defaultFieldStateMessages,
       customValidators,
@@ -177,7 +155,6 @@ const FormMultiStep = ({
   }, [
     currentStepObj,
     visibleElementsKeys,
-    valueFormat,
     defaultFieldValues,
     defaultFieldStateMessages,
     customValidators,
@@ -196,8 +173,7 @@ const FormMultiStep = ({
     const visibleFieldNames = getAllVisibleFieldNames(
       visibleStepKeys,
       elementsSource,
-      watchedValuesAllFields,
-      valueFormat
+      watchedValuesAllFields
     )
 
     let dataToSend: Record<string, any> = {}
@@ -225,9 +201,9 @@ const FormMultiStep = ({
     elementsSource,
     getValues,
     watchedValuesAllFields,
-    valueFormat,
     allDefaultValues,
     onSubmit,
+    includeInactiveFieldsInSubmit,
   ])
 
   return (
@@ -266,7 +242,6 @@ const FormMultiStep = ({
                 fieldKey={key}
                 index={index}
                 field={field}
-                valueFormat={valueFormat}
                 components={components}
                 classNames={classNames}
                 isMultiStep={true}

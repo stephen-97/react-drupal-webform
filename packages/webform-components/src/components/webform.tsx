@@ -3,7 +3,6 @@ import FormDefault from './form/formDefault/formDefault'
 import { TWebform, TWebformStateMessages } from '../lib/types/form.d'
 import { TDeepRequiredClassNames } from '../lib/types/deepRequired'
 import {
-  defaultValueFormatObj,
   defaultValuesClassnames,
   defaultValuesFieldStateMessages,
   defaultValuesObj,
@@ -18,7 +17,6 @@ import FormMultiStep from './form/formMultiStep/formMultiStep'
 
 const Webform = ({
   elementsSource,
-  valueFormat = {},
   defaultFieldValues = {},
   classNames = {},
   defaultFieldStateMessages = {},
@@ -31,14 +29,6 @@ const Webform = ({
     mode: 'onChange',
     reValidateMode: 'onBlur',
   }
-
-  const mergedValueFormat = useMemo(
-    () => ({
-      ...defaultValueFormatObj,
-      ...valueFormat,
-    }),
-    [valueFormat]
-  )
 
   const mergedDefaultFieldValues = useMemo(
     () => ({
@@ -74,7 +64,6 @@ const Webform = ({
         <FormMultiStep
           yup={{ yupUseFormProps }}
           elementsSource={elementsSources}
-          valueFormat={mergedValueFormat}
           defaultFieldValues={mergedDefaultFieldValues}
           defaultFieldStateMessages={mergedDefaultValuesStateMessages}
           classNames={mergedClassNames}
@@ -90,7 +79,6 @@ const Webform = ({
       <FormDefault
         yup={{ yupUseFormProps }}
         elementsSource={elementsSources}
-        valueFormat={mergedValueFormat}
         defaultFieldValues={mergedDefaultFieldValues}
         defaultFieldStateMessages={mergedDefaultValuesStateMessages}
         classNames={mergedClassNames}

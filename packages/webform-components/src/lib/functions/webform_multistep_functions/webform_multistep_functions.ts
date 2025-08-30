@@ -1,11 +1,10 @@
-import { TKeyValue } from "../webform_functions"
+import { TKeyValue } from '../webform_functions'
 import {
   TWebformDefaultFieldValues,
   TWebformStateMessages,
-  TWebformValueFormat,
-} from "../../types/form.d"
+} from '../../types/form.d'
 import { DeepRequired } from 'react-hook-form'
-import { generateFormSchemaAndDefaults } from "../webform_fields_functions/webform_fields_conditional_functions"
+import { generateFormSchemaAndDefaults } from '../webform_fields_functions/webform_fields_conditional_functions'
 
 const isMultiStep = (elementsSource: TKeyValue<any>): boolean => {
   return Object.values(elementsSource).some(
@@ -53,12 +52,10 @@ export const getDummyDefaultMultiStep = (
 
 export const getAllDefaultValuesFromAllSteps = ({
   elementsSource,
-  valueFormat,
   defaultFieldValues,
   defaultFieldStateMessages,
 }: {
   elementsSource: Record<string, any>
-  valueFormat: Required<TWebformValueFormat>
   defaultFieldValues: Required<TWebformDefaultFieldValues>
   defaultFieldStateMessages: DeepRequired<TWebformStateMessages>
 }) => {
@@ -74,7 +71,6 @@ export const getAllDefaultValuesFromAllSteps = ({
     const { defaultValues } = generateFormSchemaAndDefaults({
       elementsSource: stepObj,
       visibleElementsKeys: fieldKeys,
-      valueFormat,
       defaultFieldValues,
       defaultFieldStateMessages,
     })

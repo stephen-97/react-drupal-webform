@@ -27,12 +27,6 @@ export type TFileWithBase64 = {
 
 export type TFormatFieldMulti = 'key' | 'value' | 'keyValue' | 'booleanMap'
 
-export type TWebformValueFormat = {
-  radios?: TFormatFieldMulti
-  select?: TFormatFieldMulti
-  checkboxes?: TFormatFieldMulti
-}
-
 export type TDefaultValue = string | number | boolean | Record<string, any>
 
 export type TWebformDefaultFieldValues = {
@@ -40,9 +34,10 @@ export type TWebformDefaultFieldValues = {
 }
 
 type TWebformRequiredMessageFields = {
-  [K in Exclude<TDrupal_FieldType, 'webform_markup' | 'webform_actions'>]?:
-    | string
-    | null
+  [K in Exclude<
+    TDrupal_FieldType,
+    'webform_markup' | 'webform_actions' | 'fieldset'
+  >]?: string | null
 }
 
 type TWebformErrorMessageFields = {
@@ -54,6 +49,7 @@ type TWebformErrorMessageFields = {
     | 'checkbox'
     | 'checkboxes'
     | 'select'
+    | 'fieldset'
   >]?: string | null
 }
 
@@ -196,7 +192,6 @@ export type TWebform = {
   elementsSource: Record<string, any>
   components?: TWebformCustomComponents
   validators?: any
-  valueFormat?: TWebformValueFormat
   defaultFieldValues?: TWebformDefaultFieldValues
   customValidators?: TWebformCustomValidators
   classNames?: TWebformClassNames

@@ -17,7 +17,6 @@ import { getDummyDefaultFormDefault } from '../../../lib/functions/webform_valid
 const FormDefault = ({
   elementsSource,
   multiStepExtra,
-  valueFormat,
   defaultFieldValues,
   yup: yupObj,
   defaultFieldStateMessages,
@@ -63,27 +62,30 @@ const FormDefault = ({
     }, {})
   }, [watchedValuesArray, dependentFields])
 
+  console.log('dependentFields', dependentFields)
+
   const visibleElementsKeys = useMemo(() => {
     return Object.keys(elementsSource).filter((key) =>
-      shouldFieldBeVisible(key, elementsSource, watchedValues, valueFormat)
+      shouldFieldBeVisible(key, elementsSource, watchedValues)
     )
-  }, [watchedValues, elementsSource, valueFormat])
+  }, [watchedValues, elementsSource])
 
   const { defaultValues, validationSchema } = useMemo(() => {
     return generateFormSchemaAndDefaults({
       elementsSource,
       visibleElementsKeys,
-      valueFormat,
       defaultFieldValues,
       defaultFieldStateMessages,
       customValidators,
+      watchedValues,
     })
   }, [
     elementsSource,
     visibleElementsKeys,
-    valueFormat,
     defaultFieldValues,
     defaultFieldStateMessages,
+    customValidators,
+    watchedValues,
   ])
 
   const resolver = useYupValidationResolver(validationSchema)
@@ -114,6 +116,12 @@ const FormDefault = ({
     [onSubmit, includeInactiveFieldsInSubmit, visibleElementsKeys]
   )
 
+  //console.log('elementsKeysToRender', elementsKeysToRender, elementsSource)
+
+  const allWatchedValues = useWatch({ control })
+  console.log('allWatchedValues', allWatchedValues)
+  console.log('elementsKeysToRender', elementsKeysToRender)
+
   return (
     <FormProvider {...methods}>
       <form
@@ -126,10 +134,10 @@ const FormDefault = ({
             fieldKey={key}
             index={index}
             field={elementsSource[key]}
-            valueFormat={valueFormat}
             components={components}
             classNames={classNames}
             isMultiStep={isMultiStep}
+            watchedValues={watchedValues}
           />
         ))}
       </form>

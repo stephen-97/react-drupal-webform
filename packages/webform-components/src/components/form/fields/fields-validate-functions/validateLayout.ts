@@ -6,24 +6,40 @@ import {
   getErrorMessage,
 } from '../../../../lib/functions/webform_validation_functions/webform_validation_functions'
 import FormMappingFields from '../../formMappingFields/formMappingFields'
+import {
+  extractVisibleFields,
+  shouldFieldBeVisible,
+} from '../../../../lib/functions/webform_fields_functions/webform_fields_conditional_functions'
 
-export const validateLayout = (props: TFieldValidate) => {
+export const validateLayout = (
+  props: TFieldValidate & { watchedValues?: Record<string, any> }
+) => {
   const {
     yupObject,
     defaultValues,
     field,
-    valueFormat,
     defaultFieldValues,
     defaultFieldStateMessages,
     customValidators,
+    watchedValues = {},
   } = props
 
-  const childKeys = Object.keys(field).filter((k) => !k.startsWith('#'))
+  const childFields = Object.fromEntries(
+    Object.entries(field).filter(([k]) => !k.startsWith('#'))
+  )
 
-  childKeys.forEach((childKey) => {
-    const childField = (field as any)[childKey]
+  const childVisibleKeys = Object.keys(childFields).filter((childKey) =>
+    shouldFieldBeVisible(childKey, childFields, watchedValues)
+  )
+
+  const realVisibleFields = extractVisibleFields(
+    childFields,
+    childVisibleKeys,
+    watchedValues
+  )
+
+  realVisibleFields.forEach(({ key: childKey, field: childField }) => {
     const type: TDrupal_FieldType = childField['#type']
-
     const required = childField?.['#required']
 
     const requiredMessage = formatMessage(
@@ -42,12 +58,12 @@ export const validateLayout = (props: TFieldValidate) => {
       key: childKey,
       field: childField,
       required: Boolean(required),
-      valueFormat,
       defaultFieldValues,
       defaultFieldStateMessages,
       requiredMessage,
       customValidators,
       errorMessage,
+      watchedValues,
     })
   })
 }

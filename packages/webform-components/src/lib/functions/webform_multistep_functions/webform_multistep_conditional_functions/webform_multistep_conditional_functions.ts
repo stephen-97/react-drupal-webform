@@ -1,5 +1,4 @@
 import { TKeyValue } from '../../webform_functions'
-import { TWebformValueFormat } from '../../../types/form.d'
 import { shouldFieldBeVisible } from '../../webform_fields_functions/webform_fields_conditional_functions'
 
 type TConditionalSteps = {
@@ -119,26 +118,19 @@ export const shouldStepBeVisible = (
 export const getVisibleStepKeys = (
   stepKeys: string[],
   elementsSource: Record<string, any>,
-  watchedValuesAllFields: Record<string, any>,
-  valueFormat: Required<TWebformValueFormat>
+  watchedValuesAllFields: Record<string, any>
 ) => {
   return stepKeys.filter((stepKey) => {
     const stepObj = elementsSource[stepKey]
     if (!stepObj['#states'] || !stepObj['#states'].visible) return true
-    return shouldFieldBeVisible(
-      stepKey,
-      elementsSource,
-      watchedValuesAllFields,
-      valueFormat
-    )
+    return shouldFieldBeVisible(stepKey, elementsSource, watchedValuesAllFields)
   })
 }
 
 export const getAllVisibleFieldNames = (
   visibleStepKeys: string[],
   elementsSource: Record<string, any>,
-  watchedValuesAllFields: Record<string, any>,
-  valueFormat: Required<TWebformValueFormat>
+  watchedValuesAllFields: Record<string, any>
 ): string[] => {
   return visibleStepKeys.flatMap((stepKey) => {
     const stepObj = elementsSource[stepKey]
@@ -147,50 +139,9 @@ export const getAllVisibleFieldNames = (
         !fieldKey.startsWith('#') &&
         typeof stepObj[fieldKey] === 'object' &&
         Boolean(stepObj[fieldKey]['#type']) &&
-        shouldFieldBeVisible(
-          fieldKey,
-          stepObj,
-          watchedValuesAllFields,
-          valueFormat
-        )
+        shouldFieldBeVisible(fieldKey, stepObj, watchedValuesAllFields)
     )
   })
-}
-
-export function getAllVisibleFields(
-  obj: Record<string, any>,
-  watchedValues: Record<string, any>,
-  valueFormat: Record<string, any>
-): string[] {
-  let visibleKeys: string[] = []
-
-  for (const key of Object.keys(obj)) {
-    if (key.startsWith('#')) continue
-    const field = obj[key]
-    if (!field || typeof field !== 'object') continue
-
-    if (field['#type']) {
-      if (shouldFieldBeVisible(key, obj, watchedValues, valueFormat)) {
-        visibleKeys.push(key)
-
-        // descente récursive si c’est un layout
-        if (
-          [
-            'webform_section',
-            'webform_flexbox',
-            'container',
-            'details',
-          ].includes(field['#type'])
-        ) {
-          visibleKeys = [
-            ...visibleKeys,
-            ...getAllVisibleFields(field, watchedValues, valueFormat),
-          ]
-        }
-      }
-    }
-  }
-  return visibleKeys
 }
 
 export type { TConditionalSteps, TConditionalStepsProperties }

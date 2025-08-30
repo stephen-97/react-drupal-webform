@@ -1,7 +1,6 @@
 import {
   TWebformDefaultFieldValues,
   TWebformStateMessages,
-  TWebformValueFormat,
 } from '../types/form.d'
 import { DeepRequired } from 'react-hook-form'
 import Label from '../../components/form/fields/fields-sub-components/label/label'
@@ -10,12 +9,6 @@ import FieldObjCustom from '../../components/form/fields/fields-special-componen
 import FieldWysiwygCustom from '../../components/form/fields/fields-special-components/fieldWysiwygCustom'
 import Wrapper from '../../components/form/fields/fields-sub-components/wrapper'
 import { TDeepRequiredClassNames } from '../types/deepRequired'
-
-export const defaultValueFormatObj: Required<TWebformValueFormat> = {
-  radios: 'booleanMap',
-  select: 'booleanMap',
-  checkboxes: 'booleanMap',
-}
 
 export const defaultValuesObj: Required<TWebformDefaultFieldValues> = {
   textfield: '',
@@ -32,6 +25,7 @@ export const defaultValuesObj: Required<TWebformDefaultFieldValues> = {
   webform_markup: '',
   webform_actions: '',
   hidden: '',
+  fieldset: '',
 }
 
 export const defaultValuesFieldStateMessages: DeepRequired<TWebformStateMessages> =
@@ -91,6 +85,7 @@ export const defaultValuesClassnames: TDeepRequiredClassNames = {
       select: '',
       managed_file: '',
       webform_actions: '',
+      fieldset: '',
       hidden: '',
     },
   },

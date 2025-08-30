@@ -2,14 +2,11 @@ import cn from 'classnames'
 import styles from './field.module.scss'
 import { useController, useFormContext } from 'react-hook-form'
 import { TFieldWebformObj } from '../../../lib/types/components/field'
-import {
-  getRadioChecked,
-  handleChangeOptions,
-} from '../../../lib/functions/webform_fields_functions/webform_fields_functions'
+import { handleChangeOptions } from '../../../lib/functions/webform_fields_functions/webform_fields_functions'
 import Wrapper from './fields-sub-components/wrapper'
 
 export const renderRadio = (props: TFieldWebformObj) => {
-  const { onBlur, key, field, valueFormat, classNames, components } = props
+  const { onBlur, key: fieldKey, field, classNames, components } = props
   const { control } = useFormContext()
 
   if (!field?.['#options']) {
@@ -20,69 +17,58 @@ export const renderRadio = (props: TFieldWebformObj) => {
   const optionsObj: [string, string][] = Object.entries(options)
 
   const { field: fieldController, fieldState } = useController<any>({
-    name: key,
+    name: fieldKey,
     control,
   })
-
-  const { radios: radioFormat } = valueFormat
 
   return (
     <Wrapper
       field={field}
       classNames={classNames}
-      classNameFieldName={'fieldRadio'}
+      classNameFieldName="fieldRadio"
       components={components}
       stateError={fieldState.error}
-      key={key}
-      fieldKey={key}
-      wrapperElement={'fieldset'}
+      key={fieldKey}
+      fieldKey={fieldKey}
+      wrapperElement="fieldset"
       innerPropsLabelComponent={{
         wrapperElement: 'legend',
       }}
     >
       <div
         className={cn(
-          classNames.fields.radios?.groupWrapper,
+          classNames.fields.radios?.groupWrapper || undefined,
           styles.radiosGroupWrapper
         )}
       >
-        {optionsObj.map(([optionKey, optionValue], i) => {
-          const checked = getRadioChecked({
-            radioFormat,
-            optionKey,
-            optionValue,
-            fieldControllerValue: fieldController.value,
-          })
+        {optionsObj.map(([optionKey, optionValue]) => {
+          const checked = fieldController.value === optionKey
+          const inputId = `${fieldKey}-${optionKey}`
 
           return (
             <div
               className={cn(
-                classNames.fields.radios?.itemWrapper,
+                classNames.fields.radios?.itemWrapper || undefined,
                 styles.radiosItemWrapper
               )}
-              key={i}
+              key={optionKey}
             >
               <input
-                className={cn(classNames.fields.radios?.input)}
+                className={classNames.fields.radios?.input || undefined}
                 name={fieldController.name}
-                id={`${optionKey}-${i}`}
+                id={inputId}
                 type="radio"
                 checked={checked}
                 value={optionKey}
                 onChange={(e) =>
-                  handleChangeOptions(
-                    e.target.value,
-                    radioFormat,
-                    fieldController,
-                    options
-                  )
+                  handleChangeOptions(e.target.value, fieldController)
                 }
                 onBlur={onBlur}
               />
               <label
-                htmlFor={`${optionKey}-${i}`}
+                htmlFor={inputId}
                 className={cn(
-                  classNames.fields.radios.label,
+                  classNames.fields.radios?.label || undefined,
                   styles.radioLabel
                 )}
               >

@@ -17,6 +17,7 @@ type TDrupal_FieldType =
   | 'select'
   | 'managed_file'
   | 'hidden'
+  | 'fieldset'
 
 type TElementSource = {
   '#type': TDrupal_FieldType
@@ -63,7 +64,6 @@ export type TFieldWebformObj = {
   onBlur?: FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>
   submitButtonRef?: any
   isMultiStep?: boolean
-  valueFormat: Required<TWebformValueFormat>
   classNames: TDeepRequiredClassNames
   components: TWebformCustomComponents
 }

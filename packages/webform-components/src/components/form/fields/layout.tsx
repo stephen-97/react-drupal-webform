@@ -7,8 +7,7 @@ import { shouldFieldBeVisible } from '../../../lib/functions/webform_fields_func
 const renderLayout = (
   props: TFieldWebformObj & { watchedValues?: Record<string, any> }
 ) => {
-  const { key, field, classNames, components, valueFormat, watchedValues } =
-    props
+  const { key, field, classNames, components, watchedValues } = props
 
   const childKeys = Object.keys(field).filter((k) => !k.startsWith('#'))
 
@@ -19,12 +18,14 @@ const renderLayout = (
       {childKeys.map((childKey, i) => {
         const child = (field as any)[childKey]
 
+        console.log('watchedValues', watchedValues)
+
         const isVisible = shouldFieldBeVisible(
           childKey,
-          field, // le layout complet
-          watchedValues ?? {}, // ✅ on injecte les valeurs surveillées
-          valueFormat
+          field,
+          watchedValues ?? {}
         )
+        console.log('childKey childKeys', childKey, childKeys, isVisible)
 
         if (!isVisible) return null
 
@@ -34,11 +35,10 @@ const renderLayout = (
             fieldKey={childKey}
             index={i}
             field={child}
-            valueFormat={valueFormat}
             components={components}
             classNames={classNames}
             isMultiStep={false}
-            watchedValues={watchedValues} // ✅ prop passé aux enfants
+            watchedValues={watchedValues}
           />
         )
       })}

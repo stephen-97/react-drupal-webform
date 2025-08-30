@@ -2,10 +2,9 @@ import {
   TWebformCustomValidators,
   TWebformDefaultFieldValues,
   TWebformStateMessages,
-  TWebformValueFormat,
-} from "../form.d"
+} from '../form.d'
 import { DeepRequired } from 'react-hook-form'
-import { TElementSource } from "./field"
+import { TElementSource } from './field'
 
 export interface TFieldValidate {
   yupObject: Record<string, any>
@@ -14,10 +13,10 @@ export interface TFieldValidate {
   field: TElementSource
   required: boolean
   options?: string[]
-  valueFormat: TWebformValueFormat
   defaultFieldValues: Required<TWebformDefaultFieldValues>
   defaultFieldStateMessages: DeepRequired<TWebformStateMessages>
   customValidators?: TWebformCustomValidators
   requiredMessage: string
   errorMessage: string
+  watchedValues?: Record<string, any>
 }

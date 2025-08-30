@@ -81,6 +81,10 @@ const FormMappingFields: IFormMappingField = {
     element: renderHidden,
     validator: validateHidden,
   },
+  fieldset: {
+    element: renderLayout,
+    validator: validateLayout,
+  },
   container: {
     element: renderLayout,
     validator: validateLayout,

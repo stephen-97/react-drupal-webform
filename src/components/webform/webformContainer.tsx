@@ -39,15 +39,11 @@ const WebformContainer = ({ elementsSource }: TWebformContainer) => {
 
   const correctElementsSource = YAML.parse(elementsSource)
 
+  console.log(correctElementsSource)
   return (
     <Webform
       elementsSource={correctElementsSource}
       onSubmit={(data) => handleSubmit(data)}
-      valueFormat={{
-        radios: 'booleanMap',
-        select: 'booleanMap',
-        checkboxes: 'keyValue',
-      }}
       includeInactiveFieldsInSubmit={false}
       classNames={{
         wrappers: {
@@ -73,34 +69,3 @@ const WebformContainer = ({ elementsSource }: TWebformContainer) => {
 
 WebformContainer.whyDidYouRender = true
 export default WebformContainer
-
-/**
- * <Webform
- *       elementsSource={correctElementsSource}
- *       onSubmit={(data) => handleSubmit(data)}
- *       valueFormat={{
- *         radios: 'booleanMap',
- *         select: 'booleanMap',
- *         checkboxes: 'keyValue',
- *       }}
- *       customValidators={customValidatorObj}
- *       classNames={{
- *         wrappers: {
- *           base: styles.fieldWrapper,
- *           byCategory: {
- *             textInput: styles.fieldTextInput,
- *           },
- *           byFieldType: {
- *             textfield: styles.textfield,
- *           },
- *         },
- *         general: {
- *           fieldLabel: styles.fieldLabel,
- *         },
- *         states: {
- *           fieldError: styles.fieldError,
- *           fieldErrorMessage: styles.fieldErrorMessage,
- *         },
- *       }}
- *     />
- */
