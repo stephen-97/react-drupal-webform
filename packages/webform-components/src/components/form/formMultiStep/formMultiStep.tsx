@@ -37,7 +37,6 @@ const FormMultiStep = ({
   includeInactiveFieldsInSubmit,
   customValidators,
 }: TFormMultiStepProps) => {
-  console.log('elements Source', elementsSource)
   const stepKeys: string[] = useMemo(
     () => Object.keys(elementsSource),
     [elementsSource]
@@ -70,6 +69,8 @@ const FormMultiStep = ({
       return acc
     }, {})
   }, [watchedValuesArray, allFieldNames])
+
+  //console.log('watchedValuesArray', watchedValuesArray)
 
   const visibleStepKeys = useMemo(
     () =>
@@ -128,10 +129,14 @@ const FormMultiStep = ({
     }, {})
   }, [watchedStepValuesArray, dependentFields])
 
+  //console.log('watched step values', watchedStepValues, dependentFields)
+
   const watchedStepValuesGlobal = useMemo(
     () => ({ ...allWatchedSteps, ...watchedStepValues }),
     [allWatchedSteps, watchedStepValues]
   )
+
+  console.log('currentFieldKeys', currentFieldKeys)
 
   const visibleElementsKeys = useMemo(
     () =>
@@ -146,7 +151,7 @@ const FormMultiStep = ({
     [currentFieldKeys, currentStepObj, valueFormat, watchedStepValuesGlobal]
   )
 
-  console.log('visible ELements Keys', visibleElementsKeys)
+  console.log('visibleElementsKeys', visibleElementsKeys)
 
   const allDefaultValues = useMemo(
     () =>
@@ -167,6 +172,7 @@ const FormMultiStep = ({
       defaultFieldValues,
       defaultFieldStateMessages,
       customValidators,
+      watchedValues: watchedStepValuesGlobal,
     })
   }, [
     currentStepObj,
@@ -174,6 +180,8 @@ const FormMultiStep = ({
     valueFormat,
     defaultFieldValues,
     defaultFieldStateMessages,
+    customValidators,
+    watchedStepValuesGlobal,
   ])
 
   const resolver = useYupValidationResolver(validationSchema)
@@ -242,18 +250,32 @@ const FormMultiStep = ({
           className={styles.formMultiStep}
           onSubmit={handleSubmit(onFormSubmit)}
         >
-          {visibleElementsKeys.map((key, index) => (
-            <FormFieldRendered
-              key={key}
-              fieldKey={key}
-              index={index}
-              field={currentStepObj[key]}
-              valueFormat={valueFormat}
-              components={components}
-              classNames={classNames}
-              isMultiStep={true}
-            />
-          ))}
+          {visibleElementsKeys.map((key, index) => {
+            const field = currentStepObj[key]
+            const type = field['#type']
+
+            const isLayout = [
+              'webform_section',
+              'webform_flexbox',
+              'container',
+              'details',
+            ].includes(type)
+            return (
+              <FormFieldRendered
+                key={key}
+                fieldKey={key}
+                index={index}
+                field={field}
+                valueFormat={valueFormat}
+                components={components}
+                classNames={classNames}
+                isMultiStep={true}
+                {...(isLayout
+                  ? { watchedValues: watchedStepValuesGlobal }
+                  : {})}
+              />
+            )
+          })}
           <MultiStepActions
             previousButtonLabel={previousButtonLabel}
             nextButtonLabel={nextButtonLabel}

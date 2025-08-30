@@ -63,12 +63,17 @@ export function shouldFieldBeVisible(
   watchedValues: Record<string, string>,
   valueFormat: Record<string, TFormatFieldMulti>
 ): boolean {
-  console.log('step', elementsSource)
   const fieldConfig = elementsSource[fieldKey]
   const visibleStates = fieldConfig?.['#states']?.visible
   if (!visibleStates) {
     return true
   }
+  console.log(
+    fieldKey,
+    fieldConfig,
+    visibleStates,
+    !Array.isArray(visibleStates)
+  )
   if (!Array.isArray(visibleStates)) {
     return Object.entries(visibleStates as Record<string, any>).every(
       ([selector, conditions]) => {
@@ -125,34 +130,106 @@ export function getDependentFields(
 ): TDependentField[] {
   const depsMap = new Map<string, string>()
 
-  Object.entries(elementsSource).forEach(([_, fieldConfig]) => {
-    const visibleStates = fieldConfig?.['#states']?.visible
-    if (!visibleStates) return
-    if (Array.isArray(visibleStates)) {
-      visibleStates.forEach((stateCond: any) => {
-        if (typeof stateCond !== 'object' || stateCond === null) return
-        Object.keys(stateCond).forEach((selector) => {
-          const match = selector.match(/:input\[name="([^"]+)"\]/)
-          if (match) {
-            const depName = match[1]
-            const depType = elementsSource[depName]?.['#type'] || 'unknown'
-            depsMap.set(depName, depType)
-          }
-        })
-      })
-    } else {
-      Object.keys(visibleStates).forEach((selector) => {
-        const match = selector.match(/:input\[name="([^"]+)"\]/)
-        if (match) {
-          const depName = match[1]
-          const depType = elementsSource[depName]?.['#type'] || 'unknown'
-          depsMap.set(depName, depType)
+  function extractDeps(source: Record<string, any>) {
+    Object.entries(source).forEach(([_, fieldConfig]) => {
+      if (!fieldConfig || typeof fieldConfig !== 'object') return
+
+      const visibleStates = fieldConfig?.['#states']?.visible
+      if (visibleStates) {
+        if (Array.isArray(visibleStates)) {
+          visibleStates.forEach((stateCond: any) => {
+            if (typeof stateCond !== 'object' || stateCond === null) return
+            Object.keys(stateCond).forEach((selector) => {
+              const match = selector.match(/:input\[name="([^"]+)"\]/)
+              if (match) {
+                const depName = match[1]
+                const depType = source[depName]?.['#type'] || 'unknown'
+                depsMap.set(depName, depType)
+              }
+            })
+          })
+        } else {
+          Object.keys(visibleStates).forEach((selector) => {
+            const match = selector.match(/:input\[name="([^"]+)"\]/)
+            if (match) {
+              const depName = match[1]
+              const depType = source[depName]?.['#type'] || 'unknown'
+              depsMap.set(depName, depType)
+            }
+          })
         }
-      })
+      }
+
+      const type = fieldConfig['#type']
+      const isLayout = [
+        'webform_section',
+        'webform_flexbox',
+        'container',
+        'details',
+      ].includes(type)
+
+      if (isLayout) {
+        const childFields = Object.fromEntries(
+          Object.entries(fieldConfig).filter(([k]) => !k.startsWith('#'))
+        )
+        extractDeps(childFields)
+      }
+    })
+  }
+
+  extractDeps(elementsSource)
+
+  return Array.from(depsMap.entries()).map(([name, type]) => ({ name, type }))
+}
+
+const LAYOUT_TYPES: ReadonlySet<string> = new Set([
+  'webform_section',
+  'webform_flexbox',
+  'container',
+  'details',
+])
+
+function isLayoutType(type: unknown): type is string {
+  return typeof type === 'string' && LAYOUT_TYPES.has(type)
+}
+
+function extractVisibleFields(
+  source: Record<string, any>,
+  visibleKeys: string[],
+  watchedValues: Record<string, any>,
+  valueFormat: Required<TWebformValueFormat>
+): Array<{ key: string; field: any }> {
+  const result: Array<{ key: string; field: any }> = []
+
+  visibleKeys.forEach((key) => {
+    const field = source[key]
+    if (!field) return
+
+    const type = field['#type']
+    if (isLayoutType(type)) {
+      // Enfants du layout (sans les meta '#')
+      const childFields = Object.fromEntries(
+        Object.entries(field).filter(([k]) => !k.startsWith('#'))
+      )
+
+      const childVisibleKeys = Object.keys(childFields).filter((childKey) =>
+        shouldFieldBeVisible(childKey, childFields, watchedValues, valueFormat)
+      )
+
+      result.push(
+        ...extractVisibleFields(
+          childFields,
+          childVisibleKeys,
+          watchedValues,
+          valueFormat
+        )
+      )
+    } else {
+      result.push({ key, field })
     }
   })
 
-  return Array.from(depsMap.entries()).map(([name, type]) => ({ name, type }))
+  return result
 }
 
 export const generateFormSchemaAndDefaults = ({
@@ -162,6 +239,7 @@ export const generateFormSchemaAndDefaults = ({
   defaultFieldValues,
   defaultFieldStateMessages,
   customValidators,
+  watchedValues = {},
 }: {
   elementsSource: Record<string, any>
   visibleElementsKeys: string[]
@@ -169,16 +247,24 @@ export const generateFormSchemaAndDefaults = ({
   defaultFieldValues: Required<TWebformDefaultFieldValues>
   defaultFieldStateMessages: DeepRequired<TWebformStateMessages>
   customValidators?: TWebformCustomValidators
+  /** 👇 valeurs observées nécessaires pour évaluer la visibilité des enfants */
+  watchedValues?: Record<string, any>
 }) => {
   const defaults: Record<string, any> = {}
   const yupObjLocal: Record<string, any> = {}
 
-  console.log('here', elementsSource, visibleElementsKeys)
+  const realVisibleFields: Array<{ key: string; field: any }> =
+    extractVisibleFields(
+      elementsSource,
+      visibleElementsKeys,
+      watchedValues,
+      valueFormat
+    )
 
-  visibleElementsKeys.forEach((key) => {
-    const field = elementsSource[key]
+  realVisibleFields.forEach(({ key, field }) => {
     const type: TDrupal_FieldType = field?.['#type']
-    const required = field?.['#required']
+    const required = Boolean(field?.['#required'])
+
     const requiredMessage = formatMessage(
       getRequiredMessage(defaultFieldStateMessages, type) ?? '',
       field?.['#title']
@@ -193,7 +279,7 @@ export const generateFormSchemaAndDefaults = ({
       defaultValues: defaults,
       key,
       field,
-      required: Boolean(required),
+      required,
       valueFormat,
       defaultFieldValues,
       defaultFieldStateMessages,

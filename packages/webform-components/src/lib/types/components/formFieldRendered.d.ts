@@ -10,4 +10,5 @@ export interface IFieldRendererWebformProps {
   components?: any
   classNames: TDeepRequiredClassNames
   isMultiStep: boolean
+  watchedValues?: Record<string, any>
 }

@@ -3,16 +3,14 @@ import { TFieldWebformObj } from '../../../lib/types/components/field'
 import FormFieldRendered from '../formDefault/formFieldRendered'
 import LayoutWrapper from './fields-sub-components/layoutWrapper/layoutWrapper'
 import { shouldFieldBeVisible } from '../../../lib/functions/webform_fields_functions/webform_fields_conditional_functions'
-import { useFormContext, useWatch } from 'react-hook-form'
 
-const renderLayout = (props: TFieldWebformObj) => {
-  const { key, field, classNames, components, valueFormat, isMultiStep } = props
+const renderLayout = (
+  props: TFieldWebformObj & { watchedValues?: Record<string, any> }
+) => {
+  const { key, field, classNames, components, valueFormat, watchedValues } =
+    props
 
-  const { control } = useFormContext()
-
-  // on surveille tous les champs enfants du layout
   const childKeys = Object.keys(field).filter((k) => !k.startsWith('#'))
-  const watchedValues = useWatch({ control })
 
   const { key: _omitKey, ...restProps } = props
 
@@ -23,8 +21,8 @@ const renderLayout = (props: TFieldWebformObj) => {
 
         const isVisible = shouldFieldBeVisible(
           childKey,
-          field,
-          watchedValues,
+          field, // le layout complet
+          watchedValues ?? {}, // ✅ on injecte les valeurs surveillées
           valueFormat
         )
 
@@ -39,7 +37,8 @@ const renderLayout = (props: TFieldWebformObj) => {
             valueFormat={valueFormat}
             components={components}
             classNames={classNames}
-            isMultiStep={isMultiStep}
+            isMultiStep={false}
+            watchedValues={watchedValues} // ✅ prop passé aux enfants
           />
         )
       })}

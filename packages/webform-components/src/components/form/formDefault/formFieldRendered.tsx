@@ -10,12 +10,19 @@ const FormFieldRendered = ({
   components,
   classNames,
   isMultiStep,
+  watchedValues,
 }: IFieldRendererWebformProps) => {
   const type: string = field['#type'] ?? 'default'
 
   const elementRenderer = FormMappingFields[type]?.element
-
   if (!elementRenderer) return null
+
+  const isLayout = [
+    'webform_section',
+    'webform_flexbox',
+    'container',
+    'details',
+  ].includes(type)
 
   return elementRenderer({
     index,
@@ -25,6 +32,7 @@ const FormFieldRendered = ({
     isMultiStep,
     components,
     classNames,
+    ...(isLayout ? { watchedValues } : {}),
   })
 }
 
