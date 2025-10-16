@@ -172,6 +172,10 @@ export type TWebformCustomComponents = {
   multiStepActions?: (_props: IMultiStepActionsProps) => JSX.Element | null
   multiStepStepper?: (_props: IMultiStepStepperProps) => JSX.Element | null
   layout?: (_props: ILayoutWrapperProps) => JSX.Element | null
+  fieldById?: Record<
+    string,
+    (_props: TFieldWebformObjCustom) => JSX.Element | null
+  >
 }
 
 export type TWebformValidatorFactory = (

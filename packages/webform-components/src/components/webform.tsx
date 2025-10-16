@@ -30,6 +30,8 @@ const Webform = ({
     reValidateMode: 'onBlur',
   }
 
+  console.log('elements Source', elementsSource)
+
   const mergedDefaultFieldValues = useMemo(
     () => ({
       ...defaultFieldValues,

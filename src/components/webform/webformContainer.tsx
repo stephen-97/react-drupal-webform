@@ -45,6 +45,11 @@ const WebformContainer = ({ elementsSource }: TWebformContainer) => {
       elementsSource={correctElementsSource}
       onSubmit={(data) => handleSubmit(data)}
       includeInactiveFieldsInSubmit={false}
+      components={{
+        fieldById: {
+          identification_du_chantier: () => <div>test</div>,
+        },
+      }}
       classNames={{
         wrappers: {
           base: styles.fieldWrapper,

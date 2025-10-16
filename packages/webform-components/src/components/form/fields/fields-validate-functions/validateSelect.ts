@@ -14,6 +14,7 @@ export const validateSelect = (props: TFieldValidate) => {
     required,
     requiredMessage,
     customValidators,
+    defaultFieldValues,
   } = props
 
   const type = field?.['#type'] as TDrupal_FieldType_Validate
@@ -24,7 +25,7 @@ export const validateSelect = (props: TFieldValidate) => {
     .oneOf(optionKeys.concat(''))
     .transform((value: any) => (optionKeys.includes(value) ? value : ''))
 
-  defaultValues[key] = ''
+  defaultValues[key] = field?.['#default_value'] ?? defaultFieldValues.select
 
   const customSchema =
     resolveCustomValidator(customValidators, key, type, props) ?? defaultSchema
