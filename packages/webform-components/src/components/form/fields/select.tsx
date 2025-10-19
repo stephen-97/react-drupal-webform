@@ -6,64 +6,52 @@ import cn from 'classnames'
 import Wrapper from './fields-sub-components/wrapper'
 
 export const renderSelect = (props: TFieldWebformObj) => {
-  const { key, field, components, classNames } = props
-  const { key: _, ...restProps } = props
-
+  const { fieldKey, field, components, classNames, onBlur } = props
   const { control } = useFormContext()
 
-  const { field: fieldController, fieldState } = useController<any>({
-    name: key,
-    control,
-  })
+  if (!field?.['#options']) return null
 
-  if (!field?.['#options']) {
-    return null
-  }
+  const optionsObj = Object.entries(field['#options'] as Record<string, string>)
 
-  const options: Record<string, string> = field['#options']
-  const optionsObj: [string, string][] = Object.entries(options)
+  const CustomSelect = components?.fieldById?.[fieldKey] ?? components?.select
 
-  const CustomSelect = components?.select
+  const controller = useController<any>({ name: fieldKey, control })
+  const { field: fieldController, fieldState } = controller
 
   return (
     <Wrapper
       field={field}
       classNames={classNames}
-      classNameFieldName={'fieldSelect'}
+      classNameFieldName="fieldSelect"
       components={components}
-      stateError={fieldState.error}
-      key={key}
-      fieldKey={key}
+      stateError={fieldState?.error}
+      key={fieldKey}
+      fieldKey={fieldKey}
     >
       {CustomSelect ? (
-        <CustomSelect
-          fieldController={fieldController}
-          fieldState={fieldState}
-          {...restProps}
-        />
+        <CustomSelect {...props} />
       ) : (
         <select
+          id={fieldKey}
+          name={fieldController.name}
+          required={field?.['#required']}
           className={cn(
             classNames.fields.select?.select,
             styles.field,
             styles[field?.['#type']],
-            {
-              [styles.error]: fieldState.error,
-            }
+            { [styles.error]: fieldState?.error }
           )}
-          required={field?.['#required']}
-          id={key}
-          name={fieldController.name}
           value={fieldController.value ?? ''}
           onChange={(e) => handleChangeOptions(e.target.value, fieldController)}
         >
           <option className={classNames.fields.select.option} value="">
             {field?.['#placeholder'] ?? '-- Select an option --'}
           </option>
-          {optionsObj.map(([optionKey, optionValue], i) => (
+
+          {optionsObj.map(([optionKey, optionValue]) => (
             <option
+              key={optionKey}
               className={classNames.fields.select.option}
-              key={i}
               value={optionKey}
             >
               {optionValue}

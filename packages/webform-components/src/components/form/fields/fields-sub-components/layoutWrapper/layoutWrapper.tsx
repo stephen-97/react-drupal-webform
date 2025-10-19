@@ -2,10 +2,12 @@ import React from 'react'
 import cn from 'classnames'
 import styles from './layoutWrapper.module.scss'
 import { ILayoutWrapperProps } from '../../../../../lib/types/components/layoutWrapper'
+
 const LayoutWrapper = (props: ILayoutWrapperProps) => {
   const { field, classNames, components, children, fieldKey } = props
 
-  const CustomLayout = components?.layout
+  const CustomLayout = components?.fieldById?.[fieldKey] ?? components?.layout
+
   if (CustomLayout) {
     return <CustomLayout {...props}>{children}</CustomLayout>
   }

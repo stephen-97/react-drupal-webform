@@ -26,7 +26,7 @@ const FormFieldRendered = ({
 
   return elementRenderer({
     index,
-    key: fieldKey,
+    fieldKey,
     field,
     isMultiStep,
     components,

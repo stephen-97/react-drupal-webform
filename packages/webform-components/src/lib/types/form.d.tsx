@@ -1,10 +1,10 @@
 import { AnySchema } from 'yup'
 import { JSX } from 'react'
 import { ILabelWebformProps } from './components/label'
-import { TDrupal_FieldType } from './components/field'
+import { TDrupal_FieldType, TFieldWebformObj } from './components/field'
 import { IWrapperWebformProps } from './components/wrapper'
 import { IErrorMessageWebformProps } from './components/errorMessage'
-import { TFieldWebformObjCustom } from '../../components/form/fields/fields-special-components/fieldObjCustom'
+import { TFieldWebformObjCustom } from './components/fieldWebformObjCustom'
 import { IWysiwygProps } from './components/wysiwyg'
 import { IHelpProps } from './components/help'
 import { IDescriptionWebformProps } from './components/description'
@@ -15,6 +15,7 @@ import { IMultiStepActionsProps } from './components/multiStepActions'
 import { IMultiStepStepperProps } from './components/multiStepStepper'
 import { TFieldValidate } from './components/validate'
 import { ILayoutWrapperProps } from './components/layoutWrapper'
+import { TFieldRendererProps } from './components/fieldRenderer'
 
 export type TFileWithBase64 = {
   name: string
@@ -172,9 +173,14 @@ export type TWebformCustomComponents = {
   multiStepActions?: (_props: IMultiStepActionsProps) => JSX.Element | null
   multiStepStepper?: (_props: IMultiStepStepperProps) => JSX.Element | null
   layout?: (_props: ILayoutWrapperProps) => JSX.Element | null
+  radios?: (_props: TFieldWebformObjCustom) => JSX.Element | null
+  textarea?: (_props: TFieldWebformObjCustom) => JSX.Element | null
+  checkbox?: (_props: TFieldWebformObjCustom) => JSX.Element | null
+  hidden?: (_props: TFieldWebformObjCustom) => JSX.Element | null
+  markup?: (_props: TFieldWebformObj) => JSX.Element | null
   fieldById?: Record<
     string,
-    (_props: TFieldWebformObjCustom) => JSX.Element | null
+    (_props: TFieldRendererProps) => JSX.Element | null
   >
 }
 

@@ -4,49 +4,56 @@ import Wrapper from './fields-sub-components/wrapper'
 import cn from 'classnames'
 import styles from './field.module.scss'
 
-export const renderCheckbox = ({
-  onBlur,
-  key,
-  field,
-  classNames,
-  components,
-}: TFieldWebformObj) => {
+export const renderCheckbox = (props: TFieldWebformObj) => {
+  const { onBlur, fieldKey, field, classNames, components } = props
   const title = field?.['#title']
-
   const { control } = useFormContext()
 
-  const { field: fieldController, fieldState } = useController<any>({
-    name: key,
-    control,
-  })
+  const CustomCheckbox =
+    components?.fieldById?.[fieldKey] ?? components?.checkbox
+
+  const controller = useController<any>({ name: fieldKey, control })
+  const { field: fieldController, fieldState } = controller
 
   return (
     <Wrapper
       field={field}
       classNames={classNames}
-      classNameFieldName={'fieldCheckboxes'}
-      stateError={fieldState.error}
-      key={key}
+      classNameFieldName="fieldCheckboxes"
+      stateError={fieldState?.error}
+      key={fieldKey}
       components={components}
-      fieldKey={key}
+      fieldKey={fieldKey}
     >
-      <div
-        className={cn(classNames.fields.checkbox?.itemWrapper, styles.checkbox)}
-      >
-        <input
-          className={cn(classNames.fields.checkbox.input)}
-          name={fieldController.name}
-          id={key}
-          checked={Boolean(fieldController.value)}
-          type="checkbox"
-          value={title}
-          onChange={(e) => fieldController.onChange?.(e.target.checked)}
-          onBlur={onBlur}
-        />
-        <label htmlFor={key} className={cn(classNames.fields.checkbox.label)}>
-          {title}
-        </label>
-      </div>
+      {CustomCheckbox ? (
+        <CustomCheckbox {...props} />
+      ) : (
+        <div
+          className={cn(
+            classNames.fields.checkbox?.itemWrapper,
+            styles.checkbox
+          )}
+        >
+          <input
+            id={fieldKey}
+            className={cn(classNames.fields.checkbox.input)}
+            name={fieldController.name}
+            type="checkbox"
+            value={title}
+            checked={Boolean(fieldController.value)}
+            onChange={(e) => fieldController.onChange(e.target.checked)}
+            onBlur={onBlur}
+          />
+          {title && (
+            <label
+              htmlFor={fieldKey}
+              className={cn(classNames.fields.checkbox.label)}
+            >
+              {title}
+            </label>
+          )}
+        </div>
+      )}
     </Wrapper>
   )
 }

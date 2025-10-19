@@ -6,45 +6,33 @@ import { handleChangeOptionsCheckboxes } from '../../../lib/functions/webform_fi
 import Wrapper from './fields-sub-components/wrapper'
 
 export const renderCheckboxes = (props: TFieldWebformObj) => {
-  const { key, field, components, classNames, onBlur } = props
+  const { fieldKey, field, components, classNames, onBlur } = props
   const { control } = useFormContext()
 
-  if (!field?.['#options']) {
-    return null
-  }
+  if (!field?.['#options']) return null
 
-  const options: Record<string, string> = field['#options']
-  const optionsObj: [string, string][] = Object.entries(options)
+  const optionsObj = Object.entries(field['#options'] as Record<string, string>)
 
-  const { field: fieldController, fieldState } = useController<any>({
-    name: key,
-    control,
-  })
+  const CustomCheckboxes =
+    components?.fieldById?.[fieldKey] ?? components?.checkboxes
 
-  const { key: _, ...restProps } = props
-
-  const CustomCheckboxes = components?.checkboxes
+  const controller = useController<any>({ name: fieldKey, control })
+  const { field: fieldController, fieldState } = controller
 
   return (
     <Wrapper
       field={field}
       classNames={classNames}
-      classNameFieldName={'fieldCheckboxes'}
-      stateError={fieldState.error}
-      key={key}
+      classNameFieldName="fieldCheckboxes"
+      stateError={fieldState?.error}
       components={components}
-      fieldKey={key}
-      wrapperElement={'fieldset'}
-      innerPropsLabelComponent={{
-        wrapperElement: 'legend',
-      }}
+      key={fieldKey}
+      fieldKey={fieldKey}
+      wrapperElement="fieldset"
+      innerPropsLabelComponent={{ wrapperElement: 'legend' }}
     >
       {CustomCheckboxes ? (
-        <CustomCheckboxes
-          fieldController={fieldController}
-          fieldState={fieldState}
-          {...restProps}
-        />
+        <CustomCheckboxes {...props} />
       ) : (
         <div
           className={cn(
@@ -63,16 +51,16 @@ export const renderCheckboxes = (props: TFieldWebformObj) => {
                   classNames.fields.checkboxes?.itemWrapper,
                   styles.checkbox
                 )}
-                key={i}
+                key={optionKey}
               >
                 <input
+                  id={`checkboxes-${optionKey}-${i}`}
                   className={cn(
-                    classNames.fields.checkboxes?.itemWrapper,
+                    classNames.fields.checkboxes?.input,
                     styles.field
                   )}
                   name={fieldController.name}
                   type="checkbox"
-                  id={`checkboxes-${optionKey}-${i}`}
                   value={optionKey}
                   checked={checked}
                   onChange={(e) =>
@@ -86,7 +74,7 @@ export const renderCheckboxes = (props: TFieldWebformObj) => {
                 />
                 <label
                   htmlFor={`checkboxes-${optionKey}-${i}`}
-                  className={cn(classNames.fields.checkboxes.label)}
+                  className={cn(classNames.fields.checkboxes?.label)}
                 >
                   {optionValue}
                 </label>

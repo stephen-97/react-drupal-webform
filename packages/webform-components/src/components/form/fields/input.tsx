@@ -1,5 +1,4 @@
 import React, { HTMLInputTypeAttribute } from 'react'
-
 import cn from 'classnames'
 import styles from './field.module.scss'
 import { useController, useFormContext } from 'react-hook-form'
@@ -7,17 +6,13 @@ import { TFieldWebformObj } from '../../../lib/types/components/field'
 import Wrapper from './fields-sub-components/wrapper'
 
 const renderInput = (props: TFieldWebformObj) => {
-  const { key, field, components, classNames, onBlur } = props
+  const { fieldKey, field, components, classNames, onBlur } = props
   const { control } = useFormContext()
 
-  const { key: _, ...restProps } = props
+  const CustomInput = components?.fieldById?.[fieldKey] ?? components?.input
 
-  const { field: fieldController, fieldState } = useController<any>({
-    name: key,
-    control,
-  })
-
-  const CustomInput = components?.input
+  const controller = useController<any>({ name: fieldKey, control })
+  const { field: fieldController, fieldState } = controller
 
   const getFieldType: HTMLInputTypeAttribute = (() => {
     switch (field?.['#type']) {
@@ -40,21 +35,17 @@ const renderInput = (props: TFieldWebformObj) => {
     <Wrapper
       field={field}
       classNames={classNames}
-      classNameFieldName={'fieldInput'}
-      stateError={fieldState.error}
+      classNameFieldName="fieldInput"
+      stateError={fieldState?.error}
       components={components}
-      key={key}
-      fieldKey={key}
+      key={fieldKey}
+      fieldKey={fieldKey}
     >
       {CustomInput ? (
-        <CustomInput
-          fieldController={fieldController}
-          fieldState={fieldState}
-          {...restProps}
-        />
+        <CustomInput {...props} />
       ) : (
         <input
-          id={key}
+          id={fieldKey}
           className={cn(
             classNames.fields.textInputs.base,
             classNames.fields.textInputs.types[
@@ -64,17 +55,15 @@ const renderInput = (props: TFieldWebformObj) => {
             ],
             styles.input,
             styles[field?.['#type']],
-            {
-              [styles.error]: fieldState.error,
-            }
+            { [styles.error]: fieldState?.error }
           )}
           name={fieldController.name}
           minLength={field?.['#minlength']}
           maxLength={field?.['#maxlength']}
           placeholder={field?.['#placeholder']}
           type={getFieldType}
-          onChange={(e) => fieldController.onChange?.(e)}
-          value={fieldController?.value ?? ''}
+          onChange={(e) => fieldController.onChange(e)}
+          value={fieldController.value ?? ''}
           onBlur={onBlur}
           required={field?.['#required']}
         />

@@ -9,40 +9,39 @@ import { TFileWithBase64 } from '../../../lib/types/form.d'
 import ManagedFilePreview from './fields-sub-components/managedFilePreview/managedFilePreview'
 
 const renderManagedFile = (props: TFieldWebformObj) => {
-  const { key, ...restProps } = props
-  const { components, field, classNames, onBlur } = restProps
+  const { fieldKey, field, components, classNames, onBlur } = props
   const { control } = useFormContext()
-
   const inputRef = useRef<HTMLInputElement>(null)
-  const CustomInputFile = components?.managedFile
+
+  // Custom file input (via fieldById ou custom global)
+  const CustomInputFile =
+    components?.fieldById?.[fieldKey] ?? components?.managedFile
+
   const CustomManagedFilePreview =
     components?.managedFilePreview ?? ManagedFilePreview
 
-  const { field: fieldController, fieldState } = useController<any>({
-    name: key,
-    control,
-  })
+  // RHF controller (unique)
+  const controller = useController<any>({ name: fieldKey, control })
+  const { field: fieldController, fieldState } = controller
 
+  // Gestion des extensions
   const fileExtensions = field?.['#file_extensions']
     ?.trim()
     .split(' ')
     .map((ext) => `.${ext}`)
     .join(', ')
 
-  const value: TFileWithBase64 | {} = fieldController.value
+  const value: TFileWithBase64 | {} = fieldController.value ?? {}
 
   const handleRemove = () => {
     fieldController.onChange({})
   }
 
-  const isFileWithBase64 = (obj: any): obj is TFileWithBase64 => {
-    return (
-      obj &&
-      typeof obj === 'object' &&
-      'base64' in obj &&
-      typeof obj.base64 === 'string'
-    )
-  }
+  const isFileWithBase64 = (obj: any): obj is TFileWithBase64 =>
+    obj &&
+    typeof obj === 'object' &&
+    'base64' in obj &&
+    typeof obj.base64 === 'string'
 
   return (
     <Wrapper
@@ -50,34 +49,28 @@ const renderManagedFile = (props: TFieldWebformObj) => {
       classNames={classNames}
       components={components}
       classNameFieldName="fieldInput"
-      key={key}
-      fieldKey={key}
+      key={fieldKey}
+      fieldKey={fieldKey}
     >
       {CustomInputFile ? (
-        <CustomInputFile
-          fieldController={fieldController}
-          fieldState={fieldState}
-          {...restProps}
-        />
+        <CustomInputFile {...props} />
       ) : (
         <>
           {isFileWithBase64(value) ? (
             <CustomManagedFilePreview
               value={value}
-              handleRemove={() => handleRemove()}
+              handleRemove={handleRemove}
             />
           ) : (
             <input
-              id={key}
+              id={fieldKey}
               ref={inputRef}
               className={cn(
                 classNames.fields.managedFile.input,
                 styles.field,
                 styles.input,
                 styles[field?.['#type']],
-                {
-                  [styles.error]: fieldState.error,
-                }
+                { [styles.error]: fieldState?.error }
               )}
               name={fieldController.name}
               minLength={field?.['#minlength']}

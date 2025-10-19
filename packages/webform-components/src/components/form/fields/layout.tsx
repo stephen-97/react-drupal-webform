@@ -7,14 +7,14 @@ import { shouldFieldBeVisible } from '../../../lib/functions/webform_fields_func
 const renderLayout = (
   props: TFieldWebformObj & { watchedValues?: Record<string, any> }
 ) => {
-  const { key, field, classNames, components, watchedValues } = props
+  const { fieldKey, field, classNames, components, watchedValues } = props
 
   const childKeys = Object.keys(field).filter((k) => !k.startsWith('#'))
 
-  const { key: _omitKey, ...restProps } = props
+  const { fieldKey: _omitKey, ...restProps } = props
 
   return (
-    <LayoutWrapper {...restProps} fieldKey={key} key={key}>
+    <LayoutWrapper {...restProps} fieldKey={fieldKey} key={fieldKey}>
       {childKeys.map((childKey, i) => {
         const child = (field as any)[childKey]
 

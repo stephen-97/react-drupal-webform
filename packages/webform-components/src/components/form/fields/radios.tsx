@@ -6,20 +6,17 @@ import { handleChangeOptions } from '../../../lib/functions/webform_fields_funct
 import Wrapper from './fields-sub-components/wrapper'
 
 export const renderRadio = (props: TFieldWebformObj) => {
-  const { onBlur, key: fieldKey, field, classNames, components } = props
+  const { onBlur, fieldKey, field, classNames, components } = props
   const { control } = useFormContext()
 
-  if (!field?.['#options']) {
-    return null
-  }
+  if (!field?.['#options']) return null
 
-  const options: Record<string, string> = field['#options']
-  const optionsObj: [string, string][] = Object.entries(options)
+  const optionsObj = Object.entries(field['#options'] as Record<string, string>)
 
-  const { field: fieldController, fieldState } = useController<any>({
-    name: fieldKey,
-    control,
-  })
+  const CustomRadio = components?.fieldById?.[fieldKey] ?? components?.radios
+
+  const controller = useController<any>({ name: fieldKey, control })
+  const { field: fieldController, fieldState } = controller
 
   return (
     <Wrapper
@@ -27,57 +24,59 @@ export const renderRadio = (props: TFieldWebformObj) => {
       classNames={classNames}
       classNameFieldName="fieldRadio"
       components={components}
-      stateError={fieldState.error}
+      stateError={fieldState?.error}
       key={fieldKey}
       fieldKey={fieldKey}
       wrapperElement="fieldset"
-      innerPropsLabelComponent={{
-        wrapperElement: 'legend',
-      }}
+      innerPropsLabelComponent={{ wrapperElement: 'legend' }}
     >
-      <div
-        className={cn(
-          classNames.fields.radios?.groupWrapper || undefined,
-          styles.radiosGroupWrapper
-        )}
-      >
-        {optionsObj.map(([optionKey, optionValue]) => {
-          const checked = fieldController.value === optionKey
-          const inputId = `${fieldKey}-${optionKey}`
+      {CustomRadio ? (
+        <CustomRadio {...props} />
+      ) : (
+        <div
+          className={cn(
+            classNames.fields.radios?.groupWrapper,
+            styles.radiosGroupWrapper
+          )}
+        >
+          {optionsObj.map(([optionKey, optionValue]) => {
+            const checked = fieldController.value === optionKey
+            const inputId = `${fieldKey}-${optionKey}`
 
-          return (
-            <div
-              className={cn(
-                classNames.fields.radios?.itemWrapper || undefined,
-                styles.radiosItemWrapper
-              )}
-              key={optionKey}
-            >
-              <input
-                className={classNames.fields.radios?.input || undefined}
-                name={fieldController.name}
-                id={inputId}
-                type="radio"
-                checked={checked}
-                value={optionKey}
-                onChange={(e) =>
-                  handleChangeOptions(e.target.value, fieldController)
-                }
-                onBlur={onBlur}
-              />
-              <label
-                htmlFor={inputId}
+            return (
+              <div
                 className={cn(
-                  classNames.fields.radios?.label || undefined,
-                  styles.radioLabel
+                  classNames.fields.radios?.itemWrapper,
+                  styles.radiosItemWrapper
                 )}
+                key={optionKey}
               >
-                {optionValue}
-              </label>
-            </div>
-          )
-        })}
-      </div>
+                <input
+                  className={classNames.fields.radios?.input}
+                  name={fieldController.name}
+                  id={inputId}
+                  type="radio"
+                  checked={checked}
+                  value={optionKey}
+                  onChange={(e) =>
+                    handleChangeOptions(e.target.value, fieldController)
+                  }
+                  onBlur={onBlur}
+                />
+                <label
+                  htmlFor={inputId}
+                  className={cn(
+                    classNames.fields.radios?.label,
+                    styles.radioLabel
+                  )}
+                >
+                  {optionValue}
+                </label>
+              </div>
+            )
+          })}
+        </div>
+      )}
     </Wrapper>
   )
 }

@@ -1,5 +1,5 @@
 import { TWebformCustomComponents, TWebformValueFormat } from '../form.d'
-import { FocusEventHandler } from 'react'
+import { FocusEventHandler, ReactNode } from 'react'
 import { TDeepRequiredClassNames } from '../deepRequired'
 
 type TDrupal_FieldType =
@@ -59,7 +59,7 @@ type TElementSource = {
 
 export type TFieldWebformObj = {
   index: number
-  key: string
+  fieldKey: string
   field: TElementSource
   onBlur?: FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>
   submitButtonRef?: any

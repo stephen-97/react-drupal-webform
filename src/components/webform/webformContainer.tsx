@@ -8,6 +8,7 @@ import { Webform } from '../../../packages/webform-components'
 import styles from './webformContainer.module.scss'
 import { customValidatorObj } from '@/components/webform/custom-data/customValidatorObj'
 import CustomMultiStepActions from '@/components/webform/custom-components/customMultiStepActions'
+import ConfirmationInput from '@/components/webform/custom-components/confirmationInput'
 
 export type TWebformContainer = {
   elementsSource: string
@@ -47,7 +48,7 @@ const WebformContainer = ({ elementsSource }: TWebformContainer) => {
       includeInactiveFieldsInSubmit={false}
       components={{
         fieldById: {
-          identification_du_chantier: () => <div>test</div>,
+          confirmation_du_chantier: ConfirmationInput,
         },
       }}
       classNames={{

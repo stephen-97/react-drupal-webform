@@ -1,5 +1,5 @@
 import { jsx } from '@emotion/react'
-import { TFileWithBase64 } from "../form.d"
+import { TFileWithBase64 } from '../form.d'
 
 export interface IManagedFilePreviewWebformProps {
   innerProps?: jsx.JSX.IntrinsicElements['div']

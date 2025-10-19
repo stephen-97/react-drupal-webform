@@ -7,14 +7,14 @@ import { useFormContext } from 'react-hook-form'
 
 export const renderAction = ({
   field,
-  key,
+  fieldKey,
   submitButtonRef,
 }: TFieldWebformObj) => {
   const { formState } = useFormContext()
   const { isSubmitting, isValid } = formState
 
   return (
-    <React.Fragment key={key}>
+    <React.Fragment key={fieldKey}>
       <button
         className={cn(styles.button, ...(field?.['#attributes']?.class ?? []))}
         type="submit"
