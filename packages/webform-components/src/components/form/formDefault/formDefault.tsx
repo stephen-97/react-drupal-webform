@@ -99,6 +99,7 @@ const FormDefault = ({
     async (data: Record<string, any>) => {
       if (!onSubmit) return
 
+      console.log('data here', data)
       if (includeInactiveFieldsInSubmit) {
         await onSubmit(data)
       } else {
@@ -111,7 +112,7 @@ const FormDefault = ({
     [onSubmit, includeInactiveFieldsInSubmit, visibleElementsKeys]
   )
 
-  console.log('element', elementsSource)
+  console.log('visibleElementsKeys', visibleElementsKeys)
   return (
     <FormProvider {...methods}>
       <form

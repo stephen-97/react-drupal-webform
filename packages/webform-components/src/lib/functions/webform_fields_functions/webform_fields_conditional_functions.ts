@@ -44,7 +44,6 @@ export function shouldFieldBeVisible(
       const watched = watchedValues[depName]
       if (watched === undefined) return false
 
-      console.log('conditions', conditions)
       if ('value' in conditions) {
         return checkVisibilityCondition(watched, conditions.value, 'is')
       }
@@ -125,9 +124,6 @@ export function getDependentFields(
         const statesArray = Array.isArray(visibleStates)
           ? visibleStates
           : [visibleStates]
-
-        console.log('visibleStates', visibleStates)
-        console.log('statesArray', statesArray)
 
         statesArray.forEach((stateCond: any) => {
           if (typeof stateCond !== 'object' || stateCond === null) return

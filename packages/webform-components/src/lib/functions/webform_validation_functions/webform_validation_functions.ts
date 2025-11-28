@@ -76,9 +76,13 @@ export const getDummyDefaultFormDefault = (
     const field = elementsSource[key]
     const type: TDrupal_FieldType = field?.['#type']
     if (
-      ['container', 'webform_flexbox', 'webform_section', 'details'].includes(
-        type
-      )
+      [
+        'container',
+        'webform_flexbox',
+        'webform_section',
+        'details',
+        'webform_actions',
+      ].includes(type)
     ) {
       return
     }
