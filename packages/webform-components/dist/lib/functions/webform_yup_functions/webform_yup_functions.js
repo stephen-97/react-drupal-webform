@@ -11,17 +11,13 @@ export const useYupValidationResolver = (validationSchema) => async (data) => {
     catch (errors) {
         return {
             values: {},
-            errors: errors.inner.reduce((allErrors, currentError) => {
-                var _a;
-                return ({
-                    ...allErrors,
-                    [currentError.path]: {
-                        type: (_a = currentError.type) !== null && _a !== void 0 ? _a : 'validation',
-                        message: currentError.message,
-                    },
-                });
-            }, {}),
+            errors: errors.inner.reduce((allErrors, currentError) => ({
+                ...allErrors,
+                [currentError.path]: {
+                    type: currentError.type ?? 'validation',
+                    message: currentError.message,
+                },
+            }), {}),
         };
     }
 };
-//# sourceMappingURL=webform_yup_functions.js.map

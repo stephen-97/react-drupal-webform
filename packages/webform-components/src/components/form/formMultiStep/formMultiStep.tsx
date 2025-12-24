@@ -1,5 +1,3 @@
-'use client'
-
 import styles from './formMultiStep.module.scss'
 import React, { useEffect, useMemo, useCallback, useState } from 'react'
 import { FormProvider, useForm, useWatch } from 'react-hook-form'

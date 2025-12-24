@@ -1,10 +1,9 @@
-import { shouldFieldBeVisible } from "../../webform_fields_functions/webform_fields_conditional_functions";
+import { shouldFieldBeVisible } from '../../webform_fields_functions/webform_fields_conditional_functions';
 const getConditionFields = (visible) => {
     const fields = [];
     Object.keys(visible).forEach((key) => {
-        var _a;
         const matches = key.match(/:input\[name="([^"]+)"\]/);
-        if (matches && ((_a = matches === null || matches === void 0 ? void 0 : matches.at) === null || _a === void 0 ? void 0 : _a.call(matches, 1))) {
+        if (matches && matches?.at?.(1)) {
             fields.push(matches[1]);
         }
     });
@@ -52,8 +51,7 @@ const conditionalStepsProperties = (elementsSource) => {
     };
 };
 export const shouldStepBeVisible = (stepObj, watchedValues) => {
-    var _a;
-    const visibleStates = (_a = stepObj === null || stepObj === void 0 ? void 0 : stepObj['#states']) === null || _a === void 0 ? void 0 : _a.visible;
+    const visibleStates = stepObj?.['#states']?.visible;
     if (!visibleStates)
         return true;
     if (!Array.isArray(visibleStates)) {
@@ -89,22 +87,21 @@ export const shouldStepBeVisible = (stepObj, watchedValues) => {
         });
     });
 };
-export const getVisibleStepKeys = (stepKeys, elementsSource, watchedValuesAllFields, valueFormat) => {
+export const getVisibleStepKeys = (stepKeys, elementsSource, watchedValuesAllFields) => {
     return stepKeys.filter((stepKey) => {
         const stepObj = elementsSource[stepKey];
         if (!stepObj['#states'] || !stepObj['#states'].visible)
             return true;
-        return shouldFieldBeVisible(stepKey, elementsSource, watchedValuesAllFields, valueFormat);
+        return shouldFieldBeVisible(stepKey, elementsSource, watchedValuesAllFields);
     });
 };
-export const getAllVisibleFieldNames = (visibleStepKeys, elementsSource, watchedValuesAllFields, valueFormat) => {
+export const getAllVisibleFieldNames = (visibleStepKeys, elementsSource, watchedValuesAllFields) => {
     return visibleStepKeys.flatMap((stepKey) => {
         const stepObj = elementsSource[stepKey];
         return Object.keys(stepObj).filter((fieldKey) => !fieldKey.startsWith('#') &&
             typeof stepObj[fieldKey] === 'object' &&
             Boolean(stepObj[fieldKey]['#type']) &&
-            shouldFieldBeVisible(fieldKey, stepObj, watchedValuesAllFields, valueFormat));
+            shouldFieldBeVisible(fieldKey, stepObj, watchedValuesAllFields));
     });
 };
 export { conditionalStepsProperties };
-//# sourceMappingURL=webform_multistep_conditional_functions.js.map

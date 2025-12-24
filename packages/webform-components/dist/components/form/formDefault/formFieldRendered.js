@@ -1,22 +1,25 @@
 import React from 'react';
-import FormMappingFields from "../formMappingFields/formMappingFields";
-const FormFieldRendered = ({ control, index, fieldKey, field, formState, valueFormat, components, classNames, isMultiStep, }) => {
-    var _a, _b;
-    const type = (_a = field['#type']) !== null && _a !== void 0 ? _a : 'default';
-    const elementRenderer = (_b = FormMappingFields[type]) === null || _b === void 0 ? void 0 : _b.element;
+import FormMappingFields from '../formMappingFields/formMappingFields';
+const FormFieldRendered = ({ index, fieldKey, field, components, classNames, isMultiStep, watchedValues, }) => {
+    const type = field['#type'] ?? 'default';
+    const elementRenderer = FormMappingFields[type]?.element;
     if (!elementRenderer)
         return null;
+    const isLayout = [
+        'webform_section',
+        'webform_flexbox',
+        'container',
+        'details',
+        'fieldset',
+    ].includes(type);
     return elementRenderer({
-        control,
         index,
-        key: fieldKey,
+        fieldKey,
         field,
-        valueFormat,
         isMultiStep,
         components,
         classNames,
-        formState,
+        ...(isLayout ? { watchedValues } : {}),
     });
 };
 export default React.memo(FormFieldRendered);
-//# sourceMappingURL=formFieldRendered.js.map

@@ -1,5 +1,3 @@
-'use client'
-
 import styles from './multiStepStepper.module.scss'
 import React from 'react'
 import cn from 'classnames'
@@ -30,58 +28,58 @@ const MultiStepStepper = (props: IMultiStepStepperProps) => {
   let percent = minPercent
   if (totalSteps > 1) {
     percent =
-        stepIndex === 0
-            ? minPercent
-            : stepIndex === totalSteps - 1
-                ? maxPercent
-                : minPercent +
-                ((maxPercent - minPercent) / (totalSteps - 1)) * stepIndex
+      stepIndex === 0
+        ? minPercent
+        : stepIndex === totalSteps - 1
+          ? maxPercent
+          : minPercent +
+            ((maxPercent - minPercent) / (totalSteps - 1)) * stepIndex
   }
 
   return (
+    <div
+      className={cn(
+        styles.multiStepStepper,
+        classNames.multiStep.stepperContainer
+      )}
+    >
       <div
-          className={cn(
-              styles.multiStepStepper,
-              classNames.multiStep.stepperContainer
-          )}
+        className={cn(
+          styles.headerStepperContainer,
+          classNames.multiStep?.stepperHeader
+        )}
       >
-        <div
-            className={cn(
-                styles.headerStepperContainer,
-                classNames.multiStep?.stepperHeader
-            )}
-        >
-          {title && title.length > 0 && (
-              <TagTitle
-                  className={cn(styles.title, classNames.multiStep.stepperTitle)}
-              >
-                {title}
-              </TagTitle>
-          )}
-          <span
-              className={cn(
-                  styles.multiStepStepperCounter,
-                  classNames.multiStep.stepperCounter
-              )}
+        {title && title.length > 0 && (
+          <TagTitle
+            className={cn(styles.title, classNames.multiStep.stepperTitle)}
           >
+            {title}
+          </TagTitle>
+        )}
+        <span
+          className={cn(
+            styles.multiStepStepperCounter,
+            classNames.multiStep.stepperCounter
+          )}
+        >
           {stepIndex + 1}/{totalSteps}
         </span>
-        </div>
-        <div
-            className={cn(
-                styles.progressBarContainer,
-                classNames.multiStep.stepperProgressBarContainer
-            )}
-        >
-          <div
-              className={cn(
-                  styles.progressBar,
-                  classNames.multiStep.stepperProgressBar
-              )}
-              style={{ width: `${percent}%` }}
-          />
-        </div>
       </div>
+      <div
+        className={cn(
+          styles.progressBarContainer,
+          classNames.multiStep.stepperProgressBarContainer
+        )}
+      >
+        <div
+          className={cn(
+            styles.progressBar,
+            classNames.multiStep.stepperProgressBar
+          )}
+          style={{ width: `${percent}%` }}
+        />
+      </div>
+    </div>
   )
 }
 

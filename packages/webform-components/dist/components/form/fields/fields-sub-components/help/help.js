@@ -7,13 +7,13 @@ import 'tippy.js/dist/tippy.css';
 import { createRoot } from 'react-dom/client';
 import Wysiwyg from "../../fields-special-components/wysiwyg/wysiwyg";
 const Help = ({ innerProps, custom_component_wysiwyg, helps }) => {
-    const { className, ...restInnerProps } = innerProps !== null && innerProps !== void 0 ? innerProps : {};
+    const { className, ...restInnerProps } = innerProps ?? {};
     const buttonRef = useRef(null);
-    const CustomWysiwyg = custom_component_wysiwyg !== null && custom_component_wysiwyg !== void 0 ? custom_component_wysiwyg : Wysiwyg;
+    const CustomWysiwyg = custom_component_wysiwyg ?? Wysiwyg;
     useEffect(() => {
         if (!buttonRef.current)
             return;
-        if (!(helps === null || helps === void 0 ? void 0 : helps.help) && !(helps === null || helps === void 0 ? void 0 : helps.processed_help_title))
+        if (!helps?.help && !helps?.processed_help_title)
             return;
         const tooltipContainer = document.createElement('div');
         const root = createRoot(tooltipContainer);
@@ -32,4 +32,3 @@ const Help = ({ innerProps, custom_component_wysiwyg, helps }) => {
     return (_jsx("button", { className: cn(styles.help, className), ref: buttonRef, type: "button", ...restInnerProps, children: "?" }));
 };
 export default Help;
-//# sourceMappingURL=help.js.map

@@ -34,7 +34,7 @@
     "react-select": "^5.10.1",
     "sass": "^1.86.0",
     "tippy.js": "^6.3.7",
-    "webform-components": "file:./packages/webform-components",
+    "webform-components": "^1.0.1",
     "yaml": "^2.7.0",
     "yup": "^1.6.1"
   },

@@ -21,4 +21,3 @@ const base64ToBlob = (base64, mime) => {
     return new Blob([ab], { type: mime });
 };
 export { fileToBase64, base64ToBlob };
-//# sourceMappingURL=webform_fields_file_functions.js.map

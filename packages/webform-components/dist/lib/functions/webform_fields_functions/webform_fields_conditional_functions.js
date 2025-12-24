@@ -1,192 +1,122 @@
-import { formatMessage, getErrorMessage, getRequiredMessage, } from "../webform_validation_functions/webform_validation_functions";
-import FormMappingFields from "../../../components/form/formMappingFields/formMappingFields";
+import { formatMessage, getErrorMessage, getRequiredMessage, } from '../webform_validation_functions/webform_validation_functions';
+import FormMappingFields from '../../../components/form/formMappingFields/formMappingFields';
 import * as yup from 'yup';
-export const checkVisibilityCondition = (format, depConfig, watched, expectedKeyOrValue) => {
-    var _a;
-    switch (format) {
-        case 'key':
-            return watched === expectedKeyOrValue;
-        case 'value': {
-            const options = depConfig['#options'] || {};
-            const expectedValue = (_a = options[expectedKeyOrValue]) !== null && _a !== void 0 ? _a : expectedKeyOrValue;
-            return watched === expectedValue;
-        }
-        case 'keyValue': {
-            if (typeof watched !== 'object' || watched === null)
-                return false;
-            const optionsKV = depConfig['#options'] || {};
-            const expected = expectedKeyOrValue;
-            if (Array.isArray(expected)) {
-                return expected.every((key) => key in watched &&
-                    watched[key] === optionsKV[key]);
-            }
-            return (expected in watched &&
-                watched[expected] === optionsKV[expected]);
-        }
-        case 'booleanMap': {
-            if (typeof watched !== 'object' || watched === null)
-                return false;
-            if (Array.isArray(expectedKeyOrValue)) {
-                return expectedKeyOrValue.every((k) => watched[k] === true);
-            }
-            return watched[expectedKeyOrValue] === true;
-        }
-        default:
-            return false;
+export const checkVisibilityCondition = (watched, expectedValue, mode = 'is') => {
+    if (mode === 'is') {
+        return watched === expectedValue;
     }
+    if (mode === 'isNot') {
+        return watched !== expectedValue;
+    }
+    return false;
 };
-export function shouldFieldBeVisible(fieldKey, elementsSource, watchedValues, valueFormat) {
-    var _a;
+export function shouldFieldBeVisible(fieldKey, elementsSource, watchedValues) {
     const fieldConfig = elementsSource[fieldKey];
-    const visibleStates = (_a = fieldConfig === null || fieldConfig === void 0 ? void 0 : fieldConfig['#states']) === null || _a === void 0 ? void 0 : _a.visible;
-    if (!visibleStates) {
-        return true;
-    }
-    if (!Array.isArray(visibleStates)) {
-        return Object.entries(visibleStates).every(([selector, conditions]) => {
-            const match = selector.match(/:input\[name="([^"]+)"\]/);
-            if (!match)
-                return true;
-            const depName = match[1];
-            const depConfig = elementsSource[depName];
-            const depType = depConfig === null || depConfig === void 0 ? void 0 : depConfig['#type'];
-            const format = valueFormat[depType] || 'key';
-            const watched = watchedValues[depName];
-            if (watched === undefined)
-                return false;
-            if (conditions.hasOwnProperty('value')) {
-                return checkVisibilityCondition(format, depConfig, watched, conditions.value);
-            }
-            return true;
-        });
-    }
-    return visibleStates.some((stateCond) => {
-        if (typeof stateCond !== 'object' || stateCond === null)
-            return false;
-        return Object.entries(stateCond).every(([selector, conditions]) => {
-            const match = selector.match(/:input\[name="([^"]+)"\]/);
-            if (!match)
-                return true;
-            const depName = match[1];
-            const depConfig = elementsSource[depName];
-            const depType = depConfig === null || depConfig === void 0 ? void 0 : depConfig['#type'];
-            const format = valueFormat[depType] || 'key';
-            const watched = watchedValues[depName];
-            if (watched === undefined)
-                return false;
-            if (conditions.hasOwnProperty('value')) {
-                return checkVisibilityCondition(format, depConfig, watched, conditions.value);
-            }
-            return true;
-        });
-    });
-}
-export function shouldMultiStepFieldBeVisible(fieldKey, elementsSource, watchedStepValues, prevStepValues, currentFieldKeys, valueFormat) {
-    var _a;
-    const fieldConfig = elementsSource[fieldKey];
-    const visibleStates = (_a = fieldConfig === null || fieldConfig === void 0 ? void 0 : fieldConfig['#states']) === null || _a === void 0 ? void 0 : _a.visible;
+    const visibleStates = fieldConfig?.['#states']?.visible;
     if (!visibleStates)
         return true;
-    // Résolution de la valeur de dépendance, selon où elle se trouve
-    function getDependencyValue(depName) {
-        if (currentFieldKeys.includes(depName)) {
-            return watchedStepValues[depName];
-        }
-        return prevStepValues[depName];
-    }
-    // Cas objet classique
-    if (!Array.isArray(visibleStates)) {
-        return Object.entries(visibleStates).every(([selector, conditions]) => {
-            const match = selector.match(/:input\[name="([^"]+)"\]/);
-            if (!match)
-                return true;
-            const depName = match[1];
-            const depConfig = elementsSource[depName];
-            const depType = depConfig === null || depConfig === void 0 ? void 0 : depConfig['#type'];
-            const format = valueFormat[depType] || 'key';
-            const watched = getDependencyValue(depName);
-            if (watched === undefined)
-                return false;
-            if (conditions.hasOwnProperty('value')) {
-                return checkVisibilityCondition(format, depConfig, watched, conditions.value);
-            }
+    const evaluate = (states) => Object.entries(states).every(([selector, conditions]) => {
+        const match = selector.match(/:input\[name="([^"]+)"\]/);
+        if (!match)
             return true;
-        });
+        const depName = match[1];
+        const watched = watchedValues[depName];
+        if (watched === undefined)
+            return false;
+        if ('value' in conditions) {
+            return checkVisibilityCondition(watched, conditions.value, 'is');
+        }
+        if ('!value' in conditions) {
+            return checkVisibilityCondition(watched, conditions['!value'], 'isNot');
+        }
+        return true;
+    });
+    if (!Array.isArray(visibleStates)) {
+        return evaluate(visibleStates);
     }
     return visibleStates.some((stateCond) => {
         if (typeof stateCond !== 'object' || stateCond === null)
             return false;
-        return Object.entries(stateCond).every(([selector, conditions]) => {
-            const match = selector.match(/:input\[name="([^"]+)"\]/);
-            if (!match)
-                return true;
-            const depName = match[1];
-            const depConfig = elementsSource[depName];
-            const depType = depConfig === null || depConfig === void 0 ? void 0 : depConfig['#type'];
-            const format = valueFormat[depType] || 'key';
-            const watched = getDependencyValue(depName);
-            if (watched === undefined)
-                return false;
-            if (conditions.hasOwnProperty('value')) {
-                return checkVisibilityCondition(format, depConfig, watched, conditions.value);
-            }
-            return true;
-        });
+        return evaluate(stateCond);
     });
+}
+const LAYOUT_TYPES = new Set([
+    'webform_section',
+    'webform_flexbox',
+    'container',
+    'details',
+    'fieldset',
+]);
+export function isLayoutType(type) {
+    return typeof type === 'string' && LAYOUT_TYPES.has(type);
+}
+export function extractVisibleFields(source, visibleKeys, watchedValues) {
+    const result = [];
+    visibleKeys.forEach((key) => {
+        const field = source[key];
+        if (!field)
+            return;
+        const type = field['#type'];
+        if (isLayoutType(type)) {
+            const childFields = Object.fromEntries(Object.entries(field).filter(([k]) => !k.startsWith('#')));
+            const childVisibleKeys = Object.keys(childFields).filter((childKey) => shouldFieldBeVisible(childKey, childFields, watchedValues));
+            result.push(...extractVisibleFields(childFields, childVisibleKeys, watchedValues));
+        }
+        else {
+            result.push({ key, field });
+        }
+    });
+    return result;
 }
 export function getDependentFields(elementsSource) {
     const depsMap = new Map();
-    Object.entries(elementsSource).forEach(([_, fieldConfig]) => {
-        var _a;
-        const visibleStates = (_a = fieldConfig === null || fieldConfig === void 0 ? void 0 : fieldConfig['#states']) === null || _a === void 0 ? void 0 : _a.visible;
-        if (!visibleStates)
-            return;
-        if (Array.isArray(visibleStates)) {
-            visibleStates.forEach((stateCond) => {
-                if (typeof stateCond !== 'object' || stateCond === null)
-                    return;
-                Object.keys(stateCond).forEach((selector) => {
-                    var _a;
-                    const match = selector.match(/:input\[name="([^"]+)"\]/);
-                    if (match) {
-                        const depName = match[1];
-                        const depType = ((_a = elementsSource[depName]) === null || _a === void 0 ? void 0 : _a['#type']) || 'unknown';
-                        depsMap.set(depName, depType);
-                    }
+    function extractDeps(source) {
+        Object.values(source).forEach((fieldConfig) => {
+            if (!fieldConfig || typeof fieldConfig !== 'object')
+                return;
+            const visibleStates = fieldConfig?.['#states']?.visible;
+            if (visibleStates) {
+                const statesArray = Array.isArray(visibleStates)
+                    ? visibleStates
+                    : [visibleStates];
+                statesArray.forEach((stateCond) => {
+                    if (typeof stateCond !== 'object' || stateCond === null)
+                        return;
+                    Object.keys(stateCond).forEach((selector) => {
+                        const match = selector.match(/:input\[name="([^"]+)"\]/);
+                        if (match) {
+                            const depName = match[1];
+                            const depType = source[depName]?.['#type'] || 'unknown';
+                            depsMap.set(depName, depType);
+                        }
+                    });
                 });
-            });
-        }
-        else {
-            Object.keys(visibleStates).forEach((selector) => {
-                var _a;
-                const match = selector.match(/:input\[name="([^"]+)"\]/);
-                if (match) {
-                    const depName = match[1];
-                    const depType = ((_a = elementsSource[depName]) === null || _a === void 0 ? void 0 : _a['#type']) || 'unknown';
-                    depsMap.set(depName, depType);
-                }
-            });
-        }
-    });
+            }
+            const type = fieldConfig['#type'];
+            if (isLayoutType(type)) {
+                const childFields = Object.fromEntries(Object.entries(fieldConfig).filter(([k]) => !k.startsWith('#')));
+                extractDeps(childFields);
+            }
+        });
+    }
+    extractDeps(elementsSource);
     return Array.from(depsMap.entries()).map(([name, type]) => ({ name, type }));
 }
-export const generateFormSchemaAndDefaults = ({ elementsSource, visibleElementsKeys, valueFormat, defaultFieldValues, defaultFieldStateMessages, customValidators, }) => {
+export const generateFormSchemaAndDefaults = ({ elementsSource, visibleElementsKeys, defaultFieldValues, defaultFieldStateMessages, customValidators, watchedValues = {}, }) => {
     const defaults = {};
     const yupObjLocal = {};
-    visibleElementsKeys.forEach((key) => {
-        var _a, _b, _c, _d;
-        const field = elementsSource[key];
-        const type = field['#type'];
-        const required = field === null || field === void 0 ? void 0 : field['#required'];
-        const requiredMessage = formatMessage((_a = getRequiredMessage(defaultFieldStateMessages, type)) !== null && _a !== void 0 ? _a : '', field === null || field === void 0 ? void 0 : field['#title']);
-        const errorMessage = formatMessage((_b = getErrorMessage(defaultFieldStateMessages, type)) !== null && _b !== void 0 ? _b : '', field === null || field === void 0 ? void 0 : field['#title']);
-        (_d = (_c = FormMappingFields[type !== null && type !== void 0 ? type : 'default']) === null || _c === void 0 ? void 0 : _c.validator) === null || _d === void 0 ? void 0 : _d.call(_c, {
+    const realVisibleFields = extractVisibleFields(elementsSource, visibleElementsKeys, watchedValues);
+    realVisibleFields.forEach(({ key, field }) => {
+        const type = field?.['#type'];
+        const required = Boolean(field?.['#required']);
+        const requiredMessage = formatMessage(getRequiredMessage(defaultFieldStateMessages, type) ?? '', field?.['#title']);
+        const errorMessage = formatMessage(getErrorMessage(defaultFieldStateMessages, type) ?? '', field?.['#title']);
+        FormMappingFields[type ?? 'default']?.validator?.({
             yupObject: yupObjLocal,
             defaultValues: defaults,
             key,
             field,
-            required: Boolean(required),
-            valueFormat,
+            required,
             defaultFieldValues,
             defaultFieldStateMessages,
             requiredMessage,
@@ -199,4 +129,3 @@ export const generateFormSchemaAndDefaults = ({ elementsSource, visibleElementsK
         validationSchema: yup.object().shape(yupObjLocal),
     };
 };
-//# sourceMappingURL=webform_fields_conditional_functions.js.map

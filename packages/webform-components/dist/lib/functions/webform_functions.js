@@ -7,4 +7,3 @@ const getWebformProperties = (elements) => {
     };
 };
 export { getWebformProperties };
-//# sourceMappingURL=webform_functions.js.map

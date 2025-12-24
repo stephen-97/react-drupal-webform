@@ -1,9 +1,7 @@
-'use client'
-
 import React, { useState } from 'react'
 import styles from './more.module.scss'
-import { IMoreProps } from "../../../../../lib/types/components/more"
-import Wysiwyg from "../../fields-special-components/wysiwyg/wysiwyg"
+import { IMoreProps } from '../../../../../lib/types/components/more'
+import Wysiwyg from '../../fields-special-components/wysiwyg/wysiwyg'
 import cn from 'classnames'
 
 const More = ({

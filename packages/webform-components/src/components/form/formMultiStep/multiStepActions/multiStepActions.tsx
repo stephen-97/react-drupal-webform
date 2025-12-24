@@ -1,5 +1,3 @@
-'use client'
-
 import styles from './multiStepActions.module.scss'
 import stylesField from '../../fields/field.module.scss'
 import React from 'react'

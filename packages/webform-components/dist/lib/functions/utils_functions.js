@@ -15,16 +15,15 @@ const mergeObjects = (defaultObj, newObj) => {
 const deepMergeDefaults = (defaults, overrides) => Object.keys(defaults).reduce((acc, key) => {
     const k = key;
     const defaultValue = defaults[k];
-    const overrideValue = overrides === null || overrides === void 0 ? void 0 : overrides[k];
+    const overrideValue = overrides?.[k];
     acc[k] =
         defaultValue !== null &&
             typeof defaultValue === 'object' &&
             !Array.isArray(defaultValue)
-            ? deepMergeDefaults(defaultValue, (overrideValue !== null && overrideValue !== void 0 ? overrideValue : {}))
+            ? deepMergeDefaults(defaultValue, (overrideValue ?? {}))
             : overrideValue !== undefined
                 ? overrideValue
                 : defaultValue;
     return acc;
 }, Array.isArray(defaults) ? [] : {});
 export { mergeObjects, deepMergeDefaults };
-//# sourceMappingURL=utils_functions.js.map

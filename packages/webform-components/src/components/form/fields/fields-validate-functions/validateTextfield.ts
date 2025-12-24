@@ -1,9 +1,9 @@
 import { string } from 'yup'
-import { TFieldValidate } from "../../../../lib/types/components/validate"
+import { TFieldValidate } from '../../../../lib/types/components/validate'
 import {
   resolveCustomValidator,
   TDrupal_FieldType_Validate,
-} from "../../../../lib/functions/webform_validation_functions/webform_validation_functions"
+} from '../../../../lib/functions/webform_validation_functions/webform_validation_functions'
 
 export const validateTextField = (props: TFieldValidate) => {
   const {

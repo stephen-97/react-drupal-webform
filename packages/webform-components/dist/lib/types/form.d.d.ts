@@ -1,19 +1,21 @@
 import { AnySchema } from 'yup';
 import { JSX } from 'react';
-import { ILabelWebformProps } from "./components/label";
-import { TDrupal_FieldType } from "./components/field";
-import { IWrapperWebformProps } from "./components/wrapper";
-import { IErrorMessageWebformProps } from "./components/errorMessage";
-import { TFieldWebformObjCustom } from "../../components/form/fields/fields-special-components/fieldObjCustom";
-import { IWysiwygProps } from "./components/wysiwyg";
-import { IHelpProps } from "./components/help";
-import { IDescriptionWebformProps } from "./components/description";
-import { IManagedFileInfoProps } from "./components/managedFileInfo";
-import { IMoreProps } from "./components/more";
-import { IManagedFilePreviewWebformProps } from "./components/filePreview";
-import { IMultiStepActionsProps } from "./components/multiStepActions";
-import { IMultiStepStepperProps } from "./components/multiStepStepper";
-import { TFieldValidate } from "./components/validate";
+import { ILabelWebformProps } from './components/label';
+import { TDrupal_FieldType, TFieldWebformObj } from './components/field';
+import { IWrapperWebformProps } from './components/wrapper';
+import { IErrorMessageWebformProps } from './components/errorMessage';
+import { TFieldWebformObjCustom } from './components/fieldWebformObjCustom';
+import { IWysiwygProps } from './components/wysiwyg';
+import { IHelpProps } from './components/help';
+import { IDescriptionWebformProps } from './components/description';
+import { IManagedFileInfoProps } from './components/managedFileInfo';
+import { IMoreProps } from './components/more';
+import { IManagedFilePreviewWebformProps } from './components/filePreview';
+import { IMultiStepActionsProps } from './components/multiStepActions';
+import { IMultiStepStepperProps } from './components/multiStepStepper';
+import { TFieldValidate } from './components/validate';
+import { ILayoutWrapperProps } from './components/layoutWrapper';
+import { TFieldRendererProps } from './components/fieldRenderer';
 export type TFileWithBase64 = {
     name: string;
     size: number;
@@ -23,20 +25,15 @@ export type TFileWithBase64 = {
     base64: string;
 };
 export type TFormatFieldMulti = 'key' | 'value' | 'keyValue' | 'booleanMap';
-export type TWebformValueFormat = {
-    radios?: TFormatFieldMulti;
-    select?: TFormatFieldMulti;
-    checkboxes?: TFormatFieldMulti;
-};
 export type TDefaultValue = string | number | boolean | Record<string, any>;
 export type TWebformDefaultFieldValues = {
     [K in TDrupal_FieldType]?: TDefaultValue;
 };
 type TWebformRequiredMessageFields = {
-    [K in Exclude<TDrupal_FieldType, 'webform_markup' | 'webform_actions'>]?: string | null;
+    [K in Exclude<TDrupal_FieldType, 'webform_markup' | 'webform_actions' | 'fieldset'>]?: string | null;
 };
 type TWebformErrorMessageFields = {
-    [K in Exclude<TDrupal_FieldType, 'webform_markup' | 'webform_actions' | 'radio' | 'checkbox' | 'checkboxes' | 'select'>]?: string | null;
+    [K in Exclude<TDrupal_FieldType, 'webform_markup' | 'webform_actions' | 'radio' | 'checkbox' | 'checkboxes' | 'select' | 'fieldset'>]?: string | null;
 };
 export type TWrapperCategory = 'textInput' | 'selectionInput' | 'booleanInput';
 export type TWebformClassNameFields = {
@@ -100,6 +97,11 @@ export type TWebformClassNames = {
         markup?: {
             base?: string;
         };
+        layout?: {
+            wrapper?: string;
+            title?: string;
+            inner?: string;
+        };
     };
     multiStep?: {
         stepperContainer?: string;
@@ -140,6 +142,13 @@ export type TWebformCustomComponents = {
     more?: (_props: IMoreProps) => JSX.Element | null;
     multiStepActions?: (_props: IMultiStepActionsProps) => JSX.Element | null;
     multiStepStepper?: (_props: IMultiStepStepperProps) => JSX.Element | null;
+    layout?: (_props: ILayoutWrapperProps) => JSX.Element | null;
+    radios?: (_props: TFieldWebformObjCustom) => JSX.Element | null;
+    textarea?: (_props: TFieldWebformObjCustom) => JSX.Element | null;
+    checkbox?: (_props: TFieldWebformObjCustom) => JSX.Element | null;
+    hidden?: (_props: TFieldWebformObjCustom) => JSX.Element | null;
+    markup?: (_props: TFieldWebformObj) => JSX.Element | null;
+    fieldById?: Record<string, (_props: TFieldRendererProps) => JSX.Element | null>;
 };
 export type TWebformValidatorFactory = (ctx: TFieldValidate) => AnySchema | null | undefined;
 export type TWebformCustomValidators = {
@@ -150,7 +159,6 @@ export type TWebform = {
     elementsSource: Record<string, any>;
     components?: TWebformCustomComponents;
     validators?: any;
-    valueFormat?: TWebformValueFormat;
     defaultFieldValues?: TWebformDefaultFieldValues;
     customValidators?: TWebformCustomValidators;
     classNames?: TWebformClassNames;

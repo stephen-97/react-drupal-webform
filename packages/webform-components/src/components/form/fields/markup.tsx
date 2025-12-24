@@ -1,5 +1,3 @@
-'use client'
-
 import DOMPurify from 'isomorphic-dompurify'
 import { TFieldWebformObj } from '../../../lib/types/components/field'
 import styles from './field.module.scss'

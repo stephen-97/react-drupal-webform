@@ -3417,8 +3417,10 @@ w3c-xmlserializer@^5.0.0:
   dependencies:
     xml-name-validator "^5.0.0"
 
-"webform-components@file:./packages/webform-components":
-  version "1.0.0"
+webform-components@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/webform-components/-/webform-components-1.0.1.tgz#73aac3e8859c8d4148dfa2e991810ee54c690375"
+  integrity sha512-YsSEJKUeyG4AxFixao5sb5y3HLwplfHicLOdm3ldKyiQu2WjwzMftsrU+BL/iNj7YQoGxY8wIj2wFYgETRHtAQ==
 
 webidl-conversions@^7.0.0:
   version "7.0.0"

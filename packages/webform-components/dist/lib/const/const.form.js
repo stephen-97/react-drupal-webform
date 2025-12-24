@@ -1,13 +1,8 @@
-import Label from "../../components/form/fields/fields-sub-components/label/label";
-import ErrorFieldMessage from "../../components/form/fields/fields-sub-components/errorFieldMessage/errorFieldMessage";
-import FieldObjCustom from "../../components/form/fields/fields-special-components/fieldObjCustom";
-import FieldWysiwygCustom from "../../components/form/fields/fields-special-components/fieldWysiwygCustom";
-import Wrapper from "../../components/form/fields/fields-sub-components/wrapper";
-export const defaultValueFormatObj = {
-    radios: 'booleanMap',
-    select: 'booleanMap',
-    checkboxes: 'booleanMap',
-};
+import Label from '../../components/form/fields/fields-sub-components/label/label';
+import ErrorFieldMessage from '../../components/form/fields/fields-sub-components/errorFieldMessage/errorFieldMessage';
+import FieldObjCustom from '../../components/form/fields/fields-special-components/fieldObjCustom';
+import FieldWysiwygCustom from '../../components/form/fields/fields-special-components/fieldWysiwygCustom';
+import Wrapper from '../../components/form/fields/fields-sub-components/wrapper';
 export const defaultValuesObj = {
     textfield: '',
     textarea: '',
@@ -22,6 +17,8 @@ export const defaultValuesObj = {
     select: '',
     webform_markup: '',
     webform_actions: '',
+    hidden: '',
+    fieldset: '',
 };
 export const defaultValuesFieldStateMessages = {
     general: {
@@ -38,6 +35,7 @@ export const defaultValuesFieldStateMessages = {
             date: 'Invalid date format.',
             managed_file: '',
             radios: '',
+            hidden: '',
         },
         requiredMessages: {
             textfield: '',
@@ -51,6 +49,7 @@ export const defaultValuesFieldStateMessages = {
             date: '',
             managed_file: '',
             select: '',
+            hidden: '',
         },
     },
 };
@@ -76,6 +75,8 @@ export const defaultValuesClassnames = {
             select: '',
             managed_file: '',
             webform_actions: '',
+            fieldset: '',
+            hidden: '',
         },
     },
     general: {
@@ -129,6 +130,11 @@ export const defaultValuesClassnames = {
         markup: {
             base: '',
         },
+        layout: {
+            wrapper: '',
+            title: '',
+            inner: '',
+        },
     },
     multiStep: {
         stepperContainer: '',
@@ -152,4 +158,3 @@ export const components = {
     Checkboxes: FieldObjCustom,
     Wysiwyg: FieldWysiwygCustom,
 };
-//# sourceMappingURL=const.form.js.map

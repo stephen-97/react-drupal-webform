@@ -1,8 +1,4 @@
-import {
-  TWebformClassNames,
-  TWebformCustomComponents,
-} from "../form.d"
-import type { FormState } from 'react-hook-form'
+import { TWebformClassNames, TWebformCustomComponents } from '../form.d'
 
 export interface IMultiStepActionsProps {
   previousButtonLabel?: string

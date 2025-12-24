@@ -3,4 +3,3 @@ const FieldWysiwygCustom = (props) => {
     return _jsx(_Fragment, { children: props.children });
 };
 export default FieldWysiwygCustom;
-//# sourceMappingURL=fieldWysiwygCustom.js.map

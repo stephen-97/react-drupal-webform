@@ -1,5 +1,3 @@
-'use client'
-
 import styles from './formDefault.module.scss'
 import React, { useEffect, useMemo, useCallback } from 'react'
 import { useForm, useWatch, FormProvider } from 'react-hook-form'
@@ -99,7 +97,6 @@ const FormDefault = ({
     async (data: Record<string, any>) => {
       if (!onSubmit) return
 
-      console.log('data here', data)
       if (includeInactiveFieldsInSubmit) {
         await onSubmit(data)
       } else {
@@ -112,7 +109,6 @@ const FormDefault = ({
     [onSubmit, includeInactiveFieldsInSubmit, visibleElementsKeys]
   )
 
-  console.log('visibleElementsKeys', visibleElementsKeys)
   return (
     <FormProvider {...methods}>
       <form

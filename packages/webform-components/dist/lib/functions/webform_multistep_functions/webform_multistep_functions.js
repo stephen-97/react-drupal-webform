@@ -1,6 +1,6 @@
-import { generateFormSchemaAndDefaults } from "../webform_fields_functions/webform_fields_conditional_functions";
+import { generateFormSchemaAndDefaults } from '../webform_fields_functions/webform_fields_conditional_functions';
 const isMultiStep = (elementsSource) => {
-    return Object.values(elementsSource).some((value) => (value === null || value === void 0 ? void 0 : value['#type']) === 'webform_wizard_page');
+    return Object.values(elementsSource).some((value) => value?.['#type'] === 'webform_wizard_page');
 };
 export const getAllFieldNames = (elementsSource) => {
     const allFields = [];
@@ -28,7 +28,7 @@ export const getDummyDefaultMultiStep = (elementsSource) => {
     });
     return allDefaults;
 };
-export const getAllDefaultValuesFromAllSteps = ({ elementsSource, valueFormat, defaultFieldValues, defaultFieldStateMessages, }) => {
+export const getAllDefaultValuesFromAllSteps = ({ elementsSource, defaultFieldValues, defaultFieldStateMessages, }) => {
     let allDefaultValues = {};
     Object.entries(elementsSource).forEach(([_, stepObj]) => {
         const fieldKeys = Object.keys(stepObj).filter((key) => !key.startsWith('#') &&
@@ -37,7 +37,6 @@ export const getAllDefaultValuesFromAllSteps = ({ elementsSource, valueFormat, d
         const { defaultValues } = generateFormSchemaAndDefaults({
             elementsSource: stepObj,
             visibleElementsKeys: fieldKeys,
-            valueFormat,
             defaultFieldValues,
             defaultFieldStateMessages,
         });
@@ -46,4 +45,3 @@ export const getAllDefaultValuesFromAllSteps = ({ elementsSource, valueFormat, d
     return allDefaultValues;
 };
 export { isMultiStep };
-//# sourceMappingURL=webform_multistep_functions.js.map

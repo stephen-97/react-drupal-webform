@@ -1,8 +1,6 @@
-'use client'
-
 import React from 'react'
 import DOMPurify from 'isomorphic-dompurify'
-import { IWysiwygProps } from "../../../../../lib/types/components/wysiwyg"
+import { IWysiwygProps } from '../../../../../lib/types/components/wysiwyg'
 import cn from 'classnames'
 import styles from './wysiwyg.module.scss'
 

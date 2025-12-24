@@ -2,7 +2,6 @@ import {
   TWebform,
   TWebformDefaultFieldValues,
   TWebformStateMessages,
-  TWebformValueFormat,
 } from '../form.d'
 import { DeepRequired } from 'react-hook-form'
 import { TDeepRequiredClassNames } from '../deepRequired'

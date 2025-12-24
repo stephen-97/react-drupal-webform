@@ -1,4 +1,3 @@
-'use client';
 import { jsx as _jsx } from "react/jsx-runtime";
 import React from 'react';
 import DOMPurify from 'isomorphic-dompurify';
@@ -13,4 +12,3 @@ const Wysiwyg = ({ processed, as: Element = 'div', className, }) => {
         } }));
 };
 export default React.memo(Wysiwyg);
-//# sourceMappingURL=wysiwyg.js.map

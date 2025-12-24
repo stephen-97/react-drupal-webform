@@ -1,12 +1,11 @@
-import { TKeyValue } from "../webform_functions";
-import { TWebformDefaultFieldValues, TWebformStateMessages, TWebformValueFormat } from "../../types/form.d";
+import { TKeyValue } from '../webform_functions';
+import { TWebformDefaultFieldValues, TWebformStateMessages } from '../../types/form.d';
 import { DeepRequired } from 'react-hook-form';
 declare const isMultiStep: (elementsSource: TKeyValue<any>) => boolean;
 export declare const getAllFieldNames: (elementsSource: Record<string, any>) => string[];
 export declare const getDummyDefaultMultiStep: (elementsSource: Record<string, any>) => Record<string, any>;
-export declare const getAllDefaultValuesFromAllSteps: ({ elementsSource, valueFormat, defaultFieldValues, defaultFieldStateMessages, }: {
+export declare const getAllDefaultValuesFromAllSteps: ({ elementsSource, defaultFieldValues, defaultFieldStateMessages, }: {
     elementsSource: Record<string, any>;
-    valueFormat: Required<TWebformValueFormat>;
     defaultFieldValues: Required<TWebformDefaultFieldValues>;
     defaultFieldStateMessages: DeepRequired<TWebformStateMessages>;
 }) => Record<string, any>;
