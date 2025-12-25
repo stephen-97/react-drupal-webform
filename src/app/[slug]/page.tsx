@@ -6,8 +6,10 @@ import WebformContainer from '@/components/webform/webformContainer'
 import { TDrupal_PathData } from '@/lib/api-types/main-types'
 import { TDrupal_Webform_Obj } from '@/lib/api-types/webform-types'
 
-export default async function Page({ params }: any) {
-  const { slug } = params
+export default async function Page(props: {
+  params: Promise<{ slug: string }>
+}) {
+  const { slug } = await props.params
 
   const pathData: TDrupal_PathData = await drupal.request(
     `/router/translate-path/?${new URLSearchParams({

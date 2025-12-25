@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
-import '@/styles/global.scss' // <== import ici
+import Script from 'next/script'
+import '@/styles/global.scss'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -22,15 +23,25 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  console.log(process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY)
+
   return (
     <html
       lang="en"
       suppressHydrationWarning
-      style={{ height: ' 100%', position: 'relative' }}
+      style={{ height: '100%', position: 'relative' }}
     >
+      <head>
+        {/* ✅ Charge le SDK Google Maps AVANT le rendu des composants */}
+        <Script
+          id="google-maps-script"
+          src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
+          strategy="beforeInteractive"
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable}`}
-        style={{ height: ' 100%', position: 'relative' }}
+        style={{ height: '100%', position: 'relative' }}
         suppressHydrationWarning
       >
         {children}

@@ -1,6 +1,5 @@
 import React from 'react'
-import { IHelpProps } from '@/lib/types/components/help'
-
+import { IHelpProps } from 'webform-components/src/lib/types/components/help'
 const HelpCustom = ({ ...props }: IHelpProps) => {
   return <div>test</div>
 }

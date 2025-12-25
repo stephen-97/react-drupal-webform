@@ -1,6 +1,5 @@
 import React from 'react'
-import { IWysiwygProps } from '@/lib/types/components/wysiwyg'
-
+import { IWysiwygProps } from 'webform-components/src/lib/types/components/wysiwyg'
 const WrapperCustom = ({ className, processed, ...props }: IWysiwygProps) => {
   return <div>test</div>
 }
