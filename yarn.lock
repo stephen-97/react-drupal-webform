@@ -2792,6 +2792,13 @@ queue-microtask@^1.2.2:
   dependencies:
     scheduler "^0.25.0"
 
+react-drupal-webform@^1.0.0-alpha:
+  version "1.0.0-alpha"
+  resolved "https://registry.yarnpkg.com/react-drupal-webform/-/react-drupal-webform-1.0.0-alpha.tgz#a1264db6059d368df9524099a06357929f3f87dd"
+  integrity sha512-ML9M0bALOE//jnKt5gNnR3ZShG2O70l0VCSXvOIH3pzli6R02dmo1GztBiBJYpDyX9z1J1frcVPv0klO9r/Waw==
+  dependencies:
+    classnames "^2.5.1"
+
 react-hook-form@^7.54.2:
   version "7.54.2"
   resolved "https://registry.npmjs.org/react-hook-form/-/react-hook-form-7.54.2.tgz"
@@ -3416,11 +3423,6 @@ w3c-xmlserializer@^5.0.0:
   integrity sha512-o8qghlI8NZHU1lLPrpi2+Uq7abh4GGPpYANlalzWxyWteJOCsr/P+oPBA49TOLu5FTZO4d3F9MnWJfiMo4BkmA==
   dependencies:
     xml-name-validator "^5.0.0"
-
-webform-components@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/webform-components/-/webform-components-1.0.1.tgz#73aac3e8859c8d4148dfa2e991810ee54c690375"
-  integrity sha512-YsSEJKUeyG4AxFixao5sb5y3HLwplfHicLOdm3ldKyiQu2WjwzMftsrU+BL/iNj7YQoGxY8wIj2wFYgETRHtAQ==
 
 webidl-conversions@^7.0.0:
   version "7.0.0"

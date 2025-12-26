@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './custom.module.scss'
-import { IWrapperWebformProps } from 'webform-components/src/lib/types/components/wrapper'
+import { IWrapperWebformProps } from '../../../../packages/react-drupal-webform/src/lib/types/components/wrapper'
 import cn from 'classnames'
 
 const WrapperCustom = ({
