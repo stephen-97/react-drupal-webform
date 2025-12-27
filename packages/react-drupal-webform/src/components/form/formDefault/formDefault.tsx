@@ -13,18 +13,20 @@ import {
 import { IFormDefaultWebformProps } from '../../../lib/types/components/formDefault'
 import { getDummyDefaultFormDefault } from '../../../lib/functions/webform_validation_functions/webform_validation_functions'
 
-const FormDefault = ({
-  elementsSource,
-  multiStepExtra,
-  defaultFieldValues,
-  yup: yupObj,
-  defaultFieldStateMessages,
-  components,
-  classNames,
-  includeInactiveFieldsInSubmit,
-  onSubmit,
-  customValidators,
-}: IFormDefaultWebformProps) => {
+const FormDefault = (props: IFormDefaultWebformProps) => {
+  const {
+    elementsSource,
+    multiStepExtra,
+    defaultFieldValues,
+    yup: yupObj,
+    defaultFieldStateMessages,
+    components,
+    classNames,
+    includeInactiveFieldsInSubmit,
+    onSubmit,
+    customValidators,
+  } = props
+
   const { yupUseFormProps } = yupObj || {}
   const isMultiStep = Boolean(multiStepExtra)
 
@@ -109,32 +111,42 @@ const FormDefault = ({
     [onSubmit, includeInactiveFieldsInSubmit, visibleElementsKeys]
   )
 
+  const formContent = visibleElementsKeys.map((key, index) => {
+    const field = elementsSource[key]
+    const type = field['#type']
+
+    const isLayout = isLayoutType(type)
+
+    return (
+      <FormFieldRendered
+        key={key}
+        fieldKey={key}
+        index={index}
+        field={field}
+        components={components}
+        classNames={classNames}
+        isMultiStep={isMultiStep}
+        {...(isLayout ? { watchedValues } : {})}
+      />
+    )
+  })
+
+  const CustomForm = components?.form
+
   return (
     <FormProvider {...methods}>
-      <form
-        className={styles.formDefault}
-        onSubmit={handleSubmit(handleFormSubmit)}
-      >
-        {visibleElementsKeys.map((key, index) => {
-          const field = elementsSource[key]
-          const type = field['#type']
-
-          const isLayout = isLayoutType(type)
-
-          return (
-            <FormFieldRendered
-              key={key}
-              fieldKey={key}
-              index={index}
-              field={field}
-              components={components}
-              classNames={classNames}
-              isMultiStep={isMultiStep}
-              {...(isLayout ? { watchedValues } : {})}
-            />
-          )
-        })}
-      </form>
+      {CustomForm ? (
+        <CustomForm {...props} onSubmit={handleSubmit(handleFormSubmit)}>
+          {formContent}
+        </CustomForm>
+      ) : (
+        <form
+          className={styles.formDefault}
+          onSubmit={handleSubmit(handleFormSubmit)}
+        >
+          {formContent}
+        </form>
+      )}
     </FormProvider>
   )
 }

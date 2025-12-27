@@ -1,6 +1,6 @@
 import React from 'react'
-import { IHelpProps } from 'react-drupal-webform/dist/lib/types/components/help'
+import { IHelpProps } from '../../../../packages/react-drupal-webform/src/lib/types/components/help'
 const HelpCustom = ({ ...props }: IHelpProps) => {
   return <div>test</div>
 }
-export default HelpCustom
+export default React.memo(HelpCustom)

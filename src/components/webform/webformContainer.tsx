@@ -4,7 +4,9 @@ import YAML from 'yaml'
 
 require('@/lib/wdyr')
 
-import { Webform } from 'react-drupal-webform'
+import Webform from '../../../packages/react-drupal-webform/src/components/webform'
+import CustomForm from '@/components/webform/custom-components/CustomForm'
+import helpCustom from '@/components/webform/custom-components/helpCustom'
 
 export type TWebformContainer = {
   elementsSource: string
@@ -37,7 +39,11 @@ const WebformContainer = ({ elementsSource }: TWebformContainer) => {
   const correctElementsSource = YAML.parse(elementsSource)
 
   return (
-    <Webform elementsSource={correctElementsSource} onSubmit={handleSubmit} />
+    <Webform
+      components={{ form: CustomForm, help: helpCustom }}
+      elementsSource={correctElementsSource}
+      onSubmit={handleSubmit}
+    />
   )
 }
 
