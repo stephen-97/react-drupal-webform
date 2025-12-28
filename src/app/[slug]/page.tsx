@@ -2,9 +2,8 @@
 import getForm from '@/lib/requests/get-form'
 import { drupal } from '@/lib/drupal'
 import styles from './page.module.scss'
-import WebformContainer from '@/components/webform/webformContainer'
 import { TDrupal_PathData } from '@/lib/api-types/main-types'
-import { TDrupal_Webform_Obj } from '@/lib/api-types/webform-types'
+import Container from '@/components/container/container'
 
 export default async function Page(props: {
   params: Promise<{ slug: string }>
@@ -19,13 +18,26 @@ export default async function Page(props: {
   )
 
   const pageId = pathData?.entity?.uuid as string
-  const form: TDrupal_Webform_Obj = await getForm(pageId)
+  const form = await getForm(pageId)
 
   return (
     <main className={styles.main}>
-      <div className={styles.webformContainer}>
-        <WebformContainer elementsSource={form?.webform?.elements} />
-      </div>
+      <h1 className={styles.mainTitle}>react-drupal-webform Demo</h1>
+      <p className={styles.introText}>
+        Hello ! This website showcases a few example Webforms built using the
+        react-drupal-webform package. The forms displayed here are for
+        demonstration purposes only and{' '}
+        <strong>
+          don't perform any real submission or send data to a backend.
+        </strong>
+      </p>
+      {form.webforms.map((webform: any) => (
+        <Container
+          key={webform.id}
+          title={webform.title}
+          elementsSource={webform.elements}
+        />
+      ))}
     </main>
   )
 }

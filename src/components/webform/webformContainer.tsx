@@ -13,6 +13,8 @@ export type TWebformContainer = {
 }
 
 const WebformContainer = ({ elementsSource }: TWebformContainer) => {
+  console.log(elementsSource)
+
   const fakeSubmit = (data: Record<any, string>) => {
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -39,11 +41,7 @@ const WebformContainer = ({ elementsSource }: TWebformContainer) => {
   const correctElementsSource = YAML.parse(elementsSource)
 
   return (
-    <Webform
-      components={{ form: CustomForm, help: helpCustom }}
-      elementsSource={correctElementsSource}
-      onSubmit={handleSubmit}
-    />
+    <Webform elementsSource={correctElementsSource} onSubmit={handleSubmit} />
   )
 }
 
