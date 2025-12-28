@@ -7,6 +7,8 @@ import styles from './field.module.scss'
 export const renderCheckbox = (props: TFieldWebformObj) => {
   const { onBlur, fieldKey, field, classNames, components } = props
   const title = field?.['#title']
+  const isRequired = Boolean(field?.['#required'])
+
   const { control } = useFormContext()
 
   const CustomCheckbox =
@@ -48,7 +50,13 @@ export const renderCheckbox = (props: TFieldWebformObj) => {
           {title && (
             <label
               htmlFor={fieldKey}
-              className={cn(classNames.fields.checkbox.label)}
+              className={cn(
+                classNames.fields.checkbox.label,
+                styles.checkboxLabel,
+                {
+                  [styles.isRequired]: isRequired,
+                }
+              )}
             >
               {title}
             </label>

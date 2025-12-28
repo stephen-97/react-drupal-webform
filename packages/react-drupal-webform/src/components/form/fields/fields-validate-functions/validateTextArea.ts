@@ -1,11 +1,12 @@
 import { string } from 'yup'
-import { TFieldValidate } from "../../../../lib/types/components/validate"
+import { TFieldValidate } from '../../../../lib/types/components/validate'
 import {
   resolveCustomValidator,
   TDrupal_FieldType_Validate,
   formatMessage,
   getRequiredMessage,
-} from "../../../../lib/functions/webform_validation_functions/webform_validation_functions"
+  applyMinMaxLength,
+} from '../../../../lib/functions/webform_validation_functions/webform_validation_functions'
 
 export const validateTextArea = (props: TFieldValidate) => {
   const {
@@ -25,7 +26,8 @@ export const validateTextArea = (props: TFieldValidate) => {
     getRequiredMessage(defaultFieldStateMessages, 'textarea') ?? '',
     field?.['#title']
   )
-  const defaultSchema = string()
+  let defaultSchema = string()
+  defaultSchema = applyMinMaxLength(defaultSchema, field)
 
   const customSchema =
     resolveCustomValidator(customValidators, key, type, props) ?? defaultSchema

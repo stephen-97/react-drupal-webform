@@ -1,6 +1,7 @@
-import { string } from 'yup'
+import { string, StringSchema } from 'yup'
 import { TFieldValidate } from '../../../../lib/types/components/validate'
 import {
+  applyMinMaxLength,
   resolveCustomValidator,
   TDrupal_FieldType_Validate,
 } from '../../../../lib/functions/webform_validation_functions/webform_validation_functions'
@@ -19,14 +20,21 @@ export const validateTextField = (props: TFieldValidate) => {
 
   const type = field?.['#type'] as TDrupal_FieldType_Validate | undefined
 
-  const defaultSchema = string()
+  let baseSchema = string()
 
-  const customSchema =
-    resolveCustomValidator(customValidators, key, type, props) ?? defaultSchema
+  baseSchema = applyMinMaxLength(baseSchema, field)
 
-  yupObject[key] = required
-    ? (customSchema as any).required(requiredMessage)
-    : customSchema
+  if (required) {
+    baseSchema = baseSchema.required(requiredMessage)
+  }
+
+  yupObject[key] =
+    resolveCustomValidator<StringSchema<string | undefined>>(
+      customValidators,
+      key,
+      type,
+      props
+    ) ?? baseSchema
 
   defaultValues[key] = defaultFieldValues.textfield
 }

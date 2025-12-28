@@ -3,7 +3,7 @@ import {
   TWebformStateMessages,
 } from '../../types/form.d'
 import { DeepRequired } from 'react-hook-form'
-import { TDrupal_FieldType } from '../../types/components/field'
+import { TDrupal_FieldType, TElementSource } from '../../types/components/field'
 import { AnySchema, StringSchema } from 'yup'
 import { TFieldValidate } from '../../types/components/validate'
 
@@ -91,4 +91,27 @@ export const getDummyDefaultFormDefault = (
   })
 
   return allDefaults
+}
+
+export const applyMinMaxLength = (
+  schema: StringSchema<string | undefined>,
+  field: TElementSource | undefined
+): StringSchema<string | undefined> => {
+  let nextSchema = schema
+
+  if (typeof field?.['#minlength'] === 'number') {
+    nextSchema = nextSchema.min(
+      field['#minlength'],
+      `Minimum ${field['#minlength']} characters`
+    )
+  }
+
+  if (typeof field?.['#maxlength'] === 'number') {
+    nextSchema = nextSchema.max(
+      field['#maxlength'],
+      `Maximum ${field['#maxlength']} characters`
+    )
+  }
+
+  return nextSchema
 }

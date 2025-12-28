@@ -21,8 +21,7 @@ export const renderMarkup = (props: TFieldWebformObj) => {
       key={fieldKey}
       className={cn(
         ...(field?.['#attributes']?.class ?? []),
-        classNames.fields.markup.base,
-        styles.fieldWrapper
+        classNames.fields.markup.base
       )}
       dangerouslySetInnerHTML={{
         __html: DOMPurify.sanitize(field['#markup'], {

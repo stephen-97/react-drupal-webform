@@ -88,3 +88,16 @@
     }
   }
 }
+
+.checkboxLabel {
+  &.isRequired {
+    &::after {
+      content: "*";
+      color: var(--danger);
+      line-height: 1;
+      margin-inline: .15em;
+      vertical-align: text-top;
+      background: none;
+    }
+  }
+}
