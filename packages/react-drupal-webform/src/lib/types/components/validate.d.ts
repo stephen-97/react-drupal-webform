@@ -1,6 +1,7 @@
 import {
   TWebformCustomValidators,
   TWebformDefaultFieldValues,
+  TWebformResolvedStateMessages,
   TWebformStateMessages,
 } from '../form.d'
 import { DeepRequired } from 'react-hook-form'
@@ -14,7 +15,7 @@ export interface TFieldValidate {
   required: boolean
   options?: string[]
   defaultFieldValues: Required<TWebformDefaultFieldValues>
-  defaultFieldStateMessages: DeepRequired<TWebformStateMessages>
+  defaultFieldStateMessages: TWebformResolvedStateMessages
   customValidators?: TWebformCustomValidators
   requiredMessage: string
   errorMessage: string

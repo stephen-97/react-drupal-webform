@@ -1,9 +1,4 @@
-import {
-  TWebform,
-  TWebformDefaultFieldValues,
-  TWebformStateMessages,
-} from '../form.d'
-import { DeepRequired } from 'react-hook-form'
+import { TWebform, TWebformDefaultFieldValues } from '../form.d'
 import { TDeepRequiredClassNames } from '../deepRequired'
 
 export type TFormMultiStepProps = Omit<
@@ -12,7 +7,7 @@ export type TFormMultiStepProps = Omit<
 > & {
   elementsSource: Record<string, any>
   defaultFieldValues: Required<TWebformDefaultFieldValues>
-  defaultFieldStateMessages: DeepRequired<TWebformStateMessages>
+  defaultFieldStateMessages: TWebformResolvedStateMessagesr
   classNames: TDeepRequiredClassNames
   components?: any
   yup: {

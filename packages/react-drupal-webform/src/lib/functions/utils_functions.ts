@@ -45,3 +45,8 @@ const deepMergeDefaults = <T extends object>(
   )
 
 export { mergeObjects, deepMergeDefaults }
+
+export const toStringMessage = (value: any): string => {
+  if (typeof value === 'function') return ''
+  return value ?? ''
+}

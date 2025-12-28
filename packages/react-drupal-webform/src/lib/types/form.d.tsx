@@ -146,14 +146,42 @@ export type TWebformClassNames = {
   }
 }
 
+export type TWebformMessageResolver = (props: TFieldValidate) => string
+export type TWebformMessageStateValue = string | TWebformMessageResolver
+
+export type TWebformErrorMessageFieldType = Exclude<
+  TDrupal_FieldType,
+  'webform_markup' | 'webform_actions' | 'fieldset'
+>
+
+export type TWebformRequiredMessageFieldType = Exclude<
+  TDrupal_FieldType,
+  'webform_markup' | 'webform_actions' | 'fieldset'
+>
+
+export type TWebformResolvedStateMessages = {
+  general: {
+    errorMessage: string
+    requiredMessage: string
+  }
+  fields: {
+    errorMessages: { [K in TWebformErrorMessageFieldType]: string }
+    requiredMessages: { [K in TWebformRequiredMessageFieldType]: string }
+  }
+}
+
 export type TWebformStateMessages = {
   general?: {
-    errorMessage?: string
-    requiredMessage?: string
+    errorMessage?: TWebformMessageStateValue
+    requiredMessage?: TWebformMessageStateValue
   }
   fields?: {
-    errorMessages?: TWebformErrorMessageFields
-    requiredMessages?: TWebformRequiredMessageFields
+    errorMessages?: Partial<
+      Record<TWebformErrorMessageFieldType, TWebformMessageStateValue>
+    >
+    requiredMessages?: Partial<
+      Record<TWebformRequiredMessageFieldType, TWebformMessageStateValue>
+    >
   }
 }
 
