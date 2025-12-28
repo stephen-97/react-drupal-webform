@@ -22,6 +22,7 @@ export const renderCheckbox = (props: TFieldWebformObj) => {
       classNameFieldName="fieldCheckboxes"
       stateError={fieldState?.error}
       key={fieldKey}
+      isLabel={false}
       components={components}
       fieldKey={fieldKey}
     >
