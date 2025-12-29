@@ -31,6 +31,10 @@ export const defaultValuesFieldStateMessages: TWebformResolvedStateMessages = {
   general: {
     errorMessage: '',
     requiredMessage: 'Field "{fieldName}" is required.',
+    minLengthMessage:
+      'Field "{fieldName}" must contain at least {minLength} characters.',
+    maxLengthMessage:
+      'Field "{fieldName}" must contain no more than {maxLength} characters.',
   },
   fields: {
     errorMessages: {
@@ -59,6 +63,30 @@ export const defaultValuesFieldStateMessages: TWebformResolvedStateMessages = {
       date: '',
       managed_file: '',
       select: '',
+      hidden: '',
+    },
+    minLengthMessage: {
+      textfield: '',
+      textarea: '',
+      email: '',
+      radios: '',
+      checkboxes: '',
+      checkbox: '',
+      number: '',
+      tel: '',
+      date: '',
+      hidden: '',
+    },
+    maxLengthMessage: {
+      textfield: '',
+      textarea: '',
+      email: '',
+      radios: '',
+      checkboxes: '',
+      checkbox: '',
+      number: '',
+      tel: '',
+      date: '',
       hidden: '',
     },
   },

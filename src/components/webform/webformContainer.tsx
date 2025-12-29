@@ -42,6 +42,7 @@ const WebformContainer = ({ elementsSource }: TWebformContainer) => {
   const defaultStateValues: TWebformStateMessages = {
     general: {
       errorMessage: 'Invalid value.',
+      requiredMessage: 'tralalala',
     },
     fields: {
       errorMessages: {
@@ -56,8 +57,8 @@ const WebformContainer = ({ elementsSource }: TWebformContainer) => {
         hidden: '',
       },
       requiredMessages: {
-        textfield: (props) => {
-          const fieldName = props.field?.['#title']
+        textfield: (field) => {
+          const fieldName = field['#title']
           return `${fieldName}`
         },
         textarea: 'This textarea is required.',

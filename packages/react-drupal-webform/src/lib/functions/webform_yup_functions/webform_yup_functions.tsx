@@ -1,5 +1,5 @@
 import { TFieldValidate } from '../../types/components/validate'
-import { TDrupal_FieldType } from '../../types/components/field'
+import { TElementSource } from '../../types/components/field'
 
 export const useYupValidationResolver =
   (validationSchema: any) => async (data: any) => {
@@ -34,7 +34,7 @@ export const resolveFieldMessage = (
   kind: 'required' | 'error'
 ): string => {
   const { field, defaultFieldStateMessages } = props
-  const type = field?.['#type'] as TDrupal_FieldType | undefined
+  const type = field?.['#type']
 
   if (!type) return ''
 
@@ -48,9 +48,19 @@ export const resolveFieldMessage = (
       ? defaultFieldStateMessages.general.requiredMessage
       : defaultFieldStateMessages.general.errorMessage
 
-  const rawMessage =
-    fieldMessages[type as keyof typeof fieldMessages] || generalMessage || ''
+  const value =
+    (
+      fieldMessages as Record<
+        string,
+        string | ((_field: TElementSource) => string)
+      >
+    )[type] ?? generalMessage
 
-  const fieldName = field?.['#title'] || ''
-  return rawMessage.replace('{fieldName}', fieldName)
+  if (!value) return ''
+
+  const resolved = typeof value === 'function' ? value(field) : value
+
+  const fieldName = field?.['#title'] ?? ''
+
+  return resolved.replace('{fieldName}', fieldName)
 }

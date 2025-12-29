@@ -1,7 +1,11 @@
 import { AnySchema } from 'yup'
 import React, { JSX } from 'react'
 import { ILabelWebformProps } from './components/label'
-import { TDrupal_FieldType, TFieldWebformObj } from './components/field'
+import {
+  TDrupal_FieldType,
+  TElementSource,
+  TFieldWebformObj,
+} from './components/field'
 import { IWrapperWebformProps } from './components/wrapper'
 import { IErrorMessageWebformProps } from './components/errorMessage'
 import { TFieldWebformObjCustom } from './components/fieldWebformObjCustom'
@@ -146,7 +150,7 @@ export type TWebformClassNames = {
   }
 }
 
-export type TWebformMessageResolver = (props: TFieldValidate) => string
+export type TWebformMessageResolver = (props: TElementSource) => string
 export type TWebformMessageStateValue = string | TWebformMessageResolver
 
 export type TWebformErrorMessageFieldType = Exclude<
@@ -159,14 +163,23 @@ export type TWebformRequiredMessageFieldType = Exclude<
   'webform_markup' | 'webform_actions' | 'fieldset'
 >
 
+export type TWebformLengthMessageFieldType = Exclude<
+  TDrupal_FieldType,
+  'webform_markup' | 'webform_actions' | 'fieldset' | 'select' | 'managed_file'
+>
+
 export type TWebformResolvedStateMessages = {
   general: {
     errorMessage: string
     requiredMessage: string
+    minLengthMessage: string
+    maxLengthMessage: string
   }
   fields: {
     errorMessages: { [K in TWebformErrorMessageFieldType]: string }
     requiredMessages: { [K in TWebformRequiredMessageFieldType]: string }
+    minLengthMessage: { [K in TWebformLengthMessageFieldType]: string }
+    maxLengthMessage: { [K in TWebformLengthMessageFieldType]: string }
   }
 }
 
@@ -174,6 +187,8 @@ export type TWebformStateMessages = {
   general?: {
     errorMessage?: TWebformMessageStateValue
     requiredMessage?: TWebformMessageStateValue
+    minLengthMessage?: TWebformMessageStateValue
+    maxLengthMessage?: TWebformMessageStateValue
   }
   fields?: {
     errorMessages?: Partial<
@@ -181,6 +196,29 @@ export type TWebformStateMessages = {
     >
     requiredMessages?: Partial<
       Record<TWebformRequiredMessageFieldType, TWebformMessageStateValue>
+    >
+    minLengthMessages?: Partial<
+      Record<TWebformErrorMessageFieldType, TWebformMessageStateValue>
+    >
+    maxLengthMessages?: Partial<
+      Record<TWebformErrorMessageFieldType, TWebformMessageStateValue>
+    >
+  }
+}
+
+export type TWebformNormalizedStateMessages = {
+  general: {
+    errorMessage: TWebformMessageStateValue
+    requiredMessage: TWebformMessageStateValue
+  }
+  fields: {
+    errorMessages: Record<
+      TWebformErrorMessageFieldType,
+      TWebformMessageStateValue
+    >
+    requiredMessages: Record<
+      TWebformRequiredMessageFieldType,
+      TWebformMessageStateValue
     >
   }
 }

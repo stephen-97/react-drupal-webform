@@ -1,4 +1,8 @@
-import { TWebform, TWebformDefaultFieldValues } from '../form.d'
+import {
+  TWebform,
+  TWebformDefaultFieldValues,
+  TWebformNormalizedStateMessages,
+} from '../form.d'
 import { TDeepRequiredClassNames } from '../deepRequired'
 
 export type TFormMultiStepProps = Omit<
@@ -7,7 +11,7 @@ export type TFormMultiStepProps = Omit<
 > & {
   elementsSource: Record<string, any>
   defaultFieldValues: Required<TWebformDefaultFieldValues>
-  defaultFieldStateMessages: TWebformResolvedStateMessagesr
+  defaultFieldStateMessages: TWebformNormalizedStateMessages
   classNames: TDeepRequiredClassNames
   components?: any
   yup: {

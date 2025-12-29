@@ -1,6 +1,7 @@
 import {
   TWebform,
   TWebformDefaultFieldValues,
+  TWebformNormalizedStateMessages,
   TWebformResolvedStateMessages,
 } from '../form.d'
 import { TDeepRequiredClassNames } from '../deepRequired'
@@ -19,7 +20,7 @@ export interface IFormDefaultWebformProps
   multiStepExtra?: TMultiStepExtra
   elementsSource: Record<string, any>
   defaultFieldValues: Required<TWebformDefaultFieldValues>
-  defaultFieldStateMessages: TWebformResolvedStateMessages
+  defaultFieldStateMessages: TWebformNormalizedStateMessages
   classNames: TDeepRequiredClassNames
   components?: any
   yup: {

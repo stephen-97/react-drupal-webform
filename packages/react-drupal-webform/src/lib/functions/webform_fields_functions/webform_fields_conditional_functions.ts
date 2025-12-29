@@ -1,7 +1,7 @@
 import {
   TWebformCustomValidators,
   TWebformDefaultFieldValues,
-  TWebformResolvedStateMessages,
+  TWebformNormalizedStateMessages,
 } from '../../types/form.d'
 import { TDrupal_FieldType } from '../../types/components/field'
 import FormMappingFields from '../../../components/form/formMappingFields/formMappingFields'
@@ -160,7 +160,7 @@ export const generateFormSchemaAndDefaults = ({
   elementsSource: Record<string, any>
   visibleElementsKeys: string[]
   defaultFieldValues: Required<TWebformDefaultFieldValues>
-  defaultFieldStateMessages: TWebformResolvedStateMessages
+  defaultFieldStateMessages: TWebformNormalizedStateMessages
   customValidators?: TWebformCustomValidators
   watchedValues?: Record<string, any>
 }) => {

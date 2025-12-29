@@ -1,6 +1,6 @@
 import { getWebformProperties } from '../lib/functions/webform_functions'
 import FormDefault from './form/formDefault/formDefault'
-import { TWebform, TWebformResolvedStateMessages } from '../lib/types/form.d'
+import { TWebform, TWebformNormalizedStateMessages } from '../lib/types/form.d'
 import { TDeepRequiredClassNames } from '../lib/types/deepRequired'
 import {
   defaultValuesClassnames,
@@ -37,7 +37,7 @@ const Webform = ({
   )
 
   const mergedDefaultValuesStateMessages =
-    useMemo<TWebformResolvedStateMessages>(() => {
+    useMemo<TWebformNormalizedStateMessages>(() => {
       return normalizeStateMessages(
         defaultFieldStateMessages,
         defaultValuesFieldStateMessages
