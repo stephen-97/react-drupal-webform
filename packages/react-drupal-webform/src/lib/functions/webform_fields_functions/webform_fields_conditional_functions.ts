@@ -185,6 +185,8 @@ export const generateFormSchemaAndDefaults = ({
       customValidators,
       requiredMessage: '',
       errorMessage: '',
+      minLengthMessage: '',
+      maxLengthMessage: '',
     }
 
     fieldValidateProps.requiredMessage = resolveFieldMessage(

@@ -17,5 +17,7 @@ export interface TFieldValidate {
   customValidators?: TWebformCustomValidators
   requiredMessage: string
   errorMessage: string
+  minLengthMessage: string
+  maxLengthMessage: string
   watchedValues?: Record<string, any>
 }

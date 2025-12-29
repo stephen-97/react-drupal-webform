@@ -58,9 +58,20 @@ export const resolveFieldMessage = (
 
   if (!value) return ''
 
-  const resolved = typeof value === 'function' ? value(field) : value
+  let resolved = typeof value === 'function' ? value(field) : value
 
   const fieldName = field?.['#title'] ?? ''
 
-  return resolved.replace('{fieldName}', fieldName)
+  const minLength =
+    typeof field?.['#minlength'] === 'number' ? String(field['#minlength']) : ''
+  const maxLength =
+    typeof field?.['#maxlength'] === 'number' ? String(field['#maxlength']) : ''
+
+  // Remplacements
+  resolved = resolved
+    .replace('{fieldName}', fieldName)
+    .replace('{minLength}', minLength)
+    .replace('{maxLength}', maxLength)
+
+  return resolved
 }
