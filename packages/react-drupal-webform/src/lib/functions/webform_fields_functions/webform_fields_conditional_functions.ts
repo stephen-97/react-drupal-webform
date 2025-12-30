@@ -6,7 +6,7 @@ import {
 import { TDrupal_FieldType } from '../../types/components/field'
 import FormMappingFields from '../../../components/form/formMappingFields/formMappingFields'
 import * as yup from 'yup'
-import { resolveFieldMessage } from '../webform_yup_functions/webform_yup_functions'
+import { resolveFieldMessages } from '../webform_yup_functions/webform_yup_functions'
 import { TFieldValidate } from '../../types/components/validate'
 
 export const checkVisibilityCondition = (
@@ -189,15 +189,12 @@ export const generateFormSchemaAndDefaults = ({
       maxLengthMessage: '',
     }
 
-    fieldValidateProps.requiredMessage = resolveFieldMessage(
-      fieldValidateProps,
-      'required'
-    )
+    const resolvedMessages = resolveFieldMessages(fieldValidateProps)
 
-    fieldValidateProps.errorMessage = resolveFieldMessage(
-      fieldValidateProps,
-      'error'
-    )
+    fieldValidateProps.requiredMessage = resolvedMessages.required
+    fieldValidateProps.errorMessage = resolvedMessages.error
+    fieldValidateProps.minLengthMessage = resolvedMessages.minLength
+    fieldValidateProps.maxLengthMessage = resolvedMessages.maxLength
 
     FormMappingFields[type ?? 'default']?.validator?.(fieldValidateProps)
   })

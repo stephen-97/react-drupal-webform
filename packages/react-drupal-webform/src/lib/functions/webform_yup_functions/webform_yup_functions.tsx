@@ -1,5 +1,9 @@
 import { TFieldValidate } from '../../types/components/validate'
-import { TElementSource } from '../../types/components/field'
+import { TDrupal_FieldType, TElementSource } from '../../types/components/field'
+import {
+  TWebformErrorMessageFieldType,
+  TWebformLengthMessageFieldType,
+} from '../../types/form.d'
 
 export const useYupValidationResolver =
   (validationSchema: any) => async (data: any) => {
@@ -29,49 +33,82 @@ export const useYupValidationResolver =
     }
   }
 
-export const resolveFieldMessage = (
-  props: TFieldValidate,
-  kind: 'required' | 'error'
-): string => {
+export type TResolvedFieldMessages = {
+  required: string
+  error: string
+  minLength: string
+  maxLength: string
+}
+
+export const isErrorMessageFieldType = (
+  type: TDrupal_FieldType
+): type is TWebformErrorMessageFieldType => {
+  return (
+    type !== 'webform_markup' &&
+    type !== 'webform_actions' &&
+    type !== 'fieldset'
+  )
+}
+
+export const isLengthMessageFieldType = (
+  type: unknown
+): type is TWebformLengthMessageFieldType => {
+  return (
+    typeof type === 'string' &&
+    type !== 'webform_markup' &&
+    type !== 'webform_actions' &&
+    type !== 'fieldset' &&
+    type !== 'select' &&
+    type !== 'managed_file'
+  )
+}
+
+export const resolveFieldMessages = (
+  props: TFieldValidate
+): TResolvedFieldMessages => {
   const { field, defaultFieldStateMessages } = props
   const type = field?.['#type']
 
-  if (!type) return ''
-
-  const fieldMessages =
-    kind === 'required'
-      ? defaultFieldStateMessages.fields.requiredMessages
-      : defaultFieldStateMessages.fields.errorMessages
-
-  const generalMessage =
-    kind === 'required'
-      ? defaultFieldStateMessages.general.requiredMessage
-      : defaultFieldStateMessages.general.errorMessage
-
-  const value =
-    (
-      fieldMessages as Record<
-        string,
-        string | ((_field: TElementSource) => string)
-      >
-    )[type] ?? generalMessage
-
-  if (!value) return ''
-
-  let resolved = typeof value === 'function' ? value(field) : value
-
   const fieldName = field?.['#title'] ?? ''
-
   const minLength =
     typeof field?.['#minlength'] === 'number' ? String(field['#minlength']) : ''
   const maxLength =
     typeof field?.['#maxlength'] === 'number' ? String(field['#maxlength']) : ''
 
-  // Remplacements
-  resolved = resolved
-    .replace('{fieldName}', fieldName)
-    .replace('{minLength}', minLength)
-    .replace('{maxLength}', maxLength)
+  const resolve = (v?: string | ((f: TElementSource) => string)): string => {
+    if (!v) return ''
+    return typeof v === 'function' ? v(field) : v
+  }
 
-  return resolved
+  const replaceTokens = (msg: string) =>
+    msg
+      .replace('{fieldName}', fieldName)
+      .replace('{minLength}', minLength)
+      .replace('{maxLength}', maxLength)
+
+  const general = defaultFieldStateMessages.general
+  const fields = defaultFieldStateMessages.fields
+
+  const required = isErrorMessageFieldType(type)
+    ? resolve(fields.requiredMessages[type])
+    : ''
+
+  const error = isErrorMessageFieldType(type)
+    ? resolve(fields.errorMessages[type])
+    : ''
+
+  const minLen = isLengthMessageFieldType(type)
+    ? resolve(fields.minLengthMessages?.[type])
+    : ''
+
+  const maxLen = isLengthMessageFieldType(type)
+    ? resolve(fields.maxLengthMessages?.[type])
+    : ''
+
+  return {
+    required: replaceTokens(required || resolve(general.requiredMessage)),
+    error: replaceTokens(error || resolve(general.errorMessage)),
+    minLength: replaceTokens(minLen || resolve(general.minLengthMessage)),
+    maxLength: replaceTokens(maxLen || resolve(general.maxLengthMessage)),
+  }
 }

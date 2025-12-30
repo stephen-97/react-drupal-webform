@@ -95,21 +95,39 @@ export const getDummyDefaultFormDefault = (
 
 export const applyMinMaxLength = (
   schema: StringSchema<string | undefined>,
-  field: TElementSource | undefined
+  field: TElementSource,
+  minLengthMessage: string,
+  maxLengthMessage: string
 ): StringSchema<string | undefined> => {
+  const isRequired = Boolean(field?.['#required'])
+
   let nextSchema = schema
 
   if (typeof field?.['#minlength'] === 'number') {
-    nextSchema = nextSchema.min(
-      field['#minlength'],
-      `Minimum ${field['#minlength']} characters`
+    const minLength = field['#minlength']
+
+    nextSchema = nextSchema.test(
+      'min-length-if-not-empty',
+      minLengthMessage,
+      (value) => {
+        if (!isRequired && value === '') return true
+        if (value == null) return true
+        return value.length >= minLength
+      }
     )
   }
 
   if (typeof field?.['#maxlength'] === 'number') {
-    nextSchema = nextSchema.max(
-      field['#maxlength'],
-      `Maximum ${field['#maxlength']} characters`
+    const maxLength = field['#maxlength']
+
+    nextSchema = nextSchema.test(
+      'max-length-if-not-empty',
+      maxLengthMessage,
+      (value) => {
+        if (!isRequired && value === '') return true
+        if (value == null) return true
+        return value.length <= maxLength
+      }
     )
   }
 

@@ -16,6 +16,8 @@ export const validateEmail = (props: TFieldValidate) => {
     errorMessage,
     requiredMessage,
     customValidators,
+    minLengthMessage,
+    maxLengthMessage,
     field,
   } = props
 
@@ -30,7 +32,12 @@ export const validateEmail = (props: TFieldValidate) => {
     )
     .email(errorMessage)
 
-  defaultSchema = applyMinMaxLength(defaultSchema, field)
+  defaultSchema = applyMinMaxLength(
+    defaultSchema,
+    field,
+    minLengthMessage,
+    maxLengthMessage
+  )
 
   const customSchema =
     resolveCustomValidator(customValidators, key, type, props) ?? defaultSchema

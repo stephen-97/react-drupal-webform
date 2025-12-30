@@ -57,10 +57,6 @@ const WebformContainer = ({ elementsSource }: TWebformContainer) => {
         hidden: '',
       },
       requiredMessages: {
-        textfield: (field) => {
-          const fieldName = field['#title']
-          return `${fieldName}`
-        },
         textarea: 'This textarea is required.',
         email: 'Email is required.',
         number: 'Number is required.',
@@ -72,6 +68,13 @@ const WebformContainer = ({ elementsSource }: TWebformContainer) => {
         select: 'Please select a value.',
         managed_file: 'A file is required.',
         hidden: '',
+      },
+      minLengthMessages: {
+        textfield: (props) => {
+          const title = props?.['#title']
+          const minLenght = props?.['#minlength']
+          return `the field ${title} have a minimum of ${minLenght} characters`
+        },
       },
     },
   }

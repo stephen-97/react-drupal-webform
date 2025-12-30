@@ -18,6 +18,8 @@ export const validateTextArea = (props: TFieldValidate) => {
     defaultFieldStateMessages,
     field,
     customValidators,
+    minLengthMessage,
+    maxLengthMessage,
   } = props
 
   const type = field?.['#type'] as TDrupal_FieldType_Validate | undefined
@@ -27,7 +29,12 @@ export const validateTextArea = (props: TFieldValidate) => {
     field?.['#title']
   )
   let defaultSchema = string()
-  defaultSchema = applyMinMaxLength(defaultSchema, field)
+  defaultSchema = applyMinMaxLength(
+    defaultSchema,
+    field,
+    minLengthMessage,
+    maxLengthMessage
+  )
 
   const customSchema =
     resolveCustomValidator(customValidators, key, type, props) ?? defaultSchema

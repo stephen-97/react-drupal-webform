@@ -14,6 +14,10 @@ export const normalizeStateMessages = (
         messages.general?.errorMessage ?? defaults.general.errorMessage,
       requiredMessage:
         messages.general?.requiredMessage ?? defaults.general.requiredMessage,
+      minLengthMessage:
+        messages.general?.minLengthMessage ?? defaults.general.minLengthMessage,
+      maxLengthMessage:
+        messages.general?.maxLengthMessage ?? defaults.general.maxLengthMessage,
     },
     fields: {
       errorMessages: {
@@ -23,6 +27,14 @@ export const normalizeStateMessages = (
       requiredMessages: {
         ...defaults.fields.requiredMessages,
         ...messages.fields?.requiredMessages,
+      },
+      minLengthMessages: {
+        ...defaults.fields.minLengthMessage,
+        ...messages.fields?.minLengthMessages,
+      },
+      maxLengthMessages: {
+        ...defaults.fields.maxLengthMessage,
+        ...messages.fields?.maxLengthMessages,
       },
     },
   }

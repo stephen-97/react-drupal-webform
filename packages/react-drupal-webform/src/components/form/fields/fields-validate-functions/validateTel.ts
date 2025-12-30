@@ -17,6 +17,8 @@ export const validateTel = (props: TFieldValidate) => {
     requiredMessage,
     errorMessage,
     customValidators,
+    minLengthMessage,
+    maxLengthMessage,
   } = props
 
   const type = field?.['#type'] as TDrupal_FieldType_Validate
@@ -25,7 +27,12 @@ export const validateTel = (props: TFieldValidate) => {
     message: errorMessage,
     excludeEmptyString: true,
   })
-  defaultSchema = applyMinMaxLength(defaultSchema, field)
+  defaultSchema = applyMinMaxLength(
+    defaultSchema,
+    field,
+    minLengthMessage,
+    maxLengthMessage
+  )
 
   const customSchema =
     resolveCustomValidator(customValidators, key, type, props) ?? defaultSchema

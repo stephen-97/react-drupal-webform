@@ -16,13 +16,20 @@ export const validateTextField = (props: TFieldValidate) => {
     requiredMessage,
     field,
     customValidators,
+    minLengthMessage,
+    maxLengthMessage,
   } = props
 
   const type = field?.['#type'] as TDrupal_FieldType_Validate | undefined
 
   let baseSchema = string()
 
-  baseSchema = applyMinMaxLength(baseSchema, field)
+  baseSchema = applyMinMaxLength(
+    baseSchema,
+    field,
+    minLengthMessage,
+    maxLengthMessage
+  )
 
   if (required) {
     baseSchema = baseSchema.required(requiredMessage)

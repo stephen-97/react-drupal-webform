@@ -198,10 +198,10 @@ export type TWebformStateMessages = {
       Record<TWebformRequiredMessageFieldType, TWebformMessageStateValue>
     >
     minLengthMessages?: Partial<
-      Record<TWebformErrorMessageFieldType, TWebformMessageStateValue>
+      Record<TWebformLengthMessageFieldType, TWebformMessageStateValue>
     >
     maxLengthMessages?: Partial<
-      Record<TWebformErrorMessageFieldType, TWebformMessageStateValue>
+      Record<TWebformLengthMessageFieldType, TWebformMessageStateValue>
     >
   }
 }
@@ -210,6 +210,8 @@ export type TWebformNormalizedStateMessages = {
   general: {
     errorMessage: TWebformMessageStateValue
     requiredMessage: TWebformMessageStateValue
+    minLengthMessage: TWebformMessageStateValue
+    maxLengthMessage: TWebformMessageStateValue
   }
   fields: {
     errorMessages: Record<
@@ -218,6 +220,15 @@ export type TWebformNormalizedStateMessages = {
     >
     requiredMessages: Record<
       TWebformRequiredMessageFieldType,
+      TWebformMessageStateValue
+    >
+    minLengthMessages: Record<
+      TWebformLengthMessageFieldType,
+      TWebformMessageStateValue
+    >
+
+    maxLengthMessages: Record<
+      TWebformLengthMessageFieldType,
       TWebformMessageStateValue
     >
   }
