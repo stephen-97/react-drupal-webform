@@ -1,17 +1,13 @@
 import {
   TWebformCustomValidators,
   TWebformDefaultFieldValues,
-  TWebformStateMessages,
+  TWebformNormalizedStateMessages,
 } from '../../types/form.d'
-import { DeepRequired } from 'react-hook-form'
 import { TDrupal_FieldType } from '../../types/components/field'
-import {
-  formatMessage,
-  getErrorMessage,
-  getRequiredMessage,
-} from '../webform_validation_functions/webform_validation_functions'
 import FormMappingFields from '../../../components/form/formMappingFields/formMappingFields'
 import * as yup from 'yup'
+import { resolveFieldMessages } from '../webform_yup_functions/webform_yup_functions'
+import { TFieldValidate } from '../../types/components/validate'
 
 export const checkVisibilityCondition = (
   watched: any,
@@ -164,7 +160,7 @@ export const generateFormSchemaAndDefaults = ({
   elementsSource: Record<string, any>
   visibleElementsKeys: string[]
   defaultFieldValues: Required<TWebformDefaultFieldValues>
-  defaultFieldStateMessages: DeepRequired<TWebformStateMessages>
+  defaultFieldStateMessages: TWebformNormalizedStateMessages
   customValidators?: TWebformCustomValidators
   watchedValues?: Record<string, any>
 }) => {
@@ -178,16 +174,7 @@ export const generateFormSchemaAndDefaults = ({
     const type: TDrupal_FieldType = field?.['#type']
     const required = Boolean(field?.['#required'])
 
-    const requiredMessage = formatMessage(
-      getRequiredMessage(defaultFieldStateMessages, type) ?? '',
-      field?.['#title']
-    )
-    const errorMessage = formatMessage(
-      getErrorMessage(defaultFieldStateMessages, type) ?? '',
-      field?.['#title']
-    )
-
-    FormMappingFields[type ?? 'default']?.validator?.({
+    const fieldValidateProps: TFieldValidate = {
       yupObject: yupObjLocal,
       defaultValues: defaults,
       key,
@@ -195,10 +182,21 @@ export const generateFormSchemaAndDefaults = ({
       required,
       defaultFieldValues,
       defaultFieldStateMessages,
-      requiredMessage,
       customValidators,
-      errorMessage,
-    })
+      requiredMessage: '',
+      errorMessage: '',
+      minLengthMessage: '',
+      maxLengthMessage: '',
+    }
+
+    const resolvedMessages = resolveFieldMessages(fieldValidateProps)
+
+    fieldValidateProps.requiredMessage = resolvedMessages.required
+    fieldValidateProps.errorMessage = resolvedMessages.error
+    fieldValidateProps.minLengthMessage = resolvedMessages.minLength
+    fieldValidateProps.maxLengthMessage = resolvedMessages.maxLength
+
+    FormMappingFields[type ?? 'default']?.validator?.(fieldValidateProps)
   })
 
   return {

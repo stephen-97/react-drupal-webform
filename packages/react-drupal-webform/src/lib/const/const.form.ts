@@ -1,8 +1,7 @@
 import {
   TWebformDefaultFieldValues,
-  TWebformStateMessages,
+  TWebformResolvedStateMessages,
 } from '../types/form.d'
-import { DeepRequired } from 'react-hook-form'
 import Label from '../../components/form/fields/fields-sub-components/label/label'
 import ErrorFieldMessage from '../../components/form/fields/fields-sub-components/errorFieldMessage/errorFieldMessage'
 import FieldObjCustom from '../../components/form/fields/fields-special-components/fieldObjCustom'
@@ -28,40 +27,70 @@ export const defaultValuesObj: Required<TWebformDefaultFieldValues> = {
   fieldset: '',
 }
 
-export const defaultValuesFieldStateMessages: DeepRequired<TWebformStateMessages> =
-  {
-    general: {
-      errorMessage: '',
-      requiredMessage: 'Field "{fieldName}" is required.',
+export const defaultValuesFieldStateMessages: TWebformResolvedStateMessages = {
+  general: {
+    errorMessage: '',
+    requiredMessage: 'Field "{fieldName}" is required.',
+    minLengthMessage:
+      'Field "{fieldName}" must contain at least {minLength} characters.',
+    maxLengthMessage:
+      'Field "{fieldName}" must contain no more than {maxLength} characters.',
+  },
+  fields: {
+    errorMessages: {
+      textfield: '',
+      textarea: '',
+      email: 'Please enter a valid email address (e.g., name@example.com).',
+      number: 'Please enter a number.',
+      tel: 'Please enter a valid phone number.',
+      date: 'Invalid date format.',
+      managed_file: '',
+      radios: '',
+      hidden: '',
+      checkbox: '',
+      checkboxes: '',
+      select: '',
     },
-    fields: {
-      errorMessages: {
-        textfield: '',
-        textarea: '',
-        email: 'Please enter a valid email address (e.g., name@example.com).',
-        number: 'Please enter a number.',
-        tel: 'Please enter a valid phone number.',
-        date: 'Invalid date format.',
-        managed_file: '',
-        radios: '',
-        hidden: '',
-      },
-      requiredMessages: {
-        textfield: '',
-        textarea: '',
-        email: '',
-        radios: '',
-        checkboxes: '',
-        checkbox: '',
-        number: '',
-        tel: '',
-        date: '',
-        managed_file: '',
-        select: '',
-        hidden: '',
-      },
+    requiredMessages: {
+      textfield: '',
+      textarea: '',
+      email: '',
+      radios: '',
+      checkboxes: '',
+      checkbox: '',
+      number: '',
+      tel: '',
+      date: '',
+      managed_file: '',
+      select: '',
+      hidden: '',
     },
-  }
+    minLengthMessage: {
+      textfield: '',
+      textarea: '',
+      email: '',
+      radios: '',
+      checkboxes: '',
+      checkbox: '',
+      number: '',
+      tel: '',
+      date: '',
+      hidden: '',
+    },
+    maxLengthMessage: {
+      textfield: '',
+      textarea: '',
+      email: '',
+      radios: '',
+      checkboxes: '',
+      checkbox: '',
+      number: '',
+      tel: '',
+      date: '',
+      hidden: '',
+    },
+  },
+}
 
 export const defaultValuesClassnames: TDeepRequiredClassNames = {
   wrappers: {
@@ -90,6 +119,7 @@ export const defaultValuesClassnames: TDeepRequiredClassNames = {
     },
   },
   general: {
+    fieldForm: '',
     fieldLabel: '',
     fieldDescription: '',
     fieldManagedFileInfo: '',

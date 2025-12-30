@@ -5,7 +5,7 @@ type MultiStepContextType = {
   setStepIndex: React.Dispatch<React.SetStateAction<number>>
   totalSteps: number
   watchedStepValues: Record<string, any>
-  allWatchedSteps: Record<string, any> // ⚡ ajouté
+  allWatchedSteps: Record<string, any>
   setAllWatchedSteps: React.Dispatch<React.SetStateAction<Record<string, any>>> // ⚡ ajouté
   goNext: () => void
   goPrev: () => void
@@ -21,7 +21,7 @@ type MultiStepProviderProps = {
   setStepIndex: React.Dispatch<React.SetStateAction<number>>
   totalSteps: number
   watchedStepValues: Record<string, any>
-  allWatchedSteps: Record<string, any> // ⚡ ajouté
+  allWatchedSteps: Record<string, any>
   setAllWatchedSteps: React.Dispatch<React.SetStateAction<Record<string, any>>> // ⚡ ajouté
 }
 

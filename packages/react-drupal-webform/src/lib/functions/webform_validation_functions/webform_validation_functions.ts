@@ -3,7 +3,7 @@ import {
   TWebformStateMessages,
 } from '../../types/form.d'
 import { DeepRequired } from 'react-hook-form'
-import { TDrupal_FieldType } from '../../types/components/field'
+import { TDrupal_FieldType, TElementSource } from '../../types/components/field'
 import { AnySchema, StringSchema } from 'yup'
 import { TFieldValidate } from '../../types/components/validate'
 
@@ -91,4 +91,45 @@ export const getDummyDefaultFormDefault = (
   })
 
   return allDefaults
+}
+
+export const applyMinMaxLength = (
+  schema: StringSchema<string | undefined>,
+  field: TElementSource,
+  minLengthMessage: string,
+  maxLengthMessage: string
+): StringSchema<string | undefined> => {
+  const isRequired = Boolean(field?.['#required'])
+
+  let nextSchema = schema
+
+  if (typeof field?.['#minlength'] === 'number') {
+    const minLength = field['#minlength']
+
+    nextSchema = nextSchema.test(
+      'min-length-if-not-empty',
+      minLengthMessage,
+      (value) => {
+        if (!isRequired && value === '') return true
+        if (value == null) return true
+        return value.length >= minLength
+      }
+    )
+  }
+
+  if (typeof field?.['#maxlength'] === 'number') {
+    const maxLength = field['#maxlength']
+
+    nextSchema = nextSchema.test(
+      'max-length-if-not-empty',
+      maxLengthMessage,
+      (value) => {
+        if (!isRequired && value === '') return true
+        if (value == null) return true
+        return value.length <= maxLength
+      }
+    )
+  }
+
+  return nextSchema
 }

@@ -1,7 +1,11 @@
 import { AnySchema } from 'yup'
-import { JSX } from 'react'
+import React, { JSX } from 'react'
 import { ILabelWebformProps } from './components/label'
-import { TDrupal_FieldType, TFieldWebformObj } from './components/field'
+import {
+  TDrupal_FieldType,
+  TElementSource,
+  TFieldWebformObj,
+} from './components/field'
 import { IWrapperWebformProps } from './components/wrapper'
 import { IErrorMessageWebformProps } from './components/errorMessage'
 import { TFieldWebformObjCustom } from './components/fieldWebformObjCustom'
@@ -16,6 +20,8 @@ import { IMultiStepStepperProps } from './components/multiStepStepper'
 import { TFieldValidate } from './components/validate'
 import { ILayoutWrapperProps } from './components/layoutWrapper'
 import { TFieldRendererProps } from './components/fieldRenderer'
+import { IFormDefaultWebformProps } from './components/formDefault'
+import { TFormMultiStepProps } from './components/formMultiStep'
 
 export type TFileWithBase64 = {
   name: string
@@ -75,6 +81,7 @@ export type TWebformClassNames = {
     byFieldType?: Partial<Record<TDrupal_FieldType, string>>
   }
   general?: {
+    fieldForm?: string
     fieldLabel?: string
     fieldDescription?: string
     fieldManagedFileInfo?: string
@@ -143,45 +150,124 @@ export type TWebformClassNames = {
   }
 }
 
-export type TWebformStateMessages = {
-  general?: {
-    errorMessage?: string
-    requiredMessage?: string
+export type TWebformMessageResolver = (props: TElementSource) => string
+export type TWebformMessageStateValue = string | TWebformMessageResolver
+
+export type TWebformErrorMessageFieldType = Exclude<
+  TDrupal_FieldType,
+  'webform_markup' | 'webform_actions' | 'fieldset'
+>
+
+export type TWebformRequiredMessageFieldType = Exclude<
+  TDrupal_FieldType,
+  'webform_markup' | 'webform_actions' | 'fieldset'
+>
+
+export type TWebformLengthMessageFieldType = Exclude<
+  TDrupal_FieldType,
+  'webform_markup' | 'webform_actions' | 'fieldset' | 'select' | 'managed_file'
+>
+
+export type TWebformResolvedStateMessages = {
+  general: {
+    errorMessage: string
+    requiredMessage: string
+    minLengthMessage: string
+    maxLengthMessage: string
   }
-  fields?: {
-    errorMessages?: TWebformErrorMessageFields
-    requiredMessages?: TWebformRequiredMessageFields
+  fields: {
+    errorMessages: { [K in TWebformErrorMessageFieldType]: string }
+    requiredMessages: { [K in TWebformRequiredMessageFieldType]: string }
+    minLengthMessage: { [K in TWebformLengthMessageFieldType]: string }
+    maxLengthMessage: { [K in TWebformLengthMessageFieldType]: string }
   }
 }
 
+export type TWebformStateMessages = {
+  general?: {
+    errorMessage?: TWebformMessageStateValue
+    requiredMessage?: TWebformMessageStateValue
+    minLengthMessage?: TWebformMessageStateValue
+    maxLengthMessage?: TWebformMessageStateValue
+  }
+  fields?: {
+    errorMessages?: Partial<
+      Record<TWebformErrorMessageFieldType, TWebformMessageStateValue>
+    >
+    requiredMessages?: Partial<
+      Record<TWebformRequiredMessageFieldType, TWebformMessageStateValue>
+    >
+    minLengthMessages?: Partial<
+      Record<TWebformLengthMessageFieldType, TWebformMessageStateValue>
+    >
+    maxLengthMessages?: Partial<
+      Record<TWebformLengthMessageFieldType, TWebformMessageStateValue>
+    >
+  }
+}
+
+export type TWebformNormalizedStateMessages = {
+  general: {
+    errorMessage: TWebformMessageStateValue
+    requiredMessage: TWebformMessageStateValue
+    minLengthMessage: TWebformMessageStateValue
+    maxLengthMessage: TWebformMessageStateValue
+  }
+  fields: {
+    errorMessages: Record<
+      TWebformErrorMessageFieldType,
+      TWebformMessageStateValue
+    >
+    requiredMessages: Record<
+      TWebformRequiredMessageFieldType,
+      TWebformMessageStateValue
+    >
+    minLengthMessages: Record<
+      TWebformLengthMessageFieldType,
+      TWebformMessageStateValue
+    >
+
+    maxLengthMessages: Record<
+      TWebformLengthMessageFieldType,
+      TWebformMessageStateValue
+    >
+  }
+}
+
+export type TWebformCustomElementFormProps =
+  | (IFormDefaultWebformProps & {
+      children: React.ReactNode
+      onSubmit: () => void
+    })
+  | (TFormMultiStepProps & {
+      children: React.ReactNode
+      onSubmit: () => void
+    })
+
 export type TWebformCustomComponents = {
-  label?: (_props: ILabelWebformProps) => JSX.Element | null
-  wrapper?: (_props: IWrapperWebformProps) => JSX.Element | null
-  errorFieldMessage?: (_props: IErrorMessageWebformProps) => JSX.Element | null
-  input?: (_props: TFieldWebformObjCustom) => JSX.Element | null
-  managedFile?: (_props: TFieldWebformObjCustom) => JSX.Element | null
-  managedFilePreview?: (
-    _props: IManagedFilePreviewWebformProps
-  ) => JSX.Element | null
-  select?: (_props: TFieldWebformObjCustom) => JSX.Element | null
-  checkboxes?: (_props: TFieldWebformObjCustom) => JSX.Element | null
-  wysiwyg?: (_props: IWysiwygProps) => JSX.Element | null
-  help?: (_props: IHelpProps) => JSX.Element | null
-  description?: (_props: IDescriptionWebformProps) => JSX.Element | null
-  managedFileInfo?: (_props: IManagedFileInfoProps) => JSX.Element | null
-  more?: (_props: IMoreProps) => JSX.Element | null
-  multiStepActions?: (_props: IMultiStepActionsProps) => JSX.Element | null
-  multiStepStepper?: (_props: IMultiStepStepperProps) => JSX.Element | null
-  layout?: (_props: ILayoutWrapperProps) => JSX.Element | null
-  radios?: (_props: TFieldWebformObjCustom) => JSX.Element | null
-  textarea?: (_props: TFieldWebformObjCustom) => JSX.Element | null
-  checkbox?: (_props: TFieldWebformObjCustom) => JSX.Element | null
-  hidden?: (_props: TFieldWebformObjCustom) => JSX.Element | null
-  markup?: (_props: TFieldWebformObj) => JSX.Element | null
-  fieldById?: Record<
-    string,
-    (_props: TFieldRendererProps) => JSX.Element | null
-  >
+  label?: React.ComponentType<ILabelWebformProps>
+  wrapper?: React.ComponentType<IWrapperWebformProps>
+  errorFieldMessage?: React.ComponentType<IErrorMessageWebformProps>
+  input?: React.ComponentType<TFieldWebformObjCustom>
+  managedFile?: React.ComponentType<TFieldWebformObjCustom>
+  managedFilePreview?: React.ComponentType<IManagedFilePreviewWebformProps>
+  select?: React.ComponentType<TFieldWebformObjCustom>
+  checkboxes?: React.ComponentType<TFieldWebformObjCustom>
+  radios?: React.ComponentType<TFieldWebformObjCustom>
+  textarea?: React.ComponentType<TFieldWebformObjCustom>
+  checkbox?: React.ComponentType<TFieldWebformObjCustom>
+  hidden?: React.ComponentType<TFieldWebformObjCustom>
+  wysiwyg?: React.ComponentType<IWysiwygProps>
+  help?: React.ComponentType<IHelpProps>
+  description?: React.ComponentType<IDescriptionWebformProps>
+  managedFileInfo?: React.ComponentType<IManagedFileInfoProps>
+  more?: React.ComponentType<IMoreProps>
+  multiStepActions?: React.ComponentType<IMultiStepActionsProps>
+  multiStepStepper?: React.ComponentType<IMultiStepStepperProps>
+  layout?: React.ComponentType<ILayoutWrapperProps>
+  markup?: React.ComponentType<TFieldWebformObj>
+  fieldById?: Record<string, React.ComponentType<TFieldRendererProps>>
+  form?: React.ComponentType<TWebformCustomElementFormProps>
 }
 
 export type TWebformValidatorFactory = (

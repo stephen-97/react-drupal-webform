@@ -23,17 +23,18 @@ import {
 import { TFormMultiStepProps } from '../../../lib/types/components/formMultiStep'
 import { MultiStepProvider } from './multiStepContext'
 
-const FormMultiStep = ({
-  elementsSource,
-  defaultFieldValues,
-  yup: yupObj,
-  defaultFieldStateMessages,
-  components,
-  classNames,
-  onSubmit,
-  includeInactiveFieldsInSubmit,
-  customValidators,
-}: TFormMultiStepProps) => {
+const FormMultiStep = (props: TFormMultiStepProps) => {
+  const {
+    elementsSource,
+    defaultFieldValues,
+    yup: yupObj,
+    defaultFieldStateMessages,
+    components,
+    classNames,
+    onSubmit,
+    includeInactiveFieldsInSubmit,
+    customValidators,
+  } = props
   const stepKeys: string[] = useMemo(
     () => Object.keys(elementsSource),
     [elementsSource]
@@ -204,6 +205,44 @@ const FormMultiStep = ({
     includeInactiveFieldsInSubmit,
   ])
 
+  const formContent = (
+    <>
+      {visibleElementsKeys.map((key, index) => {
+        const field = currentStepObj[key]
+        const type = field['#type']
+
+        const isLayout = [
+          'webform_section',
+          'webform_flexbox',
+          'container',
+          'details',
+        ].includes(type)
+
+        return (
+          <FormFieldRendered
+            key={key}
+            fieldKey={key}
+            index={index}
+            field={field}
+            components={components}
+            classNames={classNames}
+            isMultiStep={true}
+            {...(isLayout ? { watchedValues: watchedStepValuesGlobal } : {})}
+          />
+        )
+      })}
+
+      <MultiStepActions
+        previousButtonLabel={previousButtonLabel}
+        nextButtonLabel={nextButtonLabel}
+        components={components}
+        classNames={classNames}
+      />
+    </>
+  )
+
+  const CustomForm = components?.form
+
   return (
     <FormProvider {...methods}>
       <MultiStepProvider
@@ -220,42 +259,18 @@ const FormMultiStep = ({
           classNames={classNames}
         />
 
-        <form
-          className={styles.formMultiStep}
-          onSubmit={handleSubmit(onFormSubmit)}
-        >
-          {visibleElementsKeys.map((key, index) => {
-            const field = currentStepObj[key]
-            const type = field['#type']
-
-            const isLayout = [
-              'webform_section',
-              'webform_flexbox',
-              'container',
-              'details',
-            ].includes(type)
-            return (
-              <FormFieldRendered
-                key={key}
-                fieldKey={key}
-                index={index}
-                field={field}
-                components={components}
-                classNames={classNames}
-                isMultiStep={true}
-                {...(isLayout
-                  ? { watchedValues: watchedStepValuesGlobal }
-                  : {})}
-              />
-            )
-          })}
-          <MultiStepActions
-            previousButtonLabel={previousButtonLabel}
-            nextButtonLabel={nextButtonLabel}
-            components={components}
-            classNames={classNames}
-          />
-        </form>
+        {CustomForm ? (
+          <CustomForm {...props} onSubmit={handleSubmit(onFormSubmit)}>
+            {formContent}
+          </CustomForm>
+        ) : (
+          <form
+            className={styles.formMultiStep}
+            onSubmit={handleSubmit(onFormSubmit)}
+          >
+            {formContent}
+          </form>
+        )}
       </MultiStepProvider>
     </FormProvider>
   )

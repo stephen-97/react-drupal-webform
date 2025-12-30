@@ -1,9 +1,10 @@
 import { string } from 'yup'
-import { TFieldValidate } from "../../../../lib/types/components/validate"
+import { TFieldValidate } from '../../../../lib/types/components/validate'
 import {
+  applyMinMaxLength,
   resolveCustomValidator,
   TDrupal_FieldType_Validate,
-} from "../../../../lib/functions/webform_validation_functions/webform_validation_functions"
+} from '../../../../lib/functions/webform_validation_functions/webform_validation_functions'
 
 export const validateTel = (props: TFieldValidate) => {
   const {
@@ -16,14 +17,22 @@ export const validateTel = (props: TFieldValidate) => {
     requiredMessage,
     errorMessage,
     customValidators,
+    minLengthMessage,
+    maxLengthMessage,
   } = props
 
   const type = field?.['#type'] as TDrupal_FieldType_Validate
 
-  const defaultSchema = string().matches(/^[0-9]+$/, {
+  let defaultSchema = string().matches(/^[0-9]+$/, {
     message: errorMessage,
     excludeEmptyString: true,
   })
+  defaultSchema = applyMinMaxLength(
+    defaultSchema,
+    field,
+    minLengthMessage,
+    maxLengthMessage
+  )
 
   const customSchema =
     resolveCustomValidator(customValidators, key, type, props) ?? defaultSchema

@@ -1,6 +1,7 @@
 import { TKeyValue } from '../webform_functions'
 import {
   TWebformDefaultFieldValues,
+  TWebformNormalizedStateMessages,
   TWebformStateMessages,
 } from '../../types/form.d'
 import { DeepRequired } from 'react-hook-form'
@@ -57,7 +58,7 @@ export const getAllDefaultValuesFromAllSteps = ({
 }: {
   elementsSource: Record<string, any>
   defaultFieldValues: Required<TWebformDefaultFieldValues>
-  defaultFieldStateMessages: DeepRequired<TWebformStateMessages>
+  defaultFieldStateMessages: TWebformNormalizedStateMessages
 }) => {
   let allDefaultValues: Record<string, any> = {}
 
