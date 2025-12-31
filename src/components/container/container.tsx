@@ -30,7 +30,6 @@ const Container = ({ elementsSource, title }: Props) => {
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.mainTitle}>{title}</h2>
       <div className={styles.containerWebform}>
         <section className={styles.left} aria-label="Webform preview">
           <WebformContainer elementsSource={elementsSource} />
