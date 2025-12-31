@@ -1,5 +1,15 @@
 .wrapper {
   margin-top: 2.5rem;
+  padding-bottom: 1rem;
+}
+
+.buttonsScroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  margin-bottom: 2.5rem;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
 }
 
 .buttons {
@@ -8,7 +18,6 @@
   overflow: hidden;
   border: 1px solid #d0d0d0;
   background-color: #f7f7f7;
-  margin-bottom: 2.5rem;
 }
 
 .button {

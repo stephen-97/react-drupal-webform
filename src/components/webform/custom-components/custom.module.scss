@@ -1,25 +1,78 @@
+.inputCustomContainer {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin: 0 auto;
+  border-radius: 2px;
+  padding: .75rem;
+  background: rgba(230, 232, 238, 0.9);
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+    height: 2px;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+    background-position: 0% 0%;
+    background: linear-gradient(to right, #B294FF, #57E6E6, #FEFFB8, #57E6E6, #B294FF, #57E6E6);
+    background-size: 500% auto;
+    -webkit-animation: gradient 3s linear infinite;
+  }
+  .inputCustom {
+    padding: 0;
+    margin: 0;
+    border-style: none;
+    background: transparent;
+    outline: none;
+    width: 100%;
+  }
+}
+
+.clearButton {
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  width: 1rem;
+  height: 1rem;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: rgba(30, 30, 30, 0.9);
+    pointer-events: none;
+    transition: background-color 0.15s ease;
+  }
+
+  &::before {
+    transform: rotate(45deg);
+  }
+
+  &::after {
+    transform: rotate(-45deg);
+  }
+
+  &:hover::before,
+  &:hover::after {
+    background-color: rgba(60, 60, 60, 1);
+  }
+}
+
 .customLabel {
-  background-color: purple;
-}
-
-.errorFieldMessage {
-  background-color: #0c645f !important;
-}
-
-.wrapperCustom {
-  background-color: #1aecd5;
-}
-
-.input {
-  border-radius: 1rem;
-  height: 3rem;
-  padding: 0 1rem;
-}
-
-.fieldError {
-  border: .2rem solid green !important;
-}
-
-.customForm {
-  display: block;
+  font-weight: 700;
 }

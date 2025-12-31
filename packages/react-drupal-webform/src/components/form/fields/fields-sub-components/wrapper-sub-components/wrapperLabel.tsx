@@ -1,6 +1,6 @@
 import React, { JSX } from 'react'
-import Label from "../label/label"
-import { TWrapperLabelWebformProps } from "../../../../../lib/types/components/wrapperLabel"
+import Label from '../label/label'
+import { TWrapperLabelWebformProps } from '../../../../../lib/types/components/wrapperLabel'
 
 const WrapperLabel = ({
   components,
@@ -19,13 +19,7 @@ const WrapperLabel = ({
 
   const { wrapperElement = 'label', innerProps } = props as LabelOrLegendProps
 
-  const {
-    title,
-    isRequired,
-    custom_component_help,
-    innerPropsHelpComponent,
-    ...rest
-  } = props
+  const { custom_component_help, innerPropsHelpComponent, ...rest } = props
 
   let computedInnerProps:
     | JSX.IntrinsicElements['label']
@@ -42,9 +36,9 @@ const WrapperLabel = ({
       <CustomLabel
         {...(rest as Omit<typeof rest, 'wrapperElement'>)}
         wrapperElement="label"
-        title={title ?? field['#title']}
+        field={field}
+        fieldKey={fieldKey}
         innerProps={computedInnerProps as JSX.IntrinsicElements['label']}
-        isRequired={isRequired ?? field?.['#required']}
         custom_component_help={custom_component_help ?? components.help}
         innerPropsHelpComponent={
           innerPropsHelpComponent ?? {
@@ -67,10 +61,10 @@ const WrapperLabel = ({
     <CustomLabel
       {...(rest as Omit<typeof rest, 'wrapperElement'>)}
       wrapperElement="legend"
-      title={title ?? field['#title']}
+      fieldKey={fieldKey}
       innerProps={computedInnerProps as JSX.IntrinsicElements['legend']}
-      isRequired={isRequired ?? field?.['#required']}
       custom_component_help={custom_component_help ?? components.help}
+      field={field}
       innerPropsHelpComponent={
         innerPropsHelpComponent ?? {
           innerProps: { className: classNames.general.fieldHelp },

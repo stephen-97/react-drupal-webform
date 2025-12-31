@@ -4,14 +4,18 @@ import YAML from 'yaml'
 
 require('@/lib/wdyr')
 
-import Webform from '../../../packages/react-drupal-webform/src/components/webform'
-import { TWebformStateMessages } from '../../../packages/react-drupal-webform/src/lib/types/form.d'
+import Webform from '../../../../packages/react-drupal-webform/src/components/webform'
+import { TWebformStateMessages } from '../../../../packages/react-drupal-webform/src/lib/types/form.d'
+import CustomInput from '@/components/webform/custom-components/customInput'
+import styles from './customWebform.module.scss'
+import CustomLabel from '@/components/webform/custom-components/customLabel'
+import CustomStepper from '@/components/webform/custom-components/customStepper'
 
 export type TWebformContainer = {
   elementsSource: string
 }
 
-const WebformContainer = ({ elementsSource }: TWebformContainer) => {
+const CustomWebform = ({ elementsSource }: TWebformContainer) => {
   const fakeSubmit = (data: Record<any, string>) => {
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -78,13 +82,17 @@ const WebformContainer = ({ elementsSource }: TWebformContainer) => {
   }
 
   return (
-    <Webform
-      elementsSource={correctElementsSource}
-      onSubmit={handleSubmit}
-      defaultFieldStateMessages={defaultStateValues}
-    />
+    <div className={styles.customWebformContainer}>
+      <Webform
+        elementsSource={correctElementsSource}
+        onSubmit={handleSubmit}
+        components={{
+          input: CustomInput,
+          label: CustomLabel,
+          multiStepStepper: CustomStepper,
+        }}
+      />
+    </div>
   )
 }
-
-WebformContainer.whyDidYouRender = true
-export default WebformContainer
+export default CustomWebform

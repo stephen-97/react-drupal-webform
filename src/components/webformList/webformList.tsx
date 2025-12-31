@@ -21,19 +21,21 @@ export default function WebformList({ webforms }: WebformListProps) {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.buttons}>
-        {webforms.map((webform) => (
-          <button
-            key={webform.id}
-            type="button"
-            onClick={() => setActiveId(webform.id)}
-            className={
-              webform.id === activeId ? styles.buttonActive : styles.button
-            }
-          >
-            {webform.title}
-          </button>
-        ))}
+      <div className={styles.buttonsScroll}>
+        <div className={styles.buttons}>
+          {webforms.map((webform) => (
+            <button
+              key={webform.id}
+              type="button"
+              onClick={() => setActiveId(webform.id)}
+              className={
+                webform.id === activeId ? styles.buttonActive : styles.button
+              }
+            >
+              {webform.title}
+            </button>
+          ))}
+        </div>
       </div>
 
       {activeWebform && (

@@ -35,6 +35,9 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
     includeInactiveFieldsInSubmit,
     customValidators,
   } = props
+
+  const totalSteps = Object.keys(elementsSource).length
+
   const stepKeys: string[] = useMemo(
     () => Object.keys(elementsSource),
     [elementsSource]
@@ -248,7 +251,8 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
       <MultiStepProvider
         stepIndex={stepIndex}
         setStepIndex={setStepIndex}
-        totalSteps={visibleStepKeys.length}
+        totalSteps={totalSteps}
+        totalVisibleSteps={visibleStepKeys.length}
         allWatchedSteps={allWatchedSteps}
         setAllWatchedSteps={setAllWatchedSteps}
         watchedStepValues={watchedStepValues}
@@ -256,6 +260,7 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
         <MultiStepStepper
           components={components}
           currentStepObj={currentStepObj}
+          elementsSource={elementsSource}
           classNames={classNames}
         />
 

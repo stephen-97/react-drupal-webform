@@ -1,14 +1,20 @@
 .main {
   position: relative;
-  padding: 2rem;
+  padding: 1rem;
   height: 100%;
-  //ackground-color: white;
 
   .mainTitle {
     margin-bottom: 1rem;
   }
+
   .introText {
     margin-bottom: 2rem;
     max-width: 40rem;
+  }
+}
+
+@media (min-width: 48rem) {
+  .main {
+    padding: 2rem;
   }
 }

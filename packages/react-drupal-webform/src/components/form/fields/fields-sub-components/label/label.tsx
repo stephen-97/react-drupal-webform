@@ -1,13 +1,12 @@
 import React from 'react'
-import { ILabelWebformProps } from "../../../../../lib/types/components/label"
-import Help from "../help/help"
+import { ILabelWebformProps } from '../../../../../lib/types/components/label'
+import Help from '../help/help'
 import cn from 'classnames'
 import styles from './label.module.scss'
 
 const Label = ({
-  title,
+  field,
   innerProps,
-  isRequired,
   innerPropsHelpComponent,
   custom_component_help,
   wrapperElement,
@@ -22,7 +21,8 @@ const Label = ({
   )
 
   const { className, ...restInnerProps } = filteredInnerProps ?? {}
-
+  const isRequired = field?.['#required']
+  const title = field?.['#title']
   return (
     <Element
       className={cn(styles.label, className, {
