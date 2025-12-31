@@ -11,7 +11,7 @@ const MultiStepActions = (props: IMultiStepActionsProps) => {
   const { previousButtonLabel, nextButtonLabel, components, classNames } = props
 
   const { formState, trigger } = useFormContext()
-  const { stepIndex, totalSteps, goNext, goPrev } = useMultiStepContext()
+  const { stepIndex, totalVisibleSteps, goNext, goPrev } = useMultiStepContext()
 
   const { isSubmitting, isValid: isStepValid } = formState
 
@@ -20,7 +20,7 @@ const MultiStepActions = (props: IMultiStepActionsProps) => {
     return <CustomMultiStepActions {...props} />
   }
 
-  const isLastStep = stepIndex === totalSteps - 1
+  const isLastStep = stepIndex === totalVisibleSteps - 1
 
   const handlePrev = () => {
     goPrev()
