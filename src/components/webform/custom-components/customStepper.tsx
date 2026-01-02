@@ -11,6 +11,7 @@ const CustomStepper = (props: IMultiStepStepperProps) => {
   const { elementsSource } = props
 
   const steps = Object.entries(elementsSource)
+  console.log(steps)
 
   return (
     <div className={styles.stepper}>

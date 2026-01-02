@@ -23,7 +23,7 @@ const Container = ({ elementsSource, title }: Props) => {
     <div className={styles.container}>
       <div className={styles.containerWebform}>
         <section className={styles.left} aria-label="Webform preview">
-          {title === 'Multi Step Form' ? (
+          {title === 'Custom components' ? (
             <CustomWebform elementsSource={elementsSource} />
           ) : (
             <WebformContainer elementsSource={elementsSource} />

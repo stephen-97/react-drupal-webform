@@ -1,0 +1,11 @@
+.customLabel {
+  display: flex;
+  gap: .5rem;
+  font-weight: 700;
+  font-size: .875rem;
+  margin-bottom: .5rem;
+  .requiredSymbol {
+    color: red;
+    font-size: 1rem;
+  }
+}

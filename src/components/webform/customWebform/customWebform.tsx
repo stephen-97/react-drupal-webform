@@ -4,12 +4,17 @@ import YAML from 'yaml'
 
 require('@/lib/wdyr')
 
+import * as yup from 'yup'
 import Webform from '../../../../packages/react-drupal-webform/src/components/webform'
-import { TWebformStateMessages } from '../../../../packages/react-drupal-webform/src/lib/types/form.d'
 import CustomInput from '@/components/webform/custom-components/customInput'
 import styles from './customWebform.module.scss'
 import CustomLabel from '@/components/webform/custom-components/customLabel'
 import CustomStepper from '@/components/webform/custom-components/customStepper'
+import CustomMultiStepActions from '@/components/webform/custom-components/customMultiStepActions'
+import { TFieldValidate } from '../../../../packages/react-drupal-webform/src/lib/types/components/validate'
+import CustomSelect from '@/components/webform/custom-components/customSelect'
+import CustomMore from '@/components/webform/custom-components/customMore'
+import { TWebformClassNames } from '../../../../packages/react-drupal-webform/src/lib/types/form.d'
 
 export type TWebformContainer = {
   elementsSource: string
@@ -41,42 +46,36 @@ const CustomWebform = ({ elementsSource }: TWebformContainer) => {
 
   const correctElementsSource = YAML.parse(elementsSource)
 
-  const defaultStateValues: TWebformStateMessages = {
-    general: {
-      errorMessage: 'Invalid value.',
-      requiredMessage: 'tralalala',
-    },
+  const customClassnames: TWebformClassNames = {
     fields: {
-      errorMessages: {
-        textarea: 'Please enter valid text.',
-        email: 'Please enter a valid email address.',
-        date: 'Please enter a valid date.',
-        radios: 'Please select an option.',
-        checkbox: 'This checkbox value is invalid.',
-        checkboxes: 'Please select at least one option.',
-        select: 'Please select a value.',
-        managed_file: 'Please upload a valid file.',
-        hidden: '',
+      layout: {
+        wrapper: styles.customLayout,
       },
-      requiredMessages: {
-        textarea: 'This textarea is required.',
-        email: 'Email is required.',
-        number: 'Number is required.',
-        tel: 'Phone number is required.',
-        date: 'Date is required.',
-        radios: 'Please choose one option.',
-        checkbox: 'This checkbox must be checked.',
-        checkboxes: 'Please select at least one option.',
-        select: 'Please select a value.',
-        managed_file: 'A file is required.',
-        hidden: '',
-      },
-      minLengthMessages: {
-        textfield: (props) => {
-          const title = props?.['#title']
-          const minLenght = props?.['#minlength']
-          return `the field ${title} have a minimum of ${minLenght} characters`
-        },
+    },
+  }
+
+  const customValidators = {
+    byId: {
+      your_favorite_food_starting_with_a_m: (ctx: TFieldValidate) => {
+        const isRequired = Boolean(ctx.field?.['#required'])
+        const requiredMessage =
+          ctx.field?.['#required_error'] ?? ctx.requiredMessage
+
+        let schema = yup.string()
+
+        if (isRequired) {
+          schema = schema.required(requiredMessage)
+        }
+
+        return schema.test(
+          'starts-with-m',
+          'The value must start with the letter "m".',
+          (value) => {
+            if (!value) return true
+
+            return value.trim().toLowerCase().startsWith('m')
+          }
+        )
       },
     },
   }
@@ -86,10 +85,15 @@ const CustomWebform = ({ elementsSource }: TWebformContainer) => {
       <Webform
         elementsSource={correctElementsSource}
         onSubmit={handleSubmit}
+        customValidators={customValidators}
+        classNames={customClassnames}
         components={{
           input: CustomInput,
           label: CustomLabel,
           multiStepStepper: CustomStepper,
+          multiStepActions: CustomMultiStepActions,
+          select: CustomSelect,
+          more: CustomMore,
         }}
       />
     </div>

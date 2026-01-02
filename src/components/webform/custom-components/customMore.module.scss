@@ -1,0 +1,89 @@
+.button {
+  all: unset;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  cursor: pointer;
+  box-sizing: border-box;
+  padding: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1f2430;
+  background: rgba(230, 232, 238, 0.95);
+  border-radius: 4px 4px 0 0;
+  transition: background-color 0.2s ease;
+}
+
+.button:hover {
+  background: rgba(220, 222, 230, 1);
+}
+
+.opened {
+  background: rgba(220, 222, 230, 1);
+}
+
+.title {
+  text-align: left;
+  line-height: 1.3;
+}
+
+.icon {
+  width: 0.55rem;
+  height: 0.55rem;
+  margin-left: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg) translateY(-1px);
+  transition: transform 0.25s ease;
+}
+
+
+.opened .icon {
+  transform: rotate(-135deg);
+}
+
+.content {
+  padding: 0 0.75rem;
+  background: rgba(230, 232, 238, 0.95);
+  border-radius: 0 0 4px 4px;
+
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+
+  transition: max-height 0.35s ease, opacity 0.25s ease;
+
+  font-size: 0.75rem;
+  color: #2a2f3a;
+  line-height: 1.5;
+}
+
+.content.opened {
+  max-height: 800px;
+  opacity: 1;
+  padding-bottom: 0.75rem;
+}
+
+.htmlContent {
+  color: #2a2f3a;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.htmlContent p {
+  margin: 0.5rem 0 0;
+}
+
+.htmlContent ul,
+.htmlContent ol {
+  margin: 0.5rem 0 0;
+  padding-left: 1.25rem;
+}
+
+.htmlContent li {
+  margin-bottom: 0.25rem;
+}

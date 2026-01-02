@@ -1,30 +1,19 @@
-import styles from './multiStepActions.module.scss'
-import stylesField from '../../fields/field.module.scss'
+'use client'
+
 import React from 'react'
-import cn from 'classnames'
-import { IMultiStepActionsProps } from '../../../../lib/types/components/multiStepActions'
-import Loader from '../../fields/fields-sub-components/loader/loader'
+import styles from './customMultiStepActions.module.scss'
+import { IMultiStepActionsProps } from '../../../../packages/react-drupal-webform/src/lib/types/components/multiStepActions'
+import Loader from '../../../../packages/react-drupal-webform/src/components/form/fields/fields-sub-components/loader/loader'
+import { useMultiStepContext } from '../../../../packages/react-drupal-webform/src/components/form/formMultiStep/multiStepContext'
 import { useFormContext } from 'react-hook-form'
-import { useMultiStepContext } from '../multiStepContext'
-
-const MultiStepActions = (props: IMultiStepActionsProps) => {
+import cn from 'classnames'
+const CustomMultiStepActions = (props: IMultiStepActionsProps) => {
   const { previousButtonLabel, nextButtonLabel, components, classNames } = props
-
   const { formState, trigger } = useFormContext()
   const { stepIndex, totalVisibleSteps, goNext, goPrev } = useMultiStepContext()
-
   const { isSubmitting, isValid: isStepValid } = formState
 
-  const CustomMultiStepActions = components?.multiStepActions
-  if (CustomMultiStepActions) {
-    return <CustomMultiStepActions {...props} />
-  }
-
   const isLastStep = stepIndex === totalVisibleSteps - 1
-
-  const handlePrev = () => {
-    goPrev()
-  }
 
   const handleNext = async (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!isLastStep) {
@@ -39,22 +28,12 @@ const MultiStepActions = (props: IMultiStepActionsProps) => {
   }
 
   return (
-    <div
-      className={cn(
-        styles.multiStepActions,
-        classNames.multiStep.actionsContainer
-      )}
-    >
+    <div className={styles.customMultiStepActions}>
       {stepIndex > 0 && (
         <button
-          className={cn(
-            stylesField.button,
-            styles.button,
-            classNames.multiStep.actionsButtons,
-            classNames.multiStep.actionsButtonPrev
-          )}
+          className={cn(styles.button, styles.prev)}
           type="button"
-          onClick={handlePrev}
+          onClick={() => goPrev()}
         >
           {previousButtonLabel && previousButtonLabel.length > 0
             ? previousButtonLabel
@@ -63,12 +42,7 @@ const MultiStepActions = (props: IMultiStepActionsProps) => {
       )}
 
       <button
-        className={cn(
-          stylesField.button,
-          styles.button,
-          classNames.multiStep.actionsButtons,
-          classNames.multiStep.actionsButtonsNext
-        )}
+        className={cn(styles.button, styles.next)}
         disabled={!isStepValid || isSubmitting}
         type={isLastStep ? 'submit' : 'button'}
         onClick={handleNext}
@@ -84,4 +58,4 @@ const MultiStepActions = (props: IMultiStepActionsProps) => {
   )
 }
 
-export default React.memo(MultiStepActions)
+export default CustomMultiStepActions

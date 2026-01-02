@@ -30,6 +30,13 @@
     outline: none;
     width: 100%;
   }
+  &.error {
+    background: rgba(255, 220, 220, 0.95);
+    &::after {
+      background: #e53935;
+      animation: none;
+    }
+  }
 }
 
 .clearButton {
@@ -71,8 +78,4 @@
   &:hover::after {
     background-color: rgba(60, 60, 60, 1);
   }
-}
-
-.customLabel {
-  font-weight: 700;
 }
