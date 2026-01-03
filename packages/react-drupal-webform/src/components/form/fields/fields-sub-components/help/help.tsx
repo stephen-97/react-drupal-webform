@@ -3,15 +3,15 @@ import styles from './help.module.scss'
 import cn from 'classnames'
 import tippy from 'tippy.js'
 import 'tippy.js/dist/tippy.css'
-import { IHelpProps } from "../../../../../lib/types/components/help"
+import { IHelpProps } from '../../../../../lib/types/components/help'
 import { createRoot } from 'react-dom/client'
-import Wysiwyg from "../../fields-special-components/wysiwyg/wysiwyg"
+import Wysiwyg from '../../fields-special-components/wysiwyg/wysiwyg'
 
-const Help = ({ innerProps, custom_component_wysiwyg, helps }: IHelpProps) => {
+const Help = ({ innerProps, components, helps }: IHelpProps) => {
   const { className, ...restInnerProps } = innerProps ?? {}
 
   const buttonRef = useRef<HTMLButtonElement>(null)
-  const CustomWysiwyg = custom_component_wysiwyg ?? Wysiwyg
+  const CustomWysiwyg = components.wysiwyg ?? Wysiwyg
 
   useEffect(() => {
     if (!buttonRef.current) return
@@ -26,7 +26,7 @@ const Help = ({ innerProps, custom_component_wysiwyg, helps }: IHelpProps) => {
       ${helps.help || ''}
     `
 
-    root.render(<CustomWysiwyg processed={html} />)
+    root.render(<CustomWysiwyg source={'help'} processed={html} />)
 
     tippy(buttonRef.current, {
       content: tooltipContainer,

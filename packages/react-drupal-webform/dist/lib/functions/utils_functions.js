@@ -27,3 +27,8 @@ const deepMergeDefaults = (defaults, overrides) => Object.keys(defaults).reduce(
     return acc;
 }, Array.isArray(defaults) ? [] : {});
 export { mergeObjects, deepMergeDefaults };
+export const toStringMessage = (value) => {
+    if (typeof value === 'function')
+        return '';
+    return value ?? '';
+};

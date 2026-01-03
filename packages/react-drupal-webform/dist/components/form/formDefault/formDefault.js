@@ -6,7 +6,8 @@ import { useYupValidationResolver } from '../../../lib/functions/webform_yup_fun
 import FormFieldRendered from './formFieldRendered';
 import { generateFormSchemaAndDefaults, getDependentFields, shouldFieldBeVisible, isLayoutType, } from '../../../lib/functions/webform_fields_functions/webform_fields_conditional_functions';
 import { getDummyDefaultFormDefault } from '../../../lib/functions/webform_validation_functions/webform_validation_functions';
-const FormDefault = ({ elementsSource, multiStepExtra, defaultFieldValues, yup: yupObj, defaultFieldStateMessages, components, classNames, includeInactiveFieldsInSubmit, onSubmit, customValidators, }) => {
+const FormDefault = (props) => {
+    const { elementsSource, multiStepExtra, defaultFieldValues, yup: yupObj, defaultFieldStateMessages, components, classNames, includeInactiveFieldsInSubmit, onSubmit, customValidators, } = props;
     const { yupUseFormProps } = yupObj || {};
     const isMultiStep = Boolean(multiStepExtra);
     const dependentFields = useMemo(() => getDependentFields(elementsSource), [elementsSource]);
@@ -62,12 +63,14 @@ const FormDefault = ({ elementsSource, multiStepExtra, defaultFieldValues, yup: 
             await onSubmit(filtered);
         }
     }, [onSubmit, includeInactiveFieldsInSubmit, visibleElementsKeys]);
-    return (_jsx(FormProvider, { ...methods, children: _jsx("form", { className: styles.formDefault, onSubmit: handleSubmit(handleFormSubmit), children: visibleElementsKeys.map((key, index) => {
-                const field = elementsSource[key];
-                const type = field['#type'];
-                const isLayout = isLayoutType(type);
-                return (_jsx(FormFieldRendered, { fieldKey: key, index: index, field: field, components: components, classNames: classNames, isMultiStep: isMultiStep, ...(isLayout ? { watchedValues } : {}) }, key));
-            }) }) }));
+    const formContent = visibleElementsKeys.map((key, index) => {
+        const field = elementsSource[key];
+        const type = field['#type'];
+        const isLayout = isLayoutType(type);
+        return (_jsx(FormFieldRendered, { fieldKey: key, index: index, field: field, components: components, classNames: classNames, isMultiStep: isMultiStep, ...(isLayout ? { watchedValues } : {}) }, key));
+    });
+    const CustomForm = components?.form;
+    return (_jsx(FormProvider, { ...methods, children: CustomForm ? (_jsx(CustomForm, { ...props, onSubmit: handleSubmit(handleFormSubmit), children: formContent })) : (_jsx("form", { className: styles.formDefault, onSubmit: handleSubmit(handleFormSubmit), children: formContent })) }));
 };
 FormDefault.whyDidYouRender = true;
 export default React.memo(FormDefault);

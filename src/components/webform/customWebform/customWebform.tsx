@@ -15,6 +15,7 @@ import { TFieldValidate } from '../../../../packages/react-drupal-webform/src/li
 import CustomSelect from '@/components/webform/custom-components/customSelect'
 import CustomMore from '@/components/webform/custom-components/customMore'
 import { TWebformClassNames } from '../../../../packages/react-drupal-webform/src/lib/types/form.d'
+import CustomWysiwyg from '@/components/webform/custom-components/customWysiwyg'
 
 export type TWebformContainer = {
   elementsSource: string
@@ -49,7 +50,7 @@ const CustomWebform = ({ elementsSource }: TWebformContainer) => {
   const customClassnames: TWebformClassNames = {
     fields: {
       layout: {
-        wrapper: styles.customLayout,
+        inner: styles.customLayout,
       },
     },
   }
@@ -94,6 +95,7 @@ const CustomWebform = ({ elementsSource }: TWebformContainer) => {
           multiStepActions: CustomMultiStepActions,
           select: CustomSelect,
           more: CustomMore,
+          wysiwyg: CustomWysiwyg,
         }}
       />
     </div>

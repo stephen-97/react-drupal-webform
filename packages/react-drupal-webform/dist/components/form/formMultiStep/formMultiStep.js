@@ -1,4 +1,4 @@
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { jsx as _jsx, Fragment as _Fragment, jsxs as _jsxs } from "react/jsx-runtime";
 import styles from './formMultiStep.module.scss';
 import React, { useEffect, useMemo, useCallback, useState } from 'react';
 import { FormProvider, useForm, useWatch } from 'react-hook-form';
@@ -10,7 +10,9 @@ import MultiStepStepper from './multiStepStepper/multiStepStepper';
 import { getAllFieldNames, getDummyDefaultMultiStep, getAllDefaultValuesFromAllSteps, } from '../../../lib/functions/webform_multistep_functions/webform_multistep_functions';
 import { getAllVisibleFieldNames, getVisibleStepKeys, } from '../../../lib/functions/webform_multistep_functions/webform_multistep_conditional_functions/webform_multistep_conditional_functions';
 import { MultiStepProvider } from './multiStepContext';
-const FormMultiStep = ({ elementsSource, defaultFieldValues, yup: yupObj, defaultFieldStateMessages, components, classNames, onSubmit, includeInactiveFieldsInSubmit, customValidators, }) => {
+const FormMultiStep = (props) => {
+    const { elementsSource, defaultFieldValues, yup: yupObj, defaultFieldStateMessages, components, classNames, onSubmit, includeInactiveFieldsInSubmit, customValidators, } = props;
+    const totalSteps = Object.keys(elementsSource).length;
     const stepKeys = useMemo(() => Object.keys(elementsSource), [elementsSource]);
     const allFieldNames = useMemo(() => getAllFieldNames(elementsSource), [elementsSource]);
     const dummyDefaultValues = useMemo(() => getDummyDefaultMultiStep(elementsSource), [elementsSource]);
@@ -114,19 +116,19 @@ const FormMultiStep = ({ elementsSource, defaultFieldValues, yup: yupObj, defaul
         onSubmit,
         includeInactiveFieldsInSubmit,
     ]);
-    return (_jsx(FormProvider, { ...methods, children: _jsxs(MultiStepProvider, { stepIndex: stepIndex, setStepIndex: setStepIndex, totalSteps: visibleStepKeys.length, allWatchedSteps: allWatchedSteps, setAllWatchedSteps: setAllWatchedSteps, watchedStepValues: watchedStepValues, children: [_jsx(MultiStepStepper, { components: components, currentStepObj: currentStepObj, classNames: classNames }), _jsxs("form", { className: styles.formMultiStep, onSubmit: handleSubmit(onFormSubmit), children: [visibleElementsKeys.map((key, index) => {
-                            const field = currentStepObj[key];
-                            const type = field['#type'];
-                            const isLayout = [
-                                'webform_section',
-                                'webform_flexbox',
-                                'container',
-                                'details',
-                            ].includes(type);
-                            return (_jsx(FormFieldRendered, { fieldKey: key, index: index, field: field, components: components, classNames: classNames, isMultiStep: true, ...(isLayout
-                                    ? { watchedValues: watchedStepValuesGlobal }
-                                    : {}) }, key));
-                        }), _jsx(MultiStepActions, { previousButtonLabel: previousButtonLabel, nextButtonLabel: nextButtonLabel, components: components, classNames: classNames })] })] }) }));
+    const formContent = (_jsxs(_Fragment, { children: [visibleElementsKeys.map((key, index) => {
+                const field = currentStepObj[key];
+                const type = field['#type'];
+                const isLayout = [
+                    'webform_section',
+                    'webform_flexbox',
+                    'container',
+                    'details',
+                ].includes(type);
+                return (_jsx(FormFieldRendered, { fieldKey: key, index: index, field: field, components: components, classNames: classNames, isMultiStep: true, ...(isLayout ? { watchedValues: watchedStepValuesGlobal } : {}) }, key));
+            }), _jsx(MultiStepActions, { previousButtonLabel: previousButtonLabel, nextButtonLabel: nextButtonLabel, components: components, classNames: classNames })] }));
+    const CustomForm = components?.form;
+    return (_jsx(FormProvider, { ...methods, children: _jsxs(MultiStepProvider, { elementsSource: elementsSource, stepIndex: stepIndex, setStepIndex: setStepIndex, totalSteps: totalSteps, totalVisibleSteps: visibleStepKeys.length, allWatchedSteps: allWatchedSteps, currentStepKey: currentStepKey, setAllWatchedSteps: setAllWatchedSteps, watchedStepValues: watchedStepValues, children: [_jsx(MultiStepStepper, { components: components, currentStepObj: currentStepObj, elementsSource: elementsSource, classNames: classNames }), CustomForm ? (_jsx(CustomForm, { ...props, onSubmit: handleSubmit(onFormSubmit), children: formContent })) : (_jsx("form", { className: styles.formMultiStep, onSubmit: handleSubmit(onFormSubmit), children: formContent }))] }) }));
 };
 FormMultiStep.whyDidYouRender = true;
 export default React.memo(FormMultiStep);

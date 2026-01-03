@@ -9,9 +9,9 @@ const More = ({
   innerPropsButton,
   innerPropsWysiwyg,
   moreTitle,
-  customComponentWysiwyg,
+  components,
 }: IMoreProps) => {
-  const CustomWysiwyg = customComponentWysiwyg ?? Wysiwyg
+  const CustomWysiwyg = components.wysiwyg ?? Wysiwyg
   const { className: containerClassName, ...containerProps } =
     innerPropsContainer ?? {}
   const { className: buttonClassName, ...buttonProps } = innerPropsButton ?? {}

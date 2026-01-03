@@ -7,7 +7,9 @@ type TMultiStepContextType = {
   totalVisibleSteps: number
   watchedStepValues: Record<string, any>
   allWatchedSteps: Record<string, any>
-  setAllWatchedSteps: React.Dispatch<React.SetStateAction<Record<string, any>>> // ⚡ ajouté
+  elementsSource: Record<string, any>
+  setAllWatchedSteps: React.Dispatch<React.SetStateAction<Record<string, any>>>
+  currentStepKey: string
   goNext: () => void
   goPrev: () => void
 }
@@ -24,7 +26,9 @@ type TMultiStepProviderProps = {
   totalVisibleSteps: number
   watchedStepValues: Record<string, any>
   allWatchedSteps: Record<string, any>
-  setAllWatchedSteps: React.Dispatch<React.SetStateAction<Record<string, any>>> // ⚡ ajouté
+  currentStepKey: string
+  setAllWatchedSteps: React.Dispatch<React.SetStateAction<Record<string, any>>>
+  elementsSource: Record<string, any>
 }
 
 export const MultiStepProvider = ({
@@ -36,6 +40,8 @@ export const MultiStepProvider = ({
   watchedStepValues,
   allWatchedSteps,
   setAllWatchedSteps,
+  currentStepKey,
+  elementsSource,
 }: TMultiStepProviderProps) => {
   const goNext = () => {
     setAllWatchedSteps((prev) => ({ ...prev, ...watchedStepValues })) // ⚡ ici on fusionne
@@ -56,6 +62,8 @@ export const MultiStepProvider = ({
         watchedStepValues,
         allWatchedSteps,
         setAllWatchedSteps,
+        currentStepKey,
+        elementsSource,
         goNext,
         goPrev,
       }}

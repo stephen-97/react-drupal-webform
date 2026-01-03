@@ -47,7 +47,7 @@ const WrapperLabel = ({
               help: field?.['#help'],
               processed_help_title: field?.['#help_title'],
             },
-            custom_component_wysiwyg: components.wysiwyg,
+            components: components,
           }
         }
       />
@@ -72,7 +72,7 @@ const WrapperLabel = ({
             help: field?.['#help'],
             processed_help_title: field?.['#help_title'],
           },
-          custom_component_wysiwyg: components.wysiwyg,
+          components: components,
         }
       }
     />

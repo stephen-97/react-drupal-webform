@@ -44,3 +44,28 @@ export const getDummyDefaultFormDefault = (elementsSource) => {
     });
     return allDefaults;
 };
+export const applyMinMaxLength = (schema, field, minLengthMessage, maxLengthMessage) => {
+    const isRequired = Boolean(field?.['#required']);
+    let nextSchema = schema;
+    if (typeof field?.['#minlength'] === 'number') {
+        const minLength = field['#minlength'];
+        nextSchema = nextSchema.test('min-length-if-not-empty', minLengthMessage, (value) => {
+            if (!isRequired && value === '')
+                return true;
+            if (value == null)
+                return true;
+            return value.length >= minLength;
+        });
+    }
+    if (typeof field?.['#maxlength'] === 'number') {
+        const maxLength = field['#maxlength'];
+        nextSchema = nextSchema.test('max-length-if-not-empty', maxLengthMessage, (value) => {
+            if (!isRequired && value === '')
+                return true;
+            if (value == null)
+                return true;
+            return value.length <= maxLength;
+        });
+    }
+    return nextSchema;
+};

@@ -9,13 +9,13 @@ import { useMultiStepContext } from '../multiStepContext';
 const MultiStepActions = (props) => {
     const { previousButtonLabel, nextButtonLabel, components, classNames } = props;
     const { formState, trigger } = useFormContext();
-    const { stepIndex, totalSteps, goNext, goPrev } = useMultiStepContext();
+    const { stepIndex, totalVisibleSteps, goNext, goPrev } = useMultiStepContext();
     const { isSubmitting, isValid: isStepValid } = formState;
     const CustomMultiStepActions = components?.multiStepActions;
     if (CustomMultiStepActions) {
         return _jsx(CustomMultiStepActions, { ...props });
     }
-    const isLastStep = stepIndex === totalSteps - 1;
+    const isLastStep = stepIndex === totalVisibleSteps - 1;
     const handlePrev = () => {
         goPrev();
     };
@@ -25,7 +25,6 @@ const MultiStepActions = (props) => {
             e.stopPropagation();
             const valid = await trigger();
             if (valid) {
-                // ⚡ On passe les valeurs du step courant à goNext (le provider fera setAllWatchedSteps)
                 goNext();
             }
         }

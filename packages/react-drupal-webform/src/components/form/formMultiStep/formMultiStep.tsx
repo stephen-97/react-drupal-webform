@@ -249,11 +249,13 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
   return (
     <FormProvider {...methods}>
       <MultiStepProvider
+        elementsSource={elementsSource}
         stepIndex={stepIndex}
         setStepIndex={setStepIndex}
         totalSteps={totalSteps}
         totalVisibleSteps={visibleStepKeys.length}
         allWatchedSteps={allWatchedSteps}
+        currentStepKey={currentStepKey}
         setAllWatchedSteps={setAllWatchedSteps}
         watchedStepValues={watchedStepValues}
       >

@@ -1,5 +1,4 @@
-import { TWebformCustomValidators, TWebformDefaultFieldValues, TWebformStateMessages } from '../../types/form.d';
-import { DeepRequired } from 'react-hook-form';
+import { TWebformCustomValidators, TWebformDefaultFieldValues, TWebformNormalizedStateMessages } from '../../types/form.d';
 import * as yup from 'yup';
 export declare const checkVisibilityCondition: (watched: any, expectedValue: any, mode?: "is" | "isNot") => boolean;
 export declare function shouldFieldBeVisible(fieldKey: string, elementsSource: Record<string, any>, watchedValues: Record<string, string>): boolean;
@@ -17,7 +16,7 @@ export declare const generateFormSchemaAndDefaults: ({ elementsSource, visibleEl
     elementsSource: Record<string, any>;
     visibleElementsKeys: string[];
     defaultFieldValues: Required<TWebformDefaultFieldValues>;
-    defaultFieldStateMessages: DeepRequired<TWebformStateMessages>;
+    defaultFieldStateMessages: TWebformNormalizedStateMessages;
     customValidators?: TWebformCustomValidators;
     watchedValues?: Record<string, any>;
 }) => {

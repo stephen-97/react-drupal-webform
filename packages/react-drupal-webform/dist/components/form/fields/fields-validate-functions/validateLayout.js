@@ -3,7 +3,7 @@ import { getRequiredMessage, getErrorMessage, } from '../../../../lib/functions/
 import FormMappingFields from '../../formMappingFields/formMappingFields';
 import { extractVisibleFields, shouldFieldBeVisible, } from '../../../../lib/functions/webform_fields_functions/webform_fields_conditional_functions';
 export const validateLayout = (props) => {
-    const { yupObject, defaultValues, field, defaultFieldValues, defaultFieldStateMessages, customValidators, watchedValues = {}, } = props;
+    const { yupObject, defaultValues, field, defaultFieldValues, defaultFieldStateMessages, customValidators, watchedValues = {}, minLengthMessage, maxLengthMessage, } = props;
     const childFields = Object.fromEntries(Object.entries(field).filter(([k]) => !k.startsWith('#')));
     const childVisibleKeys = Object.keys(childFields).filter((childKey) => shouldFieldBeVisible(childKey, childFields, watchedValues));
     const realVisibleFields = extractVisibleFields(childFields, childVisibleKeys, watchedValues);
@@ -24,6 +24,8 @@ export const validateLayout = (props) => {
             customValidators,
             errorMessage,
             watchedValues,
+            minLengthMessage,
+            maxLengthMessage,
         });
     });
 };

@@ -1,6 +1,6 @@
-import { formatMessage, getErrorMessage, getRequiredMessage, } from '../webform_validation_functions/webform_validation_functions';
 import FormMappingFields from '../../../components/form/formMappingFields/formMappingFields';
 import * as yup from 'yup';
+import { resolveFieldMessages } from '../webform_yup_functions/webform_yup_functions';
 export const checkVisibilityCondition = (watched, expectedValue, mode = 'is') => {
     if (mode === 'is') {
         return watched === expectedValue;
@@ -109,9 +109,7 @@ export const generateFormSchemaAndDefaults = ({ elementsSource, visibleElementsK
     realVisibleFields.forEach(({ key, field }) => {
         const type = field?.['#type'];
         const required = Boolean(field?.['#required']);
-        const requiredMessage = formatMessage(getRequiredMessage(defaultFieldStateMessages, type) ?? '', field?.['#title']);
-        const errorMessage = formatMessage(getErrorMessage(defaultFieldStateMessages, type) ?? '', field?.['#title']);
-        FormMappingFields[type ?? 'default']?.validator?.({
+        const fieldValidateProps = {
             yupObject: yupObjLocal,
             defaultValues: defaults,
             key,
@@ -119,10 +117,18 @@ export const generateFormSchemaAndDefaults = ({ elementsSource, visibleElementsK
             required,
             defaultFieldValues,
             defaultFieldStateMessages,
-            requiredMessage,
             customValidators,
-            errorMessage,
-        });
+            requiredMessage: '',
+            errorMessage: '',
+            minLengthMessage: '',
+            maxLengthMessage: '',
+        };
+        const resolvedMessages = resolveFieldMessages(fieldValidateProps);
+        fieldValidateProps.requiredMessage = resolvedMessages.required;
+        fieldValidateProps.errorMessage = resolvedMessages.error;
+        fieldValidateProps.minLengthMessage = resolvedMessages.minLength;
+        fieldValidateProps.maxLengthMessage = resolvedMessages.maxLength;
+        FormMappingFields[type ?? 'default']?.validator?.(fieldValidateProps);
     });
     return {
         defaultValues: defaults,
