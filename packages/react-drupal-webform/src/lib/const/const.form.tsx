@@ -201,18 +201,6 @@ export const defaultValuesClassnames: TDeepRequiredClassNames = {
   },
 }
 
-export const components: TWebformComponents = {
-  ErrorFieldMessage: ErrorFieldMessage,
-  Input: renderInput,
-  Layout: renderLayout,
-  ManagedFile: renderManagedFile,
-  Radios: renderRadio,
-  Select: renderSelect,
-  Checkboxes: renderCheckboxes,
-  Checkbox: renderCheckbox,
-  Textarea: renderTextArea,
-  Markup: renderMarkup,
-  Hidden: renderHidden,
+export const components = {
   Wysiwyg: Wysiwyg,
-  Action: renderAction,
 }
