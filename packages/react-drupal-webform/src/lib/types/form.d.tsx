@@ -268,6 +268,7 @@ export type TWebformCustomComponents = {
   markup?: React.ComponentType<TFieldWebformObj>
   fieldById?: Record<string, React.ComponentType<TFieldRendererProps>>
   form?: React.ComponentType<TWebformCustomElementFormProps>
+  confirmationView?: React.ComponentType<any>
 }
 
 export type TWebformValidatorFactory = (
@@ -294,4 +295,6 @@ export type TWebform = {
   defaultFieldStateMessages?: TWebformStateMessages
   onSubmit: (_data: Record<string, any>) => void | Promise<any>
   includeInactiveFieldsInSubmit?: boolean
+  isSubmitted: boolean
+  showConfirmation?: boolean
 }

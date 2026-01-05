@@ -16,12 +16,14 @@ import CustomSelect from '@/components/webform/custom-components/customSelect'
 import CustomMore from '@/components/webform/custom-components/customMore'
 import { TWebformClassNames } from '../../../../packages/react-drupal-webform/src/lib/types/form.d'
 import CustomWysiwyg from '@/components/webform/custom-components/customWysiwyg'
+import { useState } from 'react'
 
 export type TWebformContainer = {
   elementsSource: string
 }
 
 const CustomWebform = ({ elementsSource }: TWebformContainer) => {
+  const [isSubmitted, setIsSubmitted] = useState(false)
   const fakeSubmit = (data: Record<any, string>) => {
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -37,6 +39,7 @@ const CustomWebform = ({ elementsSource }: TWebformContainer) => {
   const handleSubmit = async (formData: Record<any, string>) => {
     return fakeSubmit(formData)
       .then((response: any) => {
+        setIsSubmitted(true)
         console.log(formData)
         console.log(response.message)
       })
@@ -88,6 +91,7 @@ const CustomWebform = ({ elementsSource }: TWebformContainer) => {
         onSubmit={handleSubmit}
         customValidators={customValidators}
         classNames={customClassnames}
+        isSubmitted={isSubmitted}
         components={{
           input: CustomInput,
           label: CustomLabel,

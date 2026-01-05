@@ -82,9 +82,10 @@ const WebformContainer = ({ elementsSource }: TWebformContainer) => {
       elementsSource={correctElementsSource}
       onSubmit={handleSubmit}
       defaultFieldStateMessages={defaultStateValues}
+      showConfirmation={false}
+      isSubmitted={true}
     />
   )
 }
 
-WebformContainer.whyDidYouRender = true
 export default WebformContainer

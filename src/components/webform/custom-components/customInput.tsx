@@ -56,4 +56,4 @@ const CustomInput = (props: TFieldWebformObjCustom) => {
   )
 }
 
-export default CustomInput
+export default React.memo(CustomInput)

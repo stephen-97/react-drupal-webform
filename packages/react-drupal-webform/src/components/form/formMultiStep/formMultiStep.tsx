@@ -22,6 +22,7 @@ import {
 } from '../../../lib/functions/webform_multistep_functions/webform_multistep_conditional_functions/webform_multistep_conditional_functions'
 import { TFormMultiStepProps } from '../../../lib/types/components/formMultiStep'
 import { MultiStepProvider } from './multiStepContext'
+import ConfirmationView from '../../special-display/confirmationView'
 
 const FormMultiStep = (props: TFormMultiStepProps) => {
   const {
@@ -34,9 +35,12 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
     onSubmit,
     includeInactiveFieldsInSubmit,
     customValidators,
+    isSubmitted,
+    showConfirmation,
   } = props
 
   const totalSteps = Object.keys(elementsSource).length
+  const shouldShowConfirmation = Boolean(isSubmitted && showConfirmation)
 
   const stepKeys: string[] = useMemo(
     () => Object.keys(elementsSource),
@@ -245,6 +249,7 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
   )
 
   const CustomForm = components?.form
+  const ConfirmationComponent = components?.confirmationView ?? ConfirmationView
 
   return (
     <FormProvider {...methods}>
@@ -259,29 +264,34 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
         setAllWatchedSteps={setAllWatchedSteps}
         watchedStepValues={watchedStepValues}
       >
-        <MultiStepStepper
-          components={components}
-          currentStepObj={currentStepObj}
-          elementsSource={elementsSource}
-          classNames={classNames}
-        />
-
-        {CustomForm ? (
-          <CustomForm {...props} onSubmit={handleSubmit(onFormSubmit)}>
-            {formContent}
-          </CustomForm>
+        {shouldShowConfirmation ? (
+          <ConfirmationComponent />
         ) : (
-          <form
-            className={styles.formMultiStep}
-            onSubmit={handleSubmit(onFormSubmit)}
-          >
-            {formContent}
-          </form>
+          <>
+            <MultiStepStepper
+              components={components}
+              currentStepObj={currentStepObj}
+              elementsSource={elementsSource}
+              classNames={classNames}
+            />
+
+            {CustomForm ? (
+              <CustomForm {...props} onSubmit={handleSubmit(onFormSubmit)}>
+                {formContent}
+              </CustomForm>
+            ) : (
+              <form
+                className={styles.formMultiStep}
+                onSubmit={handleSubmit(onFormSubmit)}
+              >
+                {formContent}
+              </form>
+            )}
+          </>
         )}
       </MultiStepProvider>
     </FormProvider>
   )
 }
 
-FormMultiStep.whyDidYouRender = true
 export default React.memo(FormMultiStep)
