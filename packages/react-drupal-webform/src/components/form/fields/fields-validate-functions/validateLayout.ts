@@ -22,6 +22,8 @@ export const validateLayout = (
     defaultFieldStateMessages,
     customValidators,
     watchedValues = {},
+    minLengthMessage,
+    maxLengthMessage,
   } = props
 
   const childFields = Object.fromEntries(
@@ -64,6 +66,8 @@ export const validateLayout = (
       customValidators,
       errorMessage,
       watchedValues,
+      minLengthMessage,
+      maxLengthMessage,
     })
   })
 }

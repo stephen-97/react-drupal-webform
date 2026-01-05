@@ -1,8 +1,16 @@
-import Label from '../../components/form/fields/fields-sub-components/label/label';
 import ErrorFieldMessage from '../../components/form/fields/fields-sub-components/errorFieldMessage/errorFieldMessage';
-import FieldObjCustom from '../../components/form/fields/fields-special-components/fieldObjCustom';
-import FieldWysiwygCustom from '../../components/form/fields/fields-special-components/fieldWysiwygCustom';
-import Wrapper from '../../components/form/fields/fields-sub-components/wrapper';
+import renderInput from '../../components/form/fields/input';
+import renderLayout from '../../components/form/fields/layout';
+import renderManagedFile from '../../components/form/fields/managedFile';
+import { renderRadio } from '../../components/form/fields/radios';
+import { renderSelect } from '../../components/form/fields/select';
+import { renderCheckboxes } from '../../components/form/fields/chexkboxes';
+import { renderCheckbox } from '../../components/form/fields/checkbox';
+import { renderTextArea } from '../../components/form/fields/textarea';
+import { renderMarkup } from '../../components/form/fields/markup';
+import { renderHidden } from '../../components/form/fields/hidden';
+import Wysiwyg from '../../components/form/fields/fields-special-components/wysiwyg/wysiwyg';
+import { renderAction } from '../../components/form/fields/action';
 export const defaultValuesObj = {
     textfield: '',
     textarea: '',
@@ -24,6 +32,8 @@ export const defaultValuesFieldStateMessages = {
     general: {
         errorMessage: '',
         requiredMessage: 'Field "{fieldName}" is required.',
+        minLengthMessage: 'Field "{fieldName}" must contain at least {minLength} characters.',
+        maxLengthMessage: 'Field "{fieldName}" must contain no more than {maxLength} characters.',
     },
     fields: {
         errorMessages: {
@@ -36,6 +46,9 @@ export const defaultValuesFieldStateMessages = {
             managed_file: '',
             radios: '',
             hidden: '',
+            checkbox: '',
+            checkboxes: '',
+            select: '',
         },
         requiredMessages: {
             textfield: '',
@@ -49,6 +62,30 @@ export const defaultValuesFieldStateMessages = {
             date: '',
             managed_file: '',
             select: '',
+            hidden: '',
+        },
+        minLengthMessage: {
+            textfield: '',
+            textarea: '',
+            email: '',
+            radios: '',
+            checkboxes: '',
+            checkbox: '',
+            number: '',
+            tel: '',
+            date: '',
+            hidden: '',
+        },
+        maxLengthMessage: {
+            textfield: '',
+            textarea: '',
+            email: '',
+            radios: '',
+            checkboxes: '',
+            checkbox: '',
+            number: '',
+            tel: '',
+            date: '',
             hidden: '',
         },
     },
@@ -80,6 +117,7 @@ export const defaultValuesClassnames = {
         },
     },
     general: {
+        fieldForm: '',
         fieldLabel: '',
         fieldDescription: '',
         fieldManagedFileInfo: '',
@@ -150,11 +188,17 @@ export const defaultValuesClassnames = {
     },
 };
 export const components = {
-    LabelWebform: Label,
-    WrapperWebform: Wrapper,
-    ErrorFieldMessageWebform: ErrorFieldMessage,
-    Input: FieldObjCustom,
-    Select: FieldObjCustom,
-    Checkboxes: FieldObjCustom,
-    Wysiwyg: FieldWysiwygCustom,
+    ErrorFieldMessage: ErrorFieldMessage,
+    Input: renderInput,
+    Layout: renderLayout,
+    ManagedFile: renderManagedFile,
+    Radios: renderRadio,
+    Select: renderSelect,
+    Checkboxes: renderCheckboxes,
+    Checkbox: renderCheckbox,
+    Textarea: renderTextArea,
+    Markup: renderMarkup,
+    Hidden: renderHidden,
+    Wysiwyg: Wysiwyg,
+    Action: renderAction,
 };

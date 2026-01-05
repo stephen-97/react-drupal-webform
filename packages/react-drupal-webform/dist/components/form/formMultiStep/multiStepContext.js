@@ -1,7 +1,7 @@
 import { jsx as _jsx } from "react/jsx-runtime";
 import { createContext, useContext } from 'react';
 const MultiStepContext = createContext(undefined);
-export const MultiStepProvider = ({ children, stepIndex, setStepIndex, totalSteps, watchedStepValues, allWatchedSteps, setAllWatchedSteps, }) => {
+export const MultiStepProvider = ({ children, stepIndex, setStepIndex, totalSteps, totalVisibleSteps, watchedStepValues, allWatchedSteps, setAllWatchedSteps, currentStepKey, elementsSource, }) => {
     const goNext = () => {
         setAllWatchedSteps((prev) => ({ ...prev, ...watchedStepValues })); // ⚡ ici on fusionne
         setStepIndex((prev) => prev + 1);
@@ -13,9 +13,12 @@ export const MultiStepProvider = ({ children, stepIndex, setStepIndex, totalStep
             stepIndex,
             setStepIndex,
             totalSteps,
+            totalVisibleSteps,
             watchedStepValues,
-            allWatchedSteps, // ⚡ exposé
-            setAllWatchedSteps, // ⚡ exposé
+            allWatchedSteps,
+            setAllWatchedSteps,
+            currentStepKey,
+            elementsSource,
             goNext,
             goPrev,
         }, children: children }));

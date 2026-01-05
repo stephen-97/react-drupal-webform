@@ -1,23 +1,24 @@
 import React, { JSX } from 'react'
-import { TWebformCustomComponents } from "../form.d"
-import { IHelpProps } from "./help"
+import { TWebformCustomComponents } from '../form.d'
+import { IHelpProps } from './help'
+import { TElementSource } from './field'
 
 export type ILabelWebformProps =
   | {
       wrapperElement: 'label'
-      title?: string
+      field?: TElementSource
+      fieldKey?: string
       children?: React.ReactNode
       innerProps?: JSX.IntrinsicElements['label']
       custom_component_help?: TWebformCustomComponents['help']
-      isRequired?: boolean
       innerPropsHelpComponent: IHelpProps
     }
   | {
       wrapperElement: 'legend'
-      title?: string
       children?: React.ReactNode
+      field?: TElementSource
+      fieldKey?: string
       innerProps?: JSX.IntrinsicElements['legend']
       custom_component_help?: TWebformCustomComponents['help']
-      isRequired?: boolean
       innerPropsHelpComponent: IHelpProps
     }

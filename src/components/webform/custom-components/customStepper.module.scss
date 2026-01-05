@@ -1,0 +1,65 @@
+.stepper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
+.step {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+}
+
+.stepTop {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.stepIndicator {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: rgba(57, 63, 84, 0.8);
+  color: rgba(230, 232, 238, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  z-index: 1;
+  border: 2px solid transparent;
+
+  &.active {
+    border-color: #000; // bordure noire
+    background: #ffffff;
+    color: #000;
+  }
+
+  &.completed {
+    background: rgba(230, 232, 238, 0.9);
+    color: #000;
+  }
+}
+
+.horizontalLine {
+  flex: 1;
+  height: 2px;
+  background: rgba(230, 232, 238, 0.4);
+  margin: 0 0.5rem;
+
+  &.completed {
+    background: rgba(230, 232, 238, 0.9);
+  }
+}
+
+.stepTitle {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: #1f2430;
+  text-align: center;
+  max-width: 8rem;
+}

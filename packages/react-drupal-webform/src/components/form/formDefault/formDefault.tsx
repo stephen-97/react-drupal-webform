@@ -12,6 +12,7 @@ import {
 } from '../../../lib/functions/webform_fields_functions/webform_fields_conditional_functions'
 import { IFormDefaultWebformProps } from '../../../lib/types/components/formDefault'
 import { getDummyDefaultFormDefault } from '../../../lib/functions/webform_validation_functions/webform_validation_functions'
+import ConfirmationView from '../../special-display/confirmationView'
 
 const FormDefault = (props: IFormDefaultWebformProps) => {
   const {
@@ -25,10 +26,13 @@ const FormDefault = (props: IFormDefaultWebformProps) => {
     includeInactiveFieldsInSubmit,
     onSubmit,
     customValidators,
+    isSubmitted,
+    showConfirmation,
   } = props
 
   const { yupUseFormProps } = yupObj || {}
   const isMultiStep = Boolean(multiStepExtra)
+  const shouldShowConfirmation = Boolean(isSubmitted && showConfirmation)
 
   const dependentFields: TDependentField[] = useMemo(
     () => getDependentFields(elementsSource),
@@ -133,9 +137,13 @@ const FormDefault = (props: IFormDefaultWebformProps) => {
 
   const CustomForm = components?.form
 
+  const ConfirmationComponent = components?.confirmationView ?? ConfirmationView
+
   return (
     <FormProvider {...methods}>
-      {CustomForm ? (
+      {shouldShowConfirmation ? (
+        <ConfirmationComponent />
+      ) : CustomForm ? (
         <CustomForm {...props} onSubmit={handleSubmit(handleFormSubmit)}>
           {formContent}
         </CustomForm>
@@ -151,5 +159,4 @@ const FormDefault = (props: IFormDefaultWebformProps) => {
   )
 }
 
-FormDefault.whyDidYouRender = true
 export default React.memo(FormDefault)

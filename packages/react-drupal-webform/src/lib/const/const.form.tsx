@@ -4,10 +4,21 @@ import {
 } from '../types/form.d'
 import Label from '../../components/form/fields/fields-sub-components/label/label'
 import ErrorFieldMessage from '../../components/form/fields/fields-sub-components/errorFieldMessage/errorFieldMessage'
-import FieldObjCustom from '../../components/form/fields/fields-special-components/fieldObjCustom'
-import FieldWysiwygCustom from '../../components/form/fields/fields-special-components/fieldWysiwygCustom'
 import Wrapper from '../../components/form/fields/fields-sub-components/wrapper'
 import { TDeepRequiredClassNames } from '../types/deepRequired'
+import renderInput from '../../components/form/fields/input'
+import renderLayout from '../../components/form/fields/layout'
+import renderManagedFile from '../../components/form/fields/managedFile'
+import { renderRadio } from '../../components/form/fields/radios'
+import { renderSelect } from '../../components/form/fields/select'
+import { renderCheckboxes } from '../../components/form/fields/chexkboxes'
+import { renderCheckbox } from '../../components/form/fields/checkbox'
+import { renderTextArea } from '../../components/form/fields/textarea'
+import { TWebformComponents } from '../types/component-list'
+import { renderMarkup } from '../../components/form/fields/markup'
+import { renderHidden } from '../../components/form/fields/hidden'
+import Wysiwyg from '../../components/form/fields/fields-special-components/wysiwyg/wysiwyg'
+import { renderAction } from '../../components/form/fields/action'
 
 export const defaultValuesObj: Required<TWebformDefaultFieldValues> = {
   textfield: '',
@@ -191,11 +202,5 @@ export const defaultValuesClassnames: TDeepRequiredClassNames = {
 }
 
 export const components = {
-  LabelWebform: Label,
-  WrapperWebform: Wrapper,
-  ErrorFieldMessageWebform: ErrorFieldMessage,
-  Input: FieldObjCustom,
-  Select: FieldObjCustom,
-  Checkboxes: FieldObjCustom,
-  Wysiwyg: FieldWysiwygCustom,
+  Wysiwyg: Wysiwyg,
 }

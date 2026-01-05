@@ -22,6 +22,8 @@ const Webform = ({
   onSubmit,
   includeInactiveFieldsInSubmit = true,
   customValidators,
+  isSubmitted,
+  showConfirmation = true,
 }: TWebform) => {
   const yupUseFormProps: UseFormProps = {
     mode: 'onChange',
@@ -55,39 +57,23 @@ const Webform = ({
 
   const { isMultiStep, elementsSources } = getWebformProperties(elementsSource)
 
-  const Form = () => {
-    if (isMultiStep) {
-      return (
-        <FormMultiStep
-          yup={{ yupUseFormProps }}
-          elementsSource={elementsSources}
-          defaultFieldValues={mergedDefaultFieldValues}
-          defaultFieldStateMessages={mergedDefaultValuesStateMessages}
-          classNames={mergedClassNames}
-          components={components}
-          onSubmit={onSubmit}
-          includeInactiveFieldsInSubmit={includeInactiveFieldsInSubmit}
-          customValidators={customValidators}
-        />
-      )
-    }
+  const FormComponent = isMultiStep ? FormMultiStep : FormDefault
 
-    return (
-      <FormDefault
-        yup={{ yupUseFormProps }}
-        elementsSource={elementsSources}
-        defaultFieldValues={mergedDefaultFieldValues}
-        defaultFieldStateMessages={mergedDefaultValuesStateMessages}
-        classNames={mergedClassNames}
-        components={components}
-        onSubmit={onSubmit}
-        includeInactiveFieldsInSubmit={includeInactiveFieldsInSubmit}
-        customValidators={customValidators}
-      />
-    )
+  const formProps = {
+    yup: { yupUseFormProps },
+    elementsSource: elementsSources,
+    defaultFieldValues: mergedDefaultFieldValues,
+    defaultFieldStateMessages: mergedDefaultValuesStateMessages,
+    classNames: mergedClassNames,
+    components,
+    onSubmit,
+    includeInactiveFieldsInSubmit,
+    customValidators,
+    isSubmitted,
+    showConfirmation,
   }
 
-  return <>{elementsSource && <Form />}</>
+  return elementsSource ? <FormComponent {...formProps} /> : null
 }
 
 export default Webform

@@ -1,28 +1,34 @@
 import React, { createContext, useContext } from 'react'
 
-type MultiStepContextType = {
+type TMultiStepContextType = {
   stepIndex: number
   setStepIndex: React.Dispatch<React.SetStateAction<number>>
   totalSteps: number
+  totalVisibleSteps: number
   watchedStepValues: Record<string, any>
   allWatchedSteps: Record<string, any>
-  setAllWatchedSteps: React.Dispatch<React.SetStateAction<Record<string, any>>> // ⚡ ajouté
+  elementsSource: Record<string, any>
+  setAllWatchedSteps: React.Dispatch<React.SetStateAction<Record<string, any>>>
+  currentStepKey: string
   goNext: () => void
   goPrev: () => void
 }
 
-const MultiStepContext = createContext<MultiStepContextType | undefined>(
+const MultiStepContext = createContext<TMultiStepContextType | undefined>(
   undefined
 )
 
-type MultiStepProviderProps = {
+type TMultiStepProviderProps = {
   children: React.ReactNode
   stepIndex: number
   setStepIndex: React.Dispatch<React.SetStateAction<number>>
   totalSteps: number
+  totalVisibleSteps: number
   watchedStepValues: Record<string, any>
   allWatchedSteps: Record<string, any>
-  setAllWatchedSteps: React.Dispatch<React.SetStateAction<Record<string, any>>> // ⚡ ajouté
+  currentStepKey: string
+  setAllWatchedSteps: React.Dispatch<React.SetStateAction<Record<string, any>>>
+  elementsSource: Record<string, any>
 }
 
 export const MultiStepProvider = ({
@@ -30,10 +36,13 @@ export const MultiStepProvider = ({
   stepIndex,
   setStepIndex,
   totalSteps,
+  totalVisibleSteps,
   watchedStepValues,
   allWatchedSteps,
   setAllWatchedSteps,
-}: MultiStepProviderProps) => {
+  currentStepKey,
+  elementsSource,
+}: TMultiStepProviderProps) => {
   const goNext = () => {
     setAllWatchedSteps((prev) => ({ ...prev, ...watchedStepValues })) // ⚡ ici on fusionne
     setStepIndex((prev) => prev + 1)
@@ -49,9 +58,12 @@ export const MultiStepProvider = ({
         stepIndex,
         setStepIndex,
         totalSteps,
+        totalVisibleSteps,
         watchedStepValues,
-        allWatchedSteps, // ⚡ exposé
-        setAllWatchedSteps, // ⚡ exposé
+        allWatchedSteps,
+        setAllWatchedSteps,
+        currentStepKey,
+        elementsSource,
         goNext,
         goPrev,
       }}

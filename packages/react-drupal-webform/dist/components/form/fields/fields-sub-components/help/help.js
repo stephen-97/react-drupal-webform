@@ -5,11 +5,11 @@ import cn from 'classnames';
 import tippy from 'tippy.js';
 import 'tippy.js/dist/tippy.css';
 import { createRoot } from 'react-dom/client';
-import Wysiwyg from "../../fields-special-components/wysiwyg/wysiwyg";
-const Help = ({ innerProps, custom_component_wysiwyg, helps }) => {
+import Wysiwyg from '../../fields-special-components/wysiwyg/wysiwyg';
+const Help = ({ innerProps, components, helps }) => {
     const { className, ...restInnerProps } = innerProps ?? {};
     const buttonRef = useRef(null);
-    const CustomWysiwyg = custom_component_wysiwyg ?? Wysiwyg;
+    const CustomWysiwyg = components.wysiwyg ?? Wysiwyg;
     useEffect(() => {
         if (!buttonRef.current)
             return;
@@ -21,7 +21,7 @@ const Help = ({ innerProps, custom_component_wysiwyg, helps }) => {
       ${helps.processed_help_title ? `<div class="${styles.helpTitle}">${helps.processed_help_title}</div>` : ''}
       ${helps.help || ''}
     `;
-        root.render(_jsx(CustomWysiwyg, { processed: html }));
+        root.render(_jsx(CustomWysiwyg, { source: 'help', processed: html }));
         tippy(buttonRef.current, {
             content: tooltipContainer,
             allowHTML: true,

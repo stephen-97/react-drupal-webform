@@ -1,10 +1,8 @@
 import React from 'react'
-import Label from "../label/label"
-import { TWrapperLabelWebformProps } from "../../../../../lib/types/components/wrapperLabel"
-import { TWrapperMoreWebformProps } from "../../../../../lib/types/components/wrapperMore"
+import { TWrapperMoreWebformProps } from '../../../../../lib/types/components/wrapperMore'
 import cn from 'classnames'
-import styles from "../wrapper.module.scss"
-import More from "../more/more"
+import styles from '../wrapper.module.scss'
+import More from '../more/more'
 
 const WrapperMore = ({
   components,
@@ -22,9 +20,10 @@ const WrapperMore = ({
       innerPropsWysiwyg={{
         className: cn(styles.wysiwyg, classNames.general.fieldWysiwyg),
         processed: fieldMore,
+        source: 'more',
       }}
-      customComponentWysiwyg={components.wysiwyg}
       moreTitle={fieldMoreTitle}
+      components={components}
     />
   )
 }

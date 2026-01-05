@@ -5,8 +5,6 @@ import YAML from 'yaml'
 require('@/lib/wdyr')
 
 import Webform from '../../../packages/react-drupal-webform/src/components/webform'
-import CustomForm from '@/components/webform/custom-components/CustomForm'
-import helpCustom from '@/components/webform/custom-components/helpCustom'
 import { TWebformStateMessages } from '../../../packages/react-drupal-webform/src/lib/types/form.d'
 
 export type TWebformContainer = {
@@ -84,9 +82,10 @@ const WebformContainer = ({ elementsSource }: TWebformContainer) => {
       elementsSource={correctElementsSource}
       onSubmit={handleSubmit}
       defaultFieldStateMessages={defaultStateValues}
+      showConfirmation={false}
+      isSubmitted={true}
     />
   )
 }
 
-WebformContainer.whyDidYouRender = true
 export default WebformContainer

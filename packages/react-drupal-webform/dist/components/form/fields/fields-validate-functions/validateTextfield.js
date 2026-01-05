@@ -1,12 +1,14 @@
 import { string } from 'yup';
-import { resolveCustomValidator, } from '../../../../lib/functions/webform_validation_functions/webform_validation_functions';
+import { applyMinMaxLength, resolveCustomValidator, } from '../../../../lib/functions/webform_validation_functions/webform_validation_functions';
 export const validateTextField = (props) => {
-    const { yupObject, defaultValues, key, required, defaultFieldValues, requiredMessage, field, customValidators, } = props;
+    const { yupObject, defaultValues, key, required, defaultFieldValues, requiredMessage, field, customValidators, minLengthMessage, maxLengthMessage, } = props;
     const type = field?.['#type'];
-    const defaultSchema = string();
-    const customSchema = resolveCustomValidator(customValidators, key, type, props) ?? defaultSchema;
-    yupObject[key] = required
-        ? customSchema.required(requiredMessage)
-        : customSchema;
+    let baseSchema = string();
+    baseSchema = applyMinMaxLength(baseSchema, field, minLengthMessage, maxLengthMessage);
+    if (required) {
+        baseSchema = baseSchema.required(requiredMessage);
+    }
+    yupObject[key] =
+        resolveCustomValidator(customValidators, key, type, props) ?? baseSchema;
     defaultValues[key] = defaultFieldValues.textfield;
 };

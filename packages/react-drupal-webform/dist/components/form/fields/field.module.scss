@@ -25,6 +25,13 @@
   border-radius: .5rem;
   padding-block: calc(var(--input-padding-vertical) - 1px);
   padding-inline: var(--input-pading-horizontal);
+  &:hover {
+    box-shadow: inset 0 0 0 0.063rem var(--color-text);
+  }
+  &:focus, &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 1px var(--border-form-element),0 0 0 4px var(--input-focus)
+  }
 }
 
 .button {
@@ -85,6 +92,19 @@
     gap: .5rem;
     .radioLabel {
       font-size: var(--font-size-s);
+    }
+  }
+}
+
+.checkboxLabel {
+  &.isRequired {
+    &::after {
+      content: "*";
+      color: var(--danger);
+      line-height: 1;
+      margin-inline: .15em;
+      vertical-align: text-top;
+      background: none;
     }
   }
 }

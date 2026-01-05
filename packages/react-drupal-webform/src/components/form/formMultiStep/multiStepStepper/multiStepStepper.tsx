@@ -12,7 +12,7 @@ const MultiStepStepper = (props: IMultiStepStepperProps) => {
     classNames,
   } = props
 
-  const { stepIndex, totalSteps } = useMultiStepContext()
+  const { stepIndex, totalVisibleSteps } = useMultiStepContext()
 
   const CustomMultiStepStepper = components?.multiStepStepper
   if (CustomMultiStepStepper) {
@@ -26,14 +26,14 @@ const MultiStepStepper = (props: IMultiStepStepperProps) => {
   const maxPercent = 100
 
   let percent = minPercent
-  if (totalSteps > 1) {
+  if (totalVisibleSteps > 1) {
     percent =
       stepIndex === 0
         ? minPercent
-        : stepIndex === totalSteps - 1
+        : stepIndex === totalVisibleSteps - 1
           ? maxPercent
           : minPercent +
-            ((maxPercent - minPercent) / (totalSteps - 1)) * stepIndex
+            ((maxPercent - minPercent) / (totalVisibleSteps - 1)) * stepIndex
   }
 
   return (
@@ -62,7 +62,7 @@ const MultiStepStepper = (props: IMultiStepStepperProps) => {
             classNames.multiStep.stepperCounter
           )}
         >
-          {stepIndex + 1}/{totalSteps}
+          {stepIndex + 1}/{totalVisibleSteps}
         </span>
       </div>
       <div

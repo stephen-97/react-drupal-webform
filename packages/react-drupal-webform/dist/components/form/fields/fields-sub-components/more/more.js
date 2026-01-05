@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import styles from './more.module.scss';
 import Wysiwyg from '../../fields-special-components/wysiwyg/wysiwyg';
 import cn from 'classnames';
-const More = ({ innerPropsContainer, innerPropsButton, innerPropsWysiwyg, moreTitle, customComponentWysiwyg, }) => {
-    const CustomWysiwyg = customComponentWysiwyg ?? Wysiwyg;
+const More = ({ innerPropsContainer, innerPropsButton, innerPropsWysiwyg, moreTitle, components, }) => {
+    const CustomWysiwyg = components.wysiwyg ?? Wysiwyg;
     const { className: containerClassName, ...containerProps } = innerPropsContainer ?? {};
     const { className: buttonClassName, ...buttonProps } = innerPropsButton ?? {};
     const [open, setOpen] = useState(false);

@@ -1,47 +1,57 @@
 'use client'
 
 import React from 'react'
+import styles from './customMultiStepActions.module.scss'
+import { IMultiStepActionsProps } from '../../../../packages/react-drupal-webform/src/lib/types/components/multiStepActions'
+import Loader from '../../../../packages/react-drupal-webform/src/components/form/fields/fields-sub-components/loader/loader'
+import { useMultiStepContext } from '../../../../packages/react-drupal-webform/src/components/form/formMultiStep/multiStepContext'
 import { useFormContext } from 'react-hook-form'
-import { useMultiStepContext } from '../../../../packages/webform-components/src/components/form/formMultiStep/multiStepContext'
-const CustomMultiStepActions = () => {
-  const { trigger, formState, getValues } = useFormContext()
-  const { stepIndex, setStepIndex, totalSteps } = useMultiStepContext()
+import cn from 'classnames'
+const CustomMultiStepActions = (props: IMultiStepActionsProps) => {
+  const { previousButtonLabel, nextButtonLabel, components, classNames } = props
+  const { formState, trigger } = useFormContext()
+  const { stepIndex, totalVisibleSteps, goNext, goPrev } = useMultiStepContext()
+  const { isSubmitting, isValid: isStepValid } = formState
 
-  const onPrev = () => {
-    setStepIndex((prev) => Math.max(prev - 1, 0))
-  }
+  const isLastStep = stepIndex === totalVisibleSteps - 1
 
-  const onNext = async () => {
-    const valid = await trigger()
-    console.log('Current values:', getValues())
-    if (valid) {
-      setStepIndex((prev) => Math.min(prev + 1, totalSteps - 1))
+  const handleNext = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (!isLastStep) {
+      e.preventDefault()
+      e.stopPropagation()
+
+      const valid = await trigger()
+      if (valid) {
+        goNext()
+      }
     }
   }
 
   return (
-    <div style={{ marginTop: '2rem', display: 'flex', gap: '1rem' }}>
+    <div className={styles.customMultiStepActions}>
       {stepIndex > 0 && (
         <button
+          className={cn(styles.button, styles.prev)}
           type="button"
-          onClick={onPrev}
-          disabled={formState.isSubmitting}
-          style={{ padding: '0.5rem 1rem', background: '#eee' }}
+          onClick={() => goPrev()}
         >
-          Prev
+          {previousButtonLabel && previousButtonLabel.length > 0
+            ? previousButtonLabel
+            : 'Prev'}
         </button>
       )}
 
       <button
-        type="button"
-        onClick={onNext}
-        disabled={formState.isSubmitting}
-        style={{ padding: '0.5rem 1rem', background: '#333', color: '#fff' }}
+        className={cn(styles.button, styles.next)}
+        disabled={!isStepValid || isSubmitting}
+        type={isLastStep ? 'submit' : 'button'}
+        onClick={handleNext}
       >
-        {formState.isSubmitting
-          ? 'Loading...'
-          : stepIndex === totalSteps - 1
-            ? 'Submit'
+        {isSubmitting && <Loader />}
+        {isLastStep
+          ? 'Submit'
+          : nextButtonLabel && nextButtonLabel.length > 0
+            ? nextButtonLabel
             : 'Next'}
       </button>
     </div>
