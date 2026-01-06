@@ -1,8 +1,10 @@
 import { AnySchema } from 'yup'
-import React, { JSX } from 'react'
+import React from 'react'
 import { ILabelWebformProps } from './components/label'
 import {
   TDrupal_FieldType,
+  TDrupalNonValueFieldType,
+  TDrupalValueFieldType,
   TElementSource,
   TFieldWebformObj,
 } from './components/field'
@@ -37,27 +39,7 @@ export type TFormatFieldMulti = 'key' | 'value' | 'keyValue' | 'booleanMap'
 export type TDefaultValue = string | number | boolean | Record<string, any>
 
 export type TWebformDefaultFieldValues = {
-  [K in TDrupal_FieldType]?: TDefaultValue
-}
-
-type TWebformRequiredMessageFields = {
-  [K in Exclude<
-    TDrupal_FieldType,
-    'webform_markup' | 'webform_actions' | 'fieldset'
-  >]?: string | null
-}
-
-type TWebformErrorMessageFields = {
-  [K in Exclude<
-    TDrupal_FieldType,
-    | 'webform_markup'
-    | 'webform_actions'
-    | 'radio'
-    | 'checkbox'
-    | 'checkboxes'
-    | 'select'
-    | 'fieldset'
-  >]?: string | null
+  [K in TDrupalValueFieldType]?: TDefaultValue
 }
 
 export type TWrapperCategory = 'textInput' | 'selectionInput' | 'booleanInput'
@@ -155,17 +137,17 @@ export type TWebformMessageStateValue = string | TWebformMessageResolver
 
 export type TWebformErrorMessageFieldType = Exclude<
   TDrupal_FieldType,
-  'webform_markup' | 'webform_actions' | 'fieldset'
+  TDrupalNonValueFieldType
 >
 
 export type TWebformRequiredMessageFieldType = Exclude<
   TDrupal_FieldType,
-  'webform_markup' | 'webform_actions' | 'fieldset'
+  TDrupalNonValueFieldType
 >
 
 export type TWebformLengthMessageFieldType = Exclude<
   TDrupal_FieldType,
-  'webform_markup' | 'webform_actions' | 'fieldset' | 'select' | 'managed_file'
+  TDrupalNonValueFieldType | 'select' | 'managed_file'
 >
 
 export type TWebformResolvedStateMessages = {

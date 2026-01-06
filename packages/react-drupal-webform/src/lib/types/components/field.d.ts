@@ -18,6 +18,27 @@ export type TDrupal_FieldType =
   | 'managed_file'
   | 'hidden'
   | 'fieldset'
+  | 'webform_flexbox'
+  | 'webform_section'
+  | 'container'
+  | 'details'
+
+export type TDrupalLayoutFieldType =
+  | 'container'
+  | 'webform_flexbox'
+  | 'webform_section'
+  | 'details'
+  | 'fieldset'
+
+export type TDrupalNonValueFieldType =
+  | TDrupalLayoutFieldType
+  | 'webform_actions'
+  | 'webform_markup'
+
+export type TDrupalValueFieldType = Exclude<
+  TDrupal_FieldType,
+  TDrupalNonValueFieldType
+>
 
 export type TElementSource = {
   '#type': TDrupal_FieldType

@@ -1,5 +1,6 @@
 import {
   TWebformCustomValidators,
+  TWebformDefaultFieldValues,
   TWebformStateMessages,
 } from '../../types/form.d'
 import { DeepRequired } from 'react-hook-form'
@@ -67,30 +68,56 @@ export const resolveCustomValidator = <S extends AnySchema>(
   return null
 }
 
-export const getDummyDefaultFormDefault = (
-  elementsSource: Record<string, any>
-): Record<string, any> => {
-  const allDefaults: Record<string, any> = {}
+const isLayoutField = (field: TElementSource) =>
+  [
+    'container',
+    'webform_flexbox',
+    'webform_section',
+    'details',
+    'fieldset',
+  ].includes(field?.['#type'])
 
-  Object.keys(elementsSource).forEach((key) => {
-    const field = elementsSource[key]
-    const type: TDrupal_FieldType = field?.['#type']
-    if (
-      [
-        'container',
-        'webform_flexbox',
-        'webform_section',
-        'details',
-        'webform_actions',
-      ].includes(type)
-    ) {
+export const extractValueFields = (
+  elementsSource: Record<string, any>,
+  acc: Record<string, any> = {}
+): Record<string, any> => {
+  Object.entries(elementsSource).forEach(([key, field]) => {
+    if (!field || typeof field !== 'object') return
+
+    if (isLayoutField(field)) {
+      Object.entries(field).forEach(([childKey, childField]) => {
+        if (!childKey.startsWith('#')) {
+          extractValueFields({ [childKey]: childField as TElementSource }, acc)
+        }
+      })
       return
     }
 
-    allDefaults[key] = ''
+    if (field['#type'] === 'webform_markup') return
+    if (field['#type'] === 'webform_actions') return
+
+    acc[key] = field
   })
 
-  return allDefaults
+  return acc
+}
+
+export const getDummyDefaultFormDefault = (
+  elementsSource: Record<string, any>,
+  defaultFieldValues: Record<string, any>
+): Record<string, any> => {
+  const fields = extractValueFields(elementsSource)
+  const defaults: Record<string, any> = {}
+
+  Object.entries(fields).forEach(([key, field]) => {
+    const type = field['#type']
+
+    if (!(type in defaultFieldValues)) return
+
+    defaults[key] = defaultFieldValues[type as keyof typeof defaultFieldValues]
+  })
+
+  return defaults
 }
 
 export const applyMinMaxLength = (

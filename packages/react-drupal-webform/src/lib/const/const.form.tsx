@@ -2,23 +2,8 @@ import {
   TWebformDefaultFieldValues,
   TWebformResolvedStateMessages,
 } from '../types/form.d'
-import Label from '../../components/form/fields/fields-sub-components/label/label'
-import ErrorFieldMessage from '../../components/form/fields/fields-sub-components/errorFieldMessage/errorFieldMessage'
-import Wrapper from '../../components/form/fields/fields-sub-components/wrapper'
 import { TDeepRequiredClassNames } from '../types/deepRequired'
-import renderInput from '../../components/form/fields/input'
-import renderLayout from '../../components/form/fields/layout'
-import renderManagedFile from '../../components/form/fields/managedFile'
-import { renderRadio } from '../../components/form/fields/radios'
-import { renderSelect } from '../../components/form/fields/select'
-import { renderCheckboxes } from '../../components/form/fields/chexkboxes'
-import { renderCheckbox } from '../../components/form/fields/checkbox'
-import { renderTextArea } from '../../components/form/fields/textarea'
-import { TWebformComponents } from '../types/component-list'
-import { renderMarkup } from '../../components/form/fields/markup'
-import { renderHidden } from '../../components/form/fields/hidden'
 import Wysiwyg from '../../components/form/fields/fields-special-components/wysiwyg/wysiwyg'
-import { renderAction } from '../../components/form/fields/action'
 
 export const defaultValuesObj: Required<TWebformDefaultFieldValues> = {
   textfield: '',
@@ -32,10 +17,7 @@ export const defaultValuesObj: Required<TWebformDefaultFieldValues> = {
   date: '',
   managed_file: {},
   select: '',
-  webform_markup: '',
-  webform_actions: '',
   hidden: '',
-  fieldset: '',
 }
 
 export const defaultValuesFieldStateMessages: TWebformResolvedStateMessages = {
@@ -103,6 +85,16 @@ export const defaultValuesFieldStateMessages: TWebformResolvedStateMessages = {
   },
 }
 
+/**
+ * export type TDrupalNonValueFieldType =
+ *   | 'webform_markup'
+ *   | 'webform_actions'
+ *   | 'container'
+ *   | 'webform_flexbox'
+ *   | 'webform_section'
+ *   | 'details'
+ *   | 'fieldset'
+ */
 export const defaultValuesClassnames: TDeepRequiredClassNames = {
   wrappers: {
     base: '',
@@ -125,8 +117,12 @@ export const defaultValuesClassnames: TDeepRequiredClassNames = {
       select: '',
       managed_file: '',
       webform_actions: '',
+      container: '',
       fieldset: '',
       hidden: '',
+      details: '',
+      webform_section: '',
+      webform_flexbox: '',
     },
   },
   general: {
