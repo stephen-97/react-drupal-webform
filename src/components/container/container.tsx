@@ -12,22 +12,20 @@ type Props = {
 }
 
 const Container = ({ elementsSource, title }: Props) => {
-  const yamlText = useMemo(() => {
-    return YAML.stringify(elementsSource, {
-      lineWidth: 0,
-      defaultStringType: 'PLAIN',
-    })
-  }, [elementsSource])
-
   return (
     <div className={styles.container}>
       <div className={styles.containerWebform}>
         <section className={styles.left} aria-label="Webform preview">
-          {title === 'Custom components' ? (
-            <CustomWebform elementsSource={elementsSource} />
-          ) : (
-            <WebformContainer elementsSource={elementsSource} />
-          )}
+          <div className={styles.panelHeader}>
+            <h3 className={styles.title}>Webform preview</h3>
+          </div>
+          <div className={styles.panelBody}>
+            {title === 'Custom components' ? (
+              <CustomWebform elementsSource={elementsSource} />
+            ) : (
+              <WebformContainer elementsSource={elementsSource} />
+            )}
+          </div>
         </section>
 
         <section className={styles.right} aria-label="Webform YAML">
@@ -37,7 +35,7 @@ const Container = ({ elementsSource, title }: Props) => {
 
           <div className={styles.panelBody}>
             <pre className={styles.yaml} tabIndex={0}>
-              <code>{yamlText}</code>
+              <code>{elementsSource}</code>
             </pre>
           </div>
         </section>
