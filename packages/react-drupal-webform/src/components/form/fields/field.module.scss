@@ -75,6 +75,9 @@
   align-items: center;
   gap: .5rem;
   font-size: var(--font-size-s);
+  .labelCheckbox {
+    cursor: pointer;
+  }
 }
 
 .checkboxUnique {
@@ -92,11 +95,13 @@
     gap: .5rem;
     .radioLabel {
       font-size: var(--font-size-s);
+      cursor: pointer;
     }
   }
 }
 
 .checkboxLabel {
+  cursor: pointer;
   &.isRequired {
     &::after {
       content: "*";

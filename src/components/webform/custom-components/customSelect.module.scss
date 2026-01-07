@@ -31,7 +31,10 @@
     animation: gradient 3s linear infinite;
   }
 
-  // 🔽 flèche du select
+  &:has(.selectCustom:focus-visible) {
+    box-shadow: 0 0 0 2px #5b7cff;
+  }
+
   &::before {
     content: "▾";
     position: absolute;

@@ -75,7 +75,10 @@ export const renderCheckboxes = (props: TFieldWebformObj) => {
                 />
                 <label
                   htmlFor={`checkboxes-${correctOptionKey}-${i}`}
-                  className={cn(classNames.fields.checkboxes?.label)}
+                  className={cn(
+                    classNames.fields.checkboxes?.label,
+                    styles.labelCheckbox
+                  )}
                 >
                   {optionValue}
                 </label>
