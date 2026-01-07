@@ -1,8 +1,7 @@
 'use client'
 
-import React, { useMemo } from 'react'
+import React from 'react'
 import WebformContainer from '@/components/webform/webformContainer'
-import YAML from 'yaml'
 import styles from './container.module.scss'
 import CustomWebform from '@/components/webform/customWebform/customWebform'
 
@@ -17,7 +16,7 @@ const Container = ({ elementsSource, title }: Props) => {
       <div className={styles.containerWebform}>
         <section className={styles.left} aria-label="Webform preview">
           <div className={styles.panelHeader}>
-            <h3 className={styles.title}>Webform preview</h3>
+            <h2 className={styles.title}>Webform preview</h2>
           </div>
           <div className={styles.panelBody}>
             {title === 'Custom components' ? (
@@ -30,7 +29,7 @@ const Container = ({ elementsSource, title }: Props) => {
 
         <section className={styles.right} aria-label="Webform YAML">
           <div className={styles.panelHeader}>
-            <h3 className={styles.title}>YAML</h3>
+            <h2 className={styles.title}>YAML</h2>
           </div>
 
           <div className={styles.panelBody}>
