@@ -37,6 +37,10 @@
 
 
 .button {
+  display: flex;
+  gap: .5rem;
+  justify-content: center;
+  align-items: center;
   position: relative;
   background: #2a2f3a;
   color: #ffffff;
@@ -48,7 +52,6 @@
   cursor: pointer;
   border-radius: 4px;
   overflow: hidden;
-
   transition: background-color 0.2s ease, color 0.2s ease;
 
   &:hover {
