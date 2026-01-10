@@ -1,0 +1,115 @@
+.input, .select  {
+  height: 2.5rem;
+  border: 0.063rem solid var(--border-form-element);
+  border-radius: .5rem;
+  background-color: var(--input-bg);
+  color: var(--color-text);
+  font-size: var(--input-font-size);
+  padding-block: calc(var(--input-padding-vertical) - 1px);
+  padding-inline: var(--input-pading-horizontal);
+  min-height: calc(var(--input-padding-vertical) * 2 + var(--input-line-height));
+  &:hover {
+    box-shadow: inset 0 0 0 0.063rem var(--color-text);
+  }
+  &:focus, &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 1px var(--border-form-element),0 0 0 4px var(--input-focus)
+  }
+}
+
+.textarea {
+  padding: 1rem;
+  font-family: inherit !important;
+  font-size: var(--font-size-s);
+  border: 1px solid var(--input-border-color);
+  border-radius: .5rem;
+  padding-block: calc(var(--input-padding-vertical) - 1px);
+  padding-inline: var(--input-pading-horizontal);
+  &:hover {
+    box-shadow: inset 0 0 0 0.063rem var(--color-text);
+  }
+  &:focus, &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 1px var(--border-form-element),0 0 0 4px var(--input-focus)
+  }
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  height: 3rem;
+  cursor: pointer;
+  background-color: var(--bg-gray-light);
+  border: 2px solid var(--bg-gray-light);
+  box-shadow: .1rem .25rem .5rem var(--primary-color-light);
+  font-size: var(--font-size-s);
+  color: var(--color-button-text);
+  font-weight: 525;
+  margin-block: .5rem;
+  border-radius: .5rem;
+  &[disabled] {
+    cursor: not-allowed;
+    opacity: 0.5;
+    box-shadow: none;
+    pointer-events: none;
+  }
+}
+
+.fieldWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  margin-block: 1.5rem;
+}
+.checkboxes {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  flex-wrap: wrap;
+  font-size: var(--font-size-s);
+}
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  font-size: var(--font-size-s);
+  .labelCheckbox {
+    cursor: pointer;
+  }
+}
+
+.checkboxUnique {
+  display: flex;
+  flex-direction: row;
+}
+
+.radiosGroupWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  .radiosItemWrapper {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    .radioLabel {
+      font-size: var(--font-size-s);
+      cursor: pointer;
+    }
+  }
+}
+
+.checkboxLabel {
+  cursor: pointer;
+  &.isRequired {
+    &::after {
+      content: "*";
+      color: var(--danger);
+      line-height: 1;
+      margin-inline: .15em;
+      vertical-align: text-top;
+      background: none;
+    }
+  }
+}

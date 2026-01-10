@@ -1,0 +1,23 @@
+.button {
+  border: .125rem  solid var(--primary-color);
+  border-radius: .5rem;
+  font-weight: var(--font-weight-semibold);
+  &.fill {
+    background-color: var(--primary-color);
+    color: var(--color-button-text);
+  }
+  &.border {
+    background-color: transparent;
+    color: var(--primary-color);
+  }
+  &.default {
+    box-shadow: .1rem .25rem .5rem var(--primary-color-light);
+    padding: calc(1rem - .125rem ) calc(.75rem - .125rem);
+    font-size: var(--font-size-s);
+  }
+  &.small {
+    box-shadow: 0 .063rem .125rem var(--gin-color-primary-light);
+    padding: calc(.5rem - .125rem ) calc(.75rem - .125rem);
+    font-size: var(--font-size-xxs);
+  }
+}

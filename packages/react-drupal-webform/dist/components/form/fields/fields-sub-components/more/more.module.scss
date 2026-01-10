@@ -1,0 +1,17 @@
+.more {
+  .button {
+    background: none;
+    border: none;
+    &::before {
+      content: "► ";
+      font-size: 0.8em;
+      cursor: pointer;
+    }
+    &.opened {
+      &::before {
+        content: "▼ ";
+      }
+    }
+  }
+}
+
