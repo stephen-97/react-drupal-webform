@@ -1,6 +1,6 @@
 {
   "name": "react-drupal-webform",
-  "version": "1.0.0-alpha",
+  "version": "1.0.1-alpha",
   "description": "React components using webform Drupal data",
   "scripts": {
     "build": "rm -rf dist && tsc -p tsconfig.build.json && npm run copy:scss",
