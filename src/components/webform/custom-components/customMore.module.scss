@@ -13,11 +13,14 @@
   background: rgba(230, 232, 238, 0.95);
   border-radius: 4px 4px 0 0;
   transition: background-color 0.2s ease;
+  &:focus-visible {
+    box-shadow: 0 0 0 2px #5b7cff;
+  }
+  &:hover {
+    background: rgba(220, 222, 230, 1);
+  }
 }
 
-.button:hover {
-  background: rgba(220, 222, 230, 1);
-}
 
 .opened {
   background: rgba(220, 222, 230, 1);

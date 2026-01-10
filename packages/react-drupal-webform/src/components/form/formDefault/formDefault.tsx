@@ -45,7 +45,7 @@ const FormDefault = (props: IFormDefaultWebformProps) => {
   )
 
   const dummyDefaultValues = useMemo(
-    () => getDummyDefaultFormDefault(elementsSource),
+    () => getDummyDefaultFormDefault(elementsSource, defaultFieldValues),
     [elementsSource]
   )
 
@@ -54,6 +54,7 @@ const FormDefault = (props: IFormDefaultWebformProps) => {
     mode: 'all',
     criteriaMode: 'all',
     defaultValues: dummyDefaultValues,
+    shouldUnregister: false,
   })
 
   const { control, reset, getValues, handleSubmit } = methods

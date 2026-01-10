@@ -8,7 +8,7 @@ import { useMultiStepContext } from '../../../../packages/react-drupal-webform/s
 import { useFormContext } from 'react-hook-form'
 import cn from 'classnames'
 const CustomMultiStepActions = (props: IMultiStepActionsProps) => {
-  const { previousButtonLabel, nextButtonLabel, components, classNames } = props
+  const { previousButtonLabel, nextButtonLabel } = props
   const { formState, trigger } = useFormContext()
   const { stepIndex, totalVisibleSteps, goNext, goPrev } = useMultiStepContext()
   const { isSubmitting, isValid: isStepValid } = formState

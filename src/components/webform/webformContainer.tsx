@@ -26,9 +26,8 @@ const WebformContainer = ({ elementsSource }: TWebformContainer) => {
 
   const handleSubmit = async (formData: Record<any, string>) => {
     return fakeSubmit(formData)
-      .then((response: any) => {
+      .then(() => {
         console.log(formData)
-        console.log(response.message)
       })
       .catch((error) => {
         console.error(error)

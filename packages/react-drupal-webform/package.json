@@ -1,6 +1,6 @@
 {
   "name": "react-drupal-webform",
-  "version": "1.0.0-alpha",
+  "version": "1.0.1-alpha",
   "description": "React components using webform Drupal data",
   "scripts": {
     "build": "rm -rf dist && tsc -p tsconfig.build.json && npm run copy:scss",
@@ -26,14 +26,13 @@
     "@tippyjs/react": "^4.2.6",
     "react": ">=18",
     "react-dom": ">=18",
-    "yup": "^1.6.1",
-    "react-hook-form": "^7.54.2"
+    "react-hook-form": "^7.54.2",
+    "yup": "^1.6.1"
   },
   "devDependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "sass": "^1.94.2",
-    "tsup": "^8.5.1",
     "typescript": "^5.9.2"
   }
 }

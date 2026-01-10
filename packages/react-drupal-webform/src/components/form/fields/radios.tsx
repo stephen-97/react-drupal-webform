@@ -41,7 +41,7 @@ export const renderRadio = (props: TFieldWebformObj) => {
         >
           {optionsObj.map(([optionKey, optionValue]) => {
             const checked = fieldController.value === optionKey
-            const inputId = `${fieldKey}-${optionKey}`
+            const inputId = `${fieldKey}-${optionKey.trim()}`
 
             return (
               <div

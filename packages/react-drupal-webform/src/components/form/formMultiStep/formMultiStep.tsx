@@ -52,7 +52,7 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
   )
 
   const dummyDefaultValues = useMemo(
-    () => getDummyDefaultMultiStep(elementsSource),
+    () => getDummyDefaultMultiStep(elementsSource, defaultFieldValues),
     [elementsSource]
   )
 

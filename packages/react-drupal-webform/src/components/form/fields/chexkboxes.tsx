@@ -44,6 +44,7 @@ export const renderCheckboxes = (props: TFieldWebformObj) => {
             const checked = Array.isArray(fieldController.value)
               ? fieldController.value.includes(optionKey)
               : false
+            const correctOptionKey = optionKey.trim()
 
             return (
               <div
@@ -54,7 +55,7 @@ export const renderCheckboxes = (props: TFieldWebformObj) => {
                 key={optionKey}
               >
                 <input
-                  id={`checkboxes-${optionKey}-${i}`}
+                  id={`checkboxes-${correctOptionKey}-${i}`}
                   className={cn(
                     classNames.fields.checkboxes?.input,
                     styles.field
@@ -73,8 +74,11 @@ export const renderCheckboxes = (props: TFieldWebformObj) => {
                   onBlur={onBlur}
                 />
                 <label
-                  htmlFor={`checkboxes-${optionKey}-${i}`}
-                  className={cn(classNames.fields.checkboxes?.label)}
+                  htmlFor={`checkboxes-${correctOptionKey}-${i}`}
+                  className={cn(
+                    classNames.fields.checkboxes?.label,
+                    styles.labelCheckbox
+                  )}
                 >
                   {optionValue}
                 </label>
