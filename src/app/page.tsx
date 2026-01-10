@@ -1,11 +1,10 @@
-// app/page.tsx
 import { drupal } from '@/lib/drupal'
 import getForm from '@/lib/requests/get-form'
 import styles from './[slug]/page.module.scss'
 import WebformList from '@/components/webformList/webformList'
 import { TDrupal_PathData } from '@/lib/api-types/main-types'
 import DOMPurify from 'isomorphic-dompurify'
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
 
 export default async function HomePage() {
   const pathData: TDrupal_PathData = await drupal.request(
@@ -16,18 +15,17 @@ export default async function HomePage() {
   )
 
   const pageId = pathData?.entity?.uuid as string
-  const forms: any = await getForm(pageId)
-
-  const safeBody: string = DOMPurify.sanitize(forms.body)
+  const form = await getForm(pageId)
+  const safeBody = DOMPurify.sanitize(form.body)
 
   return (
     <main className={styles.main}>
-      <h1 className={styles.mainTitle}>{forms.title}</h1>
+      <h1 className={styles.mainTitle}>{form.title}</h1>
       <div
         className={styles.introText}
         dangerouslySetInnerHTML={{ __html: safeBody }}
       />
-      <WebformList webforms={forms.webforms} />
+      <WebformList webforms={form.webforms} />
     </main>
   )
 }
@@ -41,9 +39,9 @@ export async function generateMetadata(): Promise<Metadata> {
   )
 
   const pageId = pathData?.entity?.uuid as string
-  const forms: any = await getForm(pageId)
+  const form = await getForm(pageId)
 
   return {
-    title: forms.title,
+    title: form.title,
   }
 }

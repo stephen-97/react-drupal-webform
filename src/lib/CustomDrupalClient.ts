@@ -1,6 +1,6 @@
 import NodeCache from 'node-cache'
 
-const cache = new NodeCache()
+const tokenCache = new NodeCache()
 
 export class CustomDrupalClient {
   async getToken() {
@@ -8,9 +8,9 @@ export class CustomDrupalClient {
       return null
     }
 
-    let token = cache.get('accessToken')
+    let token = tokenCache.get<string>('accessToken')
 
-    if (token == undefined) {
+    if (!token) {
       const basic = Buffer.from(
         `${process.env.DRUPAL_CLIENT_ID}:${process.env.DRUPAL_CLIENT_SECRET}`
       ).toString('base64')
@@ -23,8 +23,8 @@ export class CustomDrupalClient {
             Authorization: `Basic ${basic}`,
             'Content-Type': 'application/x-www-form-urlencoded',
           },
-          body: `grant_type=client_credentials`,
-          cache: 'no-cache',
+          body: 'grant_type=client_credentials',
+          cache: 'force-cache',
         }
       )
 
@@ -32,42 +32,37 @@ export class CustomDrupalClient {
         throw new Error(response.statusText)
       }
 
-      const responseJson = await response.json()
+      const json = await response.json()
 
-      cache.set(
-        'accessToken',
-        responseJson.access_token,
-        responseJson.expires_in
-      )
+      tokenCache.set('accessToken', json.access_token, json.expires_in)
 
-      token = responseJson.access_token
+      token = json.access_token
     }
 
     return token
   }
 
-  async request(url: string) {
-    const cache: RequestCache =
-      process.env.FETCH_CACHE_ENABLE == '0' ? 'no-cache' : 'force-cache'
-
-    const headers: any = {
+  async request<T = any>(url: string): Promise<T> {
+    const headers: Record<string, string> = {
       'Content-Type': 'application/json',
-    }
-
-    const options = {
-      cache: cache,
-      headers: headers,
     }
 
     if (url.includes('jsonapi/node')) {
       url += `&${new URLSearchParams('resourceVersion=rel:working-copy')}`
     }
 
-    const result = await fetch(
-      process.env.NEXT_PUBLIC_DRUPAL_BASE_URL + url,
-      options
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_DRUPAL_BASE_URL}${url}`,
+      {
+        headers,
+        cache: 'force-cache',
+      }
     )
 
-    return await result.json()
+    if (!response.ok) {
+      throw new Error(`Drupal request failed: ${response.status}`)
+    }
+
+    return response.json()
   }
 }
