@@ -14,6 +14,8 @@ You can also extend, override, or inject your own custom validation rules.
 
 Somes exemples here : https://react-next-drupal-webform.vercel.app/ 
 
+Github : https://github.com/stephen-97/react-next-drupal-webform/tree/main/packages/react-drupal-webform
+
 <h2 style="color:#1f3a8a;">Installation and usage</h2>
 
 The easiest way to use react-drupal-webform is to install it from npm and build it into your app with Webpack.
