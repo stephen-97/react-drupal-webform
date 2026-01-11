@@ -1,24 +1,22 @@
 import React, { JSX } from 'react'
-import { TWebformCustomComponents } from '../form.d'
-import { IHelpProps } from './help'
+import { TWebformClassNames, TWebformCustomComponents } from '../form.d'
 import { TElementSource } from './field'
 
+type BaseLabelProps = {
+  className?: string
+  children?: React.ReactNode
+  field: TElementSource
+  fieldKey?: string
+  classNames: TWebformClassNames
+  components: TWebformCustomComponents
+}
+
 export type ILabelWebformProps =
-  | {
+  | (BaseLabelProps & {
       wrapperElement: 'label'
-      field?: TElementSource
-      fieldKey?: string
-      children?: React.ReactNode
       innerProps?: JSX.IntrinsicElements['label']
-      components?: TWebformCustomComponents
-      innerPropsHelpComponent: IHelpProps
-    }
-  | {
+    })
+  | (BaseLabelProps & {
       wrapperElement: 'legend'
-      children?: React.ReactNode
-      field?: TElementSource
-      fieldKey?: string
       innerProps?: JSX.IntrinsicElements['legend']
-      components?: TWebformCustomComponents
-      innerPropsHelpComponent: IHelpProps
-    }
+    })

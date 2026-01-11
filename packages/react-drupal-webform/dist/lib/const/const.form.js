@@ -1,4 +1,6 @@
+import { jsx as _jsx } from "react/jsx-runtime";
 import Wysiwyg from '../../components/form/fields/fields-special-components/wysiwyg/wysiwyg';
+import Input from '../../components/form/fields/fields-elements/input';
 export const defaultValuesObj = {
     textfield: '',
     textarea: '',
@@ -187,5 +189,6 @@ export const defaultValuesClassnames = {
     },
 };
 export const components = {
-    Wysiwyg: Wysiwyg,
+    Input: (props) => _jsx(Input, { ...props }),
+    Wysiwyg: (props) => _jsx(Wysiwyg, { ...props }),
 };

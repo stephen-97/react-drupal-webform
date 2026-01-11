@@ -13,7 +13,7 @@ export const renderCheckboxes = (props) => {
     const CustomCheckboxes = components?.fieldById?.[fieldKey] ?? components?.checkboxes;
     const controller = useController({ name: fieldKey, control });
     const { field: fieldController, fieldState } = controller;
-    return (_jsx(Wrapper, { field: field, classNames: classNames, classNameFieldName: "fieldCheckboxes", stateError: fieldState?.error, components: components, fieldKey: fieldKey, wrapperElement: "fieldset", innerPropsLabelComponent: { wrapperElement: 'legend' }, children: CustomCheckboxes ? (_jsx(CustomCheckboxes, { ...props })) : (_jsx("div", { className: cn(classNames.fields.checkboxes?.groupWrapper, styles.checkboxes), children: optionsObj.map(([optionKey, optionValue], i) => {
+    return (_jsx(Wrapper, { field: field, classNames: classNames, classNameFieldName: "fieldCheckboxes", stateError: fieldState?.error, components: components, fieldKey: fieldKey, wrapperElement: "fieldset", children: CustomCheckboxes ? (_jsx(CustomCheckboxes, { ...props })) : (_jsx("div", { className: cn(classNames.fields.checkboxes?.groupWrapper, styles.checkboxes), children: optionsObj.map(([optionKey, optionValue], i) => {
                 const checked = Array.isArray(fieldController.value)
                     ? fieldController.value.includes(optionKey)
                     : false;

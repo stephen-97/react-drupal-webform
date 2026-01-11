@@ -1,18 +1,18 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import React from 'react';
 import Help from '../help/help';
 import cn from 'classnames';
 import styles from './label.module.scss';
-const Label = ({ field, innerProps, innerPropsHelpComponent, custom_component_help, wrapperElement, }) => {
-    const CustomHelp = custom_component_help ?? Help;
-    const Element = wrapperElement ?? 'label';
-    const filteredInnerProps = Object.fromEntries(Object.entries(innerProps ?? {}).filter(([_, value]) => value !== '' && value !== undefined));
-    const { className, ...restInnerProps } = filteredInnerProps ?? {};
-    const isRequired = field?.['#required'];
+const Label = (props) => {
+    const { field, components, className, classNames } = props;
+    const CustomHelp = components?.help ?? Help;
     const title = field?.['#title'];
-    return (_jsxs(Element, { className: cn(styles.label, className, {
-            [styles.isRequired]: isRequired,
-        }), ...restInnerProps, children: [title, ((innerPropsHelpComponent.helps?.help?.length ?? 0) > 0 ||
-                (innerPropsHelpComponent.helps?.processed_help_title?.length ?? 0) >
-                    0) && _jsx(CustomHelp, { ...innerPropsHelpComponent })] }));
+    const isRequired = field?.['#required'];
+    if (props.wrapperElement === 'label') {
+        return (_jsxs("label", { ...props.innerProps, className: cn(styles.label, className, props.innerProps?.className, {
+                [styles.isRequired]: isRequired,
+            }), children: [title, _jsx(CustomHelp, { field: field, classNames: classNames, components: components })] }));
+    }
+    return (_jsxs("legend", { ...props.innerProps, className: cn(styles.label, className, props.innerProps?.className), children: [title, _jsx(CustomHelp, { field: field, classNames: classNames, components: components })] }));
 };
-export default Label;
+export default React.memo(Label);

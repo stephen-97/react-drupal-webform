@@ -75,8 +75,10 @@
   align-items: center;
   gap: .5rem;
   font-size: var(--font-size-s);
-  .labelCheckbox {
+  label {
     cursor: pointer;
+    font-weight: 400;
+    margin-bottom: 0;
   }
 }
 

@@ -4,38 +4,43 @@ import Help from '../help/help'
 import cn from 'classnames'
 import styles from './label.module.scss'
 
-const Label = ({
-  field,
-  innerProps,
-  innerPropsHelpComponent,
-  components,
-  wrapperElement,
-}: ILabelWebformProps) => {
+const Label = (props: ILabelWebformProps) => {
+  const { field, components, className, classNames } = props
   const CustomHelp = components?.help ?? Help
-  const Element = wrapperElement ?? 'label'
-
-  const filteredInnerProps = Object.fromEntries(
-    Object.entries(innerProps ?? {}).filter(
-      ([_, value]) => value !== '' && value !== undefined
-    )
-  )
-
-  const { className, ...restInnerProps } = filteredInnerProps ?? {}
-  const isRequired = field?.['#required']
   const title = field?.['#title']
+  const isRequired = field?.['#required']
+
+  if (props.wrapperElement === 'label') {
+    return (
+      <label
+        {...props.innerProps}
+        className={cn(styles.label, className, props.innerProps?.className, {
+          [styles.isRequired]: isRequired,
+        })}
+      >
+        {title}
+        <CustomHelp
+          field={field}
+          classNames={classNames}
+          components={components}
+        />
+      </label>
+    )
+  }
+
   return (
-    <Element
-      className={cn(styles.label, className, {
-        [styles.isRequired]: isRequired,
-      })}
-      {...restInnerProps}
+    <legend
+      {...props.innerProps}
+      className={cn(styles.label, className, props.innerProps?.className)}
     >
       {title}
-      {((innerPropsHelpComponent.helps?.help?.length ?? 0) > 0 ||
-        (innerPropsHelpComponent.helps?.processed_help_title?.length ?? 0) >
-          0) && <CustomHelp {...innerPropsHelpComponent} />}
-    </Element>
+      <CustomHelp
+        field={field}
+        classNames={classNames}
+        components={components}
+      />
+    </legend>
   )
 }
 
-export default Label
+export default React.memo(Label)

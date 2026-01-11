@@ -7,12 +7,16 @@ import { IHelpProps } from '../../../../../lib/types/components/help'
 import { createRoot } from 'react-dom/client'
 import Wysiwyg from '../../fields-special-components/wysiwyg/wysiwyg'
 
-const Help = ({ innerProps, components, helps }: IHelpProps) => {
+const Help = ({ innerProps, components, field }: IHelpProps) => {
   const { className, ...restInnerProps } = innerProps ?? {}
 
   const buttonRef = useRef<HTMLButtonElement>(null)
   const CustomWysiwyg = components.wysiwyg ?? Wysiwyg
 
+  const helps = {
+    help: field?.['#help'],
+    processed_help_title: field?.['#help_title'],
+  }
   useEffect(() => {
     if (!buttonRef.current) return
 

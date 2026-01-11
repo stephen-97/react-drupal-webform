@@ -29,7 +29,6 @@ export const renderCheckboxes = (props: TFieldWebformObj) => {
       key={fieldKey}
       fieldKey={fieldKey}
       wrapperElement="fieldset"
-      innerPropsLabelComponent={{ wrapperElement: 'legend' }}
     >
       {CustomCheckboxes ? (
         <CustomCheckboxes {...props} />

@@ -5,11 +5,11 @@ import cn from 'classnames'
 import styles from './field.module.scss'
 import WrapperLabel from './fields-sub-components/wrapper-sub-components/wrapperLabel'
 import React from 'react'
+import Label from './fields-sub-components/label/label'
 
 export const renderCheckbox = (props: TFieldWebformObj) => {
   const { onBlur, fieldKey, field, classNames, components } = props
   const title = field?.['#title']
-  const isRequired = Boolean(field?.['#required'])
 
   const { control } = useFormContext()
 
@@ -18,6 +18,8 @@ export const renderCheckbox = (props: TFieldWebformObj) => {
 
   const controller = useController<any>({ name: fieldKey, control })
   const { field: fieldController, fieldState } = controller
+
+  const CustomLabel = components?.label ?? Label
 
   return (
     <Wrapper
@@ -50,11 +52,12 @@ export const renderCheckbox = (props: TFieldWebformObj) => {
             onBlur={onBlur}
           />
           {title && (
-            <WrapperLabel
-              components={components}
-              field={field}
-              classNames={classNames}
+            <CustomLabel
+              wrapperElement={'label'}
               fieldKey={fieldKey}
+              components={components}
+              classNames={classNames}
+              field={field}
             />
           )}
         </div>

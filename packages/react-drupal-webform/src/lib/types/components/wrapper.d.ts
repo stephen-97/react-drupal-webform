@@ -3,10 +3,9 @@ import {
   TWebformClassNameFields,
   TWebformClassNames,
   TWebformCustomComponents,
-} from "../form.d"
+} from '../form.d'
 import { FieldError } from 'react-hook-form'
-import { TElementSource } from "./field"
-import { ILabelWebformProps } from "./label"
+import { TElementSource } from './field'
 
 export interface IWrapperWebformProps {
   children: ReactElement
@@ -18,6 +17,5 @@ export interface IWrapperWebformProps {
   stateError?: FieldError | undefined
   components: TWebformCustomComponents
   fieldKey: string
-  innerPropsLabelComponent?: Partial<ILabelWebformProps>
   wrapperElement?: keyof JSX.IntrinsicElements
 }

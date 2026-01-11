@@ -6,10 +6,14 @@ import tippy from 'tippy.js';
 import 'tippy.js/dist/tippy.css';
 import { createRoot } from 'react-dom/client';
 import Wysiwyg from '../../fields-special-components/wysiwyg/wysiwyg';
-const Help = ({ innerProps, components, helps }) => {
+const Help = ({ innerProps, components, field }) => {
     const { className, ...restInnerProps } = innerProps ?? {};
     const buttonRef = useRef(null);
     const CustomWysiwyg = components.wysiwyg ?? Wysiwyg;
+    const helps = {
+        help: field?.['#help'],
+        processed_help_title: field?.['#help_title'],
+    };
     useEffect(() => {
         if (!buttonRef.current)
             return;

@@ -1,14 +1,14 @@
 import React from 'react'
 import cn from 'classnames'
 import styles from './wrapper.module.scss'
-import { IWrapperWebformProps } from "../../../../lib/types/components/wrapper"
-import { getWrapperCategory } from "../../../../lib/functions/webform_fields_functions/webform_fields_functions"
-import { TDrupal_FieldType } from "../../../../lib/types/components/field"
-import WrapperLabel from "./wrapper-sub-components/wrapperLabel"
-import WrapperField from "./wrapper-sub-components/wrapperField"
-import WrapperDescription from "./wrapper-sub-components/wrapperDescription"
-import WrapperMore from "./wrapper-sub-components/wrapperMore"
-import WrapperManagedFileInfo from "./wrapper-sub-components/wrapperManagedFileInfo"
+import { IWrapperWebformProps } from '../../../../lib/types/components/wrapper'
+import { getWrapperCategory } from '../../../../lib/functions/webform_fields_functions/webform_fields_functions'
+import { TDrupal_FieldType } from '../../../../lib/types/components/field'
+import WrapperLabel from './wrapper-sub-components/wrapperLabel'
+import WrapperField from './wrapper-sub-components/wrapperField'
+import WrapperDescription from './wrapper-sub-components/wrapperDescription'
+import WrapperMore from './wrapper-sub-components/wrapperMore'
+import WrapperManagedFileInfo from './wrapper-sub-components/wrapperManagedFileInfo'
 
 const Wrapper = (props: IWrapperWebformProps) => {
   const {
@@ -19,7 +19,6 @@ const Wrapper = (props: IWrapperWebformProps) => {
     stateError,
     components,
     fieldKey,
-    innerPropsLabelComponent,
     wrapperElement = 'div',
   } = props
 
@@ -54,7 +53,6 @@ const Wrapper = (props: IWrapperWebformProps) => {
           field={field}
           classNames={classNames}
           fieldKey={fieldKey}
-          innerPropsLabelComponent={innerPropsLabelComponent}
         />
       )}
       <WrapperField

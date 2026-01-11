@@ -1,80 +1,27 @@
-import React, { JSX } from 'react'
+import React from 'react'
 import Label from '../label/label'
 import { TWrapperLabelWebformProps } from '../../../../../lib/types/components/wrapperLabel'
 
 const WrapperLabel = ({
   components,
-  innerPropsLabelComponent,
   classNames,
   field,
   fieldKey,
 }: TWrapperLabelWebformProps) => {
   const CustomLabel = components?.label ?? Label
 
-  const props = innerPropsLabelComponent ?? {}
+  const wrapperElement =
+    field?.['#type'] === 'checkboxes' || field?.['#type'] === 'radios'
+      ? 'legend'
+      : 'label'
 
-  type LabelOrLegendProps =
-    | { wrapperElement: 'label'; innerProps?: JSX.IntrinsicElements['label'] }
-    | { wrapperElement: 'legend'; innerProps?: JSX.IntrinsicElements['legend'] }
-
-  const { wrapperElement = 'label', innerProps } = props as LabelOrLegendProps
-
-  const { innerPropsHelpComponent, ...rest } = props
-
-  let computedInnerProps:
-    | JSX.IntrinsicElements['label']
-    | JSX.IntrinsicElements['legend']
-
-  if (wrapperElement === 'label') {
-    computedInnerProps = {
-      ...(innerProps ?? {}),
-      className: innerProps?.className ?? classNames.general.fieldLabel,
-      htmlFor:
-        (innerProps as JSX.IntrinsicElements['label'])?.htmlFor ?? fieldKey,
-    }
-    return (
-      <CustomLabel
-        {...(rest as Omit<typeof rest, 'wrapperElement'>)}
-        wrapperElement="label"
-        field={field}
-        fieldKey={fieldKey}
-        innerProps={computedInnerProps as JSX.IntrinsicElements['label']}
-        components={components}
-        innerPropsHelpComponent={
-          innerPropsHelpComponent ?? {
-            innerProps: { className: classNames.general.fieldHelp },
-            helps: {
-              help: field?.['#help'],
-              processed_help_title: field?.['#help_title'],
-            },
-            components: components,
-          }
-        }
-      />
-    )
-  }
-  computedInnerProps = {
-    ...(innerProps ?? {}),
-    className: innerProps?.className ?? classNames.general.fieldLabel,
-  }
   return (
     <CustomLabel
-      {...(rest as Omit<typeof rest, 'wrapperElement'>)}
-      wrapperElement="legend"
+      wrapperElement={wrapperElement}
       fieldKey={fieldKey}
-      innerProps={computedInnerProps as JSX.IntrinsicElements['legend']}
       components={components}
+      classNames={classNames}
       field={field}
-      innerPropsHelpComponent={
-        innerPropsHelpComponent ?? {
-          innerProps: { className: classNames.general.fieldHelp },
-          helps: {
-            help: field?.['#help'],
-            processed_help_title: field?.['#help_title'],
-          },
-          components: components,
-        }
-      }
     />
   )
 }
