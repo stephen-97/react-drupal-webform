@@ -10,7 +10,7 @@ export type ILabelWebformProps =
       fieldKey?: string
       children?: React.ReactNode
       innerProps?: JSX.IntrinsicElements['label']
-      custom_component_help?: TWebformCustomComponents['help']
+      components?: TWebformCustomComponents
       innerPropsHelpComponent: IHelpProps
     }
   | {
@@ -19,6 +19,6 @@ export type ILabelWebformProps =
       field?: TElementSource
       fieldKey?: string
       innerProps?: JSX.IntrinsicElements['legend']
-      custom_component_help?: TWebformCustomComponents['help']
+      components?: TWebformCustomComponents
       innerPropsHelpComponent: IHelpProps
     }

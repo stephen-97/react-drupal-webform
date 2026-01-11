@@ -8,10 +8,10 @@ const Label = ({
   field,
   innerProps,
   innerPropsHelpComponent,
-  custom_component_help,
+  components,
   wrapperElement,
 }: ILabelWebformProps) => {
-  const CustomHelp = custom_component_help ?? Help
+  const CustomHelp = components?.help ?? Help
   const Element = wrapperElement ?? 'label'
 
   const filteredInnerProps = Object.fromEntries(

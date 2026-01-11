@@ -4,6 +4,9 @@ import {
 } from '../types/form.d'
 import { TDeepRequiredClassNames } from '../types/deepRequired'
 import Wysiwyg from '../../components/form/fields/fields-special-components/wysiwyg/wysiwyg'
+import Input from '../../components/form/fields/fields-elements/input'
+import { InputProps } from '../types/components/input'
+import { IWysiwygProps } from '../types/components/wysiwyg'
 
 export const defaultValuesObj: Required<TWebformDefaultFieldValues> = {
   textfield: '',
@@ -198,5 +201,6 @@ export const defaultValuesClassnames: TDeepRequiredClassNames = {
 }
 
 export const components = {
-  Wysiwyg: Wysiwyg,
+  Input: <P extends InputProps>(props: P) => <Input {...props} />,
+  Wysiwyg: <P extends IWysiwygProps>(props: P) => <Wysiwyg {...props} />,
 }

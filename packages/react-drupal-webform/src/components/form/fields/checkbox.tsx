@@ -3,6 +3,8 @@ import { TFieldWebformObj } from '../../../lib/types/components/field'
 import Wrapper from './fields-sub-components/wrapper'
 import cn from 'classnames'
 import styles from './field.module.scss'
+import WrapperLabel from './fields-sub-components/wrapper-sub-components/wrapperLabel'
+import React from 'react'
 
 export const renderCheckbox = (props: TFieldWebformObj) => {
   const { onBlur, fieldKey, field, classNames, components } = props
@@ -48,18 +50,12 @@ export const renderCheckbox = (props: TFieldWebformObj) => {
             onBlur={onBlur}
           />
           {title && (
-            <label
-              htmlFor={fieldKey}
-              className={cn(
-                classNames.fields.checkbox.label,
-                styles.checkboxLabel,
-                {
-                  [styles.isRequired]: isRequired,
-                }
-              )}
-            >
-              {title}
-            </label>
+            <WrapperLabel
+              components={components}
+              field={field}
+              classNames={classNames}
+              fieldKey={fieldKey}
+            />
           )}
         </div>
       )}

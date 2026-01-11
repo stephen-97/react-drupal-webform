@@ -19,7 +19,7 @@ const WrapperLabel = ({
 
   const { wrapperElement = 'label', innerProps } = props as LabelOrLegendProps
 
-  const { custom_component_help, innerPropsHelpComponent, ...rest } = props
+  const { innerPropsHelpComponent, ...rest } = props
 
   let computedInnerProps:
     | JSX.IntrinsicElements['label']
@@ -39,7 +39,7 @@ const WrapperLabel = ({
         field={field}
         fieldKey={fieldKey}
         innerProps={computedInnerProps as JSX.IntrinsicElements['label']}
-        custom_component_help={custom_component_help ?? components.help}
+        components={components}
         innerPropsHelpComponent={
           innerPropsHelpComponent ?? {
             innerProps: { className: classNames.general.fieldHelp },
@@ -63,7 +63,7 @@ const WrapperLabel = ({
       wrapperElement="legend"
       fieldKey={fieldKey}
       innerProps={computedInnerProps as JSX.IntrinsicElements['legend']}
-      custom_component_help={custom_component_help ?? components.help}
+      components={components}
       field={field}
       innerPropsHelpComponent={
         innerPropsHelpComponent ?? {
