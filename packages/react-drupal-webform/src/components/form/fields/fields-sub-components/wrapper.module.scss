@@ -5,6 +5,10 @@
   border: none;
 }
 
+.fieldWrapperCheckbox {
+  flex-direction: row;
+}
+
 .prefixSuffixContainer {
   display: flex;
   align-items: center;

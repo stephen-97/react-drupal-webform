@@ -11,7 +11,7 @@ type BaseLabelProps = {
   components: TWebformCustomComponents
 }
 
-export type ILabelWebformProps =
+export type TitleProps =
   | (BaseLabelProps & {
       wrapperElement: 'label'
       innerProps?: JSX.IntrinsicElements['label']

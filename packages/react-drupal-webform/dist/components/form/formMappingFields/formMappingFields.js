@@ -1,6 +1,6 @@
 import { renderAction } from '../fields/action';
 import { renderRadio } from '../fields/radios';
-import { renderCheckboxes } from '../fields/chexkboxes';
+import { renderCheckboxes } from '../fields/checkboxes';
 import { renderSelect } from '../fields/select';
 import { renderMarkup } from '../fields/markup';
 import { renderCheckbox } from '../fields/checkbox';

@@ -75,11 +75,11 @@
   align-items: center;
   gap: .5rem;
   font-size: var(--font-size-s);
-  label {
-    cursor: pointer;
-    font-weight: 400;
-    margin-bottom: 0;
-  }
+}
+.checkboxLabel {
+  cursor: pointer;
+  font-weight: 400;
+  margin-bottom: 0;
 }
 
 .checkboxUnique {

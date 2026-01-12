@@ -4,11 +4,11 @@ import styles from './wrapper.module.scss'
 import { IWrapperWebformProps } from '../../../../lib/types/components/wrapper'
 import { getWrapperCategory } from '../../../../lib/functions/webform_fields_functions/webform_fields_functions'
 import { TDrupal_FieldType } from '../../../../lib/types/components/field'
-import WrapperLabel from './wrapper-sub-components/wrapperLabel'
 import WrapperField from './wrapper-sub-components/wrapperField'
 import WrapperDescription from './wrapper-sub-components/wrapperDescription'
 import WrapperMore from './wrapper-sub-components/wrapperMore'
 import WrapperManagedFileInfo from './wrapper-sub-components/wrapperManagedFileInfo'
+import Title from './title/title'
 
 const Wrapper = (props: IWrapperWebformProps) => {
   const {
@@ -27,10 +27,17 @@ const Wrapper = (props: IWrapperWebformProps) => {
     return <CustomWrapper {...props}>{children}</CustomWrapper>
   }
 
+  const TitleComponent = components?.title ?? Title
+
   const wrapperCategory = getWrapperCategory(
     field['#type'] as TDrupal_FieldType
   )
   const WrapperElement = wrapperElement
+
+  const labelWrapperElement =
+    field?.['#type'] === 'checkboxes' || field?.['#type'] === 'radios'
+      ? 'legend'
+      : 'label'
 
   return (
     <WrapperElement
@@ -43,15 +50,17 @@ const Wrapper = (props: IWrapperWebformProps) => {
         classNames.wrappers?.base,
         {
           [classNames.states.fieldError ?? '']: Boolean(stateError),
+          [styles.fieldWrapperCheckbox]: field?.['#type'] === 'checkbox',
         },
         styles.fieldWrapper
       )}
     >
       {isLabel && field?.['#title'] && (
-        <WrapperLabel
+        <TitleComponent
+          wrapperElement={labelWrapperElement}
           components={components}
-          field={field}
           classNames={classNames}
+          field={field}
           fieldKey={fieldKey}
         />
       )}

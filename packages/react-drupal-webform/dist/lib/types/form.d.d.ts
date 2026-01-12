@@ -1,6 +1,6 @@
 import { AnySchema } from 'yup';
 import React from 'react';
-import { ILabelWebformProps } from './components/label';
+import { TitleProps } from './components/title';
 import { TDrupal_FieldType, TDrupalNonValueFieldType, TDrupalValueFieldType, TElementSource, TFieldWebformObj } from './components/field';
 import { IWrapperWebformProps } from './components/wrapper';
 import { IErrorMessageWebformProps } from './components/errorMessage';
@@ -176,7 +176,7 @@ export type TWebformCustomElementFormProps = (IFormDefaultWebformProps & {
     onSubmit: () => void;
 });
 export type TWebformCustomComponents = {
-    label?: React.ComponentType<ILabelWebformProps>;
+    title?: React.ComponentType<TitleProps>;
     wrapper?: React.ComponentType<IWrapperWebformProps>;
     errorFieldMessage?: React.ComponentType<IErrorMessageWebformProps>;
     input?: React.ComponentType<TFieldWebformObjCustom>;

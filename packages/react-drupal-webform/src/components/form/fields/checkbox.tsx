@@ -1,25 +1,26 @@
 import { useController, useFormContext } from 'react-hook-form'
 import { TFieldWebformObj } from '../../../lib/types/components/field'
 import Wrapper from './fields-sub-components/wrapper'
-import cn from 'classnames'
-import styles from './field.module.scss'
-import WrapperLabel from './fields-sub-components/wrapper-sub-components/wrapperLabel'
+import Checkbox from './fields-elements/checkbox'
+import Title from './fields-sub-components/title/title'
 import React from 'react'
-import Label from './fields-sub-components/label/label'
+import styles from '../fields/field.module.scss'
 
 export const renderCheckbox = (props: TFieldWebformObj) => {
-  const { onBlur, fieldKey, field, classNames, components } = props
-  const title = field?.['#title']
+  const { fieldKey, field, classNames, components } = props
 
   const { control } = useFormContext()
 
   const CustomCheckbox =
     components?.fieldById?.[fieldKey] ?? components?.checkbox
 
-  const controller = useController<any>({ name: fieldKey, control })
-  const { field: fieldController, fieldState } = controller
+  const { fieldState } = useController<any>({
+    name: fieldKey,
+    control,
+  })
 
-  const CustomLabel = components?.label ?? Label
+  const CustomLabel = components?.title ?? Title
+  const title = field?.['#title']
 
   return (
     <Wrapper
@@ -35,32 +36,19 @@ export const renderCheckbox = (props: TFieldWebformObj) => {
       {CustomCheckbox ? (
         <CustomCheckbox {...props} />
       ) : (
-        <div
-          className={cn(
-            classNames.fields.checkbox?.itemWrapper,
-            styles.checkbox
-          )}
-        >
-          <input
-            id={fieldKey}
-            className={cn(classNames.fields.checkbox.input)}
-            name={fieldController.name}
-            type="checkbox"
-            value={title}
-            checked={Boolean(fieldController.value)}
-            onChange={(e) => fieldController.onChange(e.target.checked)}
-            onBlur={onBlur}
-          />
+        <>
+          <Checkbox {...props} />
           {title && (
             <CustomLabel
-              wrapperElement={'label'}
+              wrapperElement="label"
               fieldKey={fieldKey}
               components={components}
               classNames={classNames}
               field={field}
+              className={styles.checkboxLabel}
             />
           )}
-        </div>
+        </>
       )}
     </Wrapper>
   )

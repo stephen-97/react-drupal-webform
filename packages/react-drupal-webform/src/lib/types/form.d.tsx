@@ -1,6 +1,6 @@
 import { AnySchema } from 'yup'
 import React from 'react'
-import { ILabelWebformProps } from './components/label'
+import { TitleProps } from './components/title'
 import {
   TDrupal_FieldType,
   TDrupalNonValueFieldType,
@@ -24,6 +24,8 @@ import { ILayoutWrapperProps } from './components/layoutWrapper'
 import { TFieldRendererProps } from './components/fieldRenderer'
 import { IFormDefaultWebformProps } from './components/formDefault'
 import { TFormMultiStepProps } from './components/formMultiStep'
+import { CheckboxProps } from './components/checkboxe'
+import { RadiosProps } from './components/radios'
 
 export type TFileWithBase64 = {
   name: string
@@ -227,7 +229,7 @@ export type TWebformCustomElementFormProps =
     })
 
 export type TWebformCustomComponents = {
-  label?: React.ComponentType<ILabelWebformProps>
+  title?: React.ComponentType<TitleProps>
   wrapper?: React.ComponentType<IWrapperWebformProps>
   errorFieldMessage?: React.ComponentType<IErrorMessageWebformProps>
   input?: React.ComponentType<TFieldWebformObjCustom>
@@ -235,9 +237,9 @@ export type TWebformCustomComponents = {
   managedFilePreview?: React.ComponentType<IManagedFilePreviewWebformProps>
   select?: React.ComponentType<TFieldWebformObjCustom>
   checkboxes?: React.ComponentType<TFieldWebformObjCustom>
-  radios?: React.ComponentType<TFieldWebformObjCustom>
+  radios?: React.ComponentType<RadiosProps>
   textarea?: React.ComponentType<TFieldWebformObjCustom>
-  checkbox?: React.ComponentType<TFieldWebformObjCustom>
+  checkbox?: React.ComponentType<CheckboxProps>
   hidden?: React.ComponentType<TFieldWebformObjCustom>
   wysiwyg?: React.ComponentType<IWysiwygProps>
   help?: React.ComponentType<IHelpProps>

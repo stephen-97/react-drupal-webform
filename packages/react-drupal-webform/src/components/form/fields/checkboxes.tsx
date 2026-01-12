@@ -1,15 +1,16 @@
 import { useController, useFormContext } from 'react-hook-form'
 import { TFieldWebformObj } from '../../../lib/types/components/field'
 import Wrapper from './fields-sub-components/wrapper'
-import Radios from './fields-elements/radios'
+import Checkboxes from './fields-elements/checkboxes'
 
-export const renderRadio = (props: TFieldWebformObj) => {
-  const { fieldKey, field, classNames, components } = props
+export const renderCheckboxes = (props: TFieldWebformObj) => {
+  const { fieldKey, field, components, classNames } = props
   const { control } = useFormContext()
 
   if (!field?.['#options']) return null
 
-  const CustomRadio = components?.fieldById?.[fieldKey] ?? components?.radios
+  const CustomCheckboxes =
+    components?.fieldById?.[fieldKey] ?? components?.checkboxes
 
   const controller = useController<any>({ name: fieldKey, control })
   const { fieldState } = controller
@@ -18,14 +19,18 @@ export const renderRadio = (props: TFieldWebformObj) => {
     <Wrapper
       field={field}
       classNames={classNames}
-      classNameFieldName="fieldRadio"
-      components={components}
+      classNameFieldName="fieldCheckboxes"
       stateError={fieldState?.error}
+      components={components}
       key={fieldKey}
       fieldKey={fieldKey}
       wrapperElement="fieldset"
     >
-      {CustomRadio ? <CustomRadio {...props} /> : <Radios {...props} />}
+      {CustomCheckboxes ? (
+        <CustomCheckboxes {...props} />
+      ) : (
+        <Checkboxes {...props} />
+      )}
     </Wrapper>
   )
 }

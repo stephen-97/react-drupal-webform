@@ -13,18 +13,15 @@ const renderManagedFile = (props: TFieldWebformObj) => {
   const { control } = useFormContext()
   const inputRef = useRef<HTMLInputElement>(null)
 
-  // Custom file input (via fieldById ou custom global)
   const CustomInputFile =
     components?.fieldById?.[fieldKey] ?? components?.managedFile
 
   const CustomManagedFilePreview =
     components?.managedFilePreview ?? ManagedFilePreview
 
-  // RHF controller (unique)
   const controller = useController<any>({ name: fieldKey, control })
   const { field: fieldController, fieldState } = controller
 
-  // Gestion des extensions
   const fileExtensions = field?.['#file_extensions']
     ?.trim()
     .split(' ')
