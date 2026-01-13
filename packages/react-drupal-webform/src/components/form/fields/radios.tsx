@@ -1,31 +1,26 @@
-import { useController, useFormContext } from 'react-hook-form'
 import { TFieldWebformObj } from '../../../lib/types/components/field'
 import Wrapper from './fields-sub-components/wrapper'
 import Radios from './fields-elements/radios'
 
 export const renderRadio = (props: TFieldWebformObj) => {
   const { fieldKey, field, classNames, components } = props
-  const { control } = useFormContext()
+  const WrapperComponent = components?.wrapper ?? Wrapper
 
   if (!field?.['#options']) return null
 
   const CustomRadio = components?.fieldById?.[fieldKey] ?? components?.radios
 
-  const controller = useController<any>({ name: fieldKey, control })
-  const { fieldState } = controller
-
   return (
-    <Wrapper
+    <WrapperComponent
       field={field}
       classNames={classNames}
       classNameFieldName="fieldRadio"
       components={components}
-      stateError={fieldState?.error}
       key={fieldKey}
       fieldKey={fieldKey}
       wrapperElement="fieldset"
     >
       {CustomRadio ? <CustomRadio {...props} /> : <Radios {...props} />}
-    </Wrapper>
+    </WrapperComponent>
   )
 }

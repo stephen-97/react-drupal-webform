@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styles from './more.module.scss'
-import { IMoreProps } from '../../../../../lib/types/components/more'
+import { MoreProps } from '../../../../../lib/types/components/more'
 import Wysiwyg from '../../fields-special-components/wysiwyg/wysiwyg'
 import cn from 'classnames'
 
@@ -10,7 +10,7 @@ const More = ({
   innerPropsWysiwyg,
   moreTitle,
   components,
-}: IMoreProps) => {
+}: MoreProps) => {
   const CustomWysiwyg = components.wysiwyg ?? Wysiwyg
   const { className: containerClassName, ...containerProps } =
     innerPropsContainer ?? {}

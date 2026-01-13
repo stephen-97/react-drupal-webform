@@ -6,7 +6,7 @@ import Loader from './fields-sub-components/loader/loader'
 import { useFormContext } from 'react-hook-form'
 import { ActionProps } from '../../../lib/types/components/action'
 
-const Action = ({ field, innerProps }: ActionProps) => {
+export const Action = ({ field, innerProps, className }: ActionProps) => {
   const { formState } = useFormContext()
   const { isSubmitting, isValid } = formState
 
@@ -14,7 +14,11 @@ const Action = ({ field, innerProps }: ActionProps) => {
     <button
       type="submit"
       disabled={!isValid || isSubmitting}
-      className={cn(styles.button, ...(field?.['#attributes']?.class ?? []))}
+      className={cn(
+        styles.button,
+        className,
+        ...(field?.['#attributes']?.class ?? [])
+      )}
       {...innerProps}
     >
       {isSubmitting && <Loader />}

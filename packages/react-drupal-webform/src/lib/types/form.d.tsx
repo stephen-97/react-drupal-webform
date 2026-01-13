@@ -8,7 +8,7 @@ import {
   TElementSource,
   TFieldWebformObj,
 } from './components/field'
-import { IWrapperWebformProps } from './components/wrapper'
+import { WrapperProps } from './components/wrapper'
 import { IErrorMessageWebformProps } from './components/errorMessage'
 import { TFieldWebformObjCustom } from './components/fieldWebformObjCustom'
 import { IWysiwygProps } from './components/wysiwyg'
@@ -238,7 +238,7 @@ export type TWebformCustomElementFormProps =
 export type TWebformCustomComponents = {
   action?: React.ComponentType<ActionProps>
   title?: React.ComponentType<TitleProps>
-  wrapper?: React.ComponentType<IWrapperWebformProps>
+  wrapper?: React.ComponentType<WrapperProps>
   errorFieldMessage?: React.ComponentType<IErrorMessageWebformProps>
   input?: React.ComponentType<InputProps>
   managedFile?: React.ComponentType<ManagedFileProps>

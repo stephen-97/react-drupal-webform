@@ -1,7 +1,7 @@
 import React from 'react'
 import cn from 'classnames'
 import styles from './wrapper.module.scss'
-import { IWrapperWebformProps } from '../../../../lib/types/components/wrapper'
+import { WrapperProps } from '../../../../lib/types/components/wrapper'
 import { getWrapperCategory } from '../../../../lib/functions/webform_fields_functions/webform_fields_functions'
 import { TDrupal_FieldType } from '../../../../lib/types/components/field'
 import WrapperField from './wrapper-sub-components/wrapperField'
@@ -9,23 +9,18 @@ import WrapperDescription from './wrapper-sub-components/wrapperDescription'
 import WrapperMore from './wrapper-sub-components/wrapperMore'
 import WrapperManagedFileInfo from './wrapper-sub-components/wrapperManagedFileInfo'
 import Title from './title/title'
+import { useController, useFormContext } from 'react-hook-form'
 
-const Wrapper = (props: IWrapperWebformProps) => {
+const Wrapper = (props: WrapperProps) => {
   const {
     children,
     field,
     classNames,
     isLabel = true,
-    stateError,
     components,
     fieldKey,
     wrapperElement = 'div',
   } = props
-
-  const CustomWrapper = components?.wrapper
-  if (CustomWrapper) {
-    return <CustomWrapper {...props}>{children}</CustomWrapper>
-  }
 
   const TitleComponent = components?.title ?? Title
 
@@ -38,6 +33,15 @@ const Wrapper = (props: IWrapperWebformProps) => {
     field?.['#type'] === 'checkboxes' || field?.['#type'] === 'radios'
       ? 'legend'
       : 'label'
+
+  const { control } = useFormContext()
+
+  const { fieldState } = useController<any>({
+    name: fieldKey,
+    control,
+  })
+
+  const stateError = fieldState?.error
 
   return (
     <WrapperElement

@@ -4,12 +4,13 @@ import React from 'react'
 import ManagedFile from './fields-elements/managedFile'
 const renderManagedFile = (props: TFieldWebformObj) => {
   const { fieldKey, field, components, classNames } = props
+  const WrapperComponent = components?.wrapper ?? Wrapper
 
   const CustomManagedFile =
     components?.fieldById?.[fieldKey] ?? components?.managedFile ?? ManagedFile
 
   return (
-    <Wrapper
+    <WrapperComponent
       field={field}
       classNames={classNames}
       components={components}
@@ -18,7 +19,7 @@ const renderManagedFile = (props: TFieldWebformObj) => {
       fieldKey={fieldKey}
     >
       <CustomManagedFile {...props} />
-    </Wrapper>
+    </WrapperComponent>
   )
 }
 

@@ -1,18 +1,11 @@
 'use client'
 
 import React from 'react'
-import { ILabelWebformProps } from '../../../../packages/react-drupal-webform/src/lib/types/components/label'
-import styles from './customLabel.module.scss'
-const CustomLabel = (props: ILabelWebformProps) => {
-  const { field, fieldKey } = props
+import { TitleProps } from '../../../../packages/react-drupal-webform/src/lib/types/components/title'
+import { components } from '../../../../packages/react-drupal-webform/src/lib/const/const.form'
 
-  const title = field?.['#title']
-  return (
-    <label htmlFor={fieldKey ?? ''} className={styles.customLabel}>
-      {field?.['#required'] && <span className={styles.requiredSymbol}>*</span>}
-      {title}
-    </label>
-  )
+const CustomLabel = (props: TitleProps) => {
+  return <components.Title {...props} />
 }
 
-export default CustomLabel
+export default React.memo(CustomLabel)

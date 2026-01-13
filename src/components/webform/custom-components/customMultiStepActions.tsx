@@ -58,4 +58,4 @@ const CustomMultiStepActions = (props: IMultiStepActionsProps) => {
   )
 }
 
-export default CustomMultiStepActions
+export default React.memo(CustomMultiStepActions)

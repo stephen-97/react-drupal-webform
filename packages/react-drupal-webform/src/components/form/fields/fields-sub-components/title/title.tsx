@@ -12,9 +12,6 @@ const Title = (props: TitleProps) => {
   const CustomHelp = components?.help ?? Help
   const title = field?.['#title']
   const isRequired = field?.['#required']
-  if (field?.['#type'] === 'checkboxes') {
-    console.log(field?.['#required'])
-  }
 
   if (props.wrapperElement === 'label') {
     return (

@@ -22,7 +22,7 @@ const Container = ({ elementsSource, title }: Props) => {
             {title === 'Custom components' ? (
               <CustomWebform elementsSource={elementsSource} />
             ) : (
-              <WebformContainer elementsSource={elementsSource} />
+              <CustomWebform elementsSource={elementsSource} />
             )}
           </div>
         </section>

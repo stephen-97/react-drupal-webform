@@ -1,4 +1,3 @@
-import { useController, useFormContext } from 'react-hook-form'
 import { TFieldWebformObj } from '../../../lib/types/components/field'
 import Wrapper from './fields-sub-components/wrapper'
 import Checkbox from './fields-elements/checkbox'
@@ -9,25 +8,19 @@ import styles from '../fields/field.module.scss'
 export const renderCheckbox = (props: TFieldWebformObj) => {
   const { fieldKey, field, classNames, components } = props
 
-  const { control } = useFormContext()
+  const WrapperComponent = components?.wrapper ?? Wrapper
 
   const CustomCheckbox =
     components?.fieldById?.[fieldKey] ?? components?.checkbox
-
-  const { fieldState } = useController<any>({
-    name: fieldKey,
-    control,
-  })
 
   const CustomLabel = components?.title ?? Title
   const title = field?.['#title']
 
   return (
-    <Wrapper
+    <WrapperComponent
       field={field}
       classNames={classNames}
       classNameFieldName="fieldCheckboxes"
-      stateError={fieldState?.error}
       key={fieldKey}
       isLabel={false}
       components={components}
@@ -50,6 +43,6 @@ export const renderCheckbox = (props: TFieldWebformObj) => {
           )}
         </>
       )}
-    </Wrapper>
+    </WrapperComponent>
   )
 }

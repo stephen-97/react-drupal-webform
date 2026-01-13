@@ -1,26 +1,21 @@
-import { useController, useFormContext } from 'react-hook-form'
 import { TFieldWebformObj } from '../../../lib/types/components/field'
 import Wrapper from './fields-sub-components/wrapper'
 import Checkboxes from './fields-elements/checkboxes'
 
 export const renderCheckboxes = (props: TFieldWebformObj) => {
   const { fieldKey, field, components, classNames } = props
-  const { control } = useFormContext()
+  const WrapperComponent = components?.wrapper ?? Wrapper
 
   if (!field?.['#options']) return null
 
   const CustomCheckboxes =
     components?.fieldById?.[fieldKey] ?? components?.checkboxes
 
-  const controller = useController<any>({ name: fieldKey, control })
-  const { fieldState } = controller
-
   return (
-    <Wrapper
+    <WrapperComponent
       field={field}
       classNames={classNames}
       classNameFieldName="fieldCheckboxes"
-      stateError={fieldState?.error}
       components={components}
       key={fieldKey}
       fieldKey={fieldKey}
@@ -31,6 +26,6 @@ export const renderCheckboxes = (props: TFieldWebformObj) => {
       ) : (
         <Checkboxes {...props} />
       )}
-    </Wrapper>
+    </WrapperComponent>
   )
 }

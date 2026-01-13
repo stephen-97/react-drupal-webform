@@ -1,5 +1,6 @@
 import { jsx } from '@emotion/react'
 
-export interface ILaoderWebformProps {
+export interface LoaderProps {
   innerProps?: jsx.JSX.IntrinsicElements['span']
+  className?: string
 }

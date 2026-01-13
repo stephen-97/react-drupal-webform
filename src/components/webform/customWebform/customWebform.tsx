@@ -18,6 +18,8 @@ import {
   customClassnames,
   customValidators,
 } from '@/components/webform/customWebform/custom-objects'
+import CustomWrapper from '@/components/webform/custom-components/customWrapper'
+import CustomAction from '@/components/webform/custom-components/customAction'
 
 export type TWebformContainer = {
   elementsSource: string
@@ -60,12 +62,15 @@ const CustomWebform = ({ elementsSource }: TWebformContainer) => {
         isSubmitted={isSubmitted}
         components={{
           input: CustomInput,
-          label: CustomLabel,
+          title: CustomLabel,
           multiStepStepper: CustomStepper,
           multiStepActions: CustomMultiStepActions,
           select: CustomSelect,
           more: CustomMore,
           wysiwyg: CustomWysiwyg,
+          action: CustomAction,
+          wrapper: CustomWrapper,
+          help: () => <div>test</div>,
         }}
       />
     </div>

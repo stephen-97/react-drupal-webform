@@ -22,7 +22,11 @@ import Radios from '../../components/form/fields/fields-elements/radios'
 import Select from '../../components/form/fields/fields-elements/select'
 import { SelectProps } from '../types/components/select'
 import Textarea from '../../components/form/fields/fields-elements/textarea'
-import { TextAreaProps, TextareaProps } from '../types/components/textarea'
+import { TextAreaProps } from '../types/components/textarea'
+import { WrapperProps } from '../types/components/wrapper'
+import Wrapper from '../../components/form/fields/fields-sub-components/wrapper'
+import { ActionProps } from '../types/components/action'
+import { Action } from '../../components/form/fields/action'
 
 export const defaultValuesObj: Required<TWebformDefaultFieldValues> = {
   textfield: '',
@@ -231,4 +235,6 @@ export const components = {
   Radios: <P extends RadiosProps>(props: P) => <Radios {...props} />,
   Select: <P extends SelectProps>(props: P) => <Select {...props} />,
   TextArea: <P extends TextAreaProps>(props: P) => <Textarea {...props} />,
+  Wrapper: <P extends WrapperProps>(props: P) => <Wrapper {...props} />,
+  Action: <P extends ActionProps>(props: P) => <Action {...props} />,
 }
