@@ -12,13 +12,16 @@ const Title = (props: TitleProps) => {
   const CustomHelp = components?.help ?? Help
   const title = field?.['#title']
   const isRequired = field?.['#required']
+  if (field?.['#type'] === 'checkboxes') {
+    console.log(field?.['#required'])
+  }
 
   if (props.wrapperElement === 'label') {
     return (
       <label
         {...props.innerProps}
         htmlFor={fieldKey}
-        className={cn(styles.label, className, props.innerProps?.className, {
+        className={cn(styles.title, className, props.innerProps?.className, {
           [styles.isRequired]: isRequired,
         })}
       >
@@ -35,7 +38,12 @@ const Title = (props: TitleProps) => {
   }
 
   return (
-    <legend {...props.innerProps} className={cn(styles.label, className)}>
+    <legend
+      {...props.innerProps}
+      className={cn(styles.title, className, props.innerProps?.className, {
+        [styles.isRequired]: isRequired,
+      })}
+    >
       {title}
       {showHelp && (
         <CustomHelp

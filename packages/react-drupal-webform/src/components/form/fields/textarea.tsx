@@ -1,5 +1,3 @@
-import cn from 'classnames'
-import styles from './field.module.scss'
 import { useController, useFormContext } from 'react-hook-form'
 import { TFieldWebformObj } from '../../../lib/types/components/field'
 import Wrapper from './fields-sub-components/wrapper'

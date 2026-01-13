@@ -2,7 +2,7 @@ import React from 'react'
 import cn from 'classnames'
 import { useController, useFormContext } from 'react-hook-form'
 import styles from '../field.module.scss'
-import { TextareaProps } from '../../../../lib/types/components/textarea'
+import { TextAreaProps } from '../../../../lib/types/components/textarea'
 
 const Textarea = ({
   fieldKey,
@@ -11,7 +11,7 @@ const Textarea = ({
   onBlur,
   className,
   innerProps,
-}: TextareaProps) => {
+}: TextAreaProps) => {
   const { control } = useFormContext()
 
   const { field: fieldController, fieldState } = useController({

@@ -26,6 +26,13 @@ import { IFormDefaultWebformProps } from './components/formDefault'
 import { TFormMultiStepProps } from './components/formMultiStep'
 import { CheckboxProps } from './components/checkboxe'
 import { RadiosProps } from './components/radios'
+import { SelectProps } from './components/select'
+import { CheckboxesProps } from './components/checkboxes'
+import { TextareaProps } from './components/textarea'
+import { HiddenProps } from './components/hidden'
+import { ActionProps } from './components/action'
+import { ManagedFileProps } from './components/managedFile'
+import { InputProps } from './components/input'
 
 export type TFileWithBase64 = {
   name: string
@@ -229,18 +236,19 @@ export type TWebformCustomElementFormProps =
     })
 
 export type TWebformCustomComponents = {
+  action?: React.ComponentType<ActionProps>
   title?: React.ComponentType<TitleProps>
   wrapper?: React.ComponentType<IWrapperWebformProps>
   errorFieldMessage?: React.ComponentType<IErrorMessageWebformProps>
-  input?: React.ComponentType<TFieldWebformObjCustom>
-  managedFile?: React.ComponentType<TFieldWebformObjCustom>
+  input?: React.ComponentType<InputProps>
+  managedFile?: React.ComponentType<ManagedFileProps>
   managedFilePreview?: React.ComponentType<IManagedFilePreviewWebformProps>
-  select?: React.ComponentType<TFieldWebformObjCustom>
-  checkboxes?: React.ComponentType<TFieldWebformObjCustom>
+  select?: React.ComponentType<SelectProps>
+  checkboxes?: React.ComponentType<CheckboxesProps>
   radios?: React.ComponentType<RadiosProps>
-  textarea?: React.ComponentType<TFieldWebformObjCustom>
+  textarea?: React.ComponentType<TextareaProps>
   checkbox?: React.ComponentType<CheckboxProps>
-  hidden?: React.ComponentType<TFieldWebformObjCustom>
+  hidden?: React.ComponentType<HiddenProps>
   wysiwyg?: React.ComponentType<IWysiwygProps>
   help?: React.ComponentType<IHelpProps>
   description?: React.ComponentType<IDescriptionWebformProps>

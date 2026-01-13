@@ -7,6 +7,22 @@ import Wysiwyg from '../../components/form/fields/fields-special-components/wysi
 import Input from '../../components/form/fields/fields-elements/input'
 import { InputProps } from '../types/components/input'
 import { IWysiwygProps } from '../types/components/wysiwyg'
+import { TitleProps } from '../types/components/title'
+import Title from '../../components/form/fields/fields-sub-components/title/title'
+import { CheckboxProps } from '../types/components/checkboxe'
+import Checkbox from '../../components/form/fields/fields-elements/checkbox'
+import { CheckboxesProps } from '../types/components/checkboxes'
+import Checkboxes from '../../components/form/fields/fields-elements/checkboxes'
+import { HiddenProps } from '../types/components/hidden'
+import Hidden from '../../components/form/fields/fields-elements/hidden'
+import { ManagedFileProps } from '../types/components/managedFile'
+import ManagedFile from '../../components/form/fields/fields-elements/managedFile'
+import { RadiosProps } from '../types/components/radios'
+import Radios from '../../components/form/fields/fields-elements/radios'
+import Select from '../../components/form/fields/fields-elements/select'
+import { SelectProps } from '../types/components/select'
+import Textarea from '../../components/form/fields/fields-elements/textarea'
+import { TextAreaProps, TextareaProps } from '../types/components/textarea'
 
 export const defaultValuesObj: Required<TWebformDefaultFieldValues> = {
   textfield: '',
@@ -203,4 +219,16 @@ export const defaultValuesClassnames: TDeepRequiredClassNames = {
 export const components = {
   Input: <P extends InputProps>(props: P) => <Input {...props} />,
   Wysiwyg: <P extends IWysiwygProps>(props: P) => <Wysiwyg {...props} />,
+  Title: <P extends TitleProps>(props: P) => <Title {...props} />,
+  Checkbox: <P extends CheckboxProps>(props: P) => <Checkbox {...props} />,
+  Checkboxes: <P extends CheckboxesProps>(props: P) => (
+    <Checkboxes {...props} />
+  ),
+  Hidden: <P extends HiddenProps>(props: P) => <Hidden {...props} />,
+  ManagedFile: <P extends ManagedFileProps>(props: P) => (
+    <ManagedFile {...props} />
+  ),
+  Radios: <P extends RadiosProps>(props: P) => <Radios {...props} />,
+  Select: <P extends SelectProps>(props: P) => <Select {...props} />,
+  TextArea: <P extends TextAreaProps>(props: P) => <Textarea {...props} />,
 }
