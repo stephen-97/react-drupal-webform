@@ -6,7 +6,7 @@ import { TDeepRequiredClassNames } from '../types/deepRequired'
 import Wysiwyg from '../../components/form/fields/fields-special-components/wysiwyg/wysiwyg'
 import Input from '../../components/form/fields/fields-elements/input'
 import { InputProps } from '../types/components/input'
-import { IWysiwygProps } from '../types/components/wysiwyg'
+import { WysiwygProps } from '../types/components/wysiwyg'
 import { TitleProps } from '../types/components/title'
 import Title from '../../components/form/fields/fields-sub-components/title/title'
 import { CheckboxProps } from '../types/components/checkboxe'
@@ -27,6 +27,12 @@ import { WrapperProps } from '../types/components/wrapper'
 import Wrapper from '../../components/form/fields/fields-sub-components/wrapper'
 import { ActionProps } from '../types/components/action'
 import { Action } from '../../components/form/fields/action'
+import { HelpProps } from '../types/components/help'
+import Help from '../../components/form/fields/fields-sub-components/help/help'
+import { MoreProps } from '../types/components/more'
+import More from '../../components/form/fields/fields-sub-components/more/more'
+import { DescriptionProps } from '../types/components/description'
+import Description from '../../components/form/fields/fields-sub-components/description/description'
 
 export const defaultValuesObj: Required<TWebformDefaultFieldValues> = {
   textfield: '',
@@ -150,10 +156,13 @@ export const defaultValuesClassnames: TDeepRequiredClassNames = {
   },
   general: {
     fieldForm: '',
-    fieldLabel: '',
+    fieldTitle: '',
     fieldDescription: '',
     fieldManagedFileInfo: '',
-    fieldMore: '',
+    fieldMore: {
+      container: '',
+      button: '',
+    },
     fieldHelp: '',
     fieldWysiwyg: '',
   },
@@ -222,7 +231,7 @@ export const defaultValuesClassnames: TDeepRequiredClassNames = {
 
 export const components = {
   Input: <P extends InputProps>(props: P) => <Input {...props} />,
-  Wysiwyg: <P extends IWysiwygProps>(props: P) => <Wysiwyg {...props} />,
+  Wysiwyg: <P extends WysiwygProps>(props: P) => <Wysiwyg {...props} />,
   Title: <P extends TitleProps>(props: P) => <Title {...props} />,
   Checkbox: <P extends CheckboxProps>(props: P) => <Checkbox {...props} />,
   Checkboxes: <P extends CheckboxesProps>(props: P) => (
@@ -237,4 +246,9 @@ export const components = {
   TextArea: <P extends TextAreaProps>(props: P) => <Textarea {...props} />,
   Wrapper: <P extends WrapperProps>(props: P) => <Wrapper {...props} />,
   Action: <P extends ActionProps>(props: P) => <Action {...props} />,
+  Help: <P extends HelpProps>(props: P) => <Help {...props} />,
+  More: <P extends MoreProps>(props: P) => <More {...props} />,
+  Description: <P extends DescriptionProps>(props: P) => (
+    <Description {...props} />
+  ),
 }

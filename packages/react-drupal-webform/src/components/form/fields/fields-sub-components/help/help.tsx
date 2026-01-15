@@ -3,11 +3,11 @@ import styles from './help.module.scss'
 import cn from 'classnames'
 import tippy from 'tippy.js'
 import 'tippy.js/dist/tippy.css'
-import { IHelpProps } from '../../../../../lib/types/components/help'
+import { HelpProps } from '../../../../../lib/types/components/help'
 import { createRoot } from 'react-dom/client'
 import Wysiwyg from '../../fields-special-components/wysiwyg/wysiwyg'
 
-const Help = ({ innerProps, components, field }: IHelpProps) => {
+const Help = ({ innerProps, components, field }: HelpProps) => {
   const { className, ...restInnerProps } = innerProps ?? {}
 
   const buttonRef = useRef<HTMLButtonElement>(null)

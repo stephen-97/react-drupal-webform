@@ -10,6 +10,8 @@ const More = ({
   innerPropsWysiwyg,
   moreTitle,
   components,
+  className,
+  classNames,
 }: MoreProps) => {
   const CustomWysiwyg = components.wysiwyg ?? Wysiwyg
   const { className: containerClassName, ...containerProps } =
@@ -23,12 +25,25 @@ const More = ({
   }
 
   return (
-    <div className={cn(styles.more, containerClassName)} {...containerProps}>
+    <div
+      className={cn(
+        styles.more,
+        containerClassName,
+        className,
+        classNames.general?.fieldMore?.container
+      )}
+      {...containerProps}
+    >
       <button
         type="button"
-        className={cn(styles.button, buttonClassName, {
-          [styles.opened]: open,
-        })}
+        className={cn(
+          styles.button,
+          buttonClassName,
+          classNames.general?.fieldMore?.button,
+          {
+            [styles.opened]: open,
+          }
+        )}
         onClick={handleClick}
         {...buttonProps}
       >

@@ -9,6 +9,9 @@ export const customClassnames: TWebformClassNames = {
       inner: styles.customLayout,
     },
   },
+  general: {
+    fieldMore: styles.customMore,
+  },
 }
 
 export const customValidators = {

@@ -20,6 +20,7 @@ import {
 } from '@/components/webform/customWebform/custom-objects'
 import CustomWrapper from '@/components/webform/custom-components/customWrapper'
 import CustomAction from '@/components/webform/custom-components/customAction'
+import CustomHelp from '@/components/webform/custom-components/CustomHelp'
 
 export type TWebformContainer = {
   elementsSource: string
@@ -70,7 +71,7 @@ const CustomWebform = ({ elementsSource }: TWebformContainer) => {
           wysiwyg: CustomWysiwyg,
           action: CustomAction,
           wrapper: CustomWrapper,
-          help: () => <div>test</div>,
+          help: CustomHelp,
         }}
       />
     </div>

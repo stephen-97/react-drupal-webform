@@ -9,13 +9,12 @@ import {
   TFieldWebformObj,
 } from './components/field'
 import { WrapperProps } from './components/wrapper'
-import { IErrorMessageWebformProps } from './components/errorMessage'
-import { TFieldWebformObjCustom } from './components/fieldWebformObjCustom'
-import { IWysiwygProps } from './components/wysiwyg'
-import { IHelpProps } from './components/help'
-import { IDescriptionWebformProps } from './components/description'
+import { ErrorMessageProps } from './components/errorMessage'
+import { WysiwygProps } from './components/wysiwyg'
+import { HelpProps } from './components/help'
+import { DescriptionProps } from './components/description'
 import { IManagedFileInfoProps } from './components/managedFileInfo'
-import { IMoreProps } from './components/more'
+import { MoreProps } from './components/more'
 import { IManagedFilePreviewWebformProps } from './components/filePreview'
 import { IMultiStepActionsProps } from './components/multiStepActions'
 import { IMultiStepStepperProps } from './components/multiStepStepper'
@@ -28,7 +27,7 @@ import { CheckboxProps } from './components/checkboxe'
 import { RadiosProps } from './components/radios'
 import { SelectProps } from './components/select'
 import { CheckboxesProps } from './components/checkboxes'
-import { TextareaProps } from './components/textarea'
+import { TextAreaProps } from './components/textarea'
 import { HiddenProps } from './components/hidden'
 import { ActionProps } from './components/action'
 import { ManagedFileProps } from './components/managedFile'
@@ -73,10 +72,13 @@ export type TWebformClassNames = {
   }
   general?: {
     fieldForm?: string
-    fieldLabel?: string
+    fieldTitle?: string
     fieldDescription?: string
     fieldManagedFileInfo?: string
-    fieldMore?: string
+    fieldMore?: {
+      container?: string
+      button?: string
+    }
     fieldHelp?: string
     fieldWysiwyg?: string
   }
@@ -239,21 +241,21 @@ export type TWebformCustomComponents = {
   action?: React.ComponentType<ActionProps>
   title?: React.ComponentType<TitleProps>
   wrapper?: React.ComponentType<WrapperProps>
-  errorFieldMessage?: React.ComponentType<IErrorMessageWebformProps>
+  errorFieldMessage?: React.ComponentType<ErrorMessageProps>
   input?: React.ComponentType<InputProps>
   managedFile?: React.ComponentType<ManagedFileProps>
   managedFilePreview?: React.ComponentType<IManagedFilePreviewWebformProps>
   select?: React.ComponentType<SelectProps>
   checkboxes?: React.ComponentType<CheckboxesProps>
   radios?: React.ComponentType<RadiosProps>
-  textarea?: React.ComponentType<TextareaProps>
+  textarea?: React.ComponentType<TextAreaProps>
   checkbox?: React.ComponentType<CheckboxProps>
   hidden?: React.ComponentType<HiddenProps>
-  wysiwyg?: React.ComponentType<IWysiwygProps>
-  help?: React.ComponentType<IHelpProps>
-  description?: React.ComponentType<IDescriptionWebformProps>
+  wysiwyg?: React.ComponentType<WysiwygProps>
+  help?: React.ComponentType<HelpProps>
+  description?: React.ComponentType<DescriptionProps>
   managedFileInfo?: React.ComponentType<IManagedFileInfoProps>
-  more?: React.ComponentType<IMoreProps>
+  more?: React.ComponentType<MoreProps>
   multiStepActions?: React.ComponentType<IMultiStepActionsProps>
   multiStepStepper?: React.ComponentType<IMultiStepStepperProps>
   layout?: React.ComponentType<ILayoutWrapperProps>

@@ -1,22 +1,32 @@
 import React from 'react'
 import 'tippy.js/dist/tippy.css'
 import Wysiwyg from '../../fields-special-components/wysiwyg/wysiwyg'
-import { IDescriptionWebformProps } from '../../../../../lib/types/components/description'
+import { DescriptionProps } from '../../../../../lib/types/components/description'
+import cn from 'classnames'
+import styles from '../wrapper.module.scss'
 
 const Description = ({
   innerProps,
   components,
-  processed,
-}: IDescriptionWebformProps) => {
+  classNames,
+  field,
+  className,
+}: DescriptionProps) => {
   const CustomWysiwyg = components.wysiwyg ?? Wysiwyg
-  const { className, ...restInnerProps } = innerProps ?? {}
   return (
     <CustomWysiwyg
-      className={className}
-      processed={processed}
+      className={cn(
+        classNames.general?.fieldDescription,
+        styles.wysiwyg,
+        classNames.general?.fieldWysiwyg,
+        className
+      )}
+      processed={
+        (field?.['#description'] ?? field?.['#file_placeholder']) || ''
+      }
       as={'div'}
       source={'description'}
-      {...restInnerProps}
+      {...innerProps}
     />
   )
 }

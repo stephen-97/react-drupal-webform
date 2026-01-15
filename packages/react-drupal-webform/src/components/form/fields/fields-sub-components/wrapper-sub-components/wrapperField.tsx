@@ -1,7 +1,7 @@
 import React from 'react'
-import { TWrapperFieldWebformProps } from "../../../../../lib/types/components/wrapperField"
-import styles from "../wrapper.module.scss"
-import ErrorFieldMessage from "../errorFieldMessage/errorFieldMessage"
+import { TWrapperFieldWebformProps } from '../../../../../lib/types/components/wrapperField'
+import styles from '../wrapper.module.scss'
+import ErrorFieldMessage from '../errorFieldMessage/errorFieldMessage'
 
 const WrapperField = ({
   components,
@@ -9,8 +9,9 @@ const WrapperField = ({
   field,
   children,
   stateError,
+  fieldKey,
 }: TWrapperFieldWebformProps) => {
-  const CustomErrorFieldMessage =
+  const ErrorFieldMessageComponent =
     components?.errorFieldMessage ?? ErrorFieldMessage
 
   return (
@@ -22,8 +23,11 @@ const WrapperField = ({
             {children}
             {typeof stateError?.message === 'string' &&
               stateError.message.length > 0 && (
-                <CustomErrorFieldMessage
-                  className={classNames.states?.fieldErrorMessage}
+                <ErrorFieldMessageComponent
+                  classNames={classNames}
+                  field={field}
+                  fieldKey={fieldKey}
+                  components={components}
                   message={stateError.message}
                 />
               )}
@@ -35,8 +39,11 @@ const WrapperField = ({
           {children}
           {typeof stateError?.message === 'string' &&
             stateError.message.length > 0 && (
-              <CustomErrorFieldMessage
-                className={classNames.states?.fieldErrorMessage}
+              <ErrorFieldMessageComponent
+                classNames={classNames}
+                field={field}
+                fieldKey={fieldKey}
+                components={components}
                 message={stateError.message}
               />
             )}

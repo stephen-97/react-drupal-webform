@@ -73,6 +73,7 @@ const Wrapper = (props: WrapperProps) => {
         classNames={classNames}
         components={components}
         stateError={stateError}
+        fieldKey={fieldKey}
       >
         {children}
       </WrapperField>

@@ -14,14 +14,12 @@ const WrapperMore = ({
 
   return (
     <CustomMore
-      innerPropsContainer={{
-        className: classNames.general.fieldMore,
-      }}
       innerPropsWysiwyg={{
         className: cn(styles.wysiwyg, classNames.general.fieldWysiwyg),
         processed: fieldMore,
         source: 'more',
       }}
+      classNames={classNames}
       moreTitle={fieldMoreTitle}
       components={components}
     />

@@ -14,16 +14,8 @@ const WrapperDescription = ({
   return (
     <CustomDescription
       components={components}
-      innerProps={{
-        className: cn(
-          classNames.general.fieldDescription,
-          styles.wysiwyg,
-          classNames.general.fieldWysiwyg
-        ),
-      }}
-      processed={
-        (field?.['#description'] ?? field?.['#file_placeholder']) || ''
-      }
+      classNames={classNames}
+      field={field}
     />
   )
 }

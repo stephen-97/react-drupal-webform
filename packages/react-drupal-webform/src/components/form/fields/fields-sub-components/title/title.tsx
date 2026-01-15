@@ -18,7 +18,7 @@ const Title = (props: TitleProps) => {
       <label
         {...props.innerProps}
         htmlFor={fieldKey}
-        className={cn(styles.title, className, props.innerProps?.className, {
+        className={cn(styles.title, className, classNames.general?.fieldTitle, {
           [styles.isRequired]: isRequired,
         })}
       >

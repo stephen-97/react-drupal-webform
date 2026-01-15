@@ -1,8 +1,11 @@
 import { jsx } from '@emotion/react'
-import { TWebformCustomComponents } from '../form.d'
+import { TWebformClassNames, TWebformCustomComponents } from '../form.d'
+import { TElementSource } from './field'
 
-export interface IDescriptionWebformProps {
+export interface DescriptionProps {
   innerProps?: jsx.JSX.IntrinsicElements['div']
+  field: TElementSource
   components: TWebformCustomComponents
-  processed: string
+  classNames: TWebformClassNames
+  className?: string
 }
