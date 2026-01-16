@@ -1,7 +1,7 @@
 import React from 'react'
 import cn from 'classnames'
-import styles from './wrapper.module.scss'
-import { WrapperProps } from '../../../../lib/types/components/wrapper'
+import styles from './fieldContainer.module.scss'
+import { FieldContainerProps } from '../../../../lib/types/components/fieldContainer'
 import { getWrapperCategory } from '../../../../lib/functions/webform_fields_functions/webform_fields_functions'
 import { TDrupal_FieldType } from '../../../../lib/types/components/field'
 import WrapperField from './wrapper-sub-components/wrapperField'
@@ -11,7 +11,7 @@ import WrapperManagedFileInfo from './wrapper-sub-components/wrapperManagedFileI
 import Title from './title/title'
 import { useController, useFormContext } from 'react-hook-form'
 
-const Wrapper = (props: WrapperProps) => {
+const FieldContainer = (props: FieldContainerProps) => {
   const {
     children,
     field,
@@ -20,6 +20,8 @@ const Wrapper = (props: WrapperProps) => {
     components,
     fieldKey,
     wrapperElement = 'div',
+    innerProps,
+    className,
   } = props
 
   const TitleComponent = components?.title ?? Title
@@ -27,7 +29,7 @@ const Wrapper = (props: WrapperProps) => {
   const wrapperCategory = getWrapperCategory(
     field['#type'] as TDrupal_FieldType
   )
-  const WrapperElement = wrapperElement
+  const WrapperElement = wrapperElement ?? 'div'
 
   const labelWrapperElement =
     field?.['#type'] === 'checkboxes' || field?.['#type'] === 'radios'
@@ -56,8 +58,10 @@ const Wrapper = (props: WrapperProps) => {
           [classNames.states.fieldError ?? '']: Boolean(stateError),
           [styles.fieldWrapperCheckbox]: field?.['#type'] === 'checkbox',
         },
-        styles.fieldWrapper
+        styles.fieldWrapper,
+        className
       )}
+      {...(innerProps as any)}
     >
       {isLabel && field?.['#title'] && (
         <TitleComponent
@@ -99,4 +103,4 @@ const Wrapper = (props: WrapperProps) => {
   )
 }
 
-export default React.memo(Wrapper)
+export default React.memo(FieldContainer)

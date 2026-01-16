@@ -1,5 +1,4 @@
 import { jsx as _jsx } from "react/jsx-runtime";
-import styles from './formDefault.module.scss';
 import React, { useEffect, useMemo, useCallback } from 'react';
 import { useForm, useWatch, FormProvider } from 'react-hook-form';
 import { useYupValidationResolver } from '../../../lib/functions/webform_yup_functions/webform_yup_functions';
@@ -7,6 +6,7 @@ import FormFieldRendered from './formFieldRendered';
 import { generateFormSchemaAndDefaults, getDependentFields, shouldFieldBeVisible, isLayoutType, } from '../../../lib/functions/webform_fields_functions/webform_fields_conditional_functions';
 import { getDummyDefaultFormDefault } from '../../../lib/functions/webform_validation_functions/webform_validation_functions';
 import ConfirmationView from '../../special-display/confirmationView';
+import Form from '../form';
 const FormDefault = (props) => {
     const { elementsSource, multiStepExtra, defaultFieldValues, yup: yupObj, defaultFieldStateMessages, components, classNames, includeInactiveFieldsInSubmit, onSubmit, customValidators, isSubmitted, showConfirmation, } = props;
     const { yupUseFormProps } = yupObj || {};
@@ -72,8 +72,8 @@ const FormDefault = (props) => {
         const isLayout = isLayoutType(type);
         return (_jsx(FormFieldRendered, { fieldKey: key, index: index, field: field, components: components, classNames: classNames, isMultiStep: isMultiStep, ...(isLayout ? { watchedValues } : {}) }, key));
     });
-    const CustomForm = components?.form;
+    const FormComponent = components?.form ?? Form;
     const ConfirmationComponent = components?.confirmationView ?? ConfirmationView;
-    return (_jsx(FormProvider, { ...methods, children: shouldShowConfirmation ? (_jsx(ConfirmationComponent, {})) : CustomForm ? (_jsx(CustomForm, { ...props, onSubmit: handleSubmit(handleFormSubmit), children: formContent })) : (_jsx("form", { className: styles.formDefault, onSubmit: handleSubmit(handleFormSubmit), children: formContent })) }));
+    return (_jsx(FormProvider, { ...methods, children: shouldShowConfirmation ? (_jsx(ConfirmationComponent, {})) : (_jsx(FormComponent, { onSubmit: handleSubmit(handleFormSubmit), children: formContent })) }));
 };
 export default React.memo(FormDefault);

@@ -1,14 +1,11 @@
 import { jsx as _jsx } from "react/jsx-runtime";
-import { useController, useFormContext } from 'react-hook-form';
-import Wrapper from './fields-sub-components/wrapper';
+import FieldContainer from './fields-sub-components/fieldContainer';
 import Checkboxes from './fields-elements/checkboxes';
 export const renderCheckboxes = (props) => {
     const { fieldKey, field, components, classNames } = props;
-    const { control } = useFormContext();
+    const FieldContainerComponent = components?.wrapper ?? FieldContainer;
     if (!field?.['#options'])
         return null;
     const CustomCheckboxes = components?.fieldById?.[fieldKey] ?? components?.checkboxes;
-    const controller = useController({ name: fieldKey, control });
-    const { fieldState } = controller;
-    return (_jsx(Wrapper, { field: field, classNames: classNames, classNameFieldName: "fieldCheckboxes", stateError: fieldState?.error, components: components, fieldKey: fieldKey, wrapperElement: "fieldset", children: CustomCheckboxes ? (_jsx(CustomCheckboxes, { ...props })) : (_jsx(Checkboxes, { ...props })) }, fieldKey));
+    return (_jsx(FieldContainerComponent, { field: field, classNames: classNames, classNameFieldName: "fieldCheckboxes", components: components, fieldKey: fieldKey, wrapperElement: "fieldset", children: CustomCheckboxes ? (_jsx(CustomCheckboxes, { ...props })) : (_jsx(Checkboxes, { ...props })) }, fieldKey));
 };

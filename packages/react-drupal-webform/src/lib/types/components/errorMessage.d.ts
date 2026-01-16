@@ -1,13 +1,12 @@
 import { ReactNode } from 'react'
-import { TWebformClassNames } from '../form.d'
-import { TWebformComponents } from '../component-list'
+import { TWebformClassNames, TWebformCustomComponents } from '../form.d'
 import { TElementSource } from './field'
 
 export interface ErrorMessageProps {
   message?: string
   className?: string
   classNames: TWebformClassNames
-  components: TWebformComponents
+  components: TWebformCustomComponents
   field: TElementSource
   filedKey: string
   children?: ReactNode

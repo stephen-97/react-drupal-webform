@@ -1,4 +1,4 @@
-import { JSX, ReactElement } from 'react'
+import React, { JSX, ReactElement } from 'react'
 import {
   TWebformClassNameFields,
   TWebformClassNames,
@@ -6,7 +6,7 @@ import {
 } from '../form.d'
 import { TElementSource } from './field'
 
-export interface WrapperProps {
+export interface FieldContainerProps {
   children: ReactElement
   isLabel?: boolean
   className?: string
@@ -15,5 +15,6 @@ export interface WrapperProps {
   classNameFieldName: keyof Required<TWebformClassNameFields>
   components: TWebformCustomComponents
   fieldKey: string
-  wrapperElement?: keyof JSX.IntrinsicElements
+  wrapperElement?: 'div' | 'fieldset'
+  innerProps?: JSX.IntrinsicElements['div'] | JSX.IntrinsicElements['fieldset']
 }

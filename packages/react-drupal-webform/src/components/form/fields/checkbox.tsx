@@ -1,5 +1,5 @@
 import { TFieldWebformObj } from '../../../lib/types/components/field'
-import Wrapper from './fields-sub-components/wrapper'
+import FieldContainer from './fields-sub-components/fieldContainer'
 import Checkbox from './fields-elements/checkbox'
 import Title from './fields-sub-components/title/title'
 import React from 'react'
@@ -8,7 +8,7 @@ import styles from '../fields/field.module.scss'
 export const renderCheckbox = (props: TFieldWebformObj) => {
   const { fieldKey, field, classNames, components } = props
 
-  const WrapperComponent = components?.wrapper ?? Wrapper
+  const FieldContainerComponent = components?.fieldContainer ?? FieldContainer
 
   const CustomCheckbox =
     components?.fieldById?.[fieldKey] ?? components?.checkbox
@@ -17,7 +17,7 @@ export const renderCheckbox = (props: TFieldWebformObj) => {
   const title = field?.['#title']
 
   return (
-    <WrapperComponent
+    <FieldContainerComponent
       field={field}
       classNames={classNames}
       classNameFieldName="fieldCheckboxes"
@@ -43,6 +43,6 @@ export const renderCheckbox = (props: TFieldWebformObj) => {
           )}
         </>
       )}
-    </WrapperComponent>
+    </FieldContainerComponent>
   )
 }

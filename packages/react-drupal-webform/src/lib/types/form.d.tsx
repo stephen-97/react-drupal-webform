@@ -8,7 +8,7 @@ import {
   TElementSource,
   TFieldWebformObj,
 } from './components/field'
-import { WrapperProps } from './components/wrapper'
+import { FieldContainerProps } from './components/fieldContainer'
 import { ErrorMessageProps } from './components/errorMessage'
 import { WysiwygProps } from './components/wysiwyg'
 import { HelpProps } from './components/help'
@@ -19,7 +19,7 @@ import { IManagedFilePreviewWebformProps } from './components/filePreview'
 import { IMultiStepActionsProps } from './components/multiStepActions'
 import { IMultiStepStepperProps } from './components/multiStepStepper'
 import { TFieldValidate } from './components/validate'
-import { ILayoutWrapperProps } from './components/layoutWrapper'
+import { LayoutProps } from './components/layoutWrapper'
 import { TFieldRendererProps } from './components/fieldRenderer'
 import { IFormDefaultWebformProps } from './components/formDefault'
 import { TFormMultiStepProps } from './components/formMultiStep'
@@ -32,6 +32,7 @@ import { HiddenProps } from './components/hidden'
 import { ActionProps } from './components/action'
 import { ManagedFileProps } from './components/managedFile'
 import { InputProps } from './components/input'
+import { FormProps } from './components/form'
 
 export type TFileWithBase64 = {
   name: string
@@ -227,20 +228,10 @@ export type TWebformNormalizedStateMessages = {
   }
 }
 
-export type TWebformCustomElementFormProps =
-  | (IFormDefaultWebformProps & {
-      children: React.ReactNode
-      onSubmit: () => void
-    })
-  | (TFormMultiStepProps & {
-      children: React.ReactNode
-      onSubmit: () => void
-    })
-
 export type TWebformCustomComponents = {
   action?: React.ComponentType<ActionProps>
   title?: React.ComponentType<TitleProps>
-  wrapper?: React.ComponentType<WrapperProps>
+  fieldContainer?: React.ComponentType<FieldContainerProps>
   errorFieldMessage?: React.ComponentType<ErrorMessageProps>
   input?: React.ComponentType<InputProps>
   managedFile?: React.ComponentType<ManagedFileProps>
@@ -258,10 +249,10 @@ export type TWebformCustomComponents = {
   more?: React.ComponentType<MoreProps>
   multiStepActions?: React.ComponentType<IMultiStepActionsProps>
   multiStepStepper?: React.ComponentType<IMultiStepStepperProps>
-  layout?: React.ComponentType<ILayoutWrapperProps>
+  layout?: React.ComponentType<LayoutProps>
   markup?: React.ComponentType<TFieldWebformObj>
   fieldById?: Record<string, React.ComponentType<TFieldRendererProps>>
-  form?: React.ComponentType<TWebformCustomElementFormProps>
+  form?: React.ComponentType<FormProps>
   confirmationView?: React.ComponentType<any>
 }
 

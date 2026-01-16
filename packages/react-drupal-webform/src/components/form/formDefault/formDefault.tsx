@@ -13,6 +13,7 @@ import {
 import { IFormDefaultWebformProps } from '../../../lib/types/components/formDefault'
 import { getDummyDefaultFormDefault } from '../../../lib/functions/webform_validation_functions/webform_validation_functions'
 import ConfirmationView from '../../special-display/confirmationView'
+import Form from '../form'
 
 const FormDefault = (props: IFormDefaultWebformProps) => {
   const {
@@ -136,7 +137,7 @@ const FormDefault = (props: IFormDefaultWebformProps) => {
     )
   })
 
-  const CustomForm = components?.form
+  const FormComponent = components?.form ?? Form
 
   const ConfirmationComponent = components?.confirmationView ?? ConfirmationView
 
@@ -144,17 +145,10 @@ const FormDefault = (props: IFormDefaultWebformProps) => {
     <FormProvider {...methods}>
       {shouldShowConfirmation ? (
         <ConfirmationComponent />
-      ) : CustomForm ? (
-        <CustomForm {...props} onSubmit={handleSubmit(handleFormSubmit)}>
-          {formContent}
-        </CustomForm>
       ) : (
-        <form
-          className={styles.formDefault}
-          onSubmit={handleSubmit(handleFormSubmit)}
-        >
+        <FormComponent onSubmit={handleSubmit(handleFormSubmit)}>
           {formContent}
-        </form>
+        </FormComponent>
       )}
     </FormProvider>
   )

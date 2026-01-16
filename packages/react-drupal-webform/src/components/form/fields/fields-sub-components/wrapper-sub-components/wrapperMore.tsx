@@ -1,7 +1,7 @@
 import React from 'react'
 import { TWrapperMoreWebformProps } from '../../../../../lib/types/components/wrapperMore'
 import cn from 'classnames'
-import styles from '../wrapper.module.scss'
+import styles from '../fieldContainer.module.scss'
 import More from '../more/more'
 
 const WrapperMore = ({

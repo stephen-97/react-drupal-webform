@@ -1,4 +1,4 @@
-.label {
+.title {
     font-size: var(--font-size-s);
     font-weight: var(--font-weight-semibold);
     color: var(--color-title);
@@ -15,7 +15,7 @@
     }
 }
 
-input[type='checkbox'] + .label {
+input[type='checkbox'] + .title {
   font-weight: 400;
   margin-block-end: 0;
 }

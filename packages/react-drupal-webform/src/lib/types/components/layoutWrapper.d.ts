@@ -1,7 +1,8 @@
 import { TFieldWebformObj } from './field'
-import React from 'react'
+import React, { JSX } from 'react'
 
-export interface ILayoutWrapperProps extends TFieldWebformObj {
+export interface LayoutProps extends TFieldWebformObj {
   children: React.ReactNode
-  fieldKey: string
+  className?: string
+  innerProps?: JSX.IntrinsicElements['div']
 }

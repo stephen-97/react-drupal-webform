@@ -1,17 +1,17 @@
 import { TFieldWebformObj } from '../../../lib/types/components/field'
-import Wrapper from './fields-sub-components/wrapper'
+import FieldContainer from './fields-sub-components/fieldContainer'
 import Select from './fields-elements/select'
 
 export const renderSelect = (props: TFieldWebformObj) => {
   const { fieldKey, field, components, classNames } = props
-  const WrapperComponent = components?.wrapper ?? Wrapper
+  const FieldContainerComponent = components?.fieldContainer ?? FieldContainer
 
   if (!field?.['#options']) return null
 
   const CustomSelect = components?.fieldById?.[fieldKey] ?? components?.select
 
   return (
-    <WrapperComponent
+    <FieldContainerComponent
       field={field}
       classNames={classNames}
       classNameFieldName="fieldSelect"
@@ -20,6 +20,6 @@ export const renderSelect = (props: TFieldWebformObj) => {
       fieldKey={fieldKey}
     >
       {CustomSelect ? <CustomSelect {...props} /> : <Select {...props} />}
-    </WrapperComponent>
+    </FieldContainerComponent>
   )
 }

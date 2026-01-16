@@ -1,18 +1,18 @@
 import { jsx as _jsx } from "react/jsx-runtime";
 import { createElement as _createElement } from "react";
 import FormFieldRendered from '../formDefault/formFieldRendered';
-import LayoutWrapper from './fields-sub-components/layoutWrapper/layoutWrapper';
+import Layout from './fields-sub-components/layout/layout';
 import { shouldFieldBeVisible } from '../../../lib/functions/webform_fields_functions/webform_fields_conditional_functions';
 const renderLayout = (props) => {
     const { fieldKey, field, classNames, components, watchedValues } = props;
-    const childKeys = Object.keys(field).filter((k) => !k.startsWith('#'));
-    const { fieldKey: _omitKey, ...restProps } = props;
-    return (_createElement(LayoutWrapper, { ...restProps, fieldKey: fieldKey, key: fieldKey }, childKeys.map((childKey, i) => {
+    const LayoutComponent = components?.layout ?? Layout;
+    const childKeys = Object.keys(field).filter((key) => !key.startsWith('#'));
+    const values = watchedValues ?? {};
+    return (_createElement(LayoutComponent, { ...props, fieldKey: fieldKey, key: fieldKey }, childKeys.map((childKey, index) => {
         const child = field[childKey];
-        const isVisible = shouldFieldBeVisible(childKey, field, watchedValues ?? {});
-        if (!isVisible)
+        if (!shouldFieldBeVisible(childKey, field, values))
             return null;
-        return (_jsx(FormFieldRendered, { fieldKey: childKey, index: i, field: child, components: components, classNames: classNames, isMultiStep: false, watchedValues: watchedValues }, childKey));
+        return (_jsx(FormFieldRendered, { fieldKey: childKey, index: index, field: child, components: components, classNames: classNames, isMultiStep: false, watchedValues: watchedValues }, childKey));
     })));
 };
 export default renderLayout;

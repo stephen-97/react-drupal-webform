@@ -4,15 +4,18 @@ import Help from '../help/help';
 import cn from 'classnames';
 import styles from './title.module.scss';
 const Title = (props) => {
-    const { field, components, className, classNames } = props;
+    const { field, components, className, classNames, fieldKey } = props;
+    const showHelp = Boolean(field['#help']?.length) || Boolean(field['#help_title']?.length);
     const CustomHelp = components?.help ?? Help;
     const title = field?.['#title'];
     const isRequired = field?.['#required'];
     if (props.wrapperElement === 'label') {
-        return (_jsxs("label", { ...props.innerProps, className: cn(styles.label, className, props.innerProps?.className, {
+        return (_jsxs("label", { ...props.innerProps, htmlFor: fieldKey, className: cn(styles.title, className, classNames.general?.fieldTitle, {
                 [styles.isRequired]: isRequired,
-            }), children: [title, _jsx(CustomHelp, { field: field, classNames: classNames, components: components })] }));
+            }), children: [title, showHelp && (_jsx(CustomHelp, { field: field, classNames: classNames, components: components }))] }));
     }
-    return (_jsxs("legend", { ...props.innerProps, className: cn(styles.label, className), children: [title, _jsx(CustomHelp, { field: field, classNames: classNames, components: components })] }));
+    return (_jsxs("legend", { ...props.innerProps, className: cn(styles.title, className, props.innerProps?.className, {
+            [styles.isRequired]: isRequired,
+        }), children: [title, showHelp && (_jsx(CustomHelp, { field: field, classNames: classNames, components: components }))] }));
 };
 export default React.memo(Title);

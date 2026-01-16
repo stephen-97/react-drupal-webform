@@ -102,6 +102,12 @@
   }
 }
 
+.fieldWrapperCheckbox {
+  display: flex;
+  flex-direction: row;
+  gap: .5rem
+}
+
 .checkboxLabel {
   cursor: pointer;
   &.isRequired {

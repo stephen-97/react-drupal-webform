@@ -3,7 +3,7 @@ import 'tippy.js/dist/tippy.css'
 import Wysiwyg from '../../fields-special-components/wysiwyg/wysiwyg'
 import { DescriptionProps } from '../../../../../lib/types/components/description'
 import cn from 'classnames'
-import styles from '../wrapper.module.scss'
+import styles from '../fieldContainer.module.scss'
 
 const Description = ({
   innerProps,

@@ -1,6 +1,22 @@
 import { jsx as _jsx } from "react/jsx-runtime";
 import Wysiwyg from '../../components/form/fields/fields-special-components/wysiwyg/wysiwyg';
 import Input from '../../components/form/fields/fields-elements/input';
+import Title from '../../components/form/fields/fields-sub-components/title/title';
+import Checkbox from '../../components/form/fields/fields-elements/checkbox';
+import Checkboxes from '../../components/form/fields/fields-elements/checkboxes';
+import Hidden from '../../components/form/fields/fields-elements/hidden';
+import ManagedFile from '../../components/form/fields/fields-elements/managedFile';
+import Radios from '../../components/form/fields/fields-elements/radios';
+import Select from '../../components/form/fields/fields-elements/select';
+import Textarea from '../../components/form/fields/fields-elements/textarea';
+import FieldContainer from '../../components/form/fields/fields-sub-components/fieldContainer';
+import { Action } from '../../components/form/fields/action';
+import Help from '../../components/form/fields/fields-sub-components/help/help';
+import More from '../../components/form/fields/fields-sub-components/more/more';
+import Description from '../../components/form/fields/fields-sub-components/description/description';
+import Form from '../../components/form/form';
+import Markup from '../../components/form/fields/markup';
+import Layout from '../../components/form/fields/fields-sub-components/layout/layout';
 export const defaultValuesObj = {
     textfield: '',
     textarea: '',
@@ -119,10 +135,13 @@ export const defaultValuesClassnames = {
     },
     general: {
         fieldForm: '',
-        fieldLabel: '',
+        fieldTitle: '',
         fieldDescription: '',
         fieldManagedFileInfo: '',
-        fieldMore: '',
+        fieldMore: {
+            container: '',
+            button: '',
+        },
         fieldHelp: '',
         fieldWysiwyg: '',
     },
@@ -191,4 +210,20 @@ export const defaultValuesClassnames = {
 export const components = {
     Input: (props) => _jsx(Input, { ...props }),
     Wysiwyg: (props) => _jsx(Wysiwyg, { ...props }),
+    Title: (props) => _jsx(Title, { ...props }),
+    Checkbox: (props) => _jsx(Checkbox, { ...props }),
+    Checkboxes: (props) => (_jsx(Checkboxes, { ...props })),
+    Hidden: (props) => _jsx(Hidden, { ...props }),
+    ManagedFile: (props) => (_jsx(ManagedFile, { ...props })),
+    Radios: (props) => _jsx(Radios, { ...props }),
+    Select: (props) => _jsx(Select, { ...props }),
+    TextArea: (props) => _jsx(Textarea, { ...props }),
+    Wrapper: (props) => _jsx(FieldContainer, { ...props }),
+    Action: (props) => _jsx(Action, { ...props }),
+    Help: (props) => _jsx(Help, { ...props }),
+    More: (props) => _jsx(More, { ...props }),
+    Form: (props) => _jsx(Form, { ...props }),
+    Markup: (props) => _jsx(Markup, { ...props }),
+    Layout: (props) => _jsx(Layout, { ...props }),
+    Description: (props) => (_jsx(Description, { ...props })),
 };

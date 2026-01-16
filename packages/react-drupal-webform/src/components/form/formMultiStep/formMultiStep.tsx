@@ -23,6 +23,7 @@ import {
 import { TFormMultiStepProps } from '../../../lib/types/components/formMultiStep'
 import { MultiStepProvider } from './multiStepContext'
 import ConfirmationView from '../../special-display/confirmationView'
+import Form from '../form'
 
 const FormMultiStep = (props: TFormMultiStepProps) => {
   const {
@@ -251,6 +252,8 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
   const CustomForm = components?.form
   const ConfirmationComponent = components?.confirmationView ?? ConfirmationView
 
+  const FormComponent = components?.form ?? Form
+
   return (
     <FormProvider {...methods}>
       <MultiStepProvider
@@ -275,18 +278,9 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
               classNames={classNames}
             />
 
-            {CustomForm ? (
-              <CustomForm {...props} onSubmit={handleSubmit(onFormSubmit)}>
-                {formContent}
-              </CustomForm>
-            ) : (
-              <form
-                className={styles.formMultiStep}
-                onSubmit={handleSubmit(onFormSubmit)}
-              >
-                {formContent}
-              </form>
-            )}
+            <FormComponent onSubmit={handleSubmit(onFormSubmit)}>
+              {formContent}
+            </FormComponent>
           </>
         )}
       </MultiStepProvider>

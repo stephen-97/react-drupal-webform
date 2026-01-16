@@ -1,18 +1,17 @@
 import React from 'react'
-import { useController, useFormContext } from 'react-hook-form'
 import { TFieldWebformObj } from '../../../lib/types/components/field'
-import Wrapper from './fields-sub-components/wrapper'
+import FieldContainer from './fields-sub-components/fieldContainer'
 import Input from './fields-elements/input'
 
 const renderInput = (props: TFieldWebformObj) => {
   const { fieldKey, field, components, classNames } = props
 
-  const WrapperComponent = components?.wrapper ?? Wrapper
+  const FieldContainerComponent = components?.fieldContainer ?? FieldContainer
 
   const CustomInput = components?.fieldById?.[fieldKey] ?? components?.input
 
   return (
-    <WrapperComponent
+    <FieldContainerComponent
       field={field}
       classNames={classNames}
       classNameFieldName="fieldInput"
@@ -21,7 +20,7 @@ const renderInput = (props: TFieldWebformObj) => {
       fieldKey={fieldKey}
     >
       {CustomInput ? <CustomInput {...props} /> : <Input {...props} />}
-    </WrapperComponent>
+    </FieldContainerComponent>
   )
 }
 

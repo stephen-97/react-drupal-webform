@@ -2,9 +2,9 @@
 
 import React from 'react'
 import { components } from '../../../../packages/react-drupal-webform/src/lib/const/const.form'
-import { WrapperProps } from '../../../../packages/react-drupal-webform/src/lib/types/components/wrapper'
+import { FieldContainerProps } from '../../../../packages/react-drupal-webform/src/lib/types/components/fieldContainer'
 
-const CustomWrapper = (props: WrapperProps) => {
+const CustomWrapper = (props: FieldContainerProps) => {
   return <components.Wrapper {...props}>{props.children}</components.Wrapper>
 }
 

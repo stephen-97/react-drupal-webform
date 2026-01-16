@@ -1,3 +1,3 @@
-import { ILaoderWebformProps } from "../../../../../lib/types/components/loader";
-declare const Loader: (props: ILaoderWebformProps) => import("react/jsx-runtime").JSX.Element;
+import { LoaderProps } from '../../../../../lib/types/components/loader';
+declare const Loader: (props: LoaderProps) => import("react/jsx-runtime").JSX.Element;
 export default Loader;

@@ -1,16 +1,16 @@
 import { TFieldWebformObj } from '../../../lib/types/components/field'
-import Wrapper from './fields-sub-components/wrapper'
+import FieldContainer from './fields-sub-components/fieldContainer'
 import React from 'react'
 import ManagedFile from './fields-elements/managedFile'
 const renderManagedFile = (props: TFieldWebformObj) => {
   const { fieldKey, field, components, classNames } = props
-  const WrapperComponent = components?.wrapper ?? Wrapper
+  const FieldContainerComponent = components?.fieldContainer ?? FieldContainer
 
   const CustomManagedFile =
     components?.fieldById?.[fieldKey] ?? components?.managedFile ?? ManagedFile
 
   return (
-    <WrapperComponent
+    <FieldContainerComponent
       field={field}
       classNames={classNames}
       components={components}
@@ -19,7 +19,7 @@ const renderManagedFile = (props: TFieldWebformObj) => {
       fieldKey={fieldKey}
     >
       <CustomManagedFile {...props} />
-    </WrapperComponent>
+    </FieldContainerComponent>
   )
 }
 

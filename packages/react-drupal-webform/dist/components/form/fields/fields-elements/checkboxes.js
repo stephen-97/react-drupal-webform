@@ -4,7 +4,7 @@ import cn from 'classnames';
 import styles from '../field.module.scss';
 import { useController, useFormContext } from 'react-hook-form';
 import { handleChangeOptionsCheckboxes } from '../../../../lib/functions/webform_fields_functions/webform_fields_functions';
-const Checkboxes = ({ fieldKey, field, classNames, className, innerProps, itemProps, inputProps, titleProps, }) => {
+const Checkboxes = ({ fieldKey, field, classNames, className, innerProps, itemProps, inputProps, labelProps, }) => {
     const { control } = useFormContext();
     if (!field?.['#options'])
         return null;
@@ -18,7 +18,7 @@ const Checkboxes = ({ fieldKey, field, classNames, className, innerProps, itemPr
                 ? fieldController.value.includes(optionKey)
                 : false;
             const id = `checkboxes-${optionKey.trim()}-${i}`;
-            return (_jsxs("div", { className: cn(classNames.fields.checkboxes?.itemWrapper, styles.checkbox), ...itemProps, children: [_jsx("input", { id: id, className: cn(classNames.fields.checkboxes?.input, styles.field), name: fieldController.name, type: "checkbox", value: optionKey, checked: checked, onChange: (e) => handleChangeOptionsCheckboxes(e.target.value, e.target.checked, fieldController), ...inputProps }), _jsx("label", { htmlFor: id, className: cn(classNames.fields.checkboxes?.label, styles.labelCheckbox), ...titleProps, children: optionValue })] }, optionKey));
+            return (_jsxs("div", { className: cn(classNames.fields.checkboxes?.itemWrapper, styles.checkbox), ...itemProps, children: [_jsx("input", { id: id, className: cn(classNames.fields.checkboxes?.input, styles.field), name: fieldController.name, type: "checkbox", value: optionKey, checked: checked, onChange: (e) => handleChangeOptionsCheckboxes(e.target.value, e.target.checked, fieldController), ...inputProps }), _jsx("label", { htmlFor: id, className: cn(classNames.fields.checkboxes?.label, styles.labelCheckbox), ...labelProps, children: optionValue })] }, optionKey));
         }) }));
 };
 export default React.memo(Checkboxes);

@@ -1,6 +1,6 @@
 import React from 'react'
 import { TWrapperFieldWebformProps } from '../../../../../lib/types/components/wrapperField'
-import styles from '../wrapper.module.scss'
+import styles from '../fieldContainer.module.scss'
 import ErrorFieldMessage from '../errorFieldMessage/errorFieldMessage'
 
 const WrapperField = ({

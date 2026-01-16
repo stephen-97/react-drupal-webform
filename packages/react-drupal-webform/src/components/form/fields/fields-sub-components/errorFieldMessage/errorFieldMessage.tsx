@@ -13,11 +13,15 @@ const ErrorFieldMessage = ({
     <div
       className={cn(
         styles.errorFieldMessage,
-        classNames.states?.fieldErrorMessage,
+        classNames.states?.fieldError,
         className
       )}
     >
-      {message && <span>{message}</span>}
+      {message && (
+        <span className={cn(classNames.states?.fieldErrorMessage)}>
+          {message}
+        </span>
+      )}
       {children}
     </div>
   )

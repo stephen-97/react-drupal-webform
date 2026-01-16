@@ -1,7 +1,6 @@
 'use client'
 
 import React from 'react'
-import WebformContainer from '@/components/webform/webformContainer'
 import styles from './container.module.scss'
 import CustomWebform from '@/components/webform/customWebform/customWebform'
 

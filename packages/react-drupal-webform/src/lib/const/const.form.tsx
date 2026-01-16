@@ -23,8 +23,8 @@ import Select from '../../components/form/fields/fields-elements/select'
 import { SelectProps } from '../types/components/select'
 import Textarea from '../../components/form/fields/fields-elements/textarea'
 import { TextAreaProps } from '../types/components/textarea'
-import { WrapperProps } from '../types/components/wrapper'
-import Wrapper from '../../components/form/fields/fields-sub-components/wrapper'
+import { FieldContainerProps } from '../types/components/fieldContainer'
+import FieldContainer from '../../components/form/fields/fields-sub-components/fieldContainer'
 import { ActionProps } from '../types/components/action'
 import { Action } from '../../components/form/fields/action'
 import { HelpProps } from '../types/components/help'
@@ -33,6 +33,12 @@ import { MoreProps } from '../types/components/more'
 import More from '../../components/form/fields/fields-sub-components/more/more'
 import { DescriptionProps } from '../types/components/description'
 import Description from '../../components/form/fields/fields-sub-components/description/description'
+import { FormProps } from '../types/components/form'
+import Form from '../../components/form/form'
+import { MarkupProps } from '../types/components/markup'
+import Markup from '../../components/form/fields/markup'
+import { LayoutProps } from '../types/components/layoutWrapper'
+import Layout from '../../components/form/fields/fields-sub-components/layout/layout'
 
 export const defaultValuesObj: Required<TWebformDefaultFieldValues> = {
   textfield: '',
@@ -244,10 +250,15 @@ export const components = {
   Radios: <P extends RadiosProps>(props: P) => <Radios {...props} />,
   Select: <P extends SelectProps>(props: P) => <Select {...props} />,
   TextArea: <P extends TextAreaProps>(props: P) => <Textarea {...props} />,
-  Wrapper: <P extends WrapperProps>(props: P) => <Wrapper {...props} />,
+  FieldContainer: <P extends FieldContainerProps>(props: P) => (
+    <FieldContainer {...props} />
+  ),
   Action: <P extends ActionProps>(props: P) => <Action {...props} />,
   Help: <P extends HelpProps>(props: P) => <Help {...props} />,
   More: <P extends MoreProps>(props: P) => <More {...props} />,
+  Form: <P extends FormProps>(props: P) => <Form {...props} />,
+  Markup: <P extends MarkupProps>(props: P) => <Markup {...props} />,
+  Layout: <P extends LayoutProps>(props: P) => <Layout {...props} />,
   Description: <P extends DescriptionProps>(props: P) => (
     <Description {...props} />
   ),
