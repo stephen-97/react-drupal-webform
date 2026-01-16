@@ -49,11 +49,11 @@ const FieldContainer = (props: FieldContainerProps) => {
     <WrapperElement
       className={cn(
         ...(field?.['#attributes']?.class ?? []),
-        classNames.wrappers?.byFieldType?.[field['#type']],
+        classNames.fieldContainer?.byFieldType?.[field['#type']],
         wrapperCategory
-          ? classNames.wrappers?.byCategory?.[wrapperCategory]
+          ? classNames.fieldContainer?.byCategory?.[wrapperCategory]
           : undefined,
-        classNames.wrappers?.base,
+        classNames.fieldContainer?.base,
         {
           [classNames.states.fieldError ?? '']: Boolean(stateError),
           [styles.fieldWrapperCheckbox]: field?.['#type'] === 'checkbox',

@@ -1,4 +1,4 @@
-import React, { JSX, ReactElement } from 'react'
+import { JSX, ReactElement } from 'react'
 import {
   TWebformClassNameFields,
   TWebformClassNames,

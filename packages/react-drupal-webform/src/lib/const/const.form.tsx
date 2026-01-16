@@ -120,18 +120,8 @@ export const defaultValuesFieldStateMessages: TWebformResolvedStateMessages = {
   },
 }
 
-/**
- * export type TDrupalNonValueFieldType =
- *   | 'webform_markup'
- *   | 'webform_actions'
- *   | 'container'
- *   | 'webform_flexbox'
- *   | 'webform_section'
- *   | 'details'
- *   | 'fieldset'
- */
 export const defaultValuesClassnames: TDeepRequiredClassNames = {
-  wrappers: {
+  fieldContainer: {
     base: '',
     byCategory: {
       textInput: '',

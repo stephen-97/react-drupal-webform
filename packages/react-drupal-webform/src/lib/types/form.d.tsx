@@ -62,7 +62,7 @@ export type TWebformClassNameFields = {
 }
 
 export type TWebformClassNames = {
-  wrappers?: {
+  fieldContainer?: {
     base?: string
     byCategory?: {
       textInput?: string
