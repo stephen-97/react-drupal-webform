@@ -10,14 +10,11 @@ export const validateUnsupportedField = (props: TFieldValidate) => {
 
   const type = field?.['#type'] as TDrupal_FieldType_Validate
 
-  console.log('type', type)
-
   const defaultSchema = mixed()
 
   const customSchema =
     resolveCustomValidator(customValidators, key, type, props) ?? defaultSchema
 
-  console.log('YES')
   yupObject[key] = customSchema
 
   defaultValues[key] = ''
