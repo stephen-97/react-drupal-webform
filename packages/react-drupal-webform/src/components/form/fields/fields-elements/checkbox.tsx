@@ -1,7 +1,5 @@
-// fields-elements/checkbox.tsx
 import React from 'react'
 import cn from 'classnames'
-import styles from '../field.module.scss'
 import { useController, useFormContext } from 'react-hook-form'
 import { CheckboxProps } from '../../../../lib/types/components/checkboxe'
 const Checkbox = ({

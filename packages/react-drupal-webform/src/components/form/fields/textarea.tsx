@@ -13,7 +13,6 @@ export const renderTextArea = (props: TFieldWebformObj) => {
     <FieldContainerComponent
       field={field}
       classNames={classNames}
-      classNameFieldName="fieldTextarea"
       components={components}
       key={fieldKey}
       fieldKey={fieldKey}

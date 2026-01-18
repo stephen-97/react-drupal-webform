@@ -1,9 +1,5 @@
 import { JSX, ReactElement } from 'react'
-import {
-  TWebformClassNameFields,
-  TWebformClassNames,
-  TWebformCustomComponents,
-} from '../form.d'
+import { TWebformClassNames, TWebformCustomComponents } from '../form.d'
 import { TElementSource } from './field'
 
 export interface FieldContainerProps {
@@ -12,7 +8,6 @@ export interface FieldContainerProps {
   className?: string
   field: TElementSource
   classNames: Required<TWebformClassNames>
-  classNameFieldName: keyof Required<TWebformClassNameFields>
   components: TWebformCustomComponents
   fieldKey: string
   wrapperElement?: 'div' | 'fieldset'

@@ -1,4 +1,3 @@
-import styles from './formDefault.module.scss'
 import React, { useEffect, useMemo, useCallback } from 'react'
 import { useForm, useWatch, FormProvider } from 'react-hook-form'
 import { useYupValidationResolver } from '../../../lib/functions/webform_yup_functions/webform_yup_functions'
@@ -51,14 +50,14 @@ const FormDefault = (props: IFormDefaultWebformProps) => {
   )
 
   const methods = useForm({
-    ...yupUseFormProps,
     mode: 'all',
     criteriaMode: 'all',
     defaultValues: dummyDefaultValues,
     shouldUnregister: false,
+    ...yupUseFormProps,
   })
 
-  const { control, reset, getValues, handleSubmit } = methods
+  const { control, reset, formState, getValues, handleSubmit } = methods
 
   const watchedValuesArray = useWatch({ control, name: dependentFieldNames })
 

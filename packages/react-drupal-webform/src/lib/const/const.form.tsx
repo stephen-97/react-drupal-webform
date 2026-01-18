@@ -37,8 +37,12 @@ import { FormProps } from '../types/components/form'
 import Form from '../../components/form/form'
 import { MarkupProps } from '../types/components/markup'
 import Markup from '../../components/form/fields/markup'
-import { LayoutProps } from '../types/components/layoutWrapper'
+import { LayoutProps } from '../types/components/layout'
 import Layout from '../../components/form/fields/fields-sub-components/layout/layout'
+import LayoutTitle from '../../components/form/fields/fields-sub-components/layoutTitle/layoutTitle'
+import { LayoutTitleProps } from '../types/components/layoutTitle'
+import { LayoutListProps } from '../types/components/layoutList'
+import LayoutList from '../../components/form/fields/fields-sub-components/layoutList/layoutList'
 
 export const defaultValuesObj: Required<TWebformDefaultFieldValues> = {
   textfield: '',
@@ -249,6 +253,12 @@ export const components = {
   Form: <P extends FormProps>(props: P) => <Form {...props} />,
   Markup: <P extends MarkupProps>(props: P) => <Markup {...props} />,
   Layout: <P extends LayoutProps>(props: P) => <Layout {...props} />,
+  LauyoutTitle: <P extends LayoutTitleProps>(props: P) => (
+    <LayoutTitle {...props} />
+  ),
+  LayoutList: <P extends LayoutListProps>(props: P) => (
+    <LayoutList {...props} />
+  ),
   Description: <P extends DescriptionProps>(props: P) => (
     <Description {...props} />
   ),

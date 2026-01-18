@@ -14,7 +14,6 @@ const renderInput = (props: TFieldWebformObj) => {
     <FieldContainerComponent
       field={field}
       classNames={classNames}
-      classNameFieldName="fieldInput"
       components={components}
       key={fieldKey}
       fieldKey={fieldKey}

@@ -11,7 +11,8 @@ const FormFieldRendered = ({
   isMultiStep,
   watchedValues,
 }: IFieldRendererWebformProps) => {
-  const type: string = field['#type'] ?? 'default'
+  const rawType = field['#type']
+  const type = rawType in FormMappingFields ? rawType : 'default'
 
   const elementRenderer = FormMappingFields[type]?.element
   if (!elementRenderer) return null

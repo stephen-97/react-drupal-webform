@@ -1,14 +1,17 @@
+import React from 'react'
 import { TFieldWebformObj } from '../../../lib/types/components/field'
 import FieldContainer from './fields-sub-components/fieldContainer'
-import Radios from './fields-elements/radios'
 
-export const renderRadio = (props: TFieldWebformObj) => {
-  const { fieldKey, field, classNames, components } = props
+const renderDefault = (props: TFieldWebformObj) => {
+  const { fieldKey, field, components, classNames } = props
+
   const FieldContainerComponent = components?.fieldContainer ?? FieldContainer
 
-  if (!field?.['#options']) return null
+  const CustomField = components?.unsupportedField
 
-  const CustomRadio = components?.fieldById?.[fieldKey] ?? components?.radios
+  if (!CustomField) {
+    return null
+  }
 
   return (
     <FieldContainerComponent
@@ -17,9 +20,10 @@ export const renderRadio = (props: TFieldWebformObj) => {
       components={components}
       key={fieldKey}
       fieldKey={fieldKey}
-      wrapperElement="fieldset"
     >
-      {CustomRadio ? <CustomRadio {...props} /> : <Radios {...props} />}
+      <CustomField {...props} />
     </FieldContainerComponent>
   )
 }
+
+export default renderDefault

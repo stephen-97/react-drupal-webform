@@ -14,7 +14,6 @@ export const renderSelect = (props: TFieldWebformObj) => {
     <FieldContainerComponent
       field={field}
       classNames={classNames}
-      classNameFieldName="fieldSelect"
       components={components}
       key={fieldKey}
       fieldKey={fieldKey}

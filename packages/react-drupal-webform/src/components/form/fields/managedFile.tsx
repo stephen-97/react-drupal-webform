@@ -14,7 +14,6 @@ const renderManagedFile = (props: TFieldWebformObj) => {
       field={field}
       classNames={classNames}
       components={components}
-      classNameFieldName="fieldInput"
       key={fieldKey}
       fieldKey={fieldKey}
     >

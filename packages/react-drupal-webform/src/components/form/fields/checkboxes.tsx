@@ -15,7 +15,6 @@ export const renderCheckboxes = (props: TFieldWebformObj) => {
     <FieldContainerComponent
       field={field}
       classNames={classNames}
-      classNameFieldName="fieldCheckboxes"
       components={components}
       key={fieldKey}
       fieldKey={fieldKey}

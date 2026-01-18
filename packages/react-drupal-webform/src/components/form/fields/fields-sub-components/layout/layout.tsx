@@ -1,10 +1,16 @@
 import React from 'react'
 import cn from 'classnames'
 import styles from './layout.module.scss'
-import { LayoutProps } from '../../../../../lib/types/components/layoutWrapper'
+import { LayoutProps } from '../../../../../lib/types/components/layout'
+import LayoutTitle from '../layoutTitle/layoutTitle'
+import LayoutList from '../layoutList/layoutList'
 
 const Layout = (props: LayoutProps) => {
-  const { field, classNames, children, fieldKey, className, innerProps } = props
+  const { classNames, children, fieldKey, className, innerProps, components } =
+    props
+
+  const LayoutTitleComponent = components?.layoutTitle ?? LayoutTitle
+  const LayoutListComponent = components?.layoutList ?? LayoutList
 
   return (
     <div
@@ -16,15 +22,9 @@ const Layout = (props: LayoutProps) => {
       )}
       {...innerProps}
     >
-      {field['#title'] && (
-        <div className={cn(styles.layoutTitle, classNames.fields.layout.title)}>
-          {field['#title']}
-        </div>
-      )}
+      <LayoutTitleComponent {...props} />
 
-      <div className={cn(styles.layoutInner, classNames.fields.layout.inner)}>
-        {children}
-      </div>
+      <LayoutListComponent {...props}>{children}</LayoutListComponent>
     </div>
   )
 }

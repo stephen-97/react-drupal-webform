@@ -171,7 +171,9 @@ export const generateFormSchemaAndDefaults = ({
     extractVisibleFields(elementsSource, visibleElementsKeys, watchedValues)
 
   realVisibleFields.forEach(({ key, field }) => {
-    const type: TDrupal_FieldType = field?.['#type']
+    const rawType = field?.['#type']
+
+    const type = rawType in FormMappingFields ? rawType : 'default'
     const required = Boolean(field?.['#required'])
 
     const fieldValidateProps: TFieldValidate = {
