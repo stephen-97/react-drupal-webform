@@ -2,23 +2,31 @@ import { TFieldWebformObj } from '../../../lib/types/components/field'
 import cn from 'classnames'
 import Wysiwyg from './fields-special-components/wysiwyg/wysiwyg'
 import { MarkupProps } from '../../../lib/types/components/markup'
+import {
+  getClassNames,
+  getDataAttributes,
+} from '../../../lib/functions/utils_functions'
 
 const Markup = (props: MarkupProps) => {
-  const { field, classNames, components, className } = props
+  const { field, components, className, classNamePrefix, innerProps } = props
 
   const markup = field?.['#markup']
   if (!markup?.length) return null
 
   const WysiwygComponent = components?.wysiwyg ?? Wysiwyg
 
+  const markupClassNames = getClassNames({
+    name: 'markup',
+    prefix: classNamePrefix,
+    baseCn: cn(...(field?.['#attributes']?.class ?? []), className),
+  })
+
+  const dataAttributes = getDataAttributes({
+    component: 'markup',
+  })
+
   return (
-    <div
-      className={cn(
-        ...(field?.['#attributes']?.class ?? []),
-        classNames.fields.markup.base,
-        className
-      )}
-    >
+    <div className={markupClassNames} {...innerProps} {...dataAttributes}>
       <WysiwygComponent processed={markup} source="markup" />
     </div>
   )

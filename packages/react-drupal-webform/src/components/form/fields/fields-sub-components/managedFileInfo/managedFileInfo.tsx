@@ -1,16 +1,54 @@
 import React from 'react'
-import { IManagedFileInfoProps } from "../../../../../lib/types/components/managedFileInfo"
-import styles from './managedFileInfo.module.scss'
 import cn from 'classnames'
-const ManagedFileInfo = ({ field, innerProps }: IManagedFileInfoProps) => {
+import styles from './managedFileInfo.module.scss'
+import { ManagedFileInfoProps } from '../../../../../lib/types/components/managedFileInfo'
+import {
+  getClassNames,
+  getDataAttributes,
+} from '../../../../../lib/functions/utils_functions'
+
+const ManagedFileInfo = ({
+  field,
+  innerProps,
+  className,
+}: ManagedFileInfoProps) => {
+  const wrapperClassNames = getClassNames({
+    name: 'managedFileInfo',
+    baseCn: cn(styles.managedFileInfo, className),
+  })
+
+  const labelClassNames = getClassNames({
+    name: 'managedFileLabel',
+    baseCn: cn(styles.label),
+  })
+
+  const maxSizeClassNames = getClassNames({
+    name: 'managedFileInfoMaxSize',
+    baseCn: cn(styles.label),
+  })
+
+  const fileExtensionClassname = getClassNames({
+    name: 'managedFileFileExtension',
+    baseCn: cn(styles.label),
+  })
+
+  const dataAttributes = getDataAttributes({
+    component: 'managedFileInfo',
+    type: 'managed_file',
+  })
+
   return (
-    <div className={cn(styles.managedFileInfo, innerProps?.className)}>
-      <span className={styles.label}>One file limit</span>
+    <div className={wrapperClassNames} {...dataAttributes} {...innerProps}>
+      <span className={labelClassNames}>One file limit</span>
+
       {field?.['#max_filesize'] && (
-        <span className={styles.label}>{field['#max_filesize']} MB limit</span>
+        <span className={maxSizeClassNames}>
+          {field['#max_filesize']} MB limit
+        </span>
       )}
+
       {field?.['#file_extensions'] && (
-        <span className={styles.label}>
+        <span className={fileExtensionClassname}>
           Allowed types: {field['#file_extensions']}
         </span>
       )}
@@ -18,4 +56,4 @@ const ManagedFileInfo = ({ field, innerProps }: IManagedFileInfoProps) => {
   )
 }
 
-export default ManagedFileInfo
+export default React.memo(ManagedFileInfo)

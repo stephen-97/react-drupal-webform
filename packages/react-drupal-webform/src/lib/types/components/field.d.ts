@@ -86,5 +86,6 @@ export type TFieldWebformObj = {
   submitButtonRef?: any
   isMultiStep?: boolean
   classNames: TDeepRequiredClassNames
+  classNamePrefix?: string
   components: TWebformCustomComponents
 }

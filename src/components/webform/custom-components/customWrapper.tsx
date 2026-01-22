@@ -5,7 +5,11 @@ import { components } from '../../../../packages/react-drupal-webform/src/lib/co
 import { FieldContainerProps } from '../../../../packages/react-drupal-webform/src/lib/types/components/fieldContainer'
 
 const CustomWrapper = (props: FieldContainerProps) => {
-  return <components.Wrapper {...props}>{props.children}</components.Wrapper>
+  return (
+    <components.FieldContainer {...props}>
+      {props.children}
+    </components.FieldContainer>
+  )
 }
 
 export default React.memo(CustomWrapper)

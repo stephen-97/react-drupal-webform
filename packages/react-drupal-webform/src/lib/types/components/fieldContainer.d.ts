@@ -8,6 +8,7 @@ export interface FieldContainerProps {
   className?: string
   field: TElementSource
   classNames: Required<TWebformClassNames>
+  classNamePrefix?: string
   components: TWebformCustomComponents
   fieldKey: string
   wrapperElement?: 'div' | 'fieldset'

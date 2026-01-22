@@ -23,7 +23,7 @@ import { renderHidden } from '../fields/hidden'
 import { validateHidden } from '../fields/fields-validate-functions/validateHidden'
 import renderLayout from '../fields/layout'
 import { validateLayout } from '../fields/fields-validate-functions/validateLayout'
-import renderDefault from '../fields/default'
+import renderUnsupportedField from '../fields/unsupportedField'
 import { validateUnsupportedField } from '../fields/fields-validate-functions/validateUnsupportedField'
 
 const FormMappingFields: IFormMappingField = {
@@ -104,7 +104,7 @@ const FormMappingFields: IFormMappingField = {
     validator: validateLayout,
   },
   default: {
-    element: renderDefault,
+    element: renderUnsupportedField,
     validator: validateUnsupportedField,
   },
 }

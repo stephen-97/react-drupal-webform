@@ -107,7 +107,8 @@ export const generateFormSchemaAndDefaults = ({ elementsSource, visibleElementsK
     const yupObjLocal = {};
     const realVisibleFields = extractVisibleFields(elementsSource, visibleElementsKeys, watchedValues);
     realVisibleFields.forEach(({ key, field }) => {
-        const type = field?.['#type'];
+        const rawType = field?.['#type'];
+        const type = rawType in FormMappingFields ? rawType : 'default';
         const required = Boolean(field?.['#required']);
         const fieldValidateProps = {
             yupObject: yupObjLocal,

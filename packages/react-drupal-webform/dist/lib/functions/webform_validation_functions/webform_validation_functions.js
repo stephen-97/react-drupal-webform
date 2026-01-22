@@ -22,6 +22,7 @@ export const resolveCustomValidator = (customValidators, key, type, args) => {
         return byId(args);
     }
     if (type && customValidators.byType?.[type]) {
+        console.log('ici', customValidators.byType[type]);
         return customValidators.byType[type](args);
     }
     return null;

@@ -22,6 +22,8 @@ import { renderHidden } from '../fields/hidden';
 import { validateHidden } from '../fields/fields-validate-functions/validateHidden';
 import renderLayout from '../fields/layout';
 import { validateLayout } from '../fields/fields-validate-functions/validateLayout';
+import renderUnsupportedField from '../fields/unsupportedField';
+import { validateUnsupportedField } from '../fields/fields-validate-functions/validateUnsupportedField';
 const FormMappingFields = {
     textfield: {
         element: renderInput,
@@ -100,8 +102,8 @@ const FormMappingFields = {
         validator: validateLayout,
     },
     default: {
-        element: null,
-        validator: null,
+        element: renderUnsupportedField,
+        validator: validateUnsupportedField,
     },
 };
 export default FormMappingFields;

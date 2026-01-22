@@ -16,13 +16,13 @@ const FormDefault = (props) => {
     const dependentFieldNames = useMemo(() => dependentFields.map((dep) => dep.name), [dependentFields]);
     const dummyDefaultValues = useMemo(() => getDummyDefaultFormDefault(elementsSource, defaultFieldValues), [elementsSource]);
     const methods = useForm({
-        ...yupUseFormProps,
         mode: 'all',
         criteriaMode: 'all',
         defaultValues: dummyDefaultValues,
         shouldUnregister: false,
+        ...yupUseFormProps,
     });
-    const { control, reset, getValues, handleSubmit } = methods;
+    const { control, reset, formState, getValues, handleSubmit } = methods;
     const watchedValuesArray = useWatch({ control, name: dependentFieldNames });
     const watchedValues = useMemo(() => {
         return dependentFields.reduce((acc, key, i) => {

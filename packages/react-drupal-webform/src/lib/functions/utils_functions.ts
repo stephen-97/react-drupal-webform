@@ -1,3 +1,6 @@
+import { FIELD_TYPE_TO_GROUP } from '../const/const.form'
+import cn from 'classnames'
+
 const mergeObjects = (
   defaultObj: Record<string, any>,
   newObj: Record<string, any>
@@ -46,7 +49,37 @@ const deepMergeDefaults = <T extends object>(
 
 export { mergeObjects, deepMergeDefaults }
 
-export const toStringMessage = (value: any): string => {
-  if (typeof value === 'function') return ''
-  return value ?? ''
+export const getDataAttributes = ({
+  hasError,
+  type,
+  component,
+}: {
+  hasError?: boolean
+  type?: string
+  component?: string
+}) => {
+  const groupType = type ? FIELD_TYPE_TO_GROUP[type] : undefined
+
+  return {
+    ...(hasError !== undefined ? { 'data-has-error': hasError } : {}),
+    ...(type ? { 'data-type': type } : {}),
+    ...(groupType ? { 'data-group-type': groupType } : {}),
+    ...(component ? { 'data-component': component } : {}),
+  }
+}
+
+type TGetClassNamesParams = {
+  name: string
+  prefix?: string
+  baseCn?: cn.Argument
+}
+
+export const getClassNames = ({
+  name,
+  prefix,
+  baseCn,
+}: TGetClassNamesParams): string => {
+  const baseName = prefix ? `${prefix}-webform-${name}` : `webform-${name}`
+
+  return cn(baseName, baseCn)
 }

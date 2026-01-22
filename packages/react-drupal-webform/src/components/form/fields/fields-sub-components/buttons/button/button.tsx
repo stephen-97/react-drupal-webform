@@ -1,22 +1,25 @@
 import React from 'react'
 import styles from './button.module.scss'
-import { IButtonWebformProps } from "../../../../../../lib/types/components/button"
+import { ButtonProps } from '../../../../../../lib/types/components/button'
 import cn from 'classnames'
+import { getClassNames } from '../../../../../../lib/functions/utils_functions'
 
 const Button = ({
   title,
   innerProps,
   fillType = 'fill',
   size = 'default',
-}: IButtonWebformProps) => {
-  const { className, ...restInnerProps } = innerProps ?? {}
+  className,
+}: ButtonProps) => {
+  const { ...restInnerProps } = innerProps ?? {}
+
+  const buttonClassNames = getClassNames({
+    name: 'button',
+    baseCn: cn(styles.button, styles[fillType], styles[size], className),
+  })
 
   return (
-    <button
-      className={cn(className, styles.button, styles[fillType], styles[size])}
-      type={'button'}
-      {...restInnerProps}
-    >
+    <button className={buttonClassNames} type={'button'} {...restInnerProps}>
       {title}
     </button>
   )

@@ -6,6 +6,10 @@ import { ManagedFileProps } from '../../../../lib/types/components/managedFile'
 import { handleFileChange } from '../../../../lib/functions/webform_fields_functions/webform_fields_functions'
 import ManagedFilePreview from '../fields-sub-components/managedFilePreview/managedFilePreview'
 import { TFileWithBase64 } from '../../../../lib/types/form.d'
+import {
+  getClassNames,
+  getDataAttributes,
+} from '../../../../lib/functions/utils_functions'
 
 const ManagedFile = ({
   fieldKey,
@@ -48,6 +52,15 @@ const ManagedFile = ({
     return <PreviewComponent value={value} handleRemove={handleRemove} />
   }
 
+  const inputClassNames = getClassNames({
+    name: 'managedFile',
+    baseCn: cn(styles.field, styles.input, className),
+  })
+
+  const dataAttributes = getDataAttributes({
+    component: 'managedFile',
+  })
+
   return (
     <input
       id={fieldKey}
@@ -57,14 +70,8 @@ const ManagedFile = ({
       accept={fileExtensions}
       onChange={(e) => handleFileChange(e, fieldController, inputRef)}
       onBlur={onBlur}
-      className={cn(
-        classNames.fields.managedFile.input,
-        styles.field,
-        styles.input,
-        styles[field?.['#type']],
-        className,
-        { [styles.error]: fieldState?.error }
-      )}
+      className={inputClassNames}
+      {...dataAttributes}
       {...innerProps}
     />
   )

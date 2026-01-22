@@ -2,10 +2,13 @@ import React from 'react'
 import cn from 'classnames'
 import { useController, useFormContext } from 'react-hook-form'
 import { CheckboxProps } from '../../../../lib/types/components/checkboxe'
+import {
+  getClassNames,
+  getDataAttributes,
+} from '../../../../lib/functions/utils_functions'
 const Checkbox = ({
   fieldKey,
   field,
-  classNames,
   onBlur,
   innerProps,
   className,
@@ -19,6 +22,15 @@ const Checkbox = ({
 
   const title = field?.['#title']
 
+  const checkboxClassNames = getClassNames({
+    name: 'checkbox',
+    baseCn: cn(className),
+  })
+
+  const dataAttributes = getDataAttributes({
+    component: 'checkbox',
+  })
+
   return (
     <input
       id={fieldKey}
@@ -28,7 +40,8 @@ const Checkbox = ({
       checked={Boolean(fieldController.value)}
       onChange={(e) => fieldController.onChange(e.target.checked)}
       onBlur={onBlur}
-      className={cn(classNames.fields.checkbox?.input, className)}
+      className={checkboxClassNames}
+      {...dataAttributes}
       {...innerProps}
     />
   )

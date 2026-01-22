@@ -25,7 +25,6 @@ const CustomInput = (props: InputProps) => {
         className={styles.inputCustom}
         innerProps={{
           ...props.innerProps,
-          'data-input': 'aa',
           onBlur: () => console.log('onBlur'),
         }}
         {...props}

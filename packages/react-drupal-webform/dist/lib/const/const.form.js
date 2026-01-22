@@ -17,6 +17,8 @@ import Description from '../../components/form/fields/fields-sub-components/desc
 import Form from '../../components/form/form';
 import Markup from '../../components/form/fields/markup';
 import Layout from '../../components/form/fields/fields-sub-components/layout/layout';
+import LayoutTitle from '../../components/form/fields/fields-sub-components/layoutTitle/layoutTitle';
+import LayoutList from '../../components/form/fields/fields-sub-components/layoutList/layoutList';
 export const defaultValuesObj = {
     textfield: '',
     textarea: '',
@@ -93,18 +95,8 @@ export const defaultValuesFieldStateMessages = {
         },
     },
 };
-/**
- * export type TDrupalNonValueFieldType =
- *   | 'webform_markup'
- *   | 'webform_actions'
- *   | 'container'
- *   | 'webform_flexbox'
- *   | 'webform_section'
- *   | 'details'
- *   | 'fieldset'
- */
 export const defaultValuesClassnames = {
-    wrappers: {
+    fieldContainer: {
         base: '',
         byCategory: {
             textInput: '',
@@ -218,12 +210,14 @@ export const components = {
     Radios: (props) => _jsx(Radios, { ...props }),
     Select: (props) => _jsx(Select, { ...props }),
     TextArea: (props) => _jsx(Textarea, { ...props }),
-    Wrapper: (props) => _jsx(FieldContainer, { ...props }),
+    FieldContainer: (props) => (_jsx(FieldContainer, { ...props })),
     Action: (props) => _jsx(Action, { ...props }),
     Help: (props) => _jsx(Help, { ...props }),
     More: (props) => _jsx(More, { ...props }),
     Form: (props) => _jsx(Form, { ...props }),
     Markup: (props) => _jsx(Markup, { ...props }),
     Layout: (props) => _jsx(Layout, { ...props }),
+    LauyoutTitle: (props) => (_jsx(LayoutTitle, { ...props })),
+    LayoutList: (props) => (_jsx(LayoutList, { ...props })),
     Description: (props) => (_jsx(Description, { ...props })),
 };

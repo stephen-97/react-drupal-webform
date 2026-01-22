@@ -3,8 +3,8 @@ import FieldContainer from './fields-sub-components/fieldContainer';
 import ManagedFile from './fields-elements/managedFile';
 const renderManagedFile = (props) => {
     const { fieldKey, field, components, classNames } = props;
-    const FieldContainerComponent = components?.wrapper ?? FieldContainer;
+    const FieldContainerComponent = components?.fieldContainer ?? FieldContainer;
     const CustomManagedFile = components?.fieldById?.[fieldKey] ?? components?.managedFile ?? ManagedFile;
-    return (_jsx(FieldContainerComponent, { field: field, classNames: classNames, components: components, classNameFieldName: "fieldInput", fieldKey: fieldKey, children: _jsx(CustomManagedFile, { ...props }) }, fieldKey));
+    return (_jsx(FieldContainerComponent, { field: field, classNames: classNames, components: components, fieldKey: fieldKey, children: _jsx(CustomManagedFile, { ...props }) }, fieldKey));
 };
 export default renderManagedFile;

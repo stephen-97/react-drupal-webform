@@ -1,5 +1,4 @@
 import { jsx as _jsx } from "react/jsx-runtime";
-// fields-elements/checkbox.tsx
 import React from 'react';
 import cn from 'classnames';
 import { useController, useFormContext } from 'react-hook-form';

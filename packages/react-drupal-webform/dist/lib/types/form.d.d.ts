@@ -2,7 +2,7 @@ import { AnySchema } from 'yup';
 import React from 'react';
 import { TitleProps } from './components/title';
 import { TDrupal_FieldType, TDrupalNonValueFieldType, TDrupalValueFieldType, TElementSource, TFieldWebformObj } from './components/field';
-import { WrapperProps } from './components/wrapper';
+import { FieldContainerProps } from './components/fieldContainer';
 import { ErrorMessageProps } from './components/errorMessage';
 import { WysiwygProps } from './components/wysiwyg';
 import { HelpProps } from './components/help';
@@ -13,7 +13,7 @@ import { IManagedFilePreviewWebformProps } from './components/filePreview';
 import { IMultiStepActionsProps } from './components/multiStepActions';
 import { IMultiStepStepperProps } from './components/multiStepStepper';
 import { TFieldValidate } from './components/validate';
-import { LayoutProps } from './components/layoutWrapper';
+import { LayoutProps } from './components/layout';
 import { TFieldRendererProps } from './components/fieldRenderer';
 import { CheckboxProps } from './components/checkboxe';
 import { RadiosProps } from './components/radios';
@@ -25,6 +25,9 @@ import { ActionProps } from './components/action';
 import { ManagedFileProps } from './components/managedFile';
 import { InputProps } from './components/input';
 import { FormProps } from './components/form';
+import { LayoutTitleProps } from './components/layoutTitle';
+import { LayoutListProps } from './components/layoutList';
+import { UnsupportedFieldProps } from './components/unsupportedField';
 export type TFileWithBase64 = {
     name: string;
     size: number;
@@ -39,15 +42,8 @@ export type TWebformDefaultFieldValues = {
     [K in TDrupalValueFieldType]?: TDefaultValue;
 };
 export type TWrapperCategory = 'textInput' | 'selectionInput' | 'booleanInput';
-export type TWebformClassNameFields = {
-    fieldInput?: string;
-    fieldSelect?: string;
-    fieldCheckboxes?: string;
-    fieldRadio?: string;
-    fieldTextarea?: string;
-};
 export type TWebformClassNames = {
-    wrappers?: {
+    fieldContainer?: {
         base?: string;
         byCategory?: {
             textInput?: string;
@@ -181,7 +177,7 @@ export type TWebformNormalizedStateMessages = {
 export type TWebformCustomComponents = {
     action?: React.ComponentType<ActionProps>;
     title?: React.ComponentType<TitleProps>;
-    wrapper?: React.ComponentType<WrapperProps>;
+    fieldContainer?: React.ComponentType<FieldContainerProps>;
     errorFieldMessage?: React.ComponentType<ErrorMessageProps>;
     input?: React.ComponentType<InputProps>;
     managedFile?: React.ComponentType<ManagedFileProps>;
@@ -200,14 +196,17 @@ export type TWebformCustomComponents = {
     multiStepActions?: React.ComponentType<IMultiStepActionsProps>;
     multiStepStepper?: React.ComponentType<IMultiStepStepperProps>;
     layout?: React.ComponentType<LayoutProps>;
+    layoutTitle?: React.ComponentType<LayoutTitleProps>;
+    layoutList?: React.ComponentType<LayoutListProps>;
     markup?: React.ComponentType<TFieldWebformObj>;
     fieldById?: Record<string, React.ComponentType<TFieldRendererProps>>;
     form?: React.ComponentType<FormProps>;
     confirmationView?: React.ComponentType<any>;
+    unsupportedField?: React.ComponentType<UnsupportedFieldProps>;
 };
 export type TWebformValidatorFactory = (ctx: TFieldValidate) => AnySchema | null | undefined;
 export type TWebformCustomValidators = {
-    byType?: Partial<Record<Exclude<TDrupal_FieldType, 'webform_markup' | 'webform_actions'>, TWebformValidatorFactory>>;
+    byType?: Partial<Record<Exclude<TDrupal_FieldType | (string & {}), TDrupalNonValueFieldType>, TWebformValidatorFactory>>;
     byId?: Partial<Record<string, TWebformValidatorFactory>>;
 };
 export type TWebform = {

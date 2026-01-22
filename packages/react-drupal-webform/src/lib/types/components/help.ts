@@ -5,6 +5,7 @@ import { TElementSource } from './field'
 export interface HelpProps {
   innerProps?: jsx.JSX.IntrinsicElements['button']
   components: TWebformCustomComponents
-  classNames: TWebformClassNames
+  classNames?: TWebformClassNames
+  className?: string
   field: TElementSource
 }

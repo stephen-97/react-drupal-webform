@@ -1,7 +1,8 @@
 import React from 'react';
 import FormMappingFields from '../formMappingFields/formMappingFields';
 const FormFieldRendered = ({ index, fieldKey, field, components, classNames, isMultiStep, watchedValues, }) => {
-    const type = field['#type'] ?? 'default';
+    const rawType = field['#type'];
+    const type = rawType in FormMappingFields ? rawType : 'default';
     const elementRenderer = FormMappingFields[type]?.element;
     if (!elementRenderer)
         return null;

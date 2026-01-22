@@ -1,7 +1,7 @@
 import { jsx as _jsx } from "react/jsx-runtime";
 import React from 'react';
 import cn from 'classnames';
-import styles from '../wrapper.module.scss';
+import styles from '../fieldContainer.module.scss';
 import More from '../more/more';
 const WrapperMore = ({ components, classNames, fieldMore, fieldMoreTitle, }) => {
     const CustomMore = components?.more ?? More;

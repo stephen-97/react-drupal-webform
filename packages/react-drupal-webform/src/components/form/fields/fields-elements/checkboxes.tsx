@@ -4,11 +4,14 @@ import styles from '../field.module.scss'
 import { useController, useFormContext } from 'react-hook-form'
 import { handleChangeOptionsCheckboxes } from '../../../../lib/functions/webform_fields_functions/webform_fields_functions'
 import { CheckboxesProps } from '../../../../lib/types/components/checkboxes'
+import {
+  getClassNames,
+  getDataAttributes,
+} from '../../../../lib/functions/utils_functions'
 
 const Checkboxes = ({
   fieldKey,
   field,
-  classNames,
   className,
   innerProps,
   itemProps,
@@ -26,14 +29,35 @@ const Checkboxes = ({
     control,
   })
 
+  const wrapperClassNames = getClassNames({
+    name: 'checkboxesWrapper',
+    baseCn: cn(styles.checkboxes, className),
+  })
+
+  const itemClassNames = getClassNames({
+    name: 'checkboxesItem',
+    baseCn: styles.checkbox,
+  })
+
+  const inputClassNames = getClassNames({
+    name: 'checkboxesInput',
+    baseCn: styles.field,
+  })
+
+  const labelClassNames = getClassNames({
+    name: 'checkboxesLabel',
+    baseCn: styles.labelCheckbox,
+  })
+
+  const dataAttributes = getDataAttributes({
+    component: 'Checkboxes',
+  })
+
   return (
     <div
-      className={cn(
-        classNames.fields.checkboxes?.groupWrapper,
-        styles.checkboxes,
-        className
-      )}
+      className={wrapperClassNames}
       role="group"
+      {...dataAttributes}
       {...innerProps}
     >
       {optionsObj.map(([optionKey, optionValue], i) => {
@@ -44,17 +68,10 @@ const Checkboxes = ({
         const id = `checkboxes-${optionKey.trim()}-${i}`
 
         return (
-          <div
-            key={optionKey}
-            className={cn(
-              classNames.fields.checkboxes?.itemWrapper,
-              styles.checkbox
-            )}
-            {...itemProps}
-          >
+          <div key={optionKey} className={itemClassNames} {...itemProps}>
             <input
               id={id}
-              className={cn(classNames.fields.checkboxes?.input, styles.field)}
+              className={inputClassNames}
               name={fieldController.name}
               type="checkbox"
               value={optionKey}
@@ -69,14 +86,7 @@ const Checkboxes = ({
               {...inputProps}
             />
 
-            <label
-              htmlFor={id}
-              className={cn(
-                classNames.fields.checkboxes?.label,
-                styles.labelCheckbox
-              )}
-              {...labelProps}
-            >
+            <label htmlFor={id} className={labelClassNames} {...labelProps}>
               {optionValue}
             </label>
           </div>

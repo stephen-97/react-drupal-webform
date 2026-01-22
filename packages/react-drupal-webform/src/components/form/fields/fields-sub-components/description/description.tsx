@@ -4,6 +4,10 @@ import Wysiwyg from '../../fields-special-components/wysiwyg/wysiwyg'
 import { DescriptionProps } from '../../../../../lib/types/components/description'
 import cn from 'classnames'
 import styles from '../fieldContainer.module.scss'
+import {
+  getClassNames,
+  getDataAttributes,
+} from '../../../../../lib/functions/utils_functions'
 
 const Description = ({
   innerProps,
@@ -13,19 +17,25 @@ const Description = ({
   className,
 }: DescriptionProps) => {
   const CustomWysiwyg = components.wysiwyg ?? Wysiwyg
+
+  const descriptionClassNames = getClassNames({
+    name: 'description',
+    baseCn: cn(styles.wysiwyg, className),
+  })
+
+  const dataAttributes = getDataAttributes({
+    component: 'description',
+  })
+
   return (
     <CustomWysiwyg
-      className={cn(
-        classNames.general?.fieldDescription,
-        styles.wysiwyg,
-        classNames.general?.fieldWysiwyg,
-        className
-      )}
+      className={descriptionClassNames}
       processed={
         (field?.['#description'] ?? field?.['#file_placeholder']) || ''
       }
       as={'div'}
       source={'description'}
+      {...dataAttributes}
       {...innerProps}
     />
   )

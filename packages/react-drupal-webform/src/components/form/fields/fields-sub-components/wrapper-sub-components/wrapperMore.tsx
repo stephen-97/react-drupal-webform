@@ -1,7 +1,5 @@
 import React from 'react'
 import { TWrapperMoreWebformProps } from '../../../../../lib/types/components/wrapperMore'
-import cn from 'classnames'
-import styles from '../fieldContainer.module.scss'
 import More from '../more/more'
 
 const WrapperMore = ({
@@ -15,7 +13,6 @@ const WrapperMore = ({
   return (
     <CustomMore
       innerPropsWysiwyg={{
-        className: cn(styles.wysiwyg, classNames.general.fieldWysiwyg),
         processed: fieldMore,
         source: 'more',
       }}

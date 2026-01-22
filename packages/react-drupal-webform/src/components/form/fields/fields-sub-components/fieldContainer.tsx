@@ -10,6 +10,10 @@ import WrapperMore from './wrapper-sub-components/wrapperMore'
 import WrapperManagedFileInfo from './wrapper-sub-components/wrapperManagedFileInfo'
 import Title from './title/title'
 import { useController, useFormContext } from 'react-hook-form'
+import {
+  getClassNames,
+  getDataAttributes,
+} from '../../../../lib/functions/utils_functions'
 
 const FieldContainer = (props: FieldContainerProps) => {
   const {
@@ -22,13 +26,11 @@ const FieldContainer = (props: FieldContainerProps) => {
     wrapperElement = 'div',
     innerProps,
     className,
+    classNamePrefix,
   } = props
 
   const TitleComponent = components?.title ?? Title
 
-  const wrapperCategory = getWrapperCategory(
-    field['#type'] as TDrupal_FieldType
-  )
   const WrapperElement = wrapperElement ?? 'div'
 
   const labelWrapperElement =
@@ -45,22 +47,28 @@ const FieldContainer = (props: FieldContainerProps) => {
 
   const stateError = fieldState?.error
 
+  const dataAttributes = getDataAttributes({
+    hasError: Boolean(stateError),
+    type: field['#type'],
+    component: 'fieldContainer',
+  })
+
+  const componentClassNames = getClassNames({
+    name: 'fieldContainer',
+    prefix: classNamePrefix,
+    baseCn: cn(
+      styles.fieldWrapper,
+      {
+        [styles.fieldWrapperCheckbox]: field?.['#type'] === 'checkbox',
+      },
+      className
+    ),
+  })
+
   return (
     <WrapperElement
-      className={cn(
-        ...(field?.['#attributes']?.class ?? []),
-        classNames.fieldContainer?.byFieldType?.[field['#type']],
-        wrapperCategory
-          ? classNames.fieldContainer?.byCategory?.[wrapperCategory]
-          : undefined,
-        classNames.fieldContainer?.base,
-        {
-          [classNames.states.fieldError ?? '']: Boolean(stateError),
-          [styles.fieldWrapperCheckbox]: field?.['#type'] === 'checkbox',
-        },
-        styles.fieldWrapper,
-        className
-      )}
+      className={componentClassNames}
+      {...dataAttributes}
       {...(innerProps as any)}
     >
       {isLabel && field?.['#title'] && (

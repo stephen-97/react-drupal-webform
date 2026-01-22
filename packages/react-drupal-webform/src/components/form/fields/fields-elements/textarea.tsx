@@ -3,20 +3,34 @@ import cn from 'classnames'
 import { useController, useFormContext } from 'react-hook-form'
 import styles from '../field.module.scss'
 import { TextAreaProps } from '../../../../lib/types/components/textarea'
+import {
+  getClassNames,
+  getDataAttributes,
+} from '../../../../lib/functions/utils_functions'
 
 const Textarea = ({
   fieldKey,
   field,
-  classNames,
   onBlur,
   className,
   innerProps,
+  classNamePrefix,
 }: TextAreaProps) => {
   const { control } = useFormContext()
 
-  const { field: fieldController, fieldState } = useController({
+  const { field: fieldController } = useController({
     name: fieldKey,
     control,
+  })
+
+  const textareaClassNames = getClassNames({
+    name: 'textarea',
+    prefix: classNamePrefix,
+    baseCn: cn(styles.field, styles.textarea, className),
+  })
+
+  const dataAttributes = getDataAttributes({
+    component: 'Textarea',
   })
 
   return (
@@ -31,14 +45,8 @@ const Textarea = ({
       value={fieldController.value ?? ''}
       onChange={(e) => fieldController.onChange(e.target.value)}
       onBlur={onBlur}
-      className={cn(
-        classNames.fields.textInputs.types.textarea,
-        classNames.fields.textInputs.base,
-        styles.field,
-        styles.textarea,
-        className,
-        { [styles.error]: fieldState?.error }
-      )}
+      className={textareaClassNames}
+      {...dataAttributes}
       {...innerProps}
     />
   )

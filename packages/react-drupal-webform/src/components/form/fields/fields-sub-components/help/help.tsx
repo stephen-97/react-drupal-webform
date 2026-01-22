@@ -6,10 +6,12 @@ import 'tippy.js/dist/tippy.css'
 import { HelpProps } from '../../../../../lib/types/components/help'
 import { createRoot } from 'react-dom/client'
 import Wysiwyg from '../../fields-special-components/wysiwyg/wysiwyg'
+import {
+  getClassNames,
+  getDataAttributes,
+} from '../../../../../lib/functions/utils_functions'
 
-const Help = ({ innerProps, components, field }: HelpProps) => {
-  const { className, ...restInnerProps } = innerProps ?? {}
-
+const Help = ({ innerProps, components, field, className }: HelpProps) => {
   const buttonRef = useRef<HTMLButtonElement>(null)
   const CustomWysiwyg = components.wysiwyg ?? Wysiwyg
 
@@ -40,12 +42,22 @@ const Help = ({ innerProps, components, field }: HelpProps) => {
     })
   }, [helps])
 
+  const buttonClassNames = getClassNames({
+    name: 'help',
+    baseCn: cn(styles.help, className),
+  })
+
+  const dataAttributes = getDataAttributes({
+    component: 'help',
+  })
+
   return (
     <button
-      className={cn(styles.help, className)}
+      className={buttonClassNames}
       ref={buttonRef}
       type="button"
-      {...restInnerProps}
+      {...dataAttributes}
+      {...innerProps}
     >
       ?
     </button>

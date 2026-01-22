@@ -3,6 +3,7 @@
 import React from 'react'
 import styles from './container.module.scss'
 import CustomWebform from '@/components/webform/customWebform/customWebform'
+import WebformContainer from '@/components/webform/webformContainer'
 
 type Props = {
   elementsSource: string
@@ -19,9 +20,9 @@ const Container = ({ elementsSource, title }: Props) => {
           </div>
           <div className={styles.panelBody}>
             {title === 'Custom components' ? (
-              <CustomWebform elementsSource={elementsSource} />
+              <WebformContainer elementsSource={elementsSource} />
             ) : (
-              <CustomWebform elementsSource={elementsSource} />
+              <WebformContainer elementsSource={elementsSource} />
             )}
           </div>
         </section>

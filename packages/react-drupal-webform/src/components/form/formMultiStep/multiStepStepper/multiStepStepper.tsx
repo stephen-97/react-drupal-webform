@@ -1,15 +1,20 @@
 import styles from './multiStepStepper.module.scss'
 import React from 'react'
 import cn from 'classnames'
-import { IMultiStepStepperProps } from '../../../../lib/types/components/multiStepStepper'
+import { MultiStepStepperProps } from '../../../../lib/types/components/multiStepStepper'
 import { useMultiStepContext } from '../multiStepContext'
+import {
+  getClassNames,
+  getDataAttributes,
+} from '../../../../lib/functions/utils_functions'
 
-const MultiStepStepper = (props: IMultiStepStepperProps) => {
+const MultiStepStepper = (props: MultiStepStepperProps) => {
   const {
     multiStepTitleAs = 'span',
     currentStepObj,
     components,
-    classNames,
+    className,
+    classNamePrefix,
   } = props
 
   const { stepIndex, totalVisibleSteps } = useMultiStepContext()
@@ -36,46 +41,59 @@ const MultiStepStepper = (props: IMultiStepStepperProps) => {
             ((maxPercent - minPercent) / (totalVisibleSteps - 1)) * stepIndex
   }
 
+  const wrapperClassNames = getClassNames({
+    name: 'multiStepStepper',
+    prefix: classNamePrefix,
+    baseCn: cn(styles.multiStepStepper, className),
+  })
+
+  const headerClassNames = getClassNames({
+    name: 'multiStepStepperHeader',
+    prefix: classNamePrefix,
+    baseCn: styles.headerStepperContainer,
+  })
+
+  const titleClassNames = getClassNames({
+    name: 'multiStepStepperTitle',
+    prefix: classNamePrefix,
+    baseCn: styles.title,
+  })
+
+  const counterClassNames = getClassNames({
+    name: 'multiStepStepperCounter',
+    prefix: classNamePrefix,
+    baseCn: styles.multiStepStepperCounter,
+  })
+
+  const progressContainerClassNames = getClassNames({
+    name: 'multiStepStepperProgressContainer',
+    prefix: classNamePrefix,
+    baseCn: styles.progressBarContainer,
+  })
+
+  const progressBarClassNames = getClassNames({
+    name: 'multiStepStepperProgress',
+    prefix: classNamePrefix,
+    baseCn: styles.progressBar,
+  })
+
+  const dataAttributes = getDataAttributes({
+    component: 'multiStepStepper',
+  })
+
   return (
-    <div
-      className={cn(
-        styles.multiStepStepper,
-        classNames.multiStep.stepperContainer
-      )}
-    >
-      <div
-        className={cn(
-          styles.headerStepperContainer,
-          classNames.multiStep?.stepperHeader
-        )}
-      >
-        {title && title.length > 0 && (
-          <TagTitle
-            className={cn(styles.title, classNames.multiStep.stepperTitle)}
-          >
-            {title}
-          </TagTitle>
-        )}
-        <span
-          className={cn(
-            styles.multiStepStepperCounter,
-            classNames.multiStep.stepperCounter
-          )}
-        >
+    <div className={wrapperClassNames} {...dataAttributes}>
+      <div className={headerClassNames}>
+        {title && <TagTitle className={titleClassNames}>{title}</TagTitle>}
+
+        <span className={counterClassNames}>
           {stepIndex + 1}/{totalVisibleSteps}
         </span>
       </div>
-      <div
-        className={cn(
-          styles.progressBarContainer,
-          classNames.multiStep.stepperProgressBarContainer
-        )}
-      >
+
+      <div className={progressContainerClassNames}>
         <div
-          className={cn(
-            styles.progressBar,
-            classNames.multiStep.stepperProgressBar
-          )}
+          className={progressBarClassNames}
           style={{ width: `${percent}%` }}
         />
       </div>

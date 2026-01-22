@@ -2,13 +2,23 @@ import styles from './multiStepActions.module.scss'
 import stylesField from '../../fields/field.module.scss'
 import React from 'react'
 import cn from 'classnames'
-import { IMultiStepActionsProps } from '../../../../lib/types/components/multiStepActions'
+import { MultiStepActionsProps } from '../../../../lib/types/components/multiStepActions'
 import Loader from '../../fields/fields-sub-components/loader/loader'
 import { useFormContext } from 'react-hook-form'
 import { useMultiStepContext } from '../multiStepContext'
+import {
+  getClassNames,
+  getDataAttributes,
+} from '../../../../lib/functions/utils_functions'
 
-const MultiStepActions = (props: IMultiStepActionsProps) => {
-  const { previousButtonLabel, nextButtonLabel, components, classNames } = props
+const MultiStepActions = (props: MultiStepActionsProps) => {
+  const {
+    previousButtonLabel,
+    nextButtonLabel,
+    components,
+    className,
+    classNamePrefix,
+  } = props
 
   const { formState, trigger } = useFormContext()
   const { stepIndex, totalVisibleSteps, goNext, goPrev } = useMultiStepContext()
@@ -38,45 +48,56 @@ const MultiStepActions = (props: IMultiStepActionsProps) => {
     }
   }
 
+  const wrapperClassNames = getClassNames({
+    name: 'multiStepActions',
+    prefix: classNamePrefix,
+    baseCn: cn(styles.multiStepActions, className),
+  })
+
+  const buttonBaseClassNames = getClassNames({
+    name: 'multiStepActionButton',
+    prefix: classNamePrefix,
+    baseCn: cn(stylesField.button, styles.button),
+  })
+
+  const prevButtonClassNames = getClassNames({
+    name: 'multiStepActionPrev',
+    prefix: classNamePrefix,
+    baseCn: buttonBaseClassNames,
+  })
+
+  const nextButtonClassNames = getClassNames({
+    name: 'multiStepActionNext',
+    prefix: classNamePrefix,
+    baseCn: buttonBaseClassNames,
+  })
+
+  const dataAttributes = getDataAttributes({
+    component: 'multiStepActions',
+  })
+
   return (
-    <div
-      className={cn(
-        styles.multiStepActions,
-        classNames.multiStep.actionsContainer
-      )}
-    >
+    <div className={wrapperClassNames} {...dataAttributes}>
       {stepIndex > 0 && (
         <button
-          className={cn(
-            stylesField.button,
-            styles.button,
-            classNames.multiStep.actionsButtons,
-            classNames.multiStep.actionsButtonPrev
-          )}
           type="button"
+          className={prevButtonClassNames}
           onClick={handlePrev}
         >
-          {previousButtonLabel && previousButtonLabel.length > 0
-            ? previousButtonLabel
-            : 'Prev'}
+          {previousButtonLabel?.length ? previousButtonLabel : 'Prev'}
         </button>
       )}
 
       <button
-        className={cn(
-          stylesField.button,
-          styles.button,
-          classNames.multiStep.actionsButtons,
-          classNames.multiStep.actionsButtonsNext
-        )}
-        disabled={!isStepValid || isSubmitting}
         type={isLastStep ? 'submit' : 'button'}
+        className={nextButtonClassNames}
+        disabled={!isStepValid || isSubmitting}
         onClick={handleNext}
       >
         {isSubmitting && <Loader />}
         {isLastStep
           ? 'Submit'
-          : nextButtonLabel && nextButtonLabel.length > 0
+          : nextButtonLabel?.length
             ? nextButtonLabel
             : 'Next'}
       </button>

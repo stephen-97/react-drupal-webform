@@ -3,11 +3,14 @@ import cn from 'classnames'
 import styles from '../field.module.scss'
 import { useController, useFormContext } from 'react-hook-form'
 import { RadiosProps } from '../../../../lib/types/components/radios'
+import {
+  getClassNames,
+  getDataAttributes,
+} from '../../../../lib/functions/utils_functions'
 
 const Radios = ({
   fieldKey,
   field,
-  classNames,
   className,
   innerProps,
   itemProps,
@@ -25,14 +28,34 @@ const Radios = ({
     control,
   })
 
+  const radiosWrapperClassNames = getClassNames({
+    name: 'radiosWrapper',
+    baseCn: cn(styles.radiosGroupWrapper, className),
+  })
+
+  const radiosItemClassNames = getClassNames({
+    name: 'radiosItem',
+    baseCn: styles.radiosItemWrapper,
+  })
+
+  const radiosInputClassNames = getClassNames({
+    name: 'radiosInput',
+  })
+
+  const radiosLabelClassNames = getClassNames({
+    name: 'radiosLabel',
+    baseCn: styles.radioLabel,
+  })
+
+  const dataAttributes = getDataAttributes({
+    component: 'Radios',
+  })
+
   return (
     <div
-      className={cn(
-        classNames.fields.radios?.groupWrapper,
-        styles.radiosGroupWrapper,
-        className
-      )}
+      className={radiosWrapperClassNames}
       role="radiogroup"
+      {...dataAttributes}
       {...innerProps}
     >
       {optionsObj.map(([optionKey, optionValue], i) => {
@@ -40,17 +63,10 @@ const Radios = ({
         const id = `radios-${optionKey.trim()}-${i}`
 
         return (
-          <div
-            key={optionKey}
-            className={cn(
-              classNames.fields.radios?.itemWrapper,
-              styles.radiosItemWrapper
-            )}
-            {...itemProps}
-          >
+          <div key={optionKey} className={radiosItemClassNames} {...itemProps}>
             <input
               id={id}
-              className={cn(classNames.fields.radios?.input)}
+              className={radiosInputClassNames}
               name={fieldController.name}
               type="radio"
               value={optionKey}
@@ -61,7 +77,7 @@ const Radios = ({
 
             <label
               htmlFor={id}
-              className={cn(classNames.fields.radios?.label, styles.radioLabel)}
+              className={radiosLabelClassNames}
               {...labelProps}
             >
               {optionValue}

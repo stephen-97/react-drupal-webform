@@ -3,12 +3,16 @@ import cn from 'classnames'
 import { useController, useFormContext } from 'react-hook-form'
 import styles from '../field.module.scss'
 import { InputProps } from '../../../../lib/types/components/input'
+import {
+  getClassNames,
+  getDataAttributes,
+} from '../../../../lib/functions/utils_functions'
 
 const Input = (props: InputProps) => {
-  const { fieldKey, field, classNames, onBlur, className, innerProps } = props
+  const { fieldKey, field, classNamePrefix, className, innerProps } = props
   const { control } = useFormContext()
 
-  const { field: fieldController, fieldState } = useController({
+  const { field: fieldController } = useController({
     name: fieldKey,
     control,
   })
@@ -29,19 +33,20 @@ const Input = (props: InputProps) => {
     }
   })()
 
+  const inputClassNames = getClassNames({
+    name: 'input',
+    prefix: classNamePrefix,
+    baseCn: cn(styles.input, className),
+  })
+
+  const dataAttributes = getDataAttributes({
+    component: 'Input',
+  })
+
   return (
     <input
       id={fieldKey}
-      className={cn(
-        classNames.fields.textInputs.base,
-        classNames.fields.textInputs.types[
-          field?.['#type'] as keyof typeof classNames.fields.textInputs.types
-        ],
-        styles.input,
-        styles[field?.['#type']],
-        { [styles.error]: fieldState?.error },
-        className
-      )}
+      className={inputClassNames}
       name={fieldController.name}
       minLength={field?.['#minlength']}
       maxLength={field?.['#maxlength']}
@@ -49,8 +54,8 @@ const Input = (props: InputProps) => {
       type={getFieldType}
       onChange={(e) => fieldController.onChange(e)}
       value={fieldController.value ?? ''}
-      onBlur={onBlur}
       required={field?.['#required']}
+      {...dataAttributes}
       {...innerProps}
     />
   )

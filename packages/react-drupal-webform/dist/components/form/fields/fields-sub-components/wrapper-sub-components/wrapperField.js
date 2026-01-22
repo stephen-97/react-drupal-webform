@@ -1,6 +1,6 @@
 import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
 import React from 'react';
-import styles from '../wrapper.module.scss';
+import styles from '../fieldContainer.module.scss';
 import ErrorFieldMessage from '../errorFieldMessage/errorFieldMessage';
 const WrapperField = ({ components, classNames, field, children, stateError, fieldKey, }) => {
     const ErrorFieldMessageComponent = components?.errorFieldMessage ?? ErrorFieldMessage;

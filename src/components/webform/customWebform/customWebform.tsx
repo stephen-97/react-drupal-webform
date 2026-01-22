@@ -18,11 +18,11 @@ import {
   customClassnames,
   customValidators,
 } from '@/components/webform/customWebform/custom-objects'
-import CustomWrapper from '@/components/webform/custom-components/customWrapper'
 import CustomAction from '@/components/webform/custom-components/customAction'
 import CustomHelp from '@/components/webform/custom-components/CustomHelp'
 import CustomForm from '@/components/webform/custom-components/customForm'
 import { components } from '../../../../packages/react-drupal-webform/src/lib/const/const.form'
+import CustomUnsupportedField from '@/components/webform/custom-components/unsupportedField'
 
 export type TWebformContainer = {
   elementsSource: string
@@ -72,6 +72,7 @@ const CustomWebform = ({ elementsSource }: TWebformContainer) => {
           more: CustomMore,
           wysiwyg: CustomWysiwyg,
           action: CustomAction,
+          unsupportedField: CustomUnsupportedField,
           fieldContainer: (props) => (
             <components.FieldContainer
               innerProps={{ 'data-bru': 'test' }}

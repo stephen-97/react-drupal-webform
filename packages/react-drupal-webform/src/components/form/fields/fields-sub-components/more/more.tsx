@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
+import cn from 'classnames'
 import styles from './more.module.scss'
 import { MoreProps } from '../../../../../lib/types/components/more'
 import Wysiwyg from '../../fields-special-components/wysiwyg/wysiwyg'
-import cn from 'classnames'
+import { getClassNames } from '../../../../../lib/functions/utils_functions'
+import { getDataAttributes } from '../../../../../lib/functions/utils_functions'
 
 const More = ({
   innerPropsContainer,
@@ -11,46 +13,57 @@ const More = ({
   moreTitle,
   components,
   className,
-  classNames,
 }: MoreProps) => {
   const CustomWysiwyg = components.wysiwyg ?? Wysiwyg
+
   const { className: containerClassName, ...containerProps } =
     innerPropsContainer ?? {}
   const { className: buttonClassName, ...buttonProps } = innerPropsButton ?? {}
 
   const [open, setOpen] = useState(false)
 
-  const handleClick = () => {
-    setOpen((prev) => !prev)
-  }
+  const containerClassNames = getClassNames({
+    name: 'more',
+    baseCn: cn(styles.more, containerClassName, className),
+  })
+
+  const buttonClassNames = getClassNames({
+    name: 'moreButton',
+    baseCn: cn(styles.button, buttonClassName, {
+      [styles.opened]: open,
+    }),
+  })
+
+  const wysiwygClassNames = getClassNames({
+    name: 'moreContent',
+    baseCn: cn(styles.moreWysiwyg),
+  })
+
+  const dataAttributes = getDataAttributes({
+    component: 'more',
+  })
 
   return (
     <div
-      className={cn(
-        styles.more,
-        containerClassName,
-        className,
-        classNames.general?.fieldMore?.container
-      )}
+      className={containerClassNames}
+      {...dataAttributes}
       {...containerProps}
     >
       <button
         type="button"
-        className={cn(
-          styles.button,
-          buttonClassName,
-          classNames.general?.fieldMore?.button,
-          {
-            [styles.opened]: open,
-          }
-        )}
-        onClick={handleClick}
+        className={buttonClassNames}
+        onClick={() => setOpen((prev) => !prev)}
         {...buttonProps}
       >
         {moreTitle}
       </button>
+
       {open && innerPropsWysiwyg?.processed && (
-        <CustomWysiwyg as={'div'} {...innerPropsWysiwyg} />
+        <CustomWysiwyg
+          as="div"
+          className={wysiwygClassNames}
+          {...innerPropsWysiwyg}
+        />
       )}
     </div>
   )

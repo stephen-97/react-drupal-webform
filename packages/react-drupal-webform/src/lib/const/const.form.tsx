@@ -124,6 +124,32 @@ export const defaultValuesFieldStateMessages: TWebformResolvedStateMessages = {
   },
 }
 
+export const FIELD_TYPE_TO_GROUP: Record<string, string> = {
+  textfield: 'input',
+  email: 'input',
+  number: 'input',
+  tel: 'input',
+  date: 'input',
+
+  textarea: 'textarea',
+  select: 'select',
+  radios: 'radio',
+
+  checkbox: 'checkbox',
+  checkboxes: 'checkbox',
+
+  managed_file: 'file',
+
+  webform_section: 'layout',
+  webform_flexbox: 'layout',
+  fieldset: 'layout',
+  container: 'layout',
+  details: 'layout',
+
+  webform_actions: 'action',
+  webform_markup: 'markup',
+}
+
 export const defaultValuesClassnames: TDeepRequiredClassNames = {
   fieldContainer: {
     base: '',
