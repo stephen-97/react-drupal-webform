@@ -4,6 +4,7 @@ import { useController, useFormContext } from 'react-hook-form'
 import styles from '../field.module.scss'
 import { TextAreaProps } from '../../../../lib/types/components/textarea'
 import {
+  getAriaDescribedBy,
   getClassNames,
   getDataAttributes,
 } from '../../../../lib/functions/utils_functions'
@@ -15,6 +16,7 @@ const Textarea = ({
   className,
   innerProps,
   classNamePrefix,
+  ariaDescribedBy,
 }: TextAreaProps) => {
   const { control } = useFormContext()
 
@@ -46,6 +48,7 @@ const Textarea = ({
       onChange={(e) => fieldController.onChange(e.target.value)}
       onBlur={onBlur}
       className={textareaClassNames}
+      aria-describedby={ariaDescribedBy}
       {...dataAttributes}
       {...innerProps}
     />

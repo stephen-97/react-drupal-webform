@@ -5,6 +5,7 @@ import styles from '../field.module.scss'
 import { handleChangeOptions } from '../../../../lib/functions/webform_fields_functions/webform_fields_functions'
 import { SelectProps } from '../../../../lib/types/components/select'
 import {
+  getAriaDescribedBy,
   getClassNames,
   getDataAttributes,
 } from '../../../../lib/functions/utils_functions'
@@ -12,10 +13,10 @@ import {
 const Select = ({
   fieldKey,
   field,
-  classNames,
   innerProps,
   className,
   classNamePrefix,
+  ariaDescribedBy,
 }: SelectProps) => {
   const { control } = useFormContext()
 
@@ -51,6 +52,7 @@ const Select = ({
       className={selectClassNames}
       value={fieldController.value ?? ''}
       onChange={(e) => handleChangeOptions(e.target.value, fieldController)}
+      aria-describedby={ariaDescribedBy}
       {...dataAttributes}
       {...innerProps}
     >

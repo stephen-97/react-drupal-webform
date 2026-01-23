@@ -88,4 +88,5 @@ export type TFieldWebformObj = {
   classNames: TDeepRequiredClassNames
   classNamePrefix?: string
   components: TWebformCustomComponents
+  ariaDescribedBy?: string
 }

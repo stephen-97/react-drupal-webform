@@ -3,7 +3,7 @@ import 'tippy.js/dist/tippy.css'
 import Wysiwyg from '../../fields-special-components/wysiwyg/wysiwyg'
 import { DescriptionProps } from '../../../../../lib/types/components/description'
 import cn from 'classnames'
-import styles from '../fieldContainer.module.scss'
+import styles from './description.module.scss'
 import {
   getClassNames,
   getDataAttributes,
@@ -12,20 +12,25 @@ import {
 const Description = ({
   innerProps,
   components,
-  classNames,
   field,
+  fieldKey,
   className,
 }: DescriptionProps) => {
   const CustomWysiwyg = components.wysiwyg ?? Wysiwyg
 
   const descriptionClassNames = getClassNames({
     name: 'description',
-    baseCn: cn(styles.wysiwyg, className),
+    baseCn: cn(styles.descriptionWysiwyg, className),
   })
 
   const dataAttributes = getDataAttributes({
     component: 'description',
   })
+
+  const mergedInnerProps = {
+    id: innerProps?.id ?? `description-${fieldKey}`,
+    ...innerProps,
+  }
 
   return (
     <CustomWysiwyg
@@ -35,8 +40,10 @@ const Description = ({
       }
       as={'div'}
       source={'description'}
-      {...dataAttributes}
-      {...innerProps}
+      innerProps={{
+        ...dataAttributes,
+        ...mergedInnerProps,
+      }}
     />
   )
 }

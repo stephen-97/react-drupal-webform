@@ -12,6 +12,7 @@ const Wysiwyg = ({
   processed,
   as: Element = 'div',
   className,
+  innerProps,
 }: WysiwygProps) => {
   const wysiwygClassNames = getClassNames({
     name: 'wysiwyg',
@@ -31,6 +32,7 @@ const Wysiwyg = ({
         }),
       }}
       {...dataAttributes}
+      {...(innerProps as any)}
     ></Element>
   )
 }

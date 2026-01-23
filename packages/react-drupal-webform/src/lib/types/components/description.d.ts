@@ -5,6 +5,7 @@ import { TElementSource } from './field'
 export interface DescriptionProps {
   innerProps?: jsx.JSX.IntrinsicElements['div']
   field: TElementSource
+  fieldKey: string
   components: TWebformCustomComponents
   classNames: TWebformClassNames
   className?: string

@@ -14,11 +14,11 @@ import {
 const ManagedFile = ({
   fieldKey,
   field,
-  classNames,
   onBlur,
   className,
   innerProps,
   components,
+  ariaDescribedBy,
 }: ManagedFileProps) => {
   const { control } = useFormContext()
   const inputRef = useRef<HTMLInputElement>(null)
@@ -71,6 +71,7 @@ const ManagedFile = ({
       onChange={(e) => handleFileChange(e, fieldController, inputRef)}
       onBlur={onBlur}
       className={inputClassNames}
+      aria-describedby={ariaDescribedBy}
       {...dataAttributes}
       {...innerProps}
     />

@@ -16,6 +16,7 @@ const Radios = ({
   itemProps,
   inputProps,
   labelProps,
+  ariaDescribedBy,
 }: RadiosProps) => {
   const { control } = useFormContext()
 
@@ -71,6 +72,7 @@ const Radios = ({
               type="radio"
               value={optionKey}
               checked={checked}
+              aria-describedby={ariaDescribedBy}
               onChange={() => fieldController.onChange(optionKey)}
               {...inputProps}
             />

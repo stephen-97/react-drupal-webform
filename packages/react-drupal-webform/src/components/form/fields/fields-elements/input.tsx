@@ -4,6 +4,7 @@ import { useController, useFormContext } from 'react-hook-form'
 import styles from '../field.module.scss'
 import { InputProps } from '../../../../lib/types/components/input'
 import {
+  getAriaDescribedBy,
   getClassNames,
   getDataAttributes,
 } from '../../../../lib/functions/utils_functions'
@@ -43,6 +44,8 @@ const Input = (props: InputProps) => {
     component: 'Input',
   })
 
+  const ariaDescribedBy = getAriaDescribedBy({ fieldKey, field })
+
   return (
     <input
       id={fieldKey}
@@ -55,6 +58,7 @@ const Input = (props: InputProps) => {
       onChange={(e) => fieldController.onChange(e)}
       value={fieldController.value ?? ''}
       required={field?.['#required']}
+      aria-describedby={ariaDescribedBy}
       {...dataAttributes}
       {...innerProps}
     />

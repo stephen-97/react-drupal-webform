@@ -83,3 +83,16 @@ export const getClassNames = ({
 
   return cn(baseName, baseCn)
 }
+
+export const getAriaDescribedBy = ({
+  fieldKey,
+  field,
+}: {
+  fieldKey: string
+  field?: Record<string, any>
+}): string | undefined => {
+  const hasDescription =
+    Boolean(field?.['#description']) || Boolean(field?.['#file_placeholder'])
+
+  return hasDescription ? `description-${fieldKey}` : undefined
+}

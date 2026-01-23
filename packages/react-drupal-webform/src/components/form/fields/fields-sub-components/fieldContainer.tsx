@@ -2,8 +2,6 @@ import React from 'react'
 import cn from 'classnames'
 import styles from './fieldContainer.module.scss'
 import { FieldContainerProps } from '../../../../lib/types/components/fieldContainer'
-import { getWrapperCategory } from '../../../../lib/functions/webform_fields_functions/webform_fields_functions'
-import { TDrupal_FieldType } from '../../../../lib/types/components/field'
 import WrapperField from './wrapper-sub-components/wrapperField'
 import WrapperDescription from './wrapper-sub-components/wrapperDescription'
 import WrapperMore from './wrapper-sub-components/wrapperMore'
@@ -65,6 +63,8 @@ const FieldContainer = (props: FieldContainerProps) => {
     ),
   })
 
+  console.log('ici 1', fieldKey)
+
   return (
     <WrapperElement
       className={componentClassNames}
@@ -92,6 +92,7 @@ const FieldContainer = (props: FieldContainerProps) => {
       {(field?.['#description'] || field?.['#file_placeholder']) && (
         <WrapperDescription
           field={field}
+          fieldKey={fieldKey}
           classNames={classNames}
           components={components}
         />

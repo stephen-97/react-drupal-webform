@@ -1,9 +1,8 @@
-import { IWrapperWebformProps } from "./wrapper"
+import { IWrapperWebformProps } from './wrapper'
 
-export type TWrapperDescriptionWebformProps = Omit<
+export type WrapperDescriptionProps = Omit<
   IWrapperWebformProps,
   | 'wrapperElement'
-  | 'fieldKey'
   | 'classNameFieldName'
   | 'innerPropsLabel'
   | 'isLabel'

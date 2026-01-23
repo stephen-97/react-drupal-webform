@@ -17,6 +17,7 @@ const Checkboxes = ({
   itemProps,
   inputProps,
   labelProps,
+  ariaDescribedBy,
 }: CheckboxesProps) => {
   const { control } = useFormContext()
 
@@ -76,6 +77,7 @@ const Checkboxes = ({
               type="checkbox"
               value={optionKey}
               checked={checked}
+              aria-describedby={ariaDescribedBy}
               onChange={(e) =>
                 handleChangeOptionsCheckboxes(
                   e.target.value,

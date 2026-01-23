@@ -1,6 +1,7 @@
 import React from 'react'
 import FormMappingFields from '../formMappingFields/formMappingFields'
 import { IFieldRendererWebformProps } from '../../../lib/types/components/formFieldRendered'
+import { getAriaDescribedBy } from '../../../lib/functions/utils_functions'
 
 const FormFieldRendered = ({
   index,
@@ -25,6 +26,8 @@ const FormFieldRendered = ({
     'fieldset',
   ].includes(type)
 
+  const ariaDescribedBy = getAriaDescribedBy({ fieldKey, field })
+
   return elementRenderer({
     index,
     fieldKey,
@@ -32,6 +35,7 @@ const FormFieldRendered = ({
     isMultiStep,
     components,
     classNames,
+    ariaDescribedBy,
     ...(isLayout ? { watchedValues } : {}),
   })
 }

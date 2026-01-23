@@ -12,6 +12,7 @@ const Checkbox = ({
   onBlur,
   innerProps,
   className,
+  ariaDescribedBy,
 }: CheckboxProps) => {
   const { control } = useFormContext()
 
@@ -41,6 +42,7 @@ const Checkbox = ({
       onChange={(e) => fieldController.onChange(e.target.checked)}
       onBlur={onBlur}
       className={checkboxClassNames}
+      aria-describedby={ariaDescribedBy}
       {...dataAttributes}
       {...innerProps}
     />

@@ -1,12 +1,13 @@
 import React from 'react'
-import { TWrapperDescriptionWebformProps } from '../../../../../lib/types/components/wrapperDescription'
+import { WrapperDescriptionProps } from '../../../../../lib/types/components/wrapperDescription'
 import Description from '../description/description'
 
 const WrapperDescription = ({
   components,
   classNames,
   field,
-}: TWrapperDescriptionWebformProps) => {
+  fieldKey,
+}: WrapperDescriptionProps) => {
   const CustomDescription = components?.description ?? Description
 
   return (
@@ -14,6 +15,7 @@ const WrapperDescription = ({
       components={components}
       classNames={classNames}
       field={field}
+      fieldKey={fieldKey}
     />
   )
 }
