@@ -38,7 +38,13 @@ const Help = ({
       ${helps.help || ''}
     `
 
-    root.render(<CustomWysiwyg source={'help'} processed={html} />)
+    root.render(
+      <CustomWysiwyg
+        classNamePrefix={classNamePrefix}
+        source={'help'}
+        processed={html}
+      />
+    )
 
     tippy(buttonRef.current, {
       content: tooltipContainer,

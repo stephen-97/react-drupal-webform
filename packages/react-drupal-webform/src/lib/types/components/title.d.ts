@@ -8,7 +8,7 @@ type BaseLabelProps = {
   field: TElementSource
   fieldKey: string
   classNames: TWebformClassNames
-  classNamePrefix: string
+  classNamePrefix: string | undefined | null
   components: TWebformCustomComponents
 }
 

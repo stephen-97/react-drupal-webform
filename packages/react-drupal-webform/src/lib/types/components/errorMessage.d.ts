@@ -5,7 +5,7 @@ import { TElementSource } from './field'
 export interface ErrorMessageProps {
   className?: string
   classNames: TWebformClassNames
-  classNamePrefix: string
+  classNamePrefix: string | undefined | null
   components: TWebformCustomComponents
   field: TElementSource
   fieldKey: string

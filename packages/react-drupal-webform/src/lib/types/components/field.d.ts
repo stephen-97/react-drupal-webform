@@ -1,5 +1,4 @@
 import { TWebformCustomComponents } from '../form.d'
-import { FocusEventHandler } from 'react'
 import { TDeepRequiredClassNames } from '../deepRequired'
 
 export type TDrupal_FieldType =
@@ -95,7 +94,7 @@ export type TFieldWebformObj = {
   submitButtonRef?: any
   isMultiStep?: boolean
   classNames: TDeepRequiredClassNames
-  classNamePrefix: string
+  classNamePrefix: string | undefined | null
   components: TWebformCustomComponents
   ariaDescribedBy?: string
 }

@@ -58,7 +58,7 @@ const FormDefault = (props: IFormDefaultWebformProps) => {
     ...yupUseFormProps,
   })
 
-  const { control, reset, formState, getValues, handleSubmit } = methods
+  const { control, reset, getValues, handleSubmit } = methods
 
   const watchedValuesArray = useWatch({ control, name: dependentFieldNames })
 

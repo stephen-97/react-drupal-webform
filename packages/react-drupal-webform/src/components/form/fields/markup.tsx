@@ -27,7 +27,11 @@ const Markup = (props: MarkupProps) => {
 
   return (
     <div className={markupClassNames} {...innerProps} {...dataAttributes}>
-      <WysiwygComponent processed={markup} source="markup" />
+      <WysiwygComponent
+        classNamePrefix={classNamePrefix}
+        processed={markup}
+        source="markup"
+      />
     </div>
   )
 }

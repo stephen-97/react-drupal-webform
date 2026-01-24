@@ -37,6 +37,7 @@ const Description = ({
   return (
     <CustomWysiwyg
       className={descriptionClassNames}
+      classNamePrefix={classNamePrefix}
       processed={
         (field?.['#description'] ?? field?.['#file_placeholder']) || ''
       }

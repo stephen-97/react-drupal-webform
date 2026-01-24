@@ -6,5 +6,5 @@ export interface MultiStepActionsProps {
   components: TWebformCustomComponents
   classNames: Required<TWebformClassNames>
   className?: string
-  classNamePrefix: string
+  classNamePrefix: string | undefined | null
 }

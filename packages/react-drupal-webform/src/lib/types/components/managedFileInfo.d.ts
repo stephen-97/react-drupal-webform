@@ -4,7 +4,7 @@ import { jsx } from '@emotion/react'
 export interface ManagedFileInfoProps {
   innerProps?: jsx.JSX.IntrinsicElements['div']
   className?: string
-  classNamePrefix: string
+  classNamePrefix: string | undefined | null
   field: TElementSource
   fieldKey: string
 }

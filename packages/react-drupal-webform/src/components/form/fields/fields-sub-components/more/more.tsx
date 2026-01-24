@@ -69,6 +69,7 @@ const More = ({
         <CustomWysiwyg
           as="div"
           className={wysiwygClassNames}
+          classNamePrefix={classNamePrefix}
           processed={moreText}
           source={'more'}
           {...innerPropsWysiwyg}

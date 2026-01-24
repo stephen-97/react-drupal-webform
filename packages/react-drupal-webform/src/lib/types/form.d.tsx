@@ -273,7 +273,7 @@ export type TWebform = {
   defaultFieldValues?: TWebformDefaultFieldValues
   customValidators?: TWebformCustomValidators
   classNames?: TWebformClassNames
-  classNamePrefix?: string
+  classNamePrefix?: string | undefined
   defaultFieldStateMessages?: TWebformStateMessages
   onSubmit: (_data: Record<string, any>) => void | Promise<any>
   includeInactiveFieldsInSubmit?: boolean

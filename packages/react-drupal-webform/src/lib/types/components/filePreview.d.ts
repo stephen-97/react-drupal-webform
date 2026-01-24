@@ -5,7 +5,7 @@ import { TElementSource } from './field'
 export interface ManagedFilePreviewProps {
   innerProps?: jsx.JSX.IntrinsicElements['div']
   className?: string
-  classNamePrefix: string
+  classNamePrefix: string | undefined | null
   fieldKey: string
   field: TElementSource
   value: TFileWithBase64 | {}

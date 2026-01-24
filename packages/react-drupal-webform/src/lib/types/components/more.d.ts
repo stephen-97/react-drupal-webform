@@ -11,6 +11,6 @@ export interface MoreProps {
   field: TElementSource
   fieldKey: string
   className?: string
-  classNamePrefix: string
+  classNamePrefix: string | undefined | null
   classNames: TWebformClassNames
 }

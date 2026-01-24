@@ -7,7 +7,14 @@ import { shouldFieldBeVisible } from '../../../lib/functions/webform_fields_func
 const renderLayout = (
   props: TFieldWebformObj & { watchedValues?: Record<string, any> }
 ) => {
-  const { fieldKey, field, classNames, components, watchedValues } = props
+  const {
+    fieldKey,
+    field,
+    classNames,
+    components,
+    watchedValues,
+    classNamePrefix,
+  } = props
 
   const LayoutComponent = components?.layout ?? Layout
   const childKeys = Object.keys(field).filter((key) => !key.startsWith('#'))
@@ -26,6 +33,7 @@ const renderLayout = (
             fieldKey={childKey}
             index={index}
             field={child}
+            classNamePrefix={classNamePrefix}
             components={components}
             classNames={classNames}
             isMultiStep={false}
