@@ -7,6 +7,7 @@ import {
   getAriaDescribedBy,
   getClassNames,
   getDataAttributes,
+  getTextLikeInputAttributes,
 } from '../../../../lib/functions/utils_functions'
 
 const Input = (props: InputProps) => {
@@ -46,19 +47,18 @@ const Input = (props: InputProps) => {
 
   const ariaDescribedBy = getAriaDescribedBy({ fieldKey, field })
 
+  const inputFieldAttributes = getTextLikeInputAttributes(field, getFieldType)
+
   return (
     <input
       id={fieldKey}
       className={inputClassNames}
       name={fieldController.name}
-      minLength={field?.['#minlength']}
-      maxLength={field?.['#maxlength']}
-      placeholder={field?.['#placeholder']}
       type={getFieldType}
       onChange={(e) => fieldController.onChange(e)}
       value={fieldController.value ?? ''}
-      required={field?.['#required']}
       aria-describedby={ariaDescribedBy}
+      {...inputFieldAttributes}
       {...dataAttributes}
       {...innerProps}
     />

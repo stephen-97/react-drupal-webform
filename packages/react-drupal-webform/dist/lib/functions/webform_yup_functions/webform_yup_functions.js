@@ -24,7 +24,9 @@ export const useYupValidationResolver = (validationSchema) => async (data) => {
 export const isErrorMessageFieldType = (type) => {
     return (type !== 'webform_markup' &&
         type !== 'webform_actions' &&
-        type !== 'fieldset');
+        type !== 'fieldset' &&
+        type !== 'webform_section' &&
+        type !== 'webform_flexbox');
 };
 export const isLengthMessageFieldType = (type) => {
     return (typeof type === 'string' &&
@@ -40,10 +42,10 @@ export const resolveFieldMessages = (props) => {
     const fieldName = field?.['#title'] ?? '';
     const minLength = typeof field?.['#minlength'] === 'number' ? String(field['#minlength']) : '';
     const maxLength = typeof field?.['#maxlength'] === 'number' ? String(field['#maxlength']) : '';
-    const resolve = (v) => {
-        if (!v)
+    const resolve = (value) => {
+        if (value == null)
             return '';
-        return typeof v === 'function' ? v(field) : v;
+        return typeof value === 'function' ? value(field) : value;
     };
     const replaceTokens = (msg) => msg
         .replace('{fieldName}', fieldName)
@@ -63,8 +65,11 @@ export const resolveFieldMessages = (props) => {
     const maxLen = isLengthMessageFieldType(type)
         ? resolve(fields.maxLengthMessages?.[type])
         : '';
+    const requiredResolved = field?.['#required_error'] && field['#required_error'].length > 0
+        ? field['#required_error']
+        : replaceTokens(required || resolve(general.requiredMessage));
     return {
-        required: replaceTokens(required || resolve(general.requiredMessage)),
+        required: requiredResolved,
         error: replaceTokens(error || resolve(general.errorMessage)),
         minLength: replaceTokens(minLen || resolve(general.minLengthMessage)),
         maxLength: replaceTokens(maxLen || resolve(general.maxLengthMessage)),

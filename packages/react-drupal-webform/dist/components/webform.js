@@ -6,7 +6,7 @@ import { mergeObjects } from '../lib/functions/utils_functions';
 import { useMemo } from 'react';
 import FormMultiStep from './form/formMultiStep/formMultiStep';
 import { normalizeStateMessages } from '../lib/functions/webform-states-message-functions/webform-state-messages-functions';
-const Webform = ({ elementsSource, defaultFieldValues = {}, classNames = {}, defaultFieldStateMessages = {}, components = {}, onSubmit, includeInactiveFieldsInSubmit = true, customValidators, isSubmitted, showConfirmation = true, }) => {
+const Webform = ({ elementsSource, defaultFieldValues = {}, classNames = {}, defaultFieldStateMessages = {}, components = {}, onSubmit, includeInactiveFieldsInSubmit = true, customValidators, isSubmitted, showConfirmation = true, classNamePrefix, }) => {
     const yupUseFormProps = {
         mode: 'onChange',
         reValidateMode: 'onBlur',
@@ -33,6 +33,7 @@ const Webform = ({ elementsSource, defaultFieldValues = {}, classNames = {}, def
         customValidators,
         isSubmitted,
         showConfirmation,
+        classNamePrefix,
     };
     return elementsSource ? _jsx(FormComponent, { ...formProps }) : null;
 };

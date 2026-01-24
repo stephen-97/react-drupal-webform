@@ -5,6 +5,8 @@ import { TDeepRequiredClassNames } from '../deepRequired'
 export type TDrupal_FieldType =
   | 'checkbox'
   | 'checkboxes'
+  | 'entity_checkboxes'
+  | 'term_checkboxes'
   | 'date'
   | 'email'
   | 'webform_markup'
@@ -12,9 +14,12 @@ export type TDrupal_FieldType =
   | 'textarea'
   | 'textfield'
   | 'radios'
+  | 'radios_entity'
   | 'number'
   | 'tel'
   | 'select'
+  | 'entity_select'
+  | 'term_select'
   | 'managed_file'
   | 'hidden'
   | 'fieldset'
@@ -67,6 +72,8 @@ export type TElementSource = {
   '#field_prefix'?: string
   '#field_suffix'?: string
   '#submit__label'?: string
+  '#size'?: number
+  '#pattern'?: string
   '#states': {
     visible: Record<string, Record<string, string>>
   }
@@ -76,17 +83,19 @@ export type TElementSource = {
   '#wrapper_attributes'?: {
     class?: string[]
   }
+  '#empty_option'?: string
+  '#empty_value'?: string
+  '#sort_options'?: boolean
 }
 
 export type TFieldWebformObj = {
   index: number
   fieldKey: string
   field: TElementSource
-  onBlur?: FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>
   submitButtonRef?: any
   isMultiStep?: boolean
   classNames: TDeepRequiredClassNames
-  classNamePrefix?: string
+  classNamePrefix: string
   components: TWebformCustomComponents
   ariaDescribedBy?: string
 }

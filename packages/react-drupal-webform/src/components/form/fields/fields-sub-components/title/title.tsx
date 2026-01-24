@@ -7,8 +7,16 @@ import { getClassNames } from '../../../../../lib/functions/utils_functions'
 import { getDataAttributes } from '../../../../../lib/functions/utils_functions'
 
 const Title = (props: TitleProps) => {
-  const { field, components, className, fieldKey, innerProps, wrapperElement } =
-    props
+  const {
+    field,
+    components,
+    className,
+    fieldKey,
+    innerProps,
+    wrapperElement,
+    classNamePrefix,
+    classNames,
+  } = props
 
   const title = field?.['#title']
   const isRequired = Boolean(field?.['#required'])
@@ -20,6 +28,7 @@ const Title = (props: TitleProps) => {
 
   const titleClassNames = getClassNames({
     name: 'fieldTitle',
+    prefix: classNamePrefix,
     baseCn: cn(styles.title, className, {
       [styles.isRequired]: isRequired,
     }),
@@ -38,7 +47,15 @@ const Title = (props: TitleProps) => {
         {...innerProps}
       >
         {title}
-        {showHelp && <CustomHelp field={field} components={components} />}
+        {showHelp && (
+          <CustomHelp
+            fieldKey={fieldKey}
+            field={field}
+            components={components}
+            classNames={classNames}
+            classNamePrefix={classNamePrefix}
+          />
+        )}
       </label>
     )
   }
@@ -46,7 +63,15 @@ const Title = (props: TitleProps) => {
   return (
     <legend className={titleClassNames} {...dataAttributes} {...innerProps}>
       {title}
-      {showHelp && <CustomHelp field={field} components={components} />}
+      {showHelp && (
+        <CustomHelp
+          fieldKey={fieldKey}
+          field={field}
+          components={components}
+          classNames={classNames}
+          classNamePrefix={classNamePrefix}
+        />
+      )}
     </legend>
   )
 }

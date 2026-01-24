@@ -8,12 +8,13 @@ import {
 } from '../../../../../lib/functions/utils_functions'
 
 const LayoutList = (props: LayoutListProps) => {
-  const { children, className, innerProps } = props
+  const { children, className, innerProps, classNamePrefix } = props
 
   if (!children) return null
 
   const layoutListClassNames = getClassNames({
     name: 'layoutList',
+    prefix: classNamePrefix,
     baseCn: cn(styles.layoutList, className),
   })
 

@@ -10,9 +10,10 @@ const More = ({
   innerPropsContainer,
   innerPropsButton,
   innerPropsWysiwyg,
-  moreTitle,
   components,
   className,
+  classNamePrefix,
+  field,
 }: MoreProps) => {
   const CustomWysiwyg = components.wysiwyg ?? Wysiwyg
 
@@ -24,11 +25,13 @@ const More = ({
 
   const containerClassNames = getClassNames({
     name: 'more',
+    prefix: classNamePrefix,
     baseCn: cn(styles.more, containerClassName, className),
   })
 
   const buttonClassNames = getClassNames({
     name: 'moreButton',
+    prefix: classNamePrefix,
     baseCn: cn(styles.button, buttonClassName, {
       [styles.opened]: open,
     }),
@@ -36,12 +39,16 @@ const More = ({
 
   const wysiwygClassNames = getClassNames({
     name: 'moreContent',
+    prefix: classNamePrefix,
     baseCn: cn(styles.moreWysiwyg),
   })
 
   const dataAttributes = getDataAttributes({
     component: 'more',
   })
+
+  const moreTitle = field?.['#more_title']
+  const moreText = field?.['#more']
 
   return (
     <div
@@ -55,13 +62,15 @@ const More = ({
         onClick={() => setOpen((prev) => !prev)}
         {...buttonProps}
       >
-        {moreTitle}
+        {moreTitle ?? 'More'}
       </button>
 
-      {open && innerPropsWysiwyg?.processed && (
+      {open && moreText && moreText.length > 0 && (
         <CustomWysiwyg
           as="div"
           className={wysiwygClassNames}
+          processed={moreText}
+          source={'more'}
           {...innerPropsWysiwyg}
         />
       )}

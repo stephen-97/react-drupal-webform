@@ -9,4 +9,5 @@ export interface DescriptionProps {
   components: TWebformCustomComponents
   classNames: TWebformClassNames
   className?: string
+  classNamePrefix: string
 }

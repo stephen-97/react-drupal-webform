@@ -15,11 +15,13 @@ const Description = ({
   field,
   fieldKey,
   className,
+  classNamePrefix,
 }: DescriptionProps) => {
   const CustomWysiwyg = components.wysiwyg ?? Wysiwyg
 
   const descriptionClassNames = getClassNames({
     name: 'description',
+    prefix: classNamePrefix,
     baseCn: cn(styles.descriptionWysiwyg, className),
   })
 

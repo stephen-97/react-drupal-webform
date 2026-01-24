@@ -15,32 +15,40 @@ const ManagedFilePreview = ({
   value,
   handleRemove,
   className,
+  classNamePrefix,
+  field,
+  fieldKey,
 }: ManagedFilePreviewProps) => {
   const fileValue = value as TFileWithBase64
   const blob = base64ToBlob(fileValue.base64, fileValue.type)
 
   const wrapperClassNames = getClassNames({
     name: 'managedFilePreview',
+    prefix: classNamePrefix,
     baseCn: cn(styles.filePreview, className),
   })
 
   const fileInfoClassNames = getClassNames({
     name: 'managedFilePreviewInfo',
+    prefix: classNamePrefix,
     baseCn: styles.fileInfo,
   })
 
   const fileNameClassNames = getClassNames({
     name: 'managedFilePreviewName',
+    prefix: classNamePrefix,
     baseCn: styles.fileName,
   })
 
   const fileLinkClassNames = getClassNames({
     name: 'managedFilePreviewLink',
+    prefix: classNamePrefix,
     baseCn: styles.link,
   })
 
   const fileSizeClassNames = getClassNames({
     name: 'managedFilePreviewSize',
+    prefix: classNamePrefix,
     baseCn: styles.fileSize,
   })
 
@@ -68,6 +76,9 @@ const ManagedFilePreview = ({
       </div>
 
       <Button
+        fieldKey={fieldKey}
+        field={field}
+        classNamePrefix={classNamePrefix}
         fillType="border"
         size="small"
         title="Remove"

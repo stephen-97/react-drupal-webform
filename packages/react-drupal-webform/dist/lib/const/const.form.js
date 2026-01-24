@@ -32,6 +32,11 @@ export const defaultValuesObj = {
     managed_file: {},
     select: '',
     hidden: '',
+    term_checkboxes: [],
+    term_select: '',
+    entity_select: '',
+    entity_checkboxes: [],
+    radios_entity: '',
 };
 export const defaultValuesFieldStateMessages = {
     general: {
@@ -54,6 +59,11 @@ export const defaultValuesFieldStateMessages = {
             checkbox: '',
             checkboxes: '',
             select: '',
+            entity_checkboxes: '',
+            term_checkboxes: '',
+            radios_entity: '',
+            entity_select: '',
+            term_select: '',
         },
         requiredMessages: {
             textfield: '',
@@ -68,6 +78,11 @@ export const defaultValuesFieldStateMessages = {
             managed_file: '',
             select: '',
             hidden: '',
+            entity_checkboxes: '',
+            term_checkboxes: '',
+            radios_entity: '',
+            entity_select: '',
+            term_select: '',
         },
         minLengthMessage: {
             textfield: '',
@@ -80,6 +95,11 @@ export const defaultValuesFieldStateMessages = {
             tel: '',
             date: '',
             hidden: '',
+            entity_checkboxes: '',
+            term_checkboxes: '',
+            radios_entity: '',
+            entity_select: '',
+            term_select: '',
         },
         maxLengthMessage: {
             textfield: '',
@@ -92,8 +112,33 @@ export const defaultValuesFieldStateMessages = {
             tel: '',
             date: '',
             hidden: '',
+            entity_checkboxes: '',
+            term_checkboxes: '',
+            radios_entity: '',
+            entity_select: '',
+            term_select: '',
         },
     },
+};
+export const FIELD_TYPE_TO_GROUP = {
+    textfield: 'input',
+    email: 'input',
+    number: 'input',
+    tel: 'input',
+    date: 'input',
+    textarea: 'textarea',
+    select: 'select',
+    radios: 'radio',
+    checkbox: 'checkbox',
+    checkboxes: 'checkbox',
+    managed_file: 'file',
+    webform_section: 'layout',
+    webform_flexbox: 'layout',
+    fieldset: 'layout',
+    container: 'layout',
+    details: 'layout',
+    webform_actions: 'action',
+    webform_markup: 'markup',
 };
 export const defaultValuesClassnames = {
     fieldContainer: {
@@ -123,6 +168,11 @@ export const defaultValuesClassnames = {
             details: '',
             webform_section: '',
             webform_flexbox: '',
+            entity_checkboxes: '',
+            term_checkboxes: '',
+            radios_entity: '',
+            entity_select: '',
+            term_select: '',
         },
     },
     general: {

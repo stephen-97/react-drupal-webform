@@ -10,13 +10,22 @@ import {
 } from '../../../../../lib/functions/utils_functions'
 
 const Layout = (props: LayoutProps) => {
-  const { children, fieldKey, className, innerProps, components, field } = props
+  const {
+    children,
+    fieldKey,
+    className,
+    innerProps,
+    classNamePrefix,
+    components,
+    field,
+  } = props
 
   const LayoutTitleComponent = components?.layoutTitle ?? LayoutTitle
   const LayoutListComponent = components?.layoutList ?? LayoutList
 
   const layoutClassNames = getClassNames({
     name: 'layout',
+    prefix: classNamePrefix,
     baseCn: cn(styles.layoutWrapper, className),
   })
 

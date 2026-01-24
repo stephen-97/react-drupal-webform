@@ -3,10 +3,11 @@ import React from 'react';
 import cn from 'classnames';
 import { useController, useFormContext } from 'react-hook-form';
 import styles from '../field.module.scss';
+import { getAriaDescribedBy, getClassNames, getDataAttributes, getTextLikeInputAttributes, } from '../../../../lib/functions/utils_functions';
 const Input = (props) => {
-    const { fieldKey, field, classNames, onBlur, className, innerProps } = props;
+    const { fieldKey, field, classNamePrefix, className, innerProps } = props;
     const { control } = useFormContext();
-    const { field: fieldController, fieldState } = useController({
+    const { field: fieldController } = useController({
         name: fieldKey,
         control,
     });
@@ -26,6 +27,16 @@ const Input = (props) => {
                 return 'text';
         }
     })();
-    return (_jsx("input", { id: fieldKey, className: cn(classNames.fields.textInputs.base, classNames.fields.textInputs.types[field?.['#type']], styles.input, styles[field?.['#type']], { [styles.error]: fieldState?.error }, className), name: fieldController.name, minLength: field?.['#minlength'], maxLength: field?.['#maxlength'], placeholder: field?.['#placeholder'], type: getFieldType, onChange: (e) => fieldController.onChange(e), value: fieldController.value ?? '', onBlur: onBlur, required: field?.['#required'], ...innerProps }));
+    const inputClassNames = getClassNames({
+        name: 'input',
+        prefix: classNamePrefix,
+        baseCn: cn(styles.input, className),
+    });
+    const dataAttributes = getDataAttributes({
+        component: 'Input',
+    });
+    const ariaDescribedBy = getAriaDescribedBy({ fieldKey, field });
+    const inputFieldAttributes = getTextLikeInputAttributes(field, getFieldType);
+    return (_jsx("input", { id: fieldKey, className: inputClassNames, name: fieldController.name, type: getFieldType, onChange: (e) => fieldController.onChange(e), value: fieldController.value ?? '', "aria-describedby": ariaDescribedBy, ...inputFieldAttributes, ...dataAttributes, ...innerProps }));
 };
 export default React.memo(Input);

@@ -94,7 +94,7 @@ const MultiStepActions = (props: MultiStepActionsProps) => {
         disabled={!isStepValid || isSubmitting}
         onClick={handleNext}
       >
-        {isSubmitting && <Loader />}
+        {isSubmitting && <Loader classNamePrefix={classNamePrefix} />}
         {isLastStep
           ? 'Submit'
           : nextButtonLabel?.length

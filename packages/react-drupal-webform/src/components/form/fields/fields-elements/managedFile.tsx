@@ -14,16 +14,16 @@ import {
 const ManagedFile = ({
   fieldKey,
   field,
-  onBlur,
   className,
   innerProps,
   components,
   ariaDescribedBy,
+  classNamePrefix,
 }: ManagedFileProps) => {
   const { control } = useFormContext()
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const { field: fieldController, fieldState } = useController({
+  const { field: fieldController } = useController({
     name: fieldKey,
     control,
   })
@@ -49,11 +49,20 @@ const ManagedFile = ({
   }
 
   if (isFileWithBase64(value)) {
-    return <PreviewComponent value={value} handleRemove={handleRemove} />
+    return (
+      <PreviewComponent
+        field={field}
+        fieldKey={fieldKey}
+        classNamePrefix={classNamePrefix}
+        value={value}
+        handleRemove={handleRemove}
+      />
+    )
   }
 
   const inputClassNames = getClassNames({
     name: 'managedFile',
+    prefix: classNamePrefix,
     baseCn: cn(styles.field, styles.input, className),
   })
 
@@ -69,7 +78,6 @@ const ManagedFile = ({
       name={fieldController.name}
       accept={fileExtensions}
       onChange={(e) => handleFileChange(e, fieldController, inputRef)}
-      onBlur={onBlur}
       className={inputClassNames}
       aria-describedby={ariaDescribedBy}
       {...dataAttributes}

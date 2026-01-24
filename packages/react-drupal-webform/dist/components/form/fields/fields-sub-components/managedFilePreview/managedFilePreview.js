@@ -1,12 +1,41 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import styles from './managedFilePreview.module.scss';
-import { base64ToBlob } from "../../../../../lib/functions/webform_fields_functions/webform_fields_file_functions";
+import React from 'react';
 import cn from 'classnames';
-import Button from "../buttons/button/button";
-const ManagedFilePreview = ({ innerProps, value, handleRemove, }) => {
-    const { className, ...restInnerProps } = innerProps ?? {};
+import styles from './managedFilePreview.module.scss';
+import { base64ToBlob } from '../../../../../lib/functions/webform_fields_functions/webform_fields_file_functions';
+import { getClassNames, getDataAttributes, } from '../../../../../lib/functions/utils_functions';
+import Button from '../buttons/button/button';
+const ManagedFilePreview = ({ innerProps, value, handleRemove, className, classNamePrefix, field, fieldKey, }) => {
     const fileValue = value;
     const blob = base64ToBlob(fileValue.base64, fileValue.type);
-    return (_jsxs("div", { className: cn(styles.filePreview, className), ...restInnerProps, children: [_jsxs("div", { className: styles.fileInfo, children: [_jsx("span", { className: styles.fileName, children: _jsx("a", { className: styles.link, href: URL.createObjectURL(blob), target: "_blank", rel: "noopener noreferrer", children: fileValue?.name }) }), _jsxs("span", { className: styles.fileSize, children: ["(", (fileValue?.size / 1024).toFixed(2), " KB)"] })] }), _jsx(Button, { fillType: 'border', size: 'small', title: 'Remove', innerProps: { onClick: () => handleRemove() } })] }));
+    const wrapperClassNames = getClassNames({
+        name: 'managedFilePreview',
+        prefix: classNamePrefix,
+        baseCn: cn(styles.filePreview, className),
+    });
+    const fileInfoClassNames = getClassNames({
+        name: 'managedFilePreviewInfo',
+        prefix: classNamePrefix,
+        baseCn: styles.fileInfo,
+    });
+    const fileNameClassNames = getClassNames({
+        name: 'managedFilePreviewName',
+        prefix: classNamePrefix,
+        baseCn: styles.fileName,
+    });
+    const fileLinkClassNames = getClassNames({
+        name: 'managedFilePreviewLink',
+        prefix: classNamePrefix,
+        baseCn: styles.link,
+    });
+    const fileSizeClassNames = getClassNames({
+        name: 'managedFilePreviewSize',
+        prefix: classNamePrefix,
+        baseCn: styles.fileSize,
+    });
+    const dataAttributes = getDataAttributes({
+        component: 'managedFilePreview',
+    });
+    return (_jsxs("div", { className: wrapperClassNames, ...dataAttributes, ...innerProps, children: [_jsxs("div", { className: fileInfoClassNames, children: [_jsx("span", { className: fileNameClassNames, children: _jsx("a", { className: fileLinkClassNames, href: URL.createObjectURL(blob), target: "_blank", rel: "noopener noreferrer", children: fileValue?.name }) }), _jsxs("span", { className: fileSizeClassNames, children: ["(", (fileValue?.size / 1024).toFixed(2), " KB)"] })] }), _jsx(Button, { fieldKey: fieldKey, field: field, classNamePrefix: classNamePrefix, fillType: "border", size: "small", title: "Remove", innerProps: { onClick: () => handleRemove() } })] }));
 };
-export default ManagedFilePreview;
+export default React.memo(ManagedFilePreview);

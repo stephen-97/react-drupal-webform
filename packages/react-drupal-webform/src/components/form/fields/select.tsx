@@ -3,7 +3,7 @@ import FieldContainer from './fields-sub-components/fieldContainer'
 import Select from './fields-elements/select'
 
 export const renderSelect = (props: TFieldWebformObj) => {
-  const { fieldKey, field, components, classNames } = props
+  const { fieldKey, field, components, classNames, classNamePrefix } = props
   const FieldContainerComponent = components?.fieldContainer ?? FieldContainer
 
   if (!field?.['#options']) return null
@@ -17,6 +17,7 @@ export const renderSelect = (props: TFieldWebformObj) => {
       components={components}
       key={fieldKey}
       fieldKey={fieldKey}
+      classNamePrefix={classNamePrefix}
     >
       {CustomSelect ? <CustomSelect {...props} /> : <Select {...props} />}
     </FieldContainerComponent>

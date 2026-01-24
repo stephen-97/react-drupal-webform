@@ -9,10 +9,10 @@ import {
 const Checkbox = ({
   fieldKey,
   field,
-  onBlur,
   innerProps,
   className,
   ariaDescribedBy,
+  classNamePrefix,
 }: CheckboxProps) => {
   const { control } = useFormContext()
 
@@ -25,6 +25,7 @@ const Checkbox = ({
 
   const checkboxClassNames = getClassNames({
     name: 'checkbox',
+    prefix: classNamePrefix,
     baseCn: cn(className),
   })
 
@@ -40,7 +41,6 @@ const Checkbox = ({
       value={title}
       checked={Boolean(fieldController.value)}
       onChange={(e) => fieldController.onChange(e.target.checked)}
-      onBlur={onBlur}
       className={checkboxClassNames}
       aria-describedby={ariaDescribedBy}
       {...dataAttributes}

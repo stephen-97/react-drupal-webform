@@ -8,7 +8,7 @@ import { getDummyDefaultFormDefault } from '../../../lib/functions/webform_valid
 import ConfirmationView from '../../special-display/confirmationView';
 import Form from '../form';
 const FormDefault = (props) => {
-    const { elementsSource, multiStepExtra, defaultFieldValues, yup: yupObj, defaultFieldStateMessages, components, classNames, includeInactiveFieldsInSubmit, onSubmit, customValidators, isSubmitted, showConfirmation, } = props;
+    const { elementsSource, multiStepExtra, defaultFieldValues, yup: yupObj, defaultFieldStateMessages, components, classNames, includeInactiveFieldsInSubmit, onSubmit, customValidators, isSubmitted, showConfirmation, classNamePrefix, } = props;
     const { yupUseFormProps } = yupObj || {};
     const isMultiStep = Boolean(multiStepExtra);
     const shouldShowConfirmation = Boolean(isSubmitted && showConfirmation);
@@ -70,7 +70,7 @@ const FormDefault = (props) => {
         const field = elementsSource[key];
         const type = field['#type'];
         const isLayout = isLayoutType(type);
-        return (_jsx(FormFieldRendered, { fieldKey: key, index: index, field: field, components: components, classNames: classNames, isMultiStep: isMultiStep, ...(isLayout ? { watchedValues } : {}) }, key));
+        return (_jsx(FormFieldRendered, { fieldKey: key, index: index, field: field, components: components, classNames: classNames, isMultiStep: isMultiStep, classNamePrefix: classNamePrefix, ...(isLayout ? { watchedValues } : {}) }, key));
     });
     const FormComponent = components?.form ?? Form;
     const ConfirmationComponent = components?.confirmationView ?? ConfirmationView;

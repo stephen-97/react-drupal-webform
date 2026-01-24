@@ -1,23 +1,22 @@
 import React from 'react'
-import { TWrapperMoreWebformProps } from '../../../../../lib/types/components/wrapperMore'
+import { WrapperMoreProps } from '../../../../../lib/types/components/wrapperMore'
 import More from '../more/more'
 
 const WrapperMore = ({
   components,
   classNames,
-  fieldMore,
-  fieldMoreTitle,
-}: TWrapperMoreWebformProps) => {
+  classNamePrefix,
+  field,
+  fieldKey,
+}: WrapperMoreProps) => {
   const CustomMore = components?.more ?? More
 
   return (
     <CustomMore
-      innerPropsWysiwyg={{
-        processed: fieldMore,
-        source: 'more',
-      }}
+      field={field}
+      fieldKey={fieldKey}
+      classNamePrefix={classNamePrefix}
       classNames={classNames}
-      moreTitle={fieldMoreTitle}
       components={components}
     />
   )

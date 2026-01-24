@@ -10,11 +10,13 @@ const Button = ({
   fillType = 'fill',
   size = 'default',
   className,
+  classNamePrefix,
 }: ButtonProps) => {
   const { ...restInnerProps } = innerProps ?? {}
 
   const buttonClassNames = getClassNames({
     name: 'button',
+    prefix: classNamePrefix,
     baseCn: cn(styles.button, styles[fillType], styles[size], className),
   })
 

@@ -3,7 +3,7 @@ import FieldContainer from './fields-sub-components/fieldContainer'
 import React from 'react'
 import ManagedFile from './fields-elements/managedFile'
 const renderManagedFile = (props: TFieldWebformObj) => {
-  const { fieldKey, field, components, classNames } = props
+  const { fieldKey, field, components, classNames, classNamePrefix } = props
   const FieldContainerComponent = components?.fieldContainer ?? FieldContainer
 
   const CustomManagedFile =
@@ -16,6 +16,7 @@ const renderManagedFile = (props: TFieldWebformObj) => {
       components={components}
       key={fieldKey}
       fieldKey={fieldKey}
+      classNamePrefix={classNamePrefix}
     >
       <CustomManagedFile {...props} />
     </FieldContainerComponent>

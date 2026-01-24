@@ -46,7 +46,9 @@ export const isErrorMessageFieldType = (
   return (
     type !== 'webform_markup' &&
     type !== 'webform_actions' &&
-    type !== 'fieldset'
+    type !== 'fieldset' &&
+    type !== 'webform_section' &&
+    type !== 'webform_flexbox'
   )
 }
 
@@ -75,9 +77,11 @@ export const resolveFieldMessages = (
   const maxLength =
     typeof field?.['#maxlength'] === 'number' ? String(field['#maxlength']) : ''
 
-  const resolve = (v?: string | ((f: TElementSource) => string)): string => {
-    if (!v) return ''
-    return typeof v === 'function' ? v(field) : v
+  const resolve = (
+    value?: string | ((field: TElementSource) => string)
+  ): string => {
+    if (value == null) return ''
+    return typeof value === 'function' ? value(field) : value
   }
 
   const replaceTokens = (msg: string) =>
@@ -105,8 +109,13 @@ export const resolveFieldMessages = (
     ? resolve(fields.maxLengthMessages?.[type])
     : ''
 
+  const requiredResolved =
+    field?.['#required_error'] && field['#required_error'].length > 0
+      ? field['#required_error']
+      : replaceTokens(required || resolve(general.requiredMessage))
+
   return {
-    required: replaceTokens(required || resolve(general.requiredMessage)),
+    required: requiredResolved,
     error: replaceTokens(error || resolve(general.errorMessage)),
     minLength: replaceTokens(minLen || resolve(general.minLengthMessage)),
     maxLength: replaceTokens(maxLen || resolve(general.maxLengthMessage)),

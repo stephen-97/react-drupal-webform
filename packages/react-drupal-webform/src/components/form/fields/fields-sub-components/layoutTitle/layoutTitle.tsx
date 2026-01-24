@@ -8,12 +8,13 @@ import {
 } from '../../../../../lib/functions/utils_functions'
 
 const LayoutTitle = (props: LayoutTitleProps) => {
-  const { field, innerProps, className } = props
+  const { field, innerProps, className, classNamePrefix } = props
 
   if (!field?.['#title']) return null
 
   const layoutListClassNames = getClassNames({
     name: 'layoutTitle',
+    prefix: classNamePrefix,
     baseCn: cn(styles.layoutTitle, className),
   })
 

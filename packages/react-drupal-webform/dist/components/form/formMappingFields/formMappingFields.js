@@ -37,6 +37,10 @@ const FormMappingFields = {
         element: renderRadio,
         validator: validateRadio,
     },
+    radios_entity: {
+        element: renderRadio,
+        validator: validateRadio,
+    },
     webform_actions: {
         element: renderAction,
         validator: null,
@@ -49,6 +53,14 @@ const FormMappingFields = {
         element: renderCheckboxes,
         validator: validateCheckboxes,
     },
+    entity_checkboxes: {
+        element: renderCheckboxes,
+        validator: validateCheckboxes,
+    },
+    term_checkboxes: {
+        element: renderCheckboxes,
+        validator: validateCheckboxes,
+    },
     number: {
         element: renderInput,
         validator: validateNumber,
@@ -58,6 +70,14 @@ const FormMappingFields = {
         validator: validateTel,
     },
     select: {
+        element: renderSelect,
+        validator: validateSelect,
+    },
+    entity_select: {
+        element: renderSelect,
+        validator: validateSelect,
+    },
+    term_select: {
         element: renderSelect,
         validator: validateSelect,
     },

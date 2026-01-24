@@ -5,7 +5,6 @@ import styles from '../field.module.scss'
 import { handleChangeOptions } from '../../../../lib/functions/webform_fields_functions/webform_fields_functions'
 import { SelectProps } from '../../../../lib/types/components/select'
 import {
-  getAriaDescribedBy,
   getClassNames,
   getDataAttributes,
 } from '../../../../lib/functions/utils_functions'
@@ -28,6 +27,14 @@ const Select = ({
   })
 
   const optionsObj = Object.entries(field['#options'] as Record<string, string>)
+
+  const options = field['#sort_options']
+    ? [...optionsObj].sort(([, labelA], [, labelB]) =>
+        String(labelA).localeCompare(String(labelB), undefined, {
+          sensitivity: 'base',
+        })
+      )
+    : optionsObj
 
   const selectClassNames = getClassNames({
     name: 'select',
@@ -56,11 +63,14 @@ const Select = ({
       {...dataAttributes}
       {...innerProps}
     >
-      <option className={optionClassNames} value="">
-        {field?.['#placeholder'] ?? '-- Select an option --'}
+      <option
+        className={optionClassNames}
+        value={field?.['#empty_value'] ?? ''}
+      >
+        {field?.['#empty_option'] ?? '-- Select an option --'}
       </option>
 
-      {optionsObj.map(([optionKey, optionValue]) => (
+      {options.map(([optionKey, optionValue]) => (
         <option key={optionKey} className={optionClassNames} value={optionKey}>
           {optionValue}
         </option>

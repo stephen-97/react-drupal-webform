@@ -7,6 +7,7 @@ const WrapperDescription = ({
   classNames,
   field,
   fieldKey,
+  classNamePrefix,
 }: WrapperDescriptionProps) => {
   const CustomDescription = components?.description ?? Description
 
@@ -15,6 +16,7 @@ const WrapperDescription = ({
       components={components}
       classNames={classNames}
       field={field}
+      classNamePrefix={classNamePrefix}
       fieldKey={fieldKey}
     />
   )

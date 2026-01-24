@@ -6,8 +6,8 @@ import tippy from 'tippy.js';
 import 'tippy.js/dist/tippy.css';
 import { createRoot } from 'react-dom/client';
 import Wysiwyg from '../../fields-special-components/wysiwyg/wysiwyg';
-const Help = ({ innerProps, components, field }) => {
-    const { className, ...restInnerProps } = innerProps ?? {};
+import { getClassNames, getDataAttributes, } from '../../../../../lib/functions/utils_functions';
+const Help = ({ innerProps, components, field, className, classNamePrefix, }) => {
     const buttonRef = useRef(null);
     const CustomWysiwyg = components.wysiwyg ?? Wysiwyg;
     const helps = {
@@ -33,6 +33,14 @@ const Help = ({ innerProps, components, field }) => {
             animation: 'fade',
         });
     }, [helps]);
-    return (_jsx("button", { className: cn(styles.help, className), ref: buttonRef, type: "button", ...restInnerProps, children: "?" }));
+    const buttonClassNames = getClassNames({
+        name: 'help',
+        prefix: classNamePrefix,
+        baseCn: cn(styles.help, className),
+    });
+    const dataAttributes = getDataAttributes({
+        component: 'help',
+    });
+    return (_jsx("button", { className: buttonClassNames, ref: buttonRef, type: "button", ...dataAttributes, ...innerProps, children: "?" }));
 };
 export default Help;

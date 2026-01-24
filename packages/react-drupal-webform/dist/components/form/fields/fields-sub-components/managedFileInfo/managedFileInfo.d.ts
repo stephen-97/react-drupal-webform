@@ -1,3 +1,4 @@
-import { IManagedFileInfoProps } from "../../../../../lib/types/components/managedFileInfo";
-declare const ManagedFileInfo: ({ field, innerProps }: IManagedFileInfoProps) => import("react/jsx-runtime").JSX.Element;
-export default ManagedFileInfo;
+import React from 'react';
+import { ManagedFileInfoProps } from '../../../../../lib/types/components/managedFileInfo';
+declare const _default: React.MemoExoticComponent<({ field, innerProps, className, classNamePrefix, }: ManagedFileInfoProps) => import("react/jsx-runtime").JSX.Element>;
+export default _default;

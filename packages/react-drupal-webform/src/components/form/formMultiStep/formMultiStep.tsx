@@ -38,6 +38,7 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
     customValidators,
     isSubmitted,
     showConfirmation,
+    classNamePrefix,
   } = props
 
   const totalSteps = Object.keys(elementsSource).length
@@ -234,6 +235,7 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
             field={field}
             components={components}
             classNames={classNames}
+            classNamePrefix={classNamePrefix}
             isMultiStep={true}
             {...(isLayout ? { watchedValues: watchedStepValuesGlobal } : {})}
           />
@@ -245,11 +247,11 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
         nextButtonLabel={nextButtonLabel}
         components={components}
         classNames={classNames}
+        classNamePrefix={classNamePrefix}
       />
     </>
   )
 
-  const CustomForm = components?.form
   const ConfirmationComponent = components?.confirmationView ?? ConfirmationView
 
   const FormComponent = components?.form ?? Form
@@ -274,6 +276,7 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
             <MultiStepStepper
               components={components}
               currentStepObj={currentStepObj}
+              classNamePrefix={classNamePrefix}
               elementsSource={elementsSource}
               classNames={classNames}
             />

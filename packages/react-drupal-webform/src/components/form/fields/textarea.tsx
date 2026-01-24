@@ -3,7 +3,7 @@ import FieldContainer from './fields-sub-components/fieldContainer'
 import Textarea from './fields-elements/textarea'
 
 export const renderTextArea = (props: TFieldWebformObj) => {
-  const { fieldKey, field, classNames, components } = props
+  const { fieldKey, field, classNames, components, classNamePrefix } = props
   const FieldContainerComponent = components?.fieldContainer ?? FieldContainer
 
   const CustomTextArea =
@@ -16,6 +16,7 @@ export const renderTextArea = (props: TFieldWebformObj) => {
       components={components}
       key={fieldKey}
       fieldKey={fieldKey}
+      classNamePrefix={classNamePrefix}
     >
       {CustomTextArea ? <CustomTextArea {...props} /> : <Textarea {...props} />}
     </FieldContainerComponent>

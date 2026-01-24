@@ -3,12 +3,21 @@ import React from 'react';
 import cn from 'classnames';
 import { useController, useFormContext } from 'react-hook-form';
 import styles from '../field.module.scss';
-const Textarea = ({ fieldKey, field, classNames, onBlur, className, innerProps, }) => {
+import { getClassNames, getDataAttributes, } from '../../../../lib/functions/utils_functions';
+const Textarea = ({ fieldKey, field, className, innerProps, classNamePrefix, ariaDescribedBy, }) => {
     const { control } = useFormContext();
-    const { field: fieldController, fieldState } = useController({
+    const { field: fieldController } = useController({
         name: fieldKey,
         control,
     });
-    return (_jsx("textarea", { id: fieldKey, name: fieldController.name, minLength: field?.['#minlength'], maxLength: field?.['#maxlength'], rows: field?.['#rows'] ?? 10, placeholder: field?.['#placeholder'], required: field?.['#required'], value: fieldController.value ?? '', onChange: (e) => fieldController.onChange(e.target.value), onBlur: onBlur, className: cn(classNames.fields.textInputs.types.textarea, classNames.fields.textInputs.base, styles.field, styles.textarea, className, { [styles.error]: fieldState?.error }), ...innerProps }));
+    const textareaClassNames = getClassNames({
+        name: 'textarea',
+        prefix: classNamePrefix,
+        baseCn: cn(styles.field, styles.textarea, className),
+    });
+    const dataAttributes = getDataAttributes({
+        component: 'Textarea',
+    });
+    return (_jsx("textarea", { id: fieldKey, name: fieldController.name, minLength: field?.['#minlength'], maxLength: field?.['#maxlength'], rows: field?.['#rows'] ?? 10, placeholder: field?.['#placeholder'], required: field?.['#required'], value: fieldController.value ?? '', onChange: (e) => fieldController.onChange(e.target.value), className: textareaClassNames, "aria-describedby": ariaDescribedBy, ...dataAttributes, ...innerProps }));
 };
 export default React.memo(Textarea);

@@ -6,8 +6,9 @@ type BaseLabelProps = {
   className?: string
   children?: React.ReactNode
   field: TElementSource
-  fieldKey?: string
+  fieldKey: string
   classNames: TWebformClassNames
+  classNamePrefix: string
   components: TWebformCustomComponents
 }
 

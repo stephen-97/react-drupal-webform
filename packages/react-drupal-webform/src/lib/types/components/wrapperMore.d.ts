@@ -1,16 +1,11 @@
-import { IWrapperWebformProps } from "./wrapper"
+import { FieldContainerProps } from './fieldContainer'
 
-export type TWrapperMoreWebformProps = Omit<
-  IWrapperWebformProps,
+export type WrapperMoreProps = Omit<
+  FieldContainerProps,
   | 'wrapperElement'
   | 'stateError'
   | 'classNameFieldName'
   | 'isLabel'
   | 'children'
-  | 'fieldKey'
   | 'innerPropsLabel'
-  | 'field'
-> & {
-  fieldMore: string
-  fieldMoreTitle: string
-}
+>

@@ -6,8 +6,9 @@ import cn from 'classnames';
 import Loader from '../../fields/fields-sub-components/loader/loader';
 import { useFormContext } from 'react-hook-form';
 import { useMultiStepContext } from '../multiStepContext';
+import { getClassNames, getDataAttributes, } from '../../../../lib/functions/utils_functions';
 const MultiStepActions = (props) => {
-    const { previousButtonLabel, nextButtonLabel, components, classNames } = props;
+    const { previousButtonLabel, nextButtonLabel, components, className, classNamePrefix, } = props;
     const { formState, trigger } = useFormContext();
     const { stepIndex, totalVisibleSteps, goNext, goPrev } = useMultiStepContext();
     const { isSubmitting, isValid: isStepValid } = formState;
@@ -29,11 +30,32 @@ const MultiStepActions = (props) => {
             }
         }
     };
-    return (_jsxs("div", { className: cn(styles.multiStepActions, classNames.multiStep.actionsContainer), children: [stepIndex > 0 && (_jsx("button", { className: cn(stylesField.button, styles.button, classNames.multiStep.actionsButtons, classNames.multiStep.actionsButtonPrev), type: "button", onClick: handlePrev, children: previousButtonLabel && previousButtonLabel.length > 0
-                    ? previousButtonLabel
-                    : 'Prev' })), _jsxs("button", { className: cn(stylesField.button, styles.button, classNames.multiStep.actionsButtons, classNames.multiStep.actionsButtonsNext), disabled: !isStepValid || isSubmitting, type: isLastStep ? 'submit' : 'button', onClick: handleNext, children: [isSubmitting && _jsx(Loader, {}), isLastStep
+    const wrapperClassNames = getClassNames({
+        name: 'multiStepActions',
+        prefix: classNamePrefix,
+        baseCn: cn(styles.multiStepActions, className),
+    });
+    const buttonBaseClassNames = getClassNames({
+        name: 'multiStepActionButton',
+        prefix: classNamePrefix,
+        baseCn: cn(stylesField.button, styles.button),
+    });
+    const prevButtonClassNames = getClassNames({
+        name: 'multiStepActionPrev',
+        prefix: classNamePrefix,
+        baseCn: buttonBaseClassNames,
+    });
+    const nextButtonClassNames = getClassNames({
+        name: 'multiStepActionNext',
+        prefix: classNamePrefix,
+        baseCn: buttonBaseClassNames,
+    });
+    const dataAttributes = getDataAttributes({
+        component: 'multiStepActions',
+    });
+    return (_jsxs("div", { className: wrapperClassNames, ...dataAttributes, children: [stepIndex > 0 && (_jsx("button", { type: "button", className: prevButtonClassNames, onClick: handlePrev, children: previousButtonLabel?.length ? previousButtonLabel : 'Prev' })), _jsxs("button", { type: isLastStep ? 'submit' : 'button', className: nextButtonClassNames, disabled: !isStepValid || isSubmitting, onClick: handleNext, children: [isSubmitting && _jsx(Loader, { classNamePrefix: classNamePrefix }), isLastStep
                         ? 'Submit'
-                        : nextButtonLabel && nextButtonLabel.length > 0
+                        : nextButtonLabel?.length
                             ? nextButtonLabel
                             : 'Next'] })] }));
 };

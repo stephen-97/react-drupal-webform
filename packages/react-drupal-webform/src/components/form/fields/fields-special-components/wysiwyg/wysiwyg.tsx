@@ -12,10 +12,12 @@ const Wysiwyg = ({
   processed,
   as: Element = 'div',
   className,
+  classNamePrefix,
   innerProps,
 }: WysiwygProps) => {
   const wysiwygClassNames = getClassNames({
     name: 'wysiwyg',
+    prefix: classNamePrefix,
     baseCn: cn(styles.wysiwyg, className),
   })
 

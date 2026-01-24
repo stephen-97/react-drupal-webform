@@ -22,6 +22,7 @@ import { LayoutTitleProps } from '../types/components/layoutTitle';
 import { LayoutListProps } from '../types/components/layoutList';
 export declare const defaultValuesObj: Required<TWebformDefaultFieldValues>;
 export declare const defaultValuesFieldStateMessages: TWebformResolvedStateMessages;
+export declare const FIELD_TYPE_TO_GROUP: Record<string, string>;
 export declare const defaultValuesClassnames: TDeepRequiredClassNames;
 export declare const components: {
     Input: <P extends InputProps>(props: P) => import("react/jsx-runtime").JSX.Element;

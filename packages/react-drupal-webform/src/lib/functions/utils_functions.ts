@@ -1,5 +1,7 @@
 import { FIELD_TYPE_TO_GROUP } from '../const/const.form'
 import cn from 'classnames'
+import { HTMLInputTypeAttribute } from 'react'
+import { TElementSource } from '../types/components/field'
 
 const mergeObjects = (
   defaultObj: Record<string, any>,
@@ -68,17 +70,15 @@ export const getDataAttributes = ({
   }
 }
 
-type TGetClassNamesParams = {
-  name: string
-  prefix?: string
-  baseCn?: cn.Argument
-}
-
 export const getClassNames = ({
   name,
   prefix,
   baseCn,
-}: TGetClassNamesParams): string => {
+}: {
+  name: string
+  prefix: string | null | undefined
+  baseCn?: cn.Argument
+}): string => {
   const baseName = prefix ? `${prefix}-webform-${name}` : `webform-${name}`
 
   return cn(baseName, baseCn)
@@ -95,4 +95,59 @@ export const getAriaDescribedBy = ({
     Boolean(field?.['#description']) || Boolean(field?.['#file_placeholder'])
 
   return hasDescription ? `description-${fieldKey}` : undefined
+}
+
+export const getTextLikeInputAttributes = (
+  field: TElementSource,
+  type: HTMLInputTypeAttribute
+) => {
+  const attrs: Record<string, any> = {}
+
+  if (field['#placeholder']) {
+    attrs.placeholder = field['#placeholder']
+  }
+
+  if (field['#required']) {
+    attrs.required = true
+  }
+
+  if (['text', 'email', 'tel', 'password'].includes(type)) {
+    if (field['#minlength'] != null) {
+      attrs.minLength = field['#minlength']
+    }
+
+    if (field['#maxlength'] != null) {
+      attrs.maxLength = field['#maxlength']
+    }
+
+    if (field['#size'] != null) {
+      attrs.size = field['#size']
+    }
+  }
+
+  if (field['#pattern'] && ['text', 'tel', 'password'].includes(type)) {
+    attrs.pattern = field['#pattern']
+  }
+
+  if (type === 'number') {
+    if (field['#min'] != null) {
+      attrs.min = field['#min']
+    }
+
+    if (field['#max'] != null) {
+      attrs.max = field['#max']
+    }
+  }
+
+  if (type === 'date') {
+    if (field['#min'] != null) {
+      attrs.min = field['#min']
+    }
+
+    if (field['#max'] != null) {
+      attrs.max = field['#max']
+    }
+  }
+
+  return attrs
 }

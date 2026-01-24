@@ -63,8 +63,6 @@ const FieldContainer = (props: FieldContainerProps) => {
     ),
   })
 
-  console.log('ici 1', fieldKey)
-
   return (
     <WrapperElement
       className={componentClassNames}
@@ -76,6 +74,7 @@ const FieldContainer = (props: FieldContainerProps) => {
           wrapperElement={labelWrapperElement}
           components={components}
           classNames={classNames}
+          classNamePrefix={classNamePrefix}
           field={field}
           fieldKey={fieldKey}
         />
@@ -84,8 +83,8 @@ const FieldContainer = (props: FieldContainerProps) => {
         field={field}
         classNames={classNames}
         components={components}
-        stateError={stateError}
         fieldKey={fieldKey}
+        classNamePrefix={classNamePrefix}
       >
         {children}
       </WrapperField>
@@ -94,16 +93,23 @@ const FieldContainer = (props: FieldContainerProps) => {
           field={field}
           fieldKey={fieldKey}
           classNames={classNames}
+          classNamePrefix={classNamePrefix}
           components={components}
         />
       )}
       {field['#type'] === 'managed_file' && (
-        <WrapperManagedFileInfo field={field} components={components} />
+        <WrapperManagedFileInfo
+          fieldKey={fieldKey}
+          field={field}
+          components={components}
+          classNamePrefix={classNamePrefix}
+        />
       )}
       {field?.['#more'] && field?.['#more_title'] && (
         <WrapperMore
-          fieldMore={field['#more']}
-          fieldMoreTitle={field['#more_title']}
+          field={field}
+          fieldKey={fieldKey}
+          classNamePrefix={classNamePrefix}
           classNames={classNames}
           components={components}
         />

@@ -57,6 +57,11 @@ export const defaultValuesObj: Required<TWebformDefaultFieldValues> = {
   managed_file: {},
   select: '',
   hidden: '',
+  term_checkboxes: [],
+  term_select: '',
+  entity_select: '',
+  entity_checkboxes: [],
+  radios_entity: '',
 }
 
 export const defaultValuesFieldStateMessages: TWebformResolvedStateMessages = {
@@ -82,6 +87,11 @@ export const defaultValuesFieldStateMessages: TWebformResolvedStateMessages = {
       checkbox: '',
       checkboxes: '',
       select: '',
+      entity_checkboxes: '',
+      term_checkboxes: '',
+      radios_entity: '',
+      entity_select: '',
+      term_select: '',
     },
     requiredMessages: {
       textfield: '',
@@ -96,6 +106,11 @@ export const defaultValuesFieldStateMessages: TWebformResolvedStateMessages = {
       managed_file: '',
       select: '',
       hidden: '',
+      entity_checkboxes: '',
+      term_checkboxes: '',
+      radios_entity: '',
+      entity_select: '',
+      term_select: '',
     },
     minLengthMessage: {
       textfield: '',
@@ -108,6 +123,11 @@ export const defaultValuesFieldStateMessages: TWebformResolvedStateMessages = {
       tel: '',
       date: '',
       hidden: '',
+      entity_checkboxes: '',
+      term_checkboxes: '',
+      radios_entity: '',
+      entity_select: '',
+      term_select: '',
     },
     maxLengthMessage: {
       textfield: '',
@@ -120,6 +140,11 @@ export const defaultValuesFieldStateMessages: TWebformResolvedStateMessages = {
       tel: '',
       date: '',
       hidden: '',
+      entity_checkboxes: '',
+      term_checkboxes: '',
+      radios_entity: '',
+      entity_select: '',
+      term_select: '',
     },
   },
 }
@@ -178,6 +203,11 @@ export const defaultValuesClassnames: TDeepRequiredClassNames = {
       details: '',
       webform_section: '',
       webform_flexbox: '',
+      entity_checkboxes: '',
+      term_checkboxes: '',
+      radios_entity: '',
+      entity_select: '',
+      term_select: '',
     },
   },
   general: {

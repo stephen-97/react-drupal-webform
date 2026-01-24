@@ -1,10 +1,19 @@
 import { jsx as _jsx } from "react/jsx-runtime";
 import cn from 'classnames';
 import styles from '../layout/layout.module.scss';
+import { getClassNames, getDataAttributes, } from '../../../../../lib/functions/utils_functions';
 const LayoutTitle = (props) => {
-    const { field, classNames, className } = props;
+    const { field, innerProps, className, classNamePrefix } = props;
     if (!field?.['#title'])
         return null;
-    return (_jsx("div", { className: cn(styles.layoutTitle, classNames.fields.layout.title, className), children: field['#title'] }));
+    const layoutListClassNames = getClassNames({
+        name: 'layoutTitle',
+        prefix: classNamePrefix,
+        baseCn: cn(styles.layoutTitle, className),
+    });
+    const dataAttributes = getDataAttributes({
+        component: 'layoutTitle',
+    });
+    return (_jsx("div", { className: layoutListClassNames, ...innerProps, ...dataAttributes, children: field['#title'] }));
 };
 export default LayoutTitle;

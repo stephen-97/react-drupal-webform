@@ -1,7 +1,33 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import styles from './managedFileInfo.module.scss';
+import React from 'react';
 import cn from 'classnames';
-const ManagedFileInfo = ({ field, innerProps }) => {
-    return (_jsxs("div", { className: cn(styles.managedFileInfo, innerProps?.className), children: [_jsx("span", { className: styles.label, children: "One file limit" }), field?.['#max_filesize'] && (_jsxs("span", { className: styles.label, children: [field['#max_filesize'], " MB limit"] })), field?.['#file_extensions'] && (_jsxs("span", { className: styles.label, children: ["Allowed types: ", field['#file_extensions']] }))] }));
+import styles from './managedFileInfo.module.scss';
+import { getClassNames, getDataAttributes, } from '../../../../../lib/functions/utils_functions';
+const ManagedFileInfo = ({ field, innerProps, className, classNamePrefix, }) => {
+    const wrapperClassNames = getClassNames({
+        name: 'managedFileInfo',
+        prefix: classNamePrefix,
+        baseCn: cn(styles.managedFileInfo, className),
+    });
+    const labelClassNames = getClassNames({
+        name: 'managedFileLabel',
+        prefix: classNamePrefix,
+        baseCn: cn(styles.label),
+    });
+    const maxSizeClassNames = getClassNames({
+        name: 'managedFileInfoMaxSize',
+        prefix: classNamePrefix,
+        baseCn: cn(styles.label),
+    });
+    const fileExtensionClassname = getClassNames({
+        name: 'managedFileFileExtension',
+        prefix: classNamePrefix,
+        baseCn: cn(styles.label),
+    });
+    const dataAttributes = getDataAttributes({
+        component: 'managedFileInfo',
+        type: 'managed_file',
+    });
+    return (_jsxs("div", { className: wrapperClassNames, ...dataAttributes, ...innerProps, children: [_jsx("span", { className: labelClassNames, children: "One file limit" }), field?.['#max_filesize'] && (_jsxs("span", { className: maxSizeClassNames, children: [field['#max_filesize'], " MB limit"] })), field?.['#file_extensions'] && (_jsxs("span", { className: fileExtensionClassname, children: ["Allowed types: ", field['#file_extensions']] }))] }));
 };
-export default ManagedFileInfo;
+export default React.memo(ManagedFileInfo);

@@ -11,7 +11,13 @@ import {
   getDataAttributes,
 } from '../../../../../lib/functions/utils_functions'
 
-const Help = ({ innerProps, components, field, className }: HelpProps) => {
+const Help = ({
+  innerProps,
+  components,
+  field,
+  className,
+  classNamePrefix,
+}: HelpProps) => {
   const buttonRef = useRef<HTMLButtonElement>(null)
   const CustomWysiwyg = components.wysiwyg ?? Wysiwyg
 
@@ -44,6 +50,7 @@ const Help = ({ innerProps, components, field, className }: HelpProps) => {
 
   const buttonClassNames = getClassNames({
     name: 'help',
+    prefix: classNamePrefix,
     baseCn: cn(styles.help, className),
   })
 
