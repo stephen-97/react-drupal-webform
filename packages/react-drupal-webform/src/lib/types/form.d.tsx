@@ -34,6 +34,7 @@ import { FormProps } from './components/form'
 import { LayoutTitleProps } from './components/layoutTitle'
 import { LayoutListProps } from './components/layoutList'
 import { UnsupportedFieldProps } from './components/unsupportedField'
+import { TDeepRequiredClassNames } from './deepRequired'
 
 export type TFileWithBase64 = {
   name: string
@@ -280,4 +281,22 @@ export type TWebform = {
   isSubmitted: boolean
   showConfirmation?: boolean
   unstyled?: boolean
+}
+
+export type DrupalElementCommonProps = {
+  field: TElementSource
+  classNames: TDeepRequiredClassNames
+  classNamePrefix: string | undefined | null
+  components: TWebformCustomComponents
+  fieldKey: string
+  unstyled: boolean
+}
+
+export type DrupalElementCommonNoFieldProps = {
+  classNames: TDeepRequiredClassNames
+  classNamePrefix: string | undefined | null
+  components: TWebformCustomComponents
+  unstyled: boolean
+  field?: TElementSource
+  fieldKey?: string
 }

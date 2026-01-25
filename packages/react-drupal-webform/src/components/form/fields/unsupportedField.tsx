@@ -3,7 +3,8 @@ import { TFieldWebformObj } from '../../../lib/types/components/field'
 import FieldContainer from './fields-sub-components/fieldContainer'
 
 const renderDefault = (props: TFieldWebformObj) => {
-  const { fieldKey, field, components, classNames, classNamePrefix } = props
+  const { fieldKey, field, components, classNames, classNamePrefix, unstyled } =
+    props
 
   const FieldContainerComponent = components?.fieldContainer ?? FieldContainer
 
@@ -21,6 +22,7 @@ const renderDefault = (props: TFieldWebformObj) => {
       key={fieldKey}
       fieldKey={fieldKey}
       classNamePrefix={classNamePrefix}
+      unstyled={unstyled}
     >
       <CustomField {...props} />
     </FieldContainerComponent>

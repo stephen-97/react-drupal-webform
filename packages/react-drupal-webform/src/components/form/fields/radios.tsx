@@ -3,7 +3,8 @@ import FieldContainer from './fields-sub-components/fieldContainer'
 import Radios from './fields-elements/radios'
 
 export const renderRadio = (props: TFieldWebformObj) => {
-  const { fieldKey, field, classNames, components, classNamePrefix } = props
+  const { fieldKey, field, classNames, components, classNamePrefix, unstyled } =
+    props
   const FieldContainerComponent = components?.fieldContainer ?? FieldContainer
 
   if (!field?.['#options']) return null
@@ -19,6 +20,7 @@ export const renderRadio = (props: TFieldWebformObj) => {
       fieldKey={fieldKey}
       wrapperElement="fieldset"
       classNamePrefix={classNamePrefix}
+      unstyled={unstyled}
     >
       {CustomRadio ? <CustomRadio {...props} /> : <Radios {...props} />}
     </FieldContainerComponent>

@@ -1,12 +1,12 @@
 import React from 'react'
 import { jsx } from '@emotion/react'
+import { DrupalElementCommonProps } from '../form.d'
 
 export type TWysiwygSource = 'help' | 'more' | 'description' | 'markup'
 
-export interface WysiwygProps {
+export interface WysiwygProps extends DrupalElementCommonProps {
   as?: React.ElementType
   className?: string
-  classNamePrefix: string | null | undefined
   source: TWysiwygSource
   processed: string
   innerProps?: jsx.JSX.IntrinsicElements['div']

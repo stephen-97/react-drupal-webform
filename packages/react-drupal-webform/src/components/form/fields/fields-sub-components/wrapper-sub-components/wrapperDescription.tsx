@@ -8,11 +8,13 @@ const WrapperDescription = ({
   field,
   fieldKey,
   classNamePrefix,
+  unstyled,
 }: WrapperDescriptionProps) => {
   const CustomDescription = components?.description ?? Description
 
   return (
     <CustomDescription
+      unstyled={unstyled}
       components={components}
       classNames={classNames}
       field={field}

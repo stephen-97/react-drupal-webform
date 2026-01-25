@@ -10,5 +10,5 @@ export interface IFieldRendererWebformProps {
   classNamePrefix: string | undefined | null
   isMultiStep: boolean
   watchedValues?: Record<string, any>
-  unstyled?: boolean
+  unstyled: boolean
 }

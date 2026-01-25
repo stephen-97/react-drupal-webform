@@ -8,6 +8,7 @@ const WrapperMore = ({
   classNamePrefix,
   field,
   fieldKey,
+  unstyled,
 }: WrapperMoreProps) => {
   const CustomMore = components?.more ?? More
 
@@ -18,6 +19,7 @@ const WrapperMore = ({
       classNamePrefix={classNamePrefix}
       classNames={classNames}
       components={components}
+      unstyled={unstyled}
     />
   )
 }

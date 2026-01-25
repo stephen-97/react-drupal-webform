@@ -15,6 +15,7 @@ const MultiStepStepper = (props: MultiStepStepperProps) => {
     components,
     className,
     classNamePrefix,
+    unstyled,
   } = props
 
   const { stepIndex, totalVisibleSteps } = useMultiStepContext()
@@ -44,36 +45,42 @@ const MultiStepStepper = (props: MultiStepStepperProps) => {
   const wrapperClassNames = getClassNames({
     name: 'multiStepStepper',
     prefix: classNamePrefix,
+    unstyled: unstyled,
     baseCn: cn(styles.multiStepStepper, className),
   })
 
   const headerClassNames = getClassNames({
     name: 'multiStepStepperHeader',
     prefix: classNamePrefix,
+    unstyled: unstyled,
     baseCn: styles.headerStepperContainer,
   })
 
   const titleClassNames = getClassNames({
     name: 'multiStepStepperTitle',
     prefix: classNamePrefix,
+    unstyled: unstyled,
     baseCn: styles.title,
   })
 
   const counterClassNames = getClassNames({
     name: 'multiStepStepperCounter',
     prefix: classNamePrefix,
+    unstyled: unstyled,
     baseCn: styles.multiStepStepperCounter,
   })
 
   const progressContainerClassNames = getClassNames({
     name: 'multiStepStepperProgressContainer',
     prefix: classNamePrefix,
+    unstyled: unstyled,
     baseCn: styles.progressBarContainer,
   })
 
   const progressBarClassNames = getClassNames({
     name: 'multiStepStepperProgress',
     prefix: classNamePrefix,
+    unstyled: unstyled,
     baseCn: styles.progressBar,
   })
 

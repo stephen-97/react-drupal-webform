@@ -3,16 +3,26 @@
     font-weight: var(--font-weight-semibold);
     color: var(--color-title);
     margin-block-end: .5rem;
-    &.isRequired {
-      &::after {
-        content: "*";
-        color: var(--danger);
-        line-height: 1;
-        margin-inline: .15em;
-        vertical-align: text-top;
-        background: none;
-      }
-    }
+}
+
+.isRequired {
+  &::after {
+    content: "*";
+    color: var(--danger);
+    line-height: 1;
+    margin-inline: .15em;
+    vertical-align: text-top;
+    background: none;
+  }
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }
 
 input[type='checkbox'] + .title {

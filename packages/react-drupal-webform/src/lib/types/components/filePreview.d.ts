@@ -1,13 +1,9 @@
 import { jsx } from '@emotion/react'
-import { TFileWithBase64 } from '../form.d'
-import { TElementSource } from './field'
+import { DrupalElementCommonProps, TFileWithBase64 } from '../form.d'
 
-export interface ManagedFilePreviewProps {
+export interface ManagedFilePreviewProps extends DrupalElementCommonProps {
   innerProps?: jsx.JSX.IntrinsicElements['div']
   className?: string
-  classNamePrefix: string | undefined | null
-  fieldKey: string
-  field: TElementSource
   value: TFileWithBase64 | {}
   handleRemove: Function
 }

@@ -19,6 +19,7 @@ const Checkboxes = ({
   labelProps,
   ariaDescribedBy,
   classNamePrefix,
+  unstyled,
 }: CheckboxesProps) => {
   const { control } = useFormContext()
 
@@ -34,24 +35,28 @@ const Checkboxes = ({
   const wrapperClassNames = getClassNames({
     name: 'checkboxesWrapper',
     prefix: classNamePrefix,
+    unstyled: unstyled,
     baseCn: cn(styles.checkboxes, className),
   })
 
   const itemClassNames = getClassNames({
     name: 'checkboxesItem',
     prefix: classNamePrefix,
+    unstyled: unstyled,
     baseCn: styles.checkbox,
   })
 
   const inputClassNames = getClassNames({
     name: 'checkboxesInput',
     prefix: classNamePrefix,
+    unstyled: unstyled,
     baseCn: styles.field,
   })
 
   const labelClassNames = getClassNames({
     name: 'checkboxesLabel',
     prefix: classNamePrefix,
+    unstyled: unstyled,
     baseCn: styles.labelCheckbox,
   })
 

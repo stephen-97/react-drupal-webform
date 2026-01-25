@@ -16,6 +16,7 @@ const Title = (props: TitleProps) => {
     wrapperElement,
     classNamePrefix,
     classNames,
+    unstyled,
   } = props
 
   const title = field?.['#title']
@@ -31,6 +32,7 @@ const Title = (props: TitleProps) => {
   const titleClassNames = getClassNames({
     name: 'title',
     prefix: classNamePrefix,
+    unstyled: unstyled,
     modifiers: {
       invisible: isInvisible,
     },
@@ -60,6 +62,7 @@ const Title = (props: TitleProps) => {
             components={components}
             classNames={classNames}
             classNamePrefix={classNamePrefix}
+            unstyled={unstyled}
           />
         )}
       </label>
@@ -76,6 +79,7 @@ const Title = (props: TitleProps) => {
           components={components}
           classNames={classNames}
           classNamePrefix={classNamePrefix}
+          unstyled={unstyled}
         />
       )}
     </legend>

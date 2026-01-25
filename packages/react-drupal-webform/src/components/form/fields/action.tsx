@@ -5,28 +5,49 @@ import { TFieldWebformObj } from '../../../lib/types/components/field'
 import Loader from './fields-sub-components/loader/loader'
 import { useFormContext } from 'react-hook-form'
 import { ActionProps } from '../../../lib/types/components/action'
+import { getClassNames } from '../../../lib/functions/utils_functions'
 
 export const Action = ({
   field,
   innerProps,
   className,
   classNamePrefix,
+  unstyled,
+  components,
+  classNames,
+  fieldKey,
 }: ActionProps) => {
   const { formState } = useFormContext()
   const { isSubmitting, isValid } = formState
+
+  const actionClassNames = getClassNames({
+    name: 'action',
+    prefix: classNamePrefix,
+    unstyled: unstyled,
+    baseCn: cn(
+      styles.button,
+      className,
+      ...(field?.['#attributes']?.class ?? [])
+    ),
+  })
 
   return (
     <button
       type="submit"
       disabled={!isValid || isSubmitting}
-      className={cn(
-        styles.button,
-        className,
-        ...(field?.['#attributes']?.class ?? [])
-      )}
+      className={actionClassNames}
       {...innerProps}
     >
-      {isSubmitting && <Loader classNamePrefix={classNamePrefix} />}
+      {isSubmitting && (
+        <Loader
+          components={components}
+          classNames={classNames}
+          field={field}
+          fieldKey={fieldKey}
+          classNamePrefix={classNamePrefix}
+          unstyled={unstyled}
+        />
+      )}
       {field?.['#submit__label'] ?? 'Submit'}
     </button>
   )

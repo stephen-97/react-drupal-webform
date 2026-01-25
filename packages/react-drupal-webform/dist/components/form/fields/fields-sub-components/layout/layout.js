@@ -6,12 +6,13 @@ import LayoutTitle from '../layoutTitle/layoutTitle';
 import LayoutList from '../layoutList/layoutList';
 import { getClassNames, getDataAttributes, } from '../../../../../lib/functions/utils_functions';
 const Layout = (props) => {
-    const { children, fieldKey, className, innerProps, classNamePrefix, components, field, } = props;
+    const { children, fieldKey, className, innerProps, classNamePrefix, components, field, unstyled, } = props;
     const LayoutTitleComponent = components?.layoutTitle ?? LayoutTitle;
     const LayoutListComponent = components?.layoutList ?? LayoutList;
     const layoutClassNames = getClassNames({
         name: 'layout',
         prefix: classNamePrefix,
+        unstyled: unstyled,
         baseCn: cn(styles.layoutWrapper, className),
     });
     const dataAttributes = getDataAttributes({

@@ -25,6 +25,7 @@ const Webform = ({
   isSubmitted,
   showConfirmation = true,
   classNamePrefix,
+  unstyled = false,
 }: TWebform) => {
   const yupUseFormProps: UseFormProps = {
     mode: 'onChange',
@@ -73,6 +74,7 @@ const Webform = ({
     isSubmitted,
     showConfirmation,
     classNamePrefix,
+    unstyled,
   }
 
   return elementsSource ? <FormComponent {...formProps} /> : null

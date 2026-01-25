@@ -18,6 +18,7 @@ const Radios = ({
   labelProps,
   ariaDescribedBy,
   classNamePrefix,
+  unstyled,
 }: RadiosProps) => {
   const { control } = useFormContext()
 
@@ -33,23 +34,27 @@ const Radios = ({
   const radiosWrapperClassNames = getClassNames({
     name: 'radiosWrapper',
     prefix: classNamePrefix,
+    unstyled: unstyled,
     baseCn: cn(styles.radiosGroupWrapper, className),
   })
 
   const radiosItemClassNames = getClassNames({
     name: 'radiosItem',
     prefix: classNamePrefix,
+    unstyled: unstyled,
     baseCn: styles.radiosItemWrapper,
   })
 
   const radiosInputClassNames = getClassNames({
     name: 'radiosInput',
     prefix: classNamePrefix,
+    unstyled: unstyled,
   })
 
   const radiosLabelClassNames = getClassNames({
     name: 'radiosLabel',
     prefix: classNamePrefix,
+    unstyled: unstyled,
     baseCn: styles.radioLabel,
   })
 

@@ -1,13 +1,7 @@
 import { ReactNode } from 'react'
-import { TWebformClassNames, TWebformCustomComponents } from '../form.d'
-import { TElementSource } from './field'
+import { DrupalElementCommonProps } from '../form.d'
 
-export interface ErrorMessageProps {
+export interface ErrorMessageProps extends DrupalElementCommonProps {
   className?: string
-  classNames: TWebformClassNames
-  classNamePrefix: string | undefined | null
-  components: TWebformCustomComponents
-  field: TElementSource
-  fieldKey: string
   children?: ReactNode
 }

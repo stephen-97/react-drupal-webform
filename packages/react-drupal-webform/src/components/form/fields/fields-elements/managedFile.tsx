@@ -19,6 +19,8 @@ const ManagedFile = ({
   components,
   ariaDescribedBy,
   classNamePrefix,
+  unstyled,
+  classNames,
 }: ManagedFileProps) => {
   const { control } = useFormContext()
   const inputRef = useRef<HTMLInputElement>(null)
@@ -51,6 +53,9 @@ const ManagedFile = ({
   if (isFileWithBase64(value)) {
     return (
       <PreviewComponent
+        unstyled={unstyled}
+        classNames={classNames}
+        components={components}
         field={field}
         fieldKey={fieldKey}
         classNamePrefix={classNamePrefix}
@@ -63,6 +68,7 @@ const ManagedFile = ({
   const inputClassNames = getClassNames({
     name: 'managedFile',
     prefix: classNamePrefix,
+    unstyled: unstyled,
     baseCn: cn(styles.field, styles.input, className),
   })
 

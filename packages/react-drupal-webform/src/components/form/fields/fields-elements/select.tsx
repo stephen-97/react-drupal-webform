@@ -16,6 +16,7 @@ const Select = ({
   className,
   classNamePrefix,
   ariaDescribedBy,
+  unstyled,
 }: SelectProps) => {
   const { control } = useFormContext()
 
@@ -39,12 +40,14 @@ const Select = ({
   const selectClassNames = getClassNames({
     name: 'select',
     prefix: classNamePrefix,
+    unstyled: unstyled,
     baseCn: cn(styles.select, className),
   })
 
   const optionClassNames = getClassNames({
     name: 'selectOption',
     prefix: classNamePrefix,
+    unstyled: unstyled,
   })
 
   const dataAttributes = getDataAttributes({

@@ -6,12 +6,14 @@ require('@/lib/wdyr')
 
 import Webform from '../../../packages/react-drupal-webform/src/components/webform'
 import { TWebformStateMessages } from '../../../packages/react-drupal-webform/src/lib/types/form.d'
+import { useState } from 'react'
 
 export type TWebformContainer = {
   elementsSource: string
 }
 
 const WebformContainer = ({ elementsSource }: TWebformContainer) => {
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false)
   const fakeSubmit = (data: Record<any, string>) => {
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -24,14 +26,9 @@ const WebformContainer = ({ elementsSource }: TWebformContainer) => {
     })
   }
 
-  const handleSubmit = async (formData: Record<any, string>) => {
-    return fakeSubmit(formData)
-      .then(() => {
-        console.log(formData)
-      })
-      .catch((error) => {
-        console.error(error)
-      })
+  const handleSubmit = (formData: Record<any, string>) => {
+    setIsSubmitted(true)
+    console.log(formData)
   }
 
   const correctElementsSource = YAML.parse(elementsSource)
@@ -81,8 +78,9 @@ const WebformContainer = ({ elementsSource }: TWebformContainer) => {
       elementsSource={correctElementsSource}
       onSubmit={handleSubmit}
       defaultFieldStateMessages={defaultStateValues}
-      showConfirmation={false}
-      isSubmitted={true}
+      showConfirmation={true}
+      isSubmitted={isSubmitted}
+      unstyled={true}
       classNamePrefix={'top'}
     />
   )

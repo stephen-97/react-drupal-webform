@@ -3,15 +3,17 @@ import styles from './errorFieldMessage.module.scss';
 import cn from 'classnames';
 import { getClassNames, getDataAttributes, } from '../../../../../lib/functions/utils_functions';
 import { useController, useFormContext } from 'react-hook-form';
-const ErrorFieldMessage = ({ children, className, fieldKey, classNamePrefix, }) => {
+const ErrorFieldMessage = ({ children, className, fieldKey, classNamePrefix, unstyled, }) => {
     const wrapperClassNames = getClassNames({
         name: 'errorFieldMessage',
         prefix: classNamePrefix,
+        unstyled: unstyled,
         baseCn: cn(styles.errorFieldMessage, className),
     });
     const messageClassNames = getClassNames({
         name: 'errorFieldMessageText',
         prefix: classNamePrefix,
+        unstyled: unstyled,
     });
     const dataAttributes = getDataAttributes({
         component: 'errorFieldMessage',

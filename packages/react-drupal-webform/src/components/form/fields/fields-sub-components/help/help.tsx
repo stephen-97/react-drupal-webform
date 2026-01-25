@@ -17,6 +17,9 @@ const Help = ({
   field,
   className,
   classNamePrefix,
+  unstyled,
+  fieldKey,
+  classNames,
 }: HelpProps) => {
   const buttonRef = useRef<HTMLButtonElement>(null)
   const CustomWysiwyg = components.wysiwyg ?? Wysiwyg
@@ -40,9 +43,14 @@ const Help = ({
 
     root.render(
       <CustomWysiwyg
+        field={field}
+        fieldKey={fieldKey}
+        components={components}
+        classNames={classNames}
         classNamePrefix={classNamePrefix}
         source={'help'}
         processed={html}
+        unstyled={unstyled}
       />
     )
 
@@ -57,6 +65,7 @@ const Help = ({
   const buttonClassNames = getClassNames({
     name: 'help',
     prefix: classNamePrefix,
+    unstyled: unstyled,
     baseCn: cn(styles.help, className),
   })
 

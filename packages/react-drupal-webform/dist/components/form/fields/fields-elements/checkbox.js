@@ -3,7 +3,7 @@ import React from 'react';
 import cn from 'classnames';
 import { useController, useFormContext } from 'react-hook-form';
 import { getClassNames, getDataAttributes, } from '../../../../lib/functions/utils_functions';
-const Checkbox = ({ fieldKey, field, innerProps, className, ariaDescribedBy, classNamePrefix, }) => {
+const Checkbox = ({ fieldKey, field, innerProps, className, ariaDescribedBy, classNamePrefix, unstyled, }) => {
     const { control } = useFormContext();
     const { field: fieldController } = useController({
         name: fieldKey,
@@ -13,6 +13,7 @@ const Checkbox = ({ fieldKey, field, innerProps, className, ariaDescribedBy, cla
     const checkboxClassNames = getClassNames({
         name: 'checkbox',
         prefix: classNamePrefix,
+        unstyled: unstyled,
         baseCn: cn(className),
     });
     const dataAttributes = getDataAttributes({

@@ -8,11 +8,12 @@ import {
 } from '../../../../../lib/functions/utils_functions'
 
 const Loader = (props: LoaderProps) => {
-  const { innerProps, className, classNamePrefix } = props
+  const { innerProps, className, classNamePrefix, unstyled } = props
 
   const loaderClassNames = getClassNames({
     name: 'loader',
     prefix: classNamePrefix,
+    unstyled: unstyled,
     baseCn: cn(styles.loader, className),
   })
 

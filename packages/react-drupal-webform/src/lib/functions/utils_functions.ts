@@ -71,11 +71,13 @@ export const getDataAttributes = ({
 export const getClassNames = ({
   name,
   prefix,
+  unstyled,
   baseCn,
   modifiers,
 }: {
   name: string
   prefix: string | null | undefined
+  unstyled: boolean
   baseCn?: cn.Argument
   modifiers?: Record<string, boolean>
 }): string => {
@@ -90,7 +92,7 @@ export const getClassNames = ({
       )
     : undefined
 
-  return cn(baseName, modifierClasses, baseCn)
+  return cn(baseName, modifierClasses, unstyled ? undefined : baseCn)
 }
 
 export const getAriaDescribedBy = ({

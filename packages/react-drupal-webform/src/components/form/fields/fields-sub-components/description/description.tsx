@@ -16,12 +16,15 @@ const Description = ({
   fieldKey,
   className,
   classNamePrefix,
+  unstyled,
+  classNames,
 }: DescriptionProps) => {
   const CustomWysiwyg = components.wysiwyg ?? Wysiwyg
 
   const descriptionClassNames = getClassNames({
     name: 'description',
     prefix: classNamePrefix,
+    unstyled: unstyled,
     baseCn: cn(styles.descriptionWysiwyg, className),
   })
 
@@ -36,6 +39,10 @@ const Description = ({
 
   return (
     <CustomWysiwyg
+      components={components}
+      classNames={classNames}
+      field={field}
+      fieldKey={fieldKey}
       className={descriptionClassNames}
       classNamePrefix={classNamePrefix}
       processed={
@@ -47,6 +54,7 @@ const Description = ({
         ...dataAttributes,
         ...mergedInnerProps,
       }}
+      unstyled={unstyled}
     />
   )
 }

@@ -11,7 +11,8 @@ import {
 } from '../../../../lib/functions/utils_functions'
 
 const Input = (props: InputProps) => {
-  const { fieldKey, field, classNamePrefix, className, innerProps } = props
+  const { fieldKey, field, classNamePrefix, className, innerProps, unstyled } =
+    props
   const { control } = useFormContext()
 
   const { field: fieldController } = useController({
@@ -38,6 +39,7 @@ const Input = (props: InputProps) => {
   const inputClassNames = getClassNames({
     name: 'input',
     prefix: classNamePrefix,
+    unstyled: unstyled,
     baseCn: cn(styles.input, className),
   })
 

@@ -25,6 +25,7 @@ const FieldContainer = (props: FieldContainerProps) => {
     innerProps,
     className,
     classNamePrefix,
+    unstyled,
   } = props
 
   const TitleComponent = components?.title ?? Title
@@ -56,6 +57,7 @@ const FieldContainer = (props: FieldContainerProps) => {
   const componentClassNames = getClassNames({
     name: 'fieldContainer',
     prefix: classNamePrefix,
+    unstyled: unstyled,
     modifiers: {
       required: isRequired,
       'has-error': hasError,
@@ -83,6 +85,7 @@ const FieldContainer = (props: FieldContainerProps) => {
           classNamePrefix={classNamePrefix}
           field={field}
           fieldKey={fieldKey}
+          unstyled={unstyled}
         />
       )}
       <WrapperField
@@ -91,6 +94,7 @@ const FieldContainer = (props: FieldContainerProps) => {
         components={components}
         fieldKey={fieldKey}
         classNamePrefix={classNamePrefix}
+        unstyled={unstyled}
       >
         {children}
       </WrapperField>
@@ -101,14 +105,17 @@ const FieldContainer = (props: FieldContainerProps) => {
           classNames={classNames}
           classNamePrefix={classNamePrefix}
           components={components}
+          unstyled={unstyled}
         />
       )}
       {field['#type'] === 'managed_file' && (
         <WrapperManagedFileInfo
+          classNames={classNames}
           fieldKey={fieldKey}
           field={field}
           components={components}
           classNamePrefix={classNamePrefix}
+          unstyled={unstyled}
         />
       )}
       {field?.['#more'] && field?.['#more_title'] && (
@@ -118,6 +125,7 @@ const FieldContainer = (props: FieldContainerProps) => {
           classNamePrefix={classNamePrefix}
           classNames={classNames}
           components={components}
+          unstyled={unstyled}
         />
       )}
     </WrapperElement>

@@ -1,13 +1,7 @@
 import { jsx } from '@emotion/react'
-import { TWebformClassNames, TWebformCustomComponents } from '../form.d'
-import { TElementSource } from './field'
+import { DrupalElementCommonProps } from '../form.d'
 
-export interface HelpProps {
+export interface HelpProps extends DrupalElementCommonProps {
   innerProps?: jsx.JSX.IntrinsicElements['button']
-  components: TWebformCustomComponents
-  classNames: TWebformClassNames
-  classNamePrefix: string | undefined | null
   className?: string
-  fieldKey: string
-  field: TElementSource
 }

@@ -1,7 +1,7 @@
 import { jsx } from '@emotion/react'
+import { DrupalElementCommonNoFieldProps } from '../form.d'
 
-export interface LoaderProps {
+export interface LoaderProps extends DrupalElementCommonNoFieldProps {
   innerProps?: jsx.JSX.IntrinsicElements['span']
-  classNamePrefix: string | undefined | null
   className?: string
 }

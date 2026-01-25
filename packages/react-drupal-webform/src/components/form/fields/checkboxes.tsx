@@ -3,7 +3,8 @@ import FieldContainer from './fields-sub-components/fieldContainer'
 import Checkboxes from './fields-elements/checkboxes'
 
 export const renderCheckboxes = (props: TFieldWebformObj) => {
-  const { fieldKey, field, components, classNames, classNamePrefix } = props
+  const { fieldKey, field, components, classNames, classNamePrefix, unstyled } =
+    props
   const FieldContainerComponent = components?.fieldContainer ?? FieldContainer
 
   if (!field?.['#options']) return null
@@ -20,6 +21,7 @@ export const renderCheckboxes = (props: TFieldWebformObj) => {
       fieldKey={fieldKey}
       wrapperElement="fieldset"
       classNamePrefix={classNamePrefix}
+      unstyled={unstyled}
     >
       {CustomCheckboxes ? (
         <CustomCheckboxes {...props} />

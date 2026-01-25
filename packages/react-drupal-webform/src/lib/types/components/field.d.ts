@@ -1,4 +1,4 @@
-import { TWebformCustomComponents } from '../form.d'
+import { DrupalElementCommonProps, TWebformCustomComponents } from '../form.d'
 import { TDeepRequiredClassNames } from '../deepRequired'
 
 export type TDrupal_FieldType =
@@ -88,15 +88,9 @@ export type TElementSource = {
   '#title_display'?: string
 }
 
-export type TFieldWebformObj = {
+export type TFieldWebformObj = DrupalElementCommonProps & {
   index: number
-  fieldKey: string
-  field: TElementSource
   submitButtonRef?: any
   isMultiStep?: boolean
-  classNames: TDeepRequiredClassNames
-  classNamePrefix: string | undefined | null
-  components: TWebformCustomComponents
   ariaDescribedBy?: string
-  unstyled?: boolean
 }

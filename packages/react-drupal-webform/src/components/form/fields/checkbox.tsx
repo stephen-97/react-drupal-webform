@@ -6,7 +6,8 @@ import React from 'react'
 import styles from '../fields/field.module.scss'
 
 export const renderCheckbox = (props: TFieldWebformObj) => {
-  const { fieldKey, field, classNames, components, classNamePrefix } = props
+  const { fieldKey, field, classNames, components, classNamePrefix, unstyled } =
+    props
 
   const FieldContainerComponent = components?.fieldContainer ?? FieldContainer
 
@@ -25,6 +26,7 @@ export const renderCheckbox = (props: TFieldWebformObj) => {
       components={components}
       fieldKey={fieldKey}
       classNamePrefix={classNamePrefix}
+      unstyled={unstyled}
     >
       {CustomCheckbox ? (
         <CustomCheckbox {...props} />
@@ -40,6 +42,7 @@ export const renderCheckbox = (props: TFieldWebformObj) => {
               classNames={classNames}
               field={field}
               className={styles.checkboxLabel}
+              unstyled={unstyled}
             />
           )}
         </>

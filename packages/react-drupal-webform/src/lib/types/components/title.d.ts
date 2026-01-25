@@ -1,15 +1,9 @@
 import React, { JSX } from 'react'
-import { TWebformClassNames, TWebformCustomComponents } from '../form.d'
-import { TElementSource } from './field'
+import { DrupalElementCommonProps } from '../form.d'
 
-type BaseLabelProps = {
+type BaseLabelProps = DrupalElementCommonProps & {
   className?: string
   children?: React.ReactNode
-  field: TElementSource
-  fieldKey: string
-  classNames: TWebformClassNames
-  classNamePrefix: string | undefined | null
-  components: TWebformCustomComponents
 }
 
 export type TitleProps =

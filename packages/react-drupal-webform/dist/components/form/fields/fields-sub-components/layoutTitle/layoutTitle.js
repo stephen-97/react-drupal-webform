@@ -3,12 +3,13 @@ import cn from 'classnames';
 import styles from '../layout/layout.module.scss';
 import { getClassNames, getDataAttributes, } from '../../../../../lib/functions/utils_functions';
 const LayoutTitle = (props) => {
-    const { field, innerProps, className, classNamePrefix } = props;
+    const { field, innerProps, className, classNamePrefix, unstyled } = props;
     if (!field?.['#title'])
         return null;
     const layoutListClassNames = getClassNames({
         name: 'layoutTitle',
         prefix: classNamePrefix,
+        unstyled: unstyled,
         baseCn: cn(styles.layoutTitle, className),
     });
     const dataAttributes = getDataAttributes({

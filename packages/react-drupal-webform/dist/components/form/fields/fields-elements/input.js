@@ -5,7 +5,7 @@ import { useController, useFormContext } from 'react-hook-form';
 import styles from '../field.module.scss';
 import { getAriaDescribedBy, getClassNames, getDataAttributes, getTextLikeInputAttributes, } from '../../../../lib/functions/utils_functions';
 const Input = (props) => {
-    const { fieldKey, field, classNamePrefix, className, innerProps } = props;
+    const { fieldKey, field, classNamePrefix, className, innerProps, unstyled } = props;
     const { control } = useFormContext();
     const { field: fieldController } = useController({
         name: fieldKey,
@@ -30,6 +30,7 @@ const Input = (props) => {
     const inputClassNames = getClassNames({
         name: 'input',
         prefix: classNamePrefix,
+        unstyled: unstyled,
         baseCn: cn(styles.input, className),
     });
     const dataAttributes = getDataAttributes({

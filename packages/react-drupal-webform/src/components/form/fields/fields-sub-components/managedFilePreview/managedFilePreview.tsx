@@ -18,6 +18,9 @@ const ManagedFilePreview = ({
   classNamePrefix,
   field,
   fieldKey,
+  unstyled,
+  components,
+  classNames,
 }: ManagedFilePreviewProps) => {
   const fileValue = value as TFileWithBase64
   const blob = base64ToBlob(fileValue.base64, fileValue.type)
@@ -25,30 +28,35 @@ const ManagedFilePreview = ({
   const wrapperClassNames = getClassNames({
     name: 'managedFilePreview',
     prefix: classNamePrefix,
+    unstyled: unstyled,
     baseCn: cn(styles.filePreview, className),
   })
 
   const fileInfoClassNames = getClassNames({
     name: 'managedFilePreviewInfo',
     prefix: classNamePrefix,
+    unstyled: unstyled,
     baseCn: styles.fileInfo,
   })
 
   const fileNameClassNames = getClassNames({
     name: 'managedFilePreviewName',
     prefix: classNamePrefix,
+    unstyled: unstyled,
     baseCn: styles.fileName,
   })
 
   const fileLinkClassNames = getClassNames({
     name: 'managedFilePreviewLink',
     prefix: classNamePrefix,
+    unstyled: unstyled,
     baseCn: styles.link,
   })
 
   const fileSizeClassNames = getClassNames({
     name: 'managedFilePreviewSize',
     prefix: classNamePrefix,
+    unstyled: unstyled,
     baseCn: styles.fileSize,
   })
 
@@ -77,6 +85,9 @@ const ManagedFilePreview = ({
 
       <Button
         fieldKey={fieldKey}
+        components={components}
+        classNames={classNames}
+        unstyled={unstyled}
         field={field}
         classNamePrefix={classNamePrefix}
         fillType="border"

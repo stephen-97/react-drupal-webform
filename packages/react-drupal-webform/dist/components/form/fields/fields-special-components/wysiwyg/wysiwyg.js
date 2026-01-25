@@ -4,10 +4,11 @@ import DOMPurify from 'isomorphic-dompurify';
 import cn from 'classnames';
 import styles from './wysiwyg.module.scss';
 import { getClassNames, getDataAttributes, } from '../../../../../lib/functions/utils_functions';
-const Wysiwyg = ({ processed, as: Element = 'div', className, classNamePrefix, innerProps, }) => {
+const Wysiwyg = ({ processed, as: Element = 'div', className, classNamePrefix, innerProps, unstyled, }) => {
     const wysiwygClassNames = getClassNames({
         name: 'wysiwyg',
         prefix: classNamePrefix,
+        unstyled: unstyled,
         baseCn: cn(styles.wysiwyg, className),
     });
     const dataAttributes = getDataAttributes({

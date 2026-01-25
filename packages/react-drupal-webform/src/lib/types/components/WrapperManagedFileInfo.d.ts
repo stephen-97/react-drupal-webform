@@ -9,5 +9,4 @@ export type WrapperManagedFileInfoProps = Omit<
   | 'children'
   | 'className'
   | 'innerPropsLabel'
-  | 'classNames'
 >

@@ -8,7 +8,16 @@ import {
 } from '../../../lib/functions/utils_functions'
 
 const Markup = (props: MarkupProps) => {
-  const { field, components, className, classNamePrefix, innerProps } = props
+  const {
+    field,
+    fieldKey,
+    components,
+    className,
+    classNamePrefix,
+    innerProps,
+    unstyled,
+    classNames,
+  } = props
 
   const markup = field?.['#markup']
   if (!markup?.length) return null
@@ -18,6 +27,7 @@ const Markup = (props: MarkupProps) => {
   const markupClassNames = getClassNames({
     name: 'markup',
     prefix: classNamePrefix,
+    unstyled: unstyled,
     baseCn: cn(...(field?.['#attributes']?.class ?? []), className),
   })
 
@@ -30,6 +40,11 @@ const Markup = (props: MarkupProps) => {
       <WysiwygComponent
         classNamePrefix={classNamePrefix}
         processed={markup}
+        fieldKey={fieldKey}
+        field={field}
+        classNames={classNames}
+        components={components}
+        unstyled={unstyled}
         source="markup"
       />
     </div>

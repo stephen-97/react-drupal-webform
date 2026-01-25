@@ -18,6 +18,7 @@ const Layout = (props: LayoutProps) => {
     classNamePrefix,
     components,
     field,
+    unstyled,
   } = props
 
   const LayoutTitleComponent = components?.layoutTitle ?? LayoutTitle
@@ -26,6 +27,7 @@ const Layout = (props: LayoutProps) => {
   const layoutClassNames = getClassNames({
     name: 'layout',
     prefix: classNamePrefix,
+    unstyled: unstyled,
     baseCn: cn(styles.layoutWrapper, className),
   })
 

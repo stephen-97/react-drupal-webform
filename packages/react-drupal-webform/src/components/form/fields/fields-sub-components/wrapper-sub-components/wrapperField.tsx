@@ -10,6 +10,7 @@ const WrapperField = ({
   children,
   fieldKey,
   classNamePrefix,
+  unstyled,
 }: WrapperFieldProps) => {
   const ErrorFieldMessageComponent =
     components?.errorFieldMessage ?? ErrorFieldMessage
@@ -27,6 +28,7 @@ const WrapperField = ({
               field={field}
               fieldKey={fieldKey}
               components={components}
+              unstyled={unstyled}
             />
           </div>
           {field?.['#field_suffix'] && <span>{field['#field_suffix']}</span>}
@@ -40,6 +42,7 @@ const WrapperField = ({
             field={field}
             fieldKey={fieldKey}
             components={components}
+            unstyled={unstyled}
           />
         </>
       )}

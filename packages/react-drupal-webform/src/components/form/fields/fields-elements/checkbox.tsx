@@ -13,6 +13,7 @@ const Checkbox = ({
   className,
   ariaDescribedBy,
   classNamePrefix,
+  unstyled,
 }: CheckboxProps) => {
   const { control } = useFormContext()
 
@@ -26,6 +27,7 @@ const Checkbox = ({
   const checkboxClassNames = getClassNames({
     name: 'checkbox',
     prefix: classNamePrefix,
+    unstyled: unstyled,
     baseCn: cn(className),
   })
 

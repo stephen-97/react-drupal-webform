@@ -1,16 +1,10 @@
 import { jsx } from '@emotion/react'
 import { IWysiwygProps } from './wysiwyg'
-import { TWebformClassNames, TWebformCustomComponents } from '../form.d'
-import { TElementSource } from './field'
+import { DrupalElementCommonProps } from '../form.d'
 
-export interface MoreProps {
+export interface MoreProps extends DrupalElementCommonProps {
   innerPropsContainer?: jsx.JSX.IntrinsicElements['div']
   innerPropsButton?: jsx.JSX.IntrinsicElements['button']
   innerPropsWysiwyg?: IWysiwygProps
-  components: TWebformCustomComponents
-  field: TElementSource
-  fieldKey: string
   className?: string
-  classNamePrefix: string | undefined | null
-  classNames: TWebformClassNames
 }

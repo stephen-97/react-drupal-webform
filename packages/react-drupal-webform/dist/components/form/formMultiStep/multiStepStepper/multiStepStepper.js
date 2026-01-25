@@ -5,7 +5,7 @@ import cn from 'classnames';
 import { useMultiStepContext } from '../multiStepContext';
 import { getClassNames, getDataAttributes, } from '../../../../lib/functions/utils_functions';
 const MultiStepStepper = (props) => {
-    const { multiStepTitleAs = 'span', currentStepObj, components, className, classNamePrefix, } = props;
+    const { multiStepTitleAs = 'span', currentStepObj, components, className, classNamePrefix, unstyled, } = props;
     const { stepIndex, totalVisibleSteps } = useMultiStepContext();
     const CustomMultiStepStepper = components?.multiStepStepper;
     if (CustomMultiStepStepper) {
@@ -28,31 +28,37 @@ const MultiStepStepper = (props) => {
     const wrapperClassNames = getClassNames({
         name: 'multiStepStepper',
         prefix: classNamePrefix,
+        unstyled: unstyled,
         baseCn: cn(styles.multiStepStepper, className),
     });
     const headerClassNames = getClassNames({
         name: 'multiStepStepperHeader',
         prefix: classNamePrefix,
+        unstyled: unstyled,
         baseCn: styles.headerStepperContainer,
     });
     const titleClassNames = getClassNames({
         name: 'multiStepStepperTitle',
         prefix: classNamePrefix,
+        unstyled: unstyled,
         baseCn: styles.title,
     });
     const counterClassNames = getClassNames({
         name: 'multiStepStepperCounter',
         prefix: classNamePrefix,
+        unstyled: unstyled,
         baseCn: styles.multiStepStepperCounter,
     });
     const progressContainerClassNames = getClassNames({
         name: 'multiStepStepperProgressContainer',
         prefix: classNamePrefix,
+        unstyled: unstyled,
         baseCn: styles.progressBarContainer,
     });
     const progressBarClassNames = getClassNames({
         name: 'multiStepStepperProgress',
         prefix: classNamePrefix,
+        unstyled: unstyled,
         baseCn: styles.progressBar,
     });
     const dataAttributes = getDataAttributes({

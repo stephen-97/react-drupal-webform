@@ -3,10 +3,11 @@ import styles from './loader.module.scss';
 import cn from 'classnames';
 import { getClassNames, getDataAttributes, } from '../../../../../lib/functions/utils_functions';
 const Loader = (props) => {
-    const { innerProps, className, classNamePrefix } = props;
+    const { innerProps, className, classNamePrefix, unstyled } = props;
     const loaderClassNames = getClassNames({
         name: 'loader',
         prefix: classNamePrefix,
+        unstyled: unstyled,
         baseCn: cn(styles.loader, className),
     });
     const dataAttributes = getDataAttributes({

@@ -12,28 +12,34 @@ const ManagedFileInfo = ({
   innerProps,
   className,
   classNamePrefix,
+  unstyled,
 }: ManagedFileInfoProps) => {
   const wrapperClassNames = getClassNames({
     name: 'managedFileInfo',
     prefix: classNamePrefix,
+    unstyled: unstyled,
     baseCn: cn(styles.managedFileInfo, className),
   })
 
   const labelClassNames = getClassNames({
     name: 'managedFileLabel',
     prefix: classNamePrefix,
+    unstyled: unstyled,
+
     baseCn: cn(styles.label),
   })
 
   const maxSizeClassNames = getClassNames({
     name: 'managedFileInfoMaxSize',
     prefix: classNamePrefix,
+    unstyled: unstyled,
     baseCn: cn(styles.label),
   })
 
   const fileExtensionClassname = getClassNames({
     name: 'managedFileFileExtension',
     prefix: classNamePrefix,
+    unstyled: unstyled,
     baseCn: cn(styles.label),
   })
 

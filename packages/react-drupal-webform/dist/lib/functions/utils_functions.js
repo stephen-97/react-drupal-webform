@@ -29,18 +29,23 @@ const deepMergeDefaults = (defaults, overrides) => Object.keys(defaults).reduce(
     return acc;
 }, Array.isArray(defaults) ? [] : {});
 export { mergeObjects, deepMergeDefaults };
-export const getDataAttributes = ({ hasError, type, component, }) => {
+export const getDataAttributes = ({ type, component, }) => {
     const groupType = type ? FIELD_TYPE_TO_GROUP[type] : undefined;
     return {
-        ...(hasError !== undefined ? { 'data-has-error': hasError } : {}),
         ...(type ? { 'data-type': type } : {}),
         ...(groupType ? { 'data-group-type': groupType } : {}),
         ...(component ? { 'data-component': component } : {}),
     };
 };
-export const getClassNames = ({ name, prefix, baseCn, }) => {
+export const getClassNames = ({ name, prefix, unstyled, baseCn, modifiers, }) => {
     const baseName = prefix ? `${prefix}-webform-${name}` : `webform-${name}`;
-    return cn(baseName, baseCn);
+    const modifierClasses = modifiers
+        ? Object.fromEntries(Object.entries(modifiers).map(([key, value]) => [
+            `${baseName}--${key}`,
+            value,
+        ]))
+        : undefined;
+    return cn(baseName, modifierClasses, baseCn);
 };
 export const getAriaDescribedBy = ({ fieldKey, field, }) => {
     const hasDescription = Boolean(field?.['#description']) || Boolean(field?.['#file_placeholder']);
@@ -85,4 +90,21 @@ export const getTextLikeInputAttributes = (field, type) => {
         }
     }
     return attrs;
+};
+export const applyPatternIfApplicable = ({ schema, field, fallbackMessage, }) => {
+    const pattern = field?.['#pattern'];
+    if (!pattern)
+        return schema;
+    const errorMessage = field?.['#pattern_error'] || fallbackMessage;
+    try {
+        const regex = new RegExp(pattern);
+        return schema.test('pattern', errorMessage, (value) => {
+            if (!value)
+                return true;
+            return regex.test(value);
+        });
+    }
+    catch {
+        return schema;
+    }
 };

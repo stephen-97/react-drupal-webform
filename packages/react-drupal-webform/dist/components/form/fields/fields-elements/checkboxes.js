@@ -5,7 +5,7 @@ import styles from '../field.module.scss';
 import { useController, useFormContext } from 'react-hook-form';
 import { handleChangeOptionsCheckboxes } from '../../../../lib/functions/webform_fields_functions/webform_fields_functions';
 import { getClassNames, getDataAttributes, } from '../../../../lib/functions/utils_functions';
-const Checkboxes = ({ fieldKey, field, className, innerProps, itemProps, inputProps, labelProps, ariaDescribedBy, classNamePrefix, }) => {
+const Checkboxes = ({ fieldKey, field, className, innerProps, itemProps, inputProps, labelProps, ariaDescribedBy, classNamePrefix, unstyled, }) => {
     const { control } = useFormContext();
     if (!field?.['#options'])
         return null;
@@ -17,21 +17,25 @@ const Checkboxes = ({ fieldKey, field, className, innerProps, itemProps, inputPr
     const wrapperClassNames = getClassNames({
         name: 'checkboxesWrapper',
         prefix: classNamePrefix,
+        unstyled: unstyled,
         baseCn: cn(styles.checkboxes, className),
     });
     const itemClassNames = getClassNames({
         name: 'checkboxesItem',
         prefix: classNamePrefix,
+        unstyled: unstyled,
         baseCn: styles.checkbox,
     });
     const inputClassNames = getClassNames({
         name: 'checkboxesInput',
         prefix: classNamePrefix,
+        unstyled: unstyled,
         baseCn: styles.field,
     });
     const labelClassNames = getClassNames({
         name: 'checkboxesLabel',
         prefix: classNamePrefix,
+        unstyled: unstyled,
         baseCn: styles.labelCheckbox,
     });
     const dataAttributes = getDataAttributes({

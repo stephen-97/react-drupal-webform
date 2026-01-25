@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { useController, useFormContext } from 'react-hook-form';
 import styles from '../field.module.scss';
 import { getClassNames, getDataAttributes, } from '../../../../lib/functions/utils_functions';
-const Textarea = ({ fieldKey, field, className, innerProps, classNamePrefix, ariaDescribedBy, }) => {
+const Textarea = ({ fieldKey, field, className, innerProps, classNamePrefix, ariaDescribedBy, unstyled, }) => {
     const { control } = useFormContext();
     const { field: fieldController } = useController({
         name: fieldKey,
@@ -13,6 +13,7 @@ const Textarea = ({ fieldKey, field, className, innerProps, classNamePrefix, ari
     const textareaClassNames = getClassNames({
         name: 'textarea',
         prefix: classNamePrefix,
+        unstyled: unstyled,
         baseCn: cn(styles.field, styles.textarea, className),
     });
     const dataAttributes = getDataAttributes({

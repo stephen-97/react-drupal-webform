@@ -14,6 +14,7 @@ const More = ({
   className,
   classNamePrefix,
   field,
+  unstyled,
 }: MoreProps) => {
   const CustomWysiwyg = components.wysiwyg ?? Wysiwyg
 
@@ -26,12 +27,16 @@ const More = ({
   const containerClassNames = getClassNames({
     name: 'more',
     prefix: classNamePrefix,
+    unstyled: unstyled,
+
     baseCn: cn(styles.more, containerClassName, className),
   })
 
   const buttonClassNames = getClassNames({
     name: 'moreButton',
     prefix: classNamePrefix,
+    unstyled: unstyled,
+
     baseCn: cn(styles.button, buttonClassName, {
       [styles.opened]: open,
     }),
@@ -40,6 +45,7 @@ const More = ({
   const wysiwygClassNames = getClassNames({
     name: 'moreContent',
     prefix: classNamePrefix,
+    unstyled: unstyled,
     baseCn: cn(styles.moreWysiwyg),
   })
 

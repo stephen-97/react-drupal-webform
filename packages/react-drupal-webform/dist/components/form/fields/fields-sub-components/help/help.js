@@ -7,7 +7,7 @@ import 'tippy.js/dist/tippy.css';
 import { createRoot } from 'react-dom/client';
 import Wysiwyg from '../../fields-special-components/wysiwyg/wysiwyg';
 import { getClassNames, getDataAttributes, } from '../../../../../lib/functions/utils_functions';
-const Help = ({ innerProps, components, field, className, classNamePrefix, }) => {
+const Help = ({ innerProps, components, field, className, classNamePrefix, unstyled, fieldKey, classNames, }) => {
     const buttonRef = useRef(null);
     const CustomWysiwyg = components.wysiwyg ?? Wysiwyg;
     const helps = {
@@ -25,7 +25,7 @@ const Help = ({ innerProps, components, field, className, classNamePrefix, }) =>
       ${helps.processed_help_title ? `<div class="${styles.helpTitle}">${helps.processed_help_title}</div>` : ''}
       ${helps.help || ''}
     `;
-        root.render(_jsx(CustomWysiwyg, { source: 'help', processed: html }));
+        root.render(_jsx(CustomWysiwyg, { field: field, fieldKey: fieldKey, components: components, classNames: classNames, classNamePrefix: classNamePrefix, source: 'help', processed: html, unstyled: unstyled }));
         tippy(buttonRef.current, {
             content: tooltipContainer,
             allowHTML: true,
@@ -36,6 +36,7 @@ const Help = ({ innerProps, components, field, className, classNamePrefix, }) =>
     const buttonClassNames = getClassNames({
         name: 'help',
         prefix: classNamePrefix,
+        unstyled: unstyled,
         baseCn: cn(styles.help, className),
     });
     const dataAttributes = getDataAttributes({

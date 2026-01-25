@@ -1,10 +1,7 @@
-import { TWebformClassNames, TWebformCustomComponents } from '../form.d'
+import { DrupalElementCommonNoFieldProps } from '../form.d'
 
-export interface MultiStepActionsProps {
+export interface MultiStepActionsProps extends DrupalElementCommonNoFieldProps {
   previousButtonLabel?: string
   nextButtonLabel?: string
-  components: TWebformCustomComponents
-  classNames: Required<TWebformClassNames>
   className?: string
-  classNamePrefix: string | undefined | null
 }

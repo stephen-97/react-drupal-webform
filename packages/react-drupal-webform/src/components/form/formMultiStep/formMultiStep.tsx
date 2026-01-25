@@ -39,6 +39,7 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
     isSubmitted,
     showConfirmation,
     classNamePrefix,
+    unstyled = false,
   } = props
 
   const totalSteps = Object.keys(elementsSource).length
@@ -237,6 +238,7 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
             classNames={classNames}
             classNamePrefix={classNamePrefix}
             isMultiStep={true}
+            unstyled={unstyled}
             {...(isLayout ? { watchedValues: watchedStepValuesGlobal } : {})}
           />
         )
@@ -248,6 +250,7 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
         components={components}
         classNames={classNames}
         classNamePrefix={classNamePrefix}
+        unstyled={unstyled}
       />
     </>
   )
@@ -279,6 +282,7 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
               classNamePrefix={classNamePrefix}
               elementsSource={elementsSource}
               classNames={classNames}
+              unstyled={unstyled}
             />
 
             <FormComponent onSubmit={handleSubmit(onFormSubmit)}>

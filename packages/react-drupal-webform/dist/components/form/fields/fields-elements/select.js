@@ -5,7 +5,7 @@ import { useController, useFormContext } from 'react-hook-form';
 import styles from '../field.module.scss';
 import { handleChangeOptions } from '../../../../lib/functions/webform_fields_functions/webform_fields_functions';
 import { getClassNames, getDataAttributes, } from '../../../../lib/functions/utils_functions';
-const Select = ({ fieldKey, field, innerProps, className, classNamePrefix, ariaDescribedBy, }) => {
+const Select = ({ fieldKey, field, innerProps, className, classNamePrefix, ariaDescribedBy, unstyled, }) => {
     const { control } = useFormContext();
     if (!field?.['#options'])
         return null;
@@ -22,11 +22,13 @@ const Select = ({ fieldKey, field, innerProps, className, classNamePrefix, ariaD
     const selectClassNames = getClassNames({
         name: 'select',
         prefix: classNamePrefix,
+        unstyled: unstyled,
         baseCn: cn(styles.select, className),
     });
     const optionClassNames = getClassNames({
         name: 'selectOption',
         prefix: classNamePrefix,
+        unstyled: unstyled,
     });
     const dataAttributes = getDataAttributes({
         component: 'select',

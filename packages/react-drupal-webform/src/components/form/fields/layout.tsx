@@ -14,6 +14,7 @@ const renderLayout = (
     components,
     watchedValues,
     classNamePrefix,
+    unstyled,
   } = props
 
   const LayoutComponent = components?.layout ?? Layout
@@ -38,6 +39,7 @@ const renderLayout = (
             classNames={classNames}
             isMultiStep={false}
             watchedValues={watchedValues}
+            unstyled={unstyled}
           />
         )
       })}

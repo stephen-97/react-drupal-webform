@@ -3,25 +3,29 @@ import React from 'react';
 import cn from 'classnames';
 import styles from './managedFileInfo.module.scss';
 import { getClassNames, getDataAttributes, } from '../../../../../lib/functions/utils_functions';
-const ManagedFileInfo = ({ field, innerProps, className, classNamePrefix, }) => {
+const ManagedFileInfo = ({ field, innerProps, className, classNamePrefix, unstyled, }) => {
     const wrapperClassNames = getClassNames({
         name: 'managedFileInfo',
         prefix: classNamePrefix,
+        unstyled: unstyled,
         baseCn: cn(styles.managedFileInfo, className),
     });
     const labelClassNames = getClassNames({
         name: 'managedFileLabel',
         prefix: classNamePrefix,
+        unstyled: unstyled,
         baseCn: cn(styles.label),
     });
     const maxSizeClassNames = getClassNames({
         name: 'managedFileInfoMaxSize',
         prefix: classNamePrefix,
+        unstyled: unstyled,
         baseCn: cn(styles.label),
     });
     const fileExtensionClassname = getClassNames({
         name: 'managedFileFileExtension',
         prefix: classNamePrefix,
+        unstyled: unstyled,
         baseCn: cn(styles.label),
     });
     const dataAttributes = getDataAttributes({

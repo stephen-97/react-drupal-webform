@@ -15,6 +15,7 @@ const Textarea = ({
   innerProps,
   classNamePrefix,
   ariaDescribedBy,
+  unstyled,
 }: TextAreaProps) => {
   const { control } = useFormContext()
 
@@ -26,6 +27,7 @@ const Textarea = ({
   const textareaClassNames = getClassNames({
     name: 'textarea',
     prefix: classNamePrefix,
+    unstyled: unstyled,
     baseCn: cn(styles.field, styles.textarea, className),
   })
 

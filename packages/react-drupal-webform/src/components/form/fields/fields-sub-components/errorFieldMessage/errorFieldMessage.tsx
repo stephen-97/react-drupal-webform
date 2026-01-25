@@ -13,16 +13,19 @@ const ErrorFieldMessage = ({
   className,
   fieldKey,
   classNamePrefix,
+  unstyled,
 }: ErrorMessageProps) => {
   const wrapperClassNames = getClassNames({
     name: 'errorFieldMessage',
     prefix: classNamePrefix,
+    unstyled: unstyled,
     baseCn: cn(styles.errorFieldMessage, className),
   })
 
   const messageClassNames = getClassNames({
     name: 'errorFieldMessageText',
     prefix: classNamePrefix,
+    unstyled: unstyled,
   })
 
   const dataAttributes = getDataAttributes({

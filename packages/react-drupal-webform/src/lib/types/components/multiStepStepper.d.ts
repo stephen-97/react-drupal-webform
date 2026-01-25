@@ -8,7 +8,8 @@ export interface MultiStepStepperProps {
   currentStepObj: Record<string, any>
   elementsSource: Record<string, any>
   classNames: Required<TWebformClassNames>
-  classNamePrefix: string
+  classNamePrefix: string | undefined | null
   innerProps?: jsx.JSX.IntrinsicElements['div']
   className?: string
+  unstyled: boolean
 }

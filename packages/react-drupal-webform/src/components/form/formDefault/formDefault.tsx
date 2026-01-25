@@ -29,7 +29,7 @@ const FormDefault = (props: IFormDefaultWebformProps) => {
     isSubmitted,
     showConfirmation,
     classNamePrefix,
-    unstyled,
+    unstyled = false,
   } = props
 
   const { yupUseFormProps } = yupObj || {}

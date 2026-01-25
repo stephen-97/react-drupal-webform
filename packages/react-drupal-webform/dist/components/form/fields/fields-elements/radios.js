@@ -4,7 +4,7 @@ import cn from 'classnames';
 import styles from '../field.module.scss';
 import { useController, useFormContext } from 'react-hook-form';
 import { getClassNames, getDataAttributes, } from '../../../../lib/functions/utils_functions';
-const Radios = ({ fieldKey, field, className, innerProps, itemProps, inputProps, labelProps, ariaDescribedBy, classNamePrefix, }) => {
+const Radios = ({ fieldKey, field, className, innerProps, itemProps, inputProps, labelProps, ariaDescribedBy, classNamePrefix, unstyled, }) => {
     const { control } = useFormContext();
     if (!field?.['#options'])
         return null;
@@ -16,20 +16,24 @@ const Radios = ({ fieldKey, field, className, innerProps, itemProps, inputProps,
     const radiosWrapperClassNames = getClassNames({
         name: 'radiosWrapper',
         prefix: classNamePrefix,
+        unstyled: unstyled,
         baseCn: cn(styles.radiosGroupWrapper, className),
     });
     const radiosItemClassNames = getClassNames({
         name: 'radiosItem',
         prefix: classNamePrefix,
+        unstyled: unstyled,
         baseCn: styles.radiosItemWrapper,
     });
     const radiosInputClassNames = getClassNames({
         name: 'radiosInput',
         prefix: classNamePrefix,
+        unstyled: unstyled,
     });
     const radiosLabelClassNames = getClassNames({
         name: 'radiosLabel',
         prefix: classNamePrefix,
+        unstyled: unstyled,
         baseCn: styles.radioLabel,
     });
     const dataAttributes = getDataAttributes({

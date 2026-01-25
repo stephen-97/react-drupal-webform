@@ -6,7 +6,7 @@ import styles from '../field.module.scss';
 import { handleFileChange } from '../../../../lib/functions/webform_fields_functions/webform_fields_functions';
 import ManagedFilePreview from '../fields-sub-components/managedFilePreview/managedFilePreview';
 import { getClassNames, getDataAttributes, } from '../../../../lib/functions/utils_functions';
-const ManagedFile = ({ fieldKey, field, className, innerProps, components, ariaDescribedBy, classNamePrefix, }) => {
+const ManagedFile = ({ fieldKey, field, className, innerProps, components, ariaDescribedBy, classNamePrefix, unstyled, classNames, }) => {
     const { control } = useFormContext();
     const inputRef = useRef(null);
     const { field: fieldController } = useController({
@@ -28,11 +28,12 @@ const ManagedFile = ({ fieldKey, field, className, innerProps, components, ariaD
         fieldController.onChange({});
     };
     if (isFileWithBase64(value)) {
-        return (_jsx(PreviewComponent, { field: field, fieldKey: fieldKey, classNamePrefix: classNamePrefix, value: value, handleRemove: handleRemove }));
+        return (_jsx(PreviewComponent, { unstyled: unstyled, classNames: classNames, components: components, field: field, fieldKey: fieldKey, classNamePrefix: classNamePrefix, value: value, handleRemove: handleRemove }));
     }
     const inputClassNames = getClassNames({
         name: 'managedFile',
         prefix: classNamePrefix,
+        unstyled: unstyled,
         baseCn: cn(styles.field, styles.input, className),
     });
     const dataAttributes = getDataAttributes({

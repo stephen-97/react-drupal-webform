@@ -17,7 +17,9 @@ const MultiStepActions = (props: MultiStepActionsProps) => {
     nextButtonLabel,
     components,
     className,
+    classNames,
     classNamePrefix,
+    unstyled,
   } = props
 
   const { formState, trigger } = useFormContext()
@@ -51,24 +53,28 @@ const MultiStepActions = (props: MultiStepActionsProps) => {
   const wrapperClassNames = getClassNames({
     name: 'multiStepActions',
     prefix: classNamePrefix,
+    unstyled: unstyled,
     baseCn: cn(styles.multiStepActions, className),
   })
 
   const buttonBaseClassNames = getClassNames({
     name: 'multiStepActionButton',
     prefix: classNamePrefix,
+    unstyled: unstyled,
     baseCn: cn(stylesField.button, styles.button),
   })
 
   const prevButtonClassNames = getClassNames({
     name: 'multiStepActionPrev',
     prefix: classNamePrefix,
+    unstyled: unstyled,
     baseCn: buttonBaseClassNames,
   })
 
   const nextButtonClassNames = getClassNames({
     name: 'multiStepActionNext',
     prefix: classNamePrefix,
+    unstyled: unstyled,
     baseCn: buttonBaseClassNames,
   })
 
@@ -94,7 +100,14 @@ const MultiStepActions = (props: MultiStepActionsProps) => {
         disabled={!isStepValid || isSubmitting}
         onClick={handleNext}
       >
-        {isSubmitting && <Loader classNamePrefix={classNamePrefix} />}
+        {isSubmitting && (
+          <Loader
+            components={components}
+            classNames={classNames}
+            classNamePrefix={classNamePrefix}
+            unstyled={unstyled}
+          />
+        )}
         {isLastStep
           ? 'Submit'
           : nextButtonLabel?.length

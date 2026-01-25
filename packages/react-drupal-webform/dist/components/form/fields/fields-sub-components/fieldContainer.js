@@ -10,7 +10,7 @@ import Title from './title/title';
 import { useController, useFormContext } from 'react-hook-form';
 import { getClassNames, getDataAttributes, } from '../../../../lib/functions/utils_functions';
 const FieldContainer = (props) => {
-    const { children, field, classNames, isLabel = true, components, fieldKey, wrapperElement = 'div', innerProps, className, classNamePrefix, } = props;
+    const { children, field, classNames, isLabel = true, components, fieldKey, wrapperElement = 'div', innerProps, className, classNamePrefix, unstyled, } = props;
     const TitleComponent = components?.title ?? Title;
     const WrapperElement = wrapperElement ?? 'div';
     const labelWrapperElement = field?.['#type'] === 'checkboxes' || field?.['#type'] === 'radios'
@@ -23,17 +23,23 @@ const FieldContainer = (props) => {
     });
     const stateError = fieldState?.error;
     const dataAttributes = getDataAttributes({
-        hasError: Boolean(stateError),
         type: field['#type'],
         component: 'fieldContainer',
     });
+    const isRequired = Boolean(field?.['#required']);
+    const hasError = Boolean(stateError);
     const componentClassNames = getClassNames({
         name: 'fieldContainer',
         prefix: classNamePrefix,
+        unstyled: unstyled,
+        modifiers: {
+            required: isRequired,
+            'has-error': hasError,
+        },
         baseCn: cn(styles.fieldWrapper, {
             [styles.fieldWrapperCheckbox]: field?.['#type'] === 'checkbox',
         }, className),
     });
-    return (_jsxs(WrapperElement, { className: componentClassNames, ...dataAttributes, ...innerProps, children: [isLabel && field?.['#title'] && (_jsx(TitleComponent, { wrapperElement: labelWrapperElement, components: components, classNames: classNames, classNamePrefix: classNamePrefix, field: field, fieldKey: fieldKey })), _jsx(WrapperField, { field: field, classNames: classNames, components: components, fieldKey: fieldKey, classNamePrefix: classNamePrefix, children: children }), (field?.['#description'] || field?.['#file_placeholder']) && (_jsx(WrapperDescription, { field: field, fieldKey: fieldKey, classNames: classNames, classNamePrefix: classNamePrefix, components: components })), field['#type'] === 'managed_file' && (_jsx(WrapperManagedFileInfo, { fieldKey: fieldKey, field: field, components: components, classNamePrefix: classNamePrefix })), field?.['#more'] && field?.['#more_title'] && (_jsx(WrapperMore, { field: field, fieldKey: fieldKey, classNamePrefix: classNamePrefix, classNames: classNames, components: components }))] }));
+    return (_jsxs(WrapperElement, { className: componentClassNames, ...dataAttributes, ...innerProps, children: [isLabel && field?.['#title'] && (_jsx(TitleComponent, { wrapperElement: labelWrapperElement, components: components, classNames: classNames, classNamePrefix: classNamePrefix, field: field, fieldKey: fieldKey, unstyled: unstyled })), _jsx(WrapperField, { field: field, classNames: classNames, components: components, fieldKey: fieldKey, classNamePrefix: classNamePrefix, unstyled: unstyled, children: children }), (field?.['#description'] || field?.['#file_placeholder']) && (_jsx(WrapperDescription, { field: field, fieldKey: fieldKey, classNames: classNames, classNamePrefix: classNamePrefix, components: components, unstyled: unstyled })), field['#type'] === 'managed_file' && (_jsx(WrapperManagedFileInfo, { classNames: classNames, fieldKey: fieldKey, field: field, components: components, classNamePrefix: classNamePrefix, unstyled: unstyled })), field?.['#more'] && field?.['#more_title'] && (_jsx(WrapperMore, { field: field, fieldKey: fieldKey, classNamePrefix: classNamePrefix, classNames: classNames, components: components, unstyled: unstyled }))] }));
 };
 export default React.memo(FieldContainer);

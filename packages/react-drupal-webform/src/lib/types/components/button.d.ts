@@ -1,13 +1,10 @@
 import { jsx } from '@emotion/react'
-import { TElementSource } from './field'
+import { DrupalElementCommonProps } from '../form.d'
 
-export interface ButtonProps {
+export interface ButtonProps extends DrupalElementCommonProps {
   innerProps?: jsx.JSX.IntrinsicElements['button']
   className?: string
-  classNamePrefix: string | undefined | null
   title: string
   fillType?: 'fill' | 'border'
   size?: 'default' | 'small'
-  field: TElementSource
-  fieldKey: string
 }

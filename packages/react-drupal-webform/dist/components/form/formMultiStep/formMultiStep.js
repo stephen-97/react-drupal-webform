@@ -12,7 +12,7 @@ import { MultiStepProvider } from './multiStepContext';
 import ConfirmationView from '../../special-display/confirmationView';
 import Form from '../form';
 const FormMultiStep = (props) => {
-    const { elementsSource, defaultFieldValues, yup: yupObj, defaultFieldStateMessages, components, classNames, onSubmit, includeInactiveFieldsInSubmit, customValidators, isSubmitted, showConfirmation, classNamePrefix, } = props;
+    const { elementsSource, defaultFieldValues, yup: yupObj, defaultFieldStateMessages, components, classNames, onSubmit, includeInactiveFieldsInSubmit, customValidators, isSubmitted, showConfirmation, classNamePrefix, unstyled = false, } = props;
     const totalSteps = Object.keys(elementsSource).length;
     const shouldShowConfirmation = Boolean(isSubmitted && showConfirmation);
     const stepKeys = useMemo(() => Object.keys(elementsSource), [elementsSource]);
@@ -127,10 +127,10 @@ const FormMultiStep = (props) => {
                     'container',
                     'details',
                 ].includes(type);
-                return (_jsx(FormFieldRendered, { fieldKey: key, index: index, field: field, components: components, classNames: classNames, classNamePrefix: classNamePrefix, isMultiStep: true, ...(isLayout ? { watchedValues: watchedStepValuesGlobal } : {}) }, key));
-            }), _jsx(MultiStepActions, { previousButtonLabel: previousButtonLabel, nextButtonLabel: nextButtonLabel, components: components, classNames: classNames, classNamePrefix: classNamePrefix })] }));
+                return (_jsx(FormFieldRendered, { fieldKey: key, index: index, field: field, components: components, classNames: classNames, classNamePrefix: classNamePrefix, isMultiStep: true, unstyled: unstyled, ...(isLayout ? { watchedValues: watchedStepValuesGlobal } : {}) }, key));
+            }), _jsx(MultiStepActions, { previousButtonLabel: previousButtonLabel, nextButtonLabel: nextButtonLabel, components: components, classNames: classNames, classNamePrefix: classNamePrefix, unstyled: unstyled })] }));
     const ConfirmationComponent = components?.confirmationView ?? ConfirmationView;
     const FormComponent = components?.form ?? Form;
-    return (_jsx(FormProvider, { ...methods, children: _jsx(MultiStepProvider, { elementsSource: elementsSource, stepIndex: stepIndex, setStepIndex: setStepIndex, totalSteps: totalSteps, totalVisibleSteps: visibleStepKeys.length, allWatchedSteps: allWatchedSteps, currentStepKey: currentStepKey, setAllWatchedSteps: setAllWatchedSteps, watchedStepValues: watchedStepValues, children: shouldShowConfirmation ? (_jsx(ConfirmationComponent, {})) : (_jsxs(_Fragment, { children: [_jsx(MultiStepStepper, { components: components, currentStepObj: currentStepObj, classNamePrefix: classNamePrefix, elementsSource: elementsSource, classNames: classNames }), _jsx(FormComponent, { onSubmit: handleSubmit(onFormSubmit), children: formContent })] })) }) }));
+    return (_jsx(FormProvider, { ...methods, children: _jsx(MultiStepProvider, { elementsSource: elementsSource, stepIndex: stepIndex, setStepIndex: setStepIndex, totalSteps: totalSteps, totalVisibleSteps: visibleStepKeys.length, allWatchedSteps: allWatchedSteps, currentStepKey: currentStepKey, setAllWatchedSteps: setAllWatchedSteps, watchedStepValues: watchedStepValues, children: shouldShowConfirmation ? (_jsx(ConfirmationComponent, {})) : (_jsxs(_Fragment, { children: [_jsx(MultiStepStepper, { components: components, currentStepObj: currentStepObj, classNamePrefix: classNamePrefix, elementsSource: elementsSource, classNames: classNames, unstyled: unstyled }), _jsx(FormComponent, { onSubmit: handleSubmit(onFormSubmit), children: formContent })] })) }) }));
 };
 export default React.memo(FormMultiStep);

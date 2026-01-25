@@ -1,7 +1,7 @@
 import React from 'react';
 import FormMappingFields from '../formMappingFields/formMappingFields';
 import { getAriaDescribedBy } from '../../../lib/functions/utils_functions';
-const FormFieldRendered = ({ index, fieldKey, field, components, classNames, isMultiStep, watchedValues, classNamePrefix, }) => {
+const FormFieldRendered = ({ index, fieldKey, field, components, classNames, isMultiStep, watchedValues, classNamePrefix, unstyled, }) => {
     const rawType = field['#type'];
     const type = rawType in FormMappingFields ? rawType : 'default';
     const elementRenderer = FormMappingFields[type]?.element;
@@ -24,6 +24,7 @@ const FormFieldRendered = ({ index, fieldKey, field, components, classNames, isM
         classNames,
         ariaDescribedBy,
         classNamePrefix,
+        unstyled,
         ...(isLayout ? { watchedValues } : {}),
     });
 };
