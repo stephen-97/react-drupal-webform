@@ -1,9 +1,10 @@
-import { TFieldValidate } from "../../../../lib/types/components/validate"
-import { date } from 'yup'
+import { TFieldValidate } from '../../../../lib/types/components/validate'
+import { date, string } from 'yup'
 import {
   resolveCustomValidator,
   TDrupal_FieldType_Validate,
-} from "../../../../lib/functions/webform_validation_functions/webform_validation_functions"
+} from '../../../../lib/functions/webform_validation_functions/webform_validation_functions'
+import { applyPatternIfApplicable } from '../../../../lib/functions/utils_functions'
 
 export const validateDate = (props: TFieldValidate) => {
   const {
@@ -20,13 +21,25 @@ export const validateDate = (props: TFieldValidate) => {
 
   const type = field?.['#type'] as TDrupal_FieldType_Validate
 
-  const defaultSchema = date()
-    .test('valid-date-format', 'Invalid date', (value) => {
-      if (!value) return true
-      return !isNaN(Date.parse(value.toString()))
+  let defaultSchema
+
+  if (field?.['#pattern']) {
+    defaultSchema = string()
+
+    defaultSchema = applyPatternIfApplicable({
+      schema: defaultSchema,
+      field,
+      fallbackMessage: errorMessage,
     })
-    .nullable()
-    .typeError(errorMessage)
+  } else {
+    defaultSchema = date()
+      .test('valid-date-format', 'Invalid date', (value) => {
+        if (!value) return true
+        return !isNaN(Date.parse(value.toString()))
+      })
+      .nullable()
+      .typeError(errorMessage)
+  }
 
   const customSchema =
     resolveCustomValidator(customValidators, key, type, props) ?? defaultSchema

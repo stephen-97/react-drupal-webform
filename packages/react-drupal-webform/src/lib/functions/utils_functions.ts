@@ -2,6 +2,7 @@ import { FIELD_TYPE_TO_GROUP } from '../const/const.form'
 import cn from 'classnames'
 import { HTMLInputTypeAttribute } from 'react'
 import { TElementSource } from '../types/components/field'
+import { StringSchema } from 'yup'
 
 const mergeObjects = (
   defaultObj: Record<string, any>,
@@ -150,4 +151,30 @@ export const getTextLikeInputAttributes = (
   }
 
   return attrs
+}
+
+export const applyPatternIfApplicable = ({
+  schema,
+  field,
+  fallbackMessage,
+}: {
+  schema: StringSchema
+  field?: Record<string, any>
+  fallbackMessage?: string
+}): StringSchema => {
+  const pattern = field?.['#pattern']
+  if (!pattern) return schema
+
+  const errorMessage = field?.['#pattern_error'] || fallbackMessage
+
+  try {
+    const regex = new RegExp(pattern)
+
+    return schema.test('pattern', errorMessage, (value) => {
+      if (!value) return true
+      return regex.test(value)
+    })
+  } catch {
+    return schema
+  }
 }

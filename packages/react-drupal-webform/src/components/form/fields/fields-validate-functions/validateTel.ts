@@ -5,6 +5,7 @@ import {
   resolveCustomValidator,
   TDrupal_FieldType_Validate,
 } from '../../../../lib/functions/webform_validation_functions/webform_validation_functions'
+import { applyPatternIfApplicable } from '../../../../lib/functions/utils_functions'
 
 export const validateTel = (props: TFieldValidate) => {
   const {
@@ -23,16 +24,27 @@ export const validateTel = (props: TFieldValidate) => {
 
   const type = field?.['#type'] as TDrupal_FieldType_Validate
 
-  let defaultSchema = string().matches(/^[0-9]+$/, {
-    message: errorMessage,
-    excludeEmptyString: true,
-  })
+  let defaultSchema = string()
+
+  if (!field?.['#pattern']) {
+    defaultSchema = defaultSchema.matches(/^[0-9]+$/, {
+      message: errorMessage,
+      excludeEmptyString: true,
+    })
+  }
+
   defaultSchema = applyMinMaxLength(
     defaultSchema,
     field,
     minLengthMessage,
     maxLengthMessage
   )
+
+  defaultSchema = applyPatternIfApplicable({
+    schema: defaultSchema,
+    field,
+    fallbackMessage: errorMessage,
+  })
 
   const customSchema =
     resolveCustomValidator(customValidators, key, type, props) ?? defaultSchema

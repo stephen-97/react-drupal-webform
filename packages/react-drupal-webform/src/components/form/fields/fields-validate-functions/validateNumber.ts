@@ -1,9 +1,10 @@
-import { TFieldValidate } from "../../../../lib/types/components/validate"
+import { TFieldValidate } from '../../../../lib/types/components/validate'
 import { string } from 'yup'
 import {
   resolveCustomValidator,
   TDrupal_FieldType_Validate,
-} from "../../../../lib/functions/webform_validation_functions/webform_validation_functions"
+} from '../../../../lib/functions/webform_validation_functions/webform_validation_functions'
+import { applyPatternIfApplicable } from '../../../../lib/functions/utils_functions'
 
 export const validateNumber = (props: TFieldValidate) => {
   const {
@@ -19,7 +20,12 @@ export const validateNumber = (props: TFieldValidate) => {
 
   const type = field?.['#type'] as TDrupal_FieldType_Validate
 
-  const defaultSchema = string()
+  let defaultSchema = string()
+
+  defaultSchema = applyPatternIfApplicable({
+    schema: defaultSchema,
+    field,
+  })
 
   const customSchema =
     resolveCustomValidator(customValidators, key, type, props) ?? defaultSchema

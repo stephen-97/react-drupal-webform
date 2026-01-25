@@ -7,6 +7,7 @@ import {
   getRequiredMessage,
   applyMinMaxLength,
 } from '../../../../lib/functions/webform_validation_functions/webform_validation_functions'
+import { applyPatternIfApplicable } from '../../../../lib/functions/utils_functions'
 
 export const validateTextArea = (props: TFieldValidate) => {
   const {
@@ -29,12 +30,18 @@ export const validateTextArea = (props: TFieldValidate) => {
     field?.['#title']
   )
   let defaultSchema = string()
+
   defaultSchema = applyMinMaxLength(
     defaultSchema,
     field,
     minLengthMessage,
     maxLengthMessage
   )
+
+  defaultSchema = applyPatternIfApplicable({
+    schema: defaultSchema,
+    field,
+  })
 
   const customSchema =
     resolveCustomValidator(customValidators, key, type, props) ?? defaultSchema

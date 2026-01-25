@@ -5,6 +5,7 @@ import {
   resolveCustomValidator,
   TDrupal_FieldType_Validate,
 } from '../../../../lib/functions/webform_validation_functions/webform_validation_functions'
+import { applyPatternIfApplicable } from '../../../../lib/functions/utils_functions'
 
 export const validateTextField = (props: TFieldValidate) => {
   const {
@@ -30,6 +31,11 @@ export const validateTextField = (props: TFieldValidate) => {
     minLengthMessage,
     maxLengthMessage
   )
+
+  baseSchema = applyPatternIfApplicable({
+    schema: baseSchema,
+    field,
+  })
 
   if (required) {
     baseSchema = baseSchema.required(requiredMessage)

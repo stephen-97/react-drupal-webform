@@ -39,7 +39,7 @@ const WebformContainer = ({ elementsSource }: TWebformContainer) => {
   const defaultStateValues: TWebformStateMessages = {
     general: {
       errorMessage: 'Invalid value.',
-      requiredMessage: 'tralalala',
+      requiredMessage: 'This field is required',
     },
     fields: {
       errorMessages: {
@@ -83,6 +83,7 @@ const WebformContainer = ({ elementsSource }: TWebformContainer) => {
       defaultFieldStateMessages={defaultStateValues}
       showConfirmation={false}
       isSubmitted={true}
+      classNamePrefix={'top'}
     />
   )
 }

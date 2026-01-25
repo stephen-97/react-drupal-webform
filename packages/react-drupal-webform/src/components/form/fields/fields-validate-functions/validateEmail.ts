@@ -5,6 +5,7 @@ import {
   resolveCustomValidator,
   TDrupal_FieldType_Validate,
 } from '../../../../lib/functions/webform_validation_functions/webform_validation_functions'
+import { applyPatternIfApplicable } from '../../../../lib/functions/utils_functions'
 
 export const validateEmail = (props: TFieldValidate) => {
   const {
@@ -23,14 +24,18 @@ export const validateEmail = (props: TFieldValidate) => {
 
   const type = field?.['#type'] as TDrupal_FieldType_Validate
 
-  const emailWithTLDRegex = /^[^\s@]+@[^\s@]{2,}\.[^\s@]{2,}$/
   let defaultSchema = string()
-    .test(
-      'valid-email-format',
-      'invalid email',
-      (v) => !v || emailWithTLDRegex.test(v)
-    )
-    .email(errorMessage)
+  if (!field?.['#pattern']) {
+    const emailWithTLDRegex = /^[^\s@]+@[^\s@]{2,}\.[^\s@]{2,}$/
+
+    defaultSchema = defaultSchema
+      .test(
+        'valid-email-format',
+        errorMessage,
+        (v) => !v || emailWithTLDRegex.test(v)
+      )
+      .email(errorMessage)
+  }
 
   defaultSchema = applyMinMaxLength(
     defaultSchema,
@@ -38,6 +43,12 @@ export const validateEmail = (props: TFieldValidate) => {
     minLengthMessage,
     maxLengthMessage
   )
+
+  defaultSchema = applyPatternIfApplicable({
+    schema: defaultSchema,
+    field,
+    fallbackMessage: errorMessage,
+  })
 
   const customSchema =
     resolveCustomValidator(customValidators, key, type, props) ?? defaultSchema
