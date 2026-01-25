@@ -98,4 +98,5 @@ export type TFieldWebformObj = {
   classNamePrefix: string | undefined | null
   components: TWebformCustomComponents
   ariaDescribedBy?: string
+  unstyled?: boolean
 }

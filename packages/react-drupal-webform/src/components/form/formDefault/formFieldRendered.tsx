@@ -12,6 +12,7 @@ const FormFieldRendered = ({
   isMultiStep,
   watchedValues,
   classNamePrefix,
+  unstyled,
 }: IFieldRendererWebformProps) => {
   const rawType = field['#type']
   const type = rawType in FormMappingFields ? rawType : 'default'
@@ -29,7 +30,6 @@ const FormFieldRendered = ({
 
   const ariaDescribedBy = getAriaDescribedBy({ fieldKey, field })
 
-  //console.log('classNamePrefix', classNamePrefix, field?.['#type'])
   return elementRenderer({
     index,
     fieldKey,
@@ -39,6 +39,7 @@ const FormFieldRendered = ({
     classNames,
     ariaDescribedBy,
     classNamePrefix,
+    unstyled,
     ...(isLayout ? { watchedValues } : {}),
   })
 }

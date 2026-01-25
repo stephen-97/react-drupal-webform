@@ -29,6 +29,7 @@ const FormDefault = (props: IFormDefaultWebformProps) => {
     isSubmitted,
     showConfirmation,
     classNamePrefix,
+    unstyled,
   } = props
 
   const { yupUseFormProps } = yupObj || {}
@@ -133,6 +134,7 @@ const FormDefault = (props: IFormDefaultWebformProps) => {
         classNames={classNames}
         isMultiStep={isMultiStep}
         classNamePrefix={classNamePrefix}
+        unstyled={unstyled}
         {...(isLayout ? { watchedValues } : {})}
       />
     )

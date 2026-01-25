@@ -279,4 +279,5 @@ export type TWebform = {
   includeInactiveFieldsInSubmit?: boolean
   isSubmitted: boolean
   showConfirmation?: boolean
+  unstyled?: boolean
 }
