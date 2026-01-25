@@ -53,18 +53,15 @@ const deepMergeDefaults = <T extends object>(
 export { mergeObjects, deepMergeDefaults }
 
 export const getDataAttributes = ({
-  hasError,
   type,
   component,
 }: {
-  hasError?: boolean
   type?: string
   component?: string
 }) => {
   const groupType = type ? FIELD_TYPE_TO_GROUP[type] : undefined
 
   return {
-    ...(hasError !== undefined ? { 'data-has-error': hasError } : {}),
     ...(type ? { 'data-type': type } : {}),
     ...(groupType ? { 'data-group-type': groupType } : {}),
     ...(component ? { 'data-component': component } : {}),
@@ -75,14 +72,25 @@ export const getClassNames = ({
   name,
   prefix,
   baseCn,
+  modifiers,
 }: {
   name: string
   prefix: string | null | undefined
   baseCn?: cn.Argument
+  modifiers?: Record<string, boolean>
 }): string => {
   const baseName = prefix ? `${prefix}-webform-${name}` : `webform-${name}`
 
-  return cn(baseName, baseCn)
+  const modifierClasses = modifiers
+    ? Object.fromEntries(
+        Object.entries(modifiers).map(([key, value]) => [
+          `${baseName}--${key}`,
+          value,
+        ])
+      )
+    : undefined
+
+  return cn(baseName, modifierClasses, baseCn)
 }
 
 export const getAriaDescribedBy = ({

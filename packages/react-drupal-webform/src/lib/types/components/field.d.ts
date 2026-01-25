@@ -85,6 +85,7 @@ export type TElementSource = {
   '#empty_option'?: string
   '#empty_value'?: string
   '#sort_options'?: boolean
+  '#title_display'?: string
 }
 
 export type TFieldWebformObj = {

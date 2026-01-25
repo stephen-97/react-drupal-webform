@@ -46,14 +46,20 @@ const FieldContainer = (props: FieldContainerProps) => {
   const stateError = fieldState?.error
 
   const dataAttributes = getDataAttributes({
-    hasError: Boolean(stateError),
     type: field['#type'],
     component: 'fieldContainer',
   })
 
+  const isRequired = Boolean(field?.['#required'])
+  const hasError = Boolean(stateError)
+
   const componentClassNames = getClassNames({
     name: 'fieldContainer',
     prefix: classNamePrefix,
+    modifiers: {
+      required: isRequired,
+      'has-error': hasError,
+    },
     baseCn: cn(
       styles.fieldWrapper,
       {

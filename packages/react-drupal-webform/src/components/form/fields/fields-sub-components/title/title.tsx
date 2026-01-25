@@ -26,11 +26,17 @@ const Title = (props: TitleProps) => {
 
   const CustomHelp = components?.help ?? Help
 
+  const isInvisible = field?.['#title_display'] === 'invisible'
+
   const titleClassNames = getClassNames({
-    name: 'fieldTitle',
+    name: 'title',
     prefix: classNamePrefix,
+    modifiers: {
+      invisible: isInvisible,
+    },
     baseCn: cn(styles.title, className, {
       [styles.isRequired]: isRequired,
+      [styles.visuallyHidden]: isInvisible,
     }),
   })
 
