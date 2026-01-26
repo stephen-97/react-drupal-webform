@@ -15,7 +15,6 @@ const Title = (props: TitleProps) => {
     innerProps,
     wrapperElement,
     classNamePrefix,
-    classNames,
     unstyled,
   } = props
 
@@ -60,7 +59,6 @@ const Title = (props: TitleProps) => {
             fieldKey={fieldKey}
             field={field}
             components={components}
-            classNames={classNames}
             classNamePrefix={classNamePrefix}
             unstyled={unstyled}
           />
@@ -77,7 +75,6 @@ const Title = (props: TitleProps) => {
           fieldKey={fieldKey}
           field={field}
           components={components}
-          classNames={classNames}
           classNamePrefix={classNamePrefix}
           unstyled={unstyled}
         />

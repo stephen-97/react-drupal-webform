@@ -1,18 +1,5 @@
 import { TFieldValidate } from '../../../../packages/react-drupal-webform/src/lib/types/components/validate'
-import styles from './customWebform.module.scss'
-import { TWebformClassNames } from '../../../../packages/react-drupal-webform/src/lib/types/form.d'
 import * as yup from 'yup'
-
-export const customClassnames: TWebformClassNames = {
-  fields: {
-    layout: {
-      inner: styles.customLayout,
-    },
-  },
-  general: {
-    fieldMore: styles.customMore,
-  },
-}
 
 export const customValidators = {
   byType: {

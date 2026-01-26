@@ -6,7 +6,7 @@ import Help from '../help/help';
 import { getClassNames } from '../../../../../lib/functions/utils_functions';
 import { getDataAttributes } from '../../../../../lib/functions/utils_functions';
 const Title = (props) => {
-    const { field, components, className, fieldKey, innerProps, wrapperElement, classNamePrefix, classNames, unstyled, } = props;
+    const { field, components, className, fieldKey, innerProps, wrapperElement, classNamePrefix, unstyled, } = props;
     const title = field?.['#title'];
     const isRequired = Boolean(field?.['#required']);
     const showHelp = Boolean(field?.['#help']?.length) || Boolean(field?.['#help_title']?.length);
@@ -28,8 +28,8 @@ const Title = (props) => {
         component: 'title',
     });
     if (wrapperElement === 'label') {
-        return (_jsxs("label", { htmlFor: fieldKey, className: titleClassNames, ...dataAttributes, ...innerProps, children: [title, showHelp && (_jsx(CustomHelp, { fieldKey: fieldKey, field: field, components: components, classNames: classNames, classNamePrefix: classNamePrefix, unstyled: unstyled }))] }));
+        return (_jsxs("label", { htmlFor: fieldKey, className: titleClassNames, ...dataAttributes, ...innerProps, children: [title, showHelp && (_jsx(CustomHelp, { fieldKey: fieldKey, field: field, components: components, classNamePrefix: classNamePrefix, unstyled: unstyled }))] }));
     }
-    return (_jsxs("legend", { className: titleClassNames, ...dataAttributes, ...innerProps, children: [title, showHelp && (_jsx(CustomHelp, { fieldKey: fieldKey, field: field, components: components, classNames: classNames, classNamePrefix: classNamePrefix, unstyled: unstyled }))] }));
+    return (_jsxs("legend", { className: titleClassNames, ...dataAttributes, ...innerProps, children: [title, showHelp && (_jsx(CustomHelp, { fieldKey: fieldKey, field: field, components: components, classNamePrefix: classNamePrefix, unstyled: unstyled }))] }));
 };
 export default React.memo(Title);

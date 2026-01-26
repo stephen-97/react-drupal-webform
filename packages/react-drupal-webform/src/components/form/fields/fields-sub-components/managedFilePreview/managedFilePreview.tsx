@@ -20,7 +20,6 @@ const ManagedFilePreview = ({
   fieldKey,
   unstyled,
   components,
-  classNames,
 }: ManagedFilePreviewProps) => {
   const fileValue = value as TFileWithBase64
   const blob = base64ToBlob(fileValue.base64, fileValue.type)
@@ -86,7 +85,6 @@ const ManagedFilePreview = ({
       <Button
         fieldKey={fieldKey}
         components={components}
-        classNames={classNames}
         unstyled={unstyled}
         field={field}
         classNamePrefix={classNamePrefix}

@@ -6,7 +6,6 @@ export interface IFieldRendererWebformProps {
   fieldKey: string
   field: TElementSource
   components?: any
-  classNames: TDeepRequiredClassNames
   classNamePrefix: string | undefined | null
   isMultiStep: boolean
   watchedValues?: Record<string, any>

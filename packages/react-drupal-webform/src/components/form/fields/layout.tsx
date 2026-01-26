@@ -10,7 +10,6 @@ const renderLayout = (
   const {
     fieldKey,
     field,
-    classNames,
     components,
     watchedValues,
     classNamePrefix,
@@ -36,7 +35,6 @@ const renderLayout = (
             field={child}
             classNamePrefix={classNamePrefix}
             components={components}
-            classNames={classNames}
             isMultiStep={false}
             watchedValues={watchedValues}
             unstyled={unstyled}

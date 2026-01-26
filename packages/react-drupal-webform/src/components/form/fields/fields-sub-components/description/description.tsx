@@ -17,7 +17,6 @@ const Description = ({
   className,
   classNamePrefix,
   unstyled,
-  classNames,
 }: DescriptionProps) => {
   const CustomWysiwyg = components.wysiwyg ?? Wysiwyg
 
@@ -40,7 +39,6 @@ const Description = ({
   return (
     <CustomWysiwyg
       components={components}
-      classNames={classNames}
       field={field}
       fieldKey={fieldKey}
       className={descriptionClassNames}

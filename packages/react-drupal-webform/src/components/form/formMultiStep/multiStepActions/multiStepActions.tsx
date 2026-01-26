@@ -17,7 +17,6 @@ const MultiStepActions = (props: MultiStepActionsProps) => {
     nextButtonLabel,
     components,
     className,
-    classNames,
     classNamePrefix,
     unstyled,
   } = props
@@ -103,7 +102,6 @@ const MultiStepActions = (props: MultiStepActionsProps) => {
         {isSubmitting && (
           <Loader
             components={components}
-            classNames={classNames}
             classNamePrefix={classNamePrefix}
             unstyled={unstyled}
           />

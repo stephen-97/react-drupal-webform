@@ -4,7 +4,6 @@ import Description from '../description/description'
 
 const WrapperDescription = ({
   components,
-  classNames,
   field,
   fieldKey,
   classNamePrefix,
@@ -16,7 +15,6 @@ const WrapperDescription = ({
     <CustomDescription
       unstyled={unstyled}
       components={components}
-      classNames={classNames}
       field={field}
       classNamePrefix={classNamePrefix}
       fieldKey={fieldKey}

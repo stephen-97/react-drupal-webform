@@ -20,7 +20,6 @@ const ManagedFile = ({
   ariaDescribedBy,
   classNamePrefix,
   unstyled,
-  classNames,
 }: ManagedFileProps) => {
   const { control } = useFormContext()
   const inputRef = useRef<HTMLInputElement>(null)
@@ -54,7 +53,6 @@ const ManagedFile = ({
     return (
       <PreviewComponent
         unstyled={unstyled}
-        classNames={classNames}
         components={components}
         field={field}
         fieldKey={fieldKey}

@@ -4,7 +4,6 @@ import More from '../more/more'
 
 const WrapperMore = ({
   components,
-  classNames,
   classNamePrefix,
   field,
   fieldKey,
@@ -17,7 +16,6 @@ const WrapperMore = ({
       field={field}
       fieldKey={fieldKey}
       classNamePrefix={classNamePrefix}
-      classNames={classNames}
       components={components}
       unstyled={unstyled}
     />

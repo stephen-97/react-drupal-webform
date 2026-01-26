@@ -8,7 +8,7 @@ import { useFormContext } from 'react-hook-form';
 import { useMultiStepContext } from '../multiStepContext';
 import { getClassNames, getDataAttributes, } from '../../../../lib/functions/utils_functions';
 const MultiStepActions = (props) => {
-    const { previousButtonLabel, nextButtonLabel, components, className, classNames, classNamePrefix, unstyled, } = props;
+    const { previousButtonLabel, nextButtonLabel, components, className, classNamePrefix, unstyled, } = props;
     const { formState, trigger } = useFormContext();
     const { stepIndex, totalVisibleSteps, goNext, goPrev } = useMultiStepContext();
     const { isSubmitting, isValid: isStepValid } = formState;
@@ -57,7 +57,7 @@ const MultiStepActions = (props) => {
     const dataAttributes = getDataAttributes({
         component: 'multiStepActions',
     });
-    return (_jsxs("div", { className: wrapperClassNames, ...dataAttributes, children: [stepIndex > 0 && (_jsx("button", { type: "button", className: prevButtonClassNames, onClick: handlePrev, children: previousButtonLabel?.length ? previousButtonLabel : 'Prev' })), _jsxs("button", { type: isLastStep ? 'submit' : 'button', className: nextButtonClassNames, disabled: !isStepValid || isSubmitting, onClick: handleNext, children: [isSubmitting && (_jsx(Loader, { components: components, classNames: classNames, classNamePrefix: classNamePrefix, unstyled: unstyled })), isLastStep
+    return (_jsxs("div", { className: wrapperClassNames, ...dataAttributes, children: [stepIndex > 0 && (_jsx("button", { type: "button", className: prevButtonClassNames, onClick: handlePrev, children: previousButtonLabel?.length ? previousButtonLabel : 'Prev' })), _jsxs("button", { type: isLastStep ? 'submit' : 'button', className: nextButtonClassNames, disabled: !isStepValid || isSubmitting, onClick: handleNext, children: [isSubmitting && (_jsx(Loader, { components: components, classNamePrefix: classNamePrefix, unstyled: unstyled })), isLastStep
                         ? 'Submit'
                         : nextButtonLabel?.length
                             ? nextButtonLabel

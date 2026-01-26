@@ -5,7 +5,6 @@ import ErrorFieldMessage from '../errorFieldMessage/errorFieldMessage'
 
 const WrapperField = ({
   components,
-  classNames,
   field,
   children,
   fieldKey,
@@ -24,7 +23,6 @@ const WrapperField = ({
             {children}
             <ErrorFieldMessageComponent
               classNamePrefix={classNamePrefix}
-              classNames={classNames}
               field={field}
               fieldKey={fieldKey}
               components={components}
@@ -38,7 +36,6 @@ const WrapperField = ({
           {children}
           <ErrorFieldMessageComponent
             classNamePrefix={classNamePrefix}
-            classNames={classNames}
             field={field}
             fieldKey={fieldKey}
             components={components}

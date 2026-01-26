@@ -19,7 +19,6 @@ const Help = ({
   classNamePrefix,
   unstyled,
   fieldKey,
-  classNames,
 }: HelpProps) => {
   const buttonRef = useRef<HTMLButtonElement>(null)
   const CustomWysiwyg = components.wysiwyg ?? Wysiwyg
@@ -46,7 +45,6 @@ const Help = ({
         field={field}
         fieldKey={fieldKey}
         components={components}
-        classNames={classNames}
         classNamePrefix={classNamePrefix}
         source={'help'}
         processed={html}

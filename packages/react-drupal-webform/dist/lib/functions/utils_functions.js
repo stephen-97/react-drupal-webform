@@ -45,7 +45,7 @@ export const getClassNames = ({ name, prefix, unstyled, baseCn, modifiers, }) =>
             value,
         ]))
         : undefined;
-    return cn(baseName, modifierClasses, baseCn);
+    return cn(baseName, modifierClasses, unstyled ? undefined : baseCn);
 };
 export const getAriaDescribedBy = ({ fieldKey, field, }) => {
     const hasDescription = Boolean(field?.['#description']) || Boolean(field?.['#file_placeholder']);

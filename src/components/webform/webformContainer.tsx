@@ -80,7 +80,6 @@ const WebformContainer = ({ elementsSource }: TWebformContainer) => {
       defaultFieldStateMessages={defaultStateValues}
       showConfirmation={true}
       isSubmitted={isSubmitted}
-      unstyled={true}
       classNamePrefix={'top'}
     />
   )

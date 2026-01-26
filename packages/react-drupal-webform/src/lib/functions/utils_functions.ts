@@ -169,13 +169,13 @@ export const applyPatternIfApplicable = ({
   fallbackMessage,
 }: {
   schema: StringSchema
-  field?: Record<string, any>
+  field?: TElementSource
   fallbackMessage?: string
 }): StringSchema => {
   const pattern = field?.['#pattern']
   if (!pattern) return schema
 
-  const errorMessage = field?.['#pattern_error'] || fallbackMessage
+  const errorMessage: any = field?.['#pattern_error'] || fallbackMessage
 
   try {
     const regex = new RegExp(pattern)

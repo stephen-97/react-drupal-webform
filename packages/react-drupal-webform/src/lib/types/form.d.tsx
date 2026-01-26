@@ -34,7 +34,6 @@ import { FormProps } from './components/form'
 import { LayoutTitleProps } from './components/layoutTitle'
 import { LayoutListProps } from './components/layoutList'
 import { UnsupportedFieldProps } from './components/unsupportedField'
-import { TDeepRequiredClassNames } from './deepRequired'
 
 export type TFileWithBase64 = {
   name: string
@@ -54,89 +53,6 @@ export type TWebformDefaultFieldValues = {
 }
 
 export type TWrapperCategory = 'textInput' | 'selectionInput' | 'booleanInput'
-
-export type TWebformClassNames = {
-  fieldContainer?: {
-    base?: string
-    byCategory?: {
-      textInput?: string
-      selectionInput?: string
-      booleanInput?: string
-    }
-    byFieldType?: Partial<Record<TDrupal_FieldType, string>>
-  }
-  general?: {
-    fieldForm?: string
-    fieldTitle?: string
-    fieldDescription?: string
-    fieldManagedFileInfo?: string
-    fieldMore?: {
-      container?: string
-      button?: string
-    }
-    fieldHelp?: string
-    fieldWysiwyg?: string
-  }
-  states?: {
-    fieldError?: string
-    fieldErrorMessage?: string
-  }
-  fields?: {
-    textInputs?: {
-      base?: string
-      types?: Partial<
-        Record<
-          'text' | 'email' | 'number' | 'tel' | 'textarea' | 'textfield',
-          string
-        >
-      >
-    }
-    checkboxes?: {
-      groupWrapper?: string
-      itemWrapper?: string
-      input?: string
-      label?: string
-    }
-    checkbox?: {
-      itemWrapper?: string
-      input?: string
-      label?: string
-    }
-    radios?: {
-      groupWrapper?: string
-      itemWrapper?: string
-      input?: string
-      label?: string
-    }
-    select?: {
-      select?: string
-      option?: string
-    }
-    managedFile?: {
-      input?: string
-    }
-    markup?: {
-      base?: string
-    }
-    layout?: {
-      wrapper?: string
-      title?: string
-      inner?: string
-    }
-  }
-  multiStep?: {
-    stepperContainer?: string
-    stepperHeader?: string
-    stepperTitle?: string
-    stepperCounter?: string
-    stepperProgressBarContainer?: string
-    stepperProgressBar?: string
-    actionsContainer?: string
-    actionsButtons?: string
-    actionsButtonPrev?: string
-    actionsButtonsNext?: string
-  }
-}
 
 export type TWebformMessageResolver = (props: TElementSource) => string
 export type TWebformMessageStateValue = string | TWebformMessageResolver
@@ -273,7 +189,6 @@ export type TWebform = {
   validators?: any
   defaultFieldValues?: TWebformDefaultFieldValues
   customValidators?: TWebformCustomValidators
-  classNames?: TWebformClassNames
   classNamePrefix?: string | undefined
   defaultFieldStateMessages?: TWebformStateMessages
   onSubmit: (_data: Record<string, any>) => void | Promise<any>
@@ -285,7 +200,6 @@ export type TWebform = {
 
 export type DrupalElementCommonProps = {
   field: TElementSource
-  classNames: TDeepRequiredClassNames
   classNamePrefix: string | undefined | null
   components: TWebformCustomComponents
   fieldKey: string
@@ -293,7 +207,6 @@ export type DrupalElementCommonProps = {
 }
 
 export type DrupalElementCommonNoFieldProps = {
-  classNames: TDeepRequiredClassNames
   classNamePrefix: string | undefined | null
   components: TWebformCustomComponents
   unstyled: boolean

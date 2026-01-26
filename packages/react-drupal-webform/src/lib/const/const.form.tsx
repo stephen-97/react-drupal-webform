@@ -2,7 +2,6 @@ import {
   TWebformDefaultFieldValues,
   TWebformResolvedStateMessages,
 } from '../types/form.d'
-import { TDeepRequiredClassNames } from '../types/deepRequired'
 import Wysiwyg from '../../components/form/fields/fields-special-components/wysiwyg/wysiwyg'
 import Input from '../../components/form/fields/fields-elements/input'
 import { InputProps } from '../types/components/input'
@@ -173,116 +172,6 @@ export const FIELD_TYPE_TO_GROUP: Record<string, string> = {
 
   webform_actions: 'action',
   webform_markup: 'markup',
-}
-
-export const defaultValuesClassnames: TDeepRequiredClassNames = {
-  fieldContainer: {
-    base: '',
-    byCategory: {
-      textInput: '',
-      selectionInput: '',
-      booleanInput: '',
-    },
-    byFieldType: {
-      checkbox: '',
-      checkboxes: '',
-      date: '',
-      email: '',
-      webform_markup: '',
-      textarea: '',
-      textfield: '',
-      radios: '',
-      number: '',
-      tel: '',
-      select: '',
-      managed_file: '',
-      webform_actions: '',
-      container: '',
-      fieldset: '',
-      hidden: '',
-      details: '',
-      webform_section: '',
-      webform_flexbox: '',
-      entity_checkboxes: '',
-      term_checkboxes: '',
-      radios_entity: '',
-      entity_select: '',
-      term_select: '',
-    },
-  },
-  general: {
-    fieldForm: '',
-    fieldTitle: '',
-    fieldDescription: '',
-    fieldManagedFileInfo: '',
-    fieldMore: {
-      container: '',
-      button: '',
-    },
-    fieldHelp: '',
-    fieldWysiwyg: '',
-  },
-  states: {
-    fieldError: '',
-    fieldErrorMessage: '',
-  },
-  fields: {
-    textInputs: {
-      base: '',
-      types: {
-        text: '',
-        email: '',
-        number: '',
-        tel: '',
-        textarea: '',
-        textfield: '',
-      },
-    },
-    checkboxes: {
-      groupWrapper: '',
-      itemWrapper: '',
-      input: '',
-      label: '',
-    },
-    checkbox: {
-      itemWrapper: '',
-      input: '',
-      label: '',
-    },
-    radios: {
-      groupWrapper: '',
-      itemWrapper: '',
-      input: '',
-      label: '',
-    },
-    select: {
-      select: '',
-      option: '',
-    },
-    managedFile: {
-      input: '',
-    },
-    markup: {
-      base: '',
-    },
-    layout: {
-      wrapper: '',
-      title: '',
-      inner: '',
-    },
-  },
-  multiStep: {
-    stepperContainer: '',
-    stepperHeader: '',
-    stepperTitle: '',
-    stepperCounter: '',
-    stepperProgressBarContainer: '',
-    stepperProgressBar: '',
-    actionsContainer: '',
-    actionsButtons: '',
-    actionsButtonPrev: '',
-    actionsButtonsNext: '',
-  },
 }
 
 export const components = {

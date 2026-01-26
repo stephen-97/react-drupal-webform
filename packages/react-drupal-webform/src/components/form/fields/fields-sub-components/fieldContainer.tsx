@@ -17,7 +17,6 @@ const FieldContainer = (props: FieldContainerProps) => {
   const {
     children,
     field,
-    classNames,
     isLabel = true,
     components,
     fieldKey,
@@ -81,7 +80,6 @@ const FieldContainer = (props: FieldContainerProps) => {
         <TitleComponent
           wrapperElement={labelWrapperElement}
           components={components}
-          classNames={classNames}
           classNamePrefix={classNamePrefix}
           field={field}
           fieldKey={fieldKey}
@@ -90,7 +88,6 @@ const FieldContainer = (props: FieldContainerProps) => {
       )}
       <WrapperField
         field={field}
-        classNames={classNames}
         components={components}
         fieldKey={fieldKey}
         classNamePrefix={classNamePrefix}
@@ -102,7 +99,6 @@ const FieldContainer = (props: FieldContainerProps) => {
         <WrapperDescription
           field={field}
           fieldKey={fieldKey}
-          classNames={classNames}
           classNamePrefix={classNamePrefix}
           components={components}
           unstyled={unstyled}
@@ -110,7 +106,6 @@ const FieldContainer = (props: FieldContainerProps) => {
       )}
       {field['#type'] === 'managed_file' && (
         <WrapperManagedFileInfo
-          classNames={classNames}
           fieldKey={fieldKey}
           field={field}
           components={components}
@@ -123,7 +118,6 @@ const FieldContainer = (props: FieldContainerProps) => {
           field={field}
           fieldKey={fieldKey}
           classNamePrefix={classNamePrefix}
-          classNames={classNames}
           components={components}
           unstyled={unstyled}
         />

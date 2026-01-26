@@ -14,10 +14,7 @@ import CustomSelect from '@/components/webform/custom-components/customSelect'
 import CustomMore from '@/components/webform/custom-components/customMore'
 import CustomWysiwyg from '@/components/webform/custom-components/customWysiwyg'
 import { useState } from 'react'
-import {
-  customClassnames,
-  customValidators,
-} from '@/components/webform/customWebform/custom-objects'
+import { customValidators } from '@/components/webform/customWebform/custom-objects'
 import CustomAction from '@/components/webform/custom-components/customAction'
 import CustomHelp from '@/components/webform/custom-components/CustomHelp'
 import CustomForm from '@/components/webform/custom-components/customForm'
@@ -61,7 +58,6 @@ const CustomWebform = ({ elementsSource }: TWebformContainer) => {
         elementsSource={correctElementsSource}
         onSubmit={handleSubmit}
         customValidators={customValidators}
-        classNames={customClassnames}
         isSubmitted={isSubmitted}
         components={{
           input: CustomInput,

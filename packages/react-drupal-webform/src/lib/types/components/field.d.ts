@@ -73,6 +73,7 @@ export type TElementSource = {
   '#submit__label'?: string
   '#size'?: number
   '#pattern'?: string
+  '#pattern_error'?: string
   '#states': {
     visible: Record<string, Record<string, string>>
   }

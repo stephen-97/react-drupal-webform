@@ -27,6 +27,6 @@ export declare const getAriaDescribedBy: ({ fieldKey, field, }: {
 export declare const getTextLikeInputAttributes: (field: TElementSource, type: HTMLInputTypeAttribute) => Record<string, any>;
 export declare const applyPatternIfApplicable: ({ schema, field, fallbackMessage, }: {
     schema: StringSchema;
-    field?: Record<string, any>;
+    field?: TElementSource;
     fallbackMessage?: string;
 }) => StringSchema;

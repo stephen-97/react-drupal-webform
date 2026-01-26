@@ -19,10 +19,8 @@ const FormDefault = (props: IFormDefaultWebformProps) => {
     elementsSource,
     multiStepExtra,
     defaultFieldValues,
-    yup: yupObj,
     defaultFieldStateMessages,
     components,
-    classNames,
     includeInactiveFieldsInSubmit,
     onSubmit,
     customValidators,
@@ -32,7 +30,6 @@ const FormDefault = (props: IFormDefaultWebformProps) => {
     unstyled = false,
   } = props
 
-  const { yupUseFormProps } = yupObj || {}
   const isMultiStep = Boolean(multiStepExtra)
   const shouldShowConfirmation = Boolean(isSubmitted && showConfirmation)
 
@@ -55,8 +52,7 @@ const FormDefault = (props: IFormDefaultWebformProps) => {
     mode: 'all',
     criteriaMode: 'all',
     defaultValues: dummyDefaultValues,
-    shouldUnregister: false,
-    ...yupUseFormProps,
+    shouldUnregister: true,
   })
 
   const { control, reset, getValues, handleSubmit } = methods
@@ -131,7 +127,6 @@ const FormDefault = (props: IFormDefaultWebformProps) => {
         index={index}
         field={field}
         components={components}
-        classNames={classNames}
         isMultiStep={isMultiStep}
         classNamePrefix={classNamePrefix}
         unstyled={unstyled}

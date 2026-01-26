@@ -6,7 +6,6 @@ const WrapperManagedFileInfo = ({
   field,
   components,
   fieldKey,
-  classNames,
   classNamePrefix,
   unstyled,
 }: WrapperManagedFileInfoProps) => {
@@ -15,7 +14,6 @@ const WrapperManagedFileInfo = ({
   return (
     <CustomManagedFileInfo
       components={components}
-      classNames={classNames}
       field={field}
       classNamePrefix={classNamePrefix}
       fieldKey={fieldKey}

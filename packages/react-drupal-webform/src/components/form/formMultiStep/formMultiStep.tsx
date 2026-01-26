@@ -29,10 +29,8 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
   const {
     elementsSource,
     defaultFieldValues,
-    yup: yupObj,
     defaultFieldStateMessages,
     components,
-    classNames,
     onSubmit,
     includeInactiveFieldsInSubmit,
     customValidators,
@@ -59,13 +57,11 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
     [elementsSource]
   )
 
-  const { yupUseFormProps } = yupObj || {}
-
   const methods = useForm({
-    ...yupUseFormProps,
     mode: 'all',
     criteriaMode: 'all',
     defaultValues: dummyDefaultValues,
+    shouldUnregister: true,
   })
 
   const { handleSubmit, control, reset, getValues } = methods
@@ -235,7 +231,6 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
             index={index}
             field={field}
             components={components}
-            classNames={classNames}
             classNamePrefix={classNamePrefix}
             isMultiStep={true}
             unstyled={unstyled}
@@ -248,7 +243,6 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
         previousButtonLabel={previousButtonLabel}
         nextButtonLabel={nextButtonLabel}
         components={components}
-        classNames={classNames}
         classNamePrefix={classNamePrefix}
         unstyled={unstyled}
       />
@@ -281,7 +275,6 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
               currentStepObj={currentStepObj}
               classNamePrefix={classNamePrefix}
               elementsSource={elementsSource}
-              classNames={classNames}
               unstyled={unstyled}
             />
 

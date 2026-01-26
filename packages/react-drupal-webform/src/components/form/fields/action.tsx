@@ -14,7 +14,6 @@ export const Action = ({
   classNamePrefix,
   unstyled,
   components,
-  classNames,
   fieldKey,
 }: ActionProps) => {
   const { formState } = useFormContext()
@@ -41,7 +40,6 @@ export const Action = ({
       {isSubmitting && (
         <Loader
           components={components}
-          classNames={classNames}
           field={field}
           fieldKey={fieldKey}
           classNamePrefix={classNamePrefix}

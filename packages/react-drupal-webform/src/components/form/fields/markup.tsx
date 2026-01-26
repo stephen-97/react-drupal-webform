@@ -16,7 +16,6 @@ const Markup = (props: MarkupProps) => {
     classNamePrefix,
     innerProps,
     unstyled,
-    classNames,
   } = props
 
   const markup = field?.['#markup']
@@ -42,7 +41,6 @@ const Markup = (props: MarkupProps) => {
         processed={markup}
         fieldKey={fieldKey}
         field={field}
-        classNames={classNames}
         components={components}
         unstyled={unstyled}
         source="markup"
