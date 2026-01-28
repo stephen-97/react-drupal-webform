@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ChangeEvent } from 'react'
 import cn from 'classnames'
 import { useController, useFormContext } from 'react-hook-form'
 import { CheckboxProps } from '../../../../lib/types/components/checkboxe'
@@ -14,6 +14,9 @@ const Checkbox = ({
   ariaDescribedBy,
   classNamePrefix,
   unstyled,
+  onChange: onChangeProp,
+  onBlur: onBlurProp,
+  onFocus: onFocusProp,
 }: CheckboxProps) => {
   const { control } = useFormContext()
 
@@ -28,12 +31,32 @@ const Checkbox = ({
     name: 'checkbox',
     prefix: classNamePrefix,
     unstyled: unstyled,
-    baseCn: cn(className),
+    classNameComponent: className,
   })
 
   const dataAttributes = getDataAttributes({
     component: 'checkbox',
   })
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    fieldController.onChange(e.target.checked)
+    if (onChangeProp) {
+      onChangeProp(e)
+    }
+  }
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    fieldController.onBlur()
+    if (onBlurProp) {
+      onBlurProp(e)
+    }
+  }
+
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    if (onFocusProp) {
+      onFocusProp(e)
+    }
+  }
 
   return (
     <input
@@ -42,7 +65,9 @@ const Checkbox = ({
       type="checkbox"
       value={title}
       checked={Boolean(fieldController.value)}
-      onChange={(e) => fieldController.onChange(e.target.checked)}
+      onChange={handleChange}
+      onBlur={handleBlur}
+      onFocus={handleFocus}
       className={checkboxClassNames}
       aria-describedby={ariaDescribedBy}
       {...dataAttributes}

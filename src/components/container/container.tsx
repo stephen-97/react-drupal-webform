@@ -20,7 +20,7 @@ const Container = ({ elementsSource, title }: Props) => {
           </div>
           <div className={styles.panelBody}>
             {title === 'Custom components' ? (
-              <WebformContainer elementsSource={elementsSource} />
+              <CustomWebform elementsSource={elementsSource} />
             ) : (
               <WebformContainer elementsSource={elementsSource} />
             )}

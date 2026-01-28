@@ -14,7 +14,8 @@ const Loader = (props: LoaderProps) => {
     name: 'loader',
     prefix: classNamePrefix,
     unstyled: unstyled,
-    baseCn: cn(styles.loader, className),
+    classNameComponent: className,
+    baseCn: cn(styles.loader),
   })
 
   const dataAttributes = getDataAttributes({

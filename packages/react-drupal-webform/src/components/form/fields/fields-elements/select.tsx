@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ChangeEvent } from 'react'
 import cn from 'classnames'
 import { useController, useFormContext } from 'react-hook-form'
 import styles from '../field.module.scss'
@@ -17,6 +17,9 @@ const Select = ({
   classNamePrefix,
   ariaDescribedBy,
   unstyled,
+  onChange: onChangeProp,
+  onBlur: onBlurProp,
+  onFocus: onFocusProp,
 }: SelectProps) => {
   const { control } = useFormContext()
 
@@ -41,7 +44,8 @@ const Select = ({
     name: 'select',
     prefix: classNamePrefix,
     unstyled: unstyled,
-    baseCn: cn(styles.select, className),
+    classNameComponent: className,
+    baseCn: cn(styles.select),
   })
 
   const optionClassNames = getClassNames({
@@ -54,6 +58,21 @@ const Select = ({
     component: 'select',
   })
 
+  const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value
+    handleChangeOptions(value, fieldController)
+    onChangeProp?.(e)
+  }
+
+  const handleBlur = (e: React.FocusEvent<HTMLSelectElement>) => {
+    fieldController.onBlur()
+    onBlurProp?.(e)
+  }
+
+  const handleFocus = (e: React.FocusEvent<HTMLSelectElement>) => {
+    onFocusProp?.(e)
+  }
+
   return (
     <select
       id={fieldKey}
@@ -61,7 +80,9 @@ const Select = ({
       required={field?.['#required']}
       className={selectClassNames}
       value={fieldController.value ?? ''}
-      onChange={(e) => handleChangeOptions(e.target.value, fieldController)}
+      onChange={handleChange}
+      onBlur={handleBlur}
+      onFocus={handleFocus}
       aria-describedby={ariaDescribedBy}
       {...dataAttributes}
       {...innerProps}

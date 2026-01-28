@@ -20,7 +20,8 @@ const Wysiwyg = ({
     name: 'wysiwyg',
     prefix: classNamePrefix,
     unstyled: unstyled,
-    baseCn: cn(styles.wysiwyg, className),
+    classNameComponent: className,
+    baseCn: cn(styles.wysiwyg),
   })
 
   const dataAttributes = getDataAttributes({

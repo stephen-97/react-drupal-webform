@@ -19,7 +19,8 @@ const Button = ({
     name: 'button',
     prefix: classNamePrefix,
     unstyled: unstyled,
-    baseCn: cn(styles.button, styles[fillType], styles[size], className),
+    classNameComponent: className,
+    baseCn: cn(styles.button, styles[fillType], styles[size]),
   })
 
   return (

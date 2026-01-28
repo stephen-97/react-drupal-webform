@@ -61,13 +61,10 @@ const FieldContainer = (props: FieldContainerProps) => {
       required: isRequired,
       'has-error': hasError,
     },
-    baseCn: cn(
-      styles.fieldWrapper,
-      {
-        [styles.fieldWrapperCheckbox]: field?.['#type'] === 'checkbox',
-      },
-      className
-    ),
+    classNameComponent: className,
+    baseCn: cn(styles.fieldWrapper, {
+      [styles.fieldWrapperCheckbox]: field?.['#type'] === 'checkbox',
+    }),
   })
 
   return (

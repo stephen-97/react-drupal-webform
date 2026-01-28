@@ -64,7 +64,8 @@ const Help = ({
     name: 'help',
     prefix: classNamePrefix,
     unstyled: unstyled,
-    baseCn: cn(styles.help, className),
+    classNameComponent: className,
+    baseCn: cn(styles.help),
   })
 
   const dataAttributes = getDataAttributes({

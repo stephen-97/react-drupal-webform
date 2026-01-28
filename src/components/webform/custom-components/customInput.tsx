@@ -23,9 +23,9 @@ const CustomInput = (props: InputProps) => {
     <div className={cn(styles.inputCustomContainer, { [styles.error]: error })}>
       <components.Input
         className={styles.inputCustom}
+        onBlur={() => console.log('onBlur')}
         innerProps={{
           ...props.innerProps,
-          onBlur: () => console.log('onBlur'),
         }}
         {...props}
       ></components.Input>

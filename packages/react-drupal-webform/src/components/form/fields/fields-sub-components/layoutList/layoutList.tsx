@@ -16,7 +16,8 @@ const LayoutList = (props: LayoutListProps) => {
     name: 'layoutList',
     prefix: classNamePrefix,
     unstyled: unstyled,
-    baseCn: cn(styles.layoutList, className),
+    classNameComponent: className,
+    baseCn: cn(styles.layoutList),
   })
 
   const dataAttributes = getDataAttributes({

@@ -24,7 +24,8 @@ const Description = ({
     name: 'description',
     prefix: classNamePrefix,
     unstyled: unstyled,
-    baseCn: cn(styles.descriptionWysiwyg, className),
+    classNameComponent: className,
+    baseCn: cn(styles.descriptionWysiwyg),
   })
 
   const dataAttributes = getDataAttributes({

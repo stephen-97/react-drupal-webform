@@ -28,7 +28,8 @@ const Layout = (props: LayoutProps) => {
     name: 'layout',
     prefix: classNamePrefix,
     unstyled: unstyled,
-    baseCn: cn(styles.layoutWrapper, className),
+    classNameComponent: className,
+    baseCn: cn(styles.layoutWrapper),
   })
 
   const dataAttributes = getDataAttributes({

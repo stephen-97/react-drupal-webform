@@ -16,7 +16,8 @@ const LayoutTitle = (props: LayoutTitleProps) => {
     name: 'layoutTitle',
     prefix: classNamePrefix,
     unstyled: unstyled,
-    baseCn: cn(styles.layoutTitle, className),
+    classNameComponent: className,
+    baseCn: cn(styles.layoutTitle),
   })
 
   const dataAttributes = getDataAttributes({

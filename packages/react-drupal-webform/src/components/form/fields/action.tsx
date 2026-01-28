@@ -23,11 +23,8 @@ export const Action = ({
     name: 'action',
     prefix: classNamePrefix,
     unstyled: unstyled,
-    baseCn: cn(
-      styles.button,
-      className,
-      ...(field?.['#attributes']?.class ?? [])
-    ),
+    classNameComponent: className,
+    baseCn: cn(styles.button, ...(field?.['#attributes']?.class ?? [])),
   })
 
   return (

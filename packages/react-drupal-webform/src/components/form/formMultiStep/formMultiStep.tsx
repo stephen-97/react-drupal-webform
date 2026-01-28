@@ -58,7 +58,7 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
   )
 
   const methods = useForm({
-    mode: 'all',
+    mode: 'onBlur',
     criteriaMode: 'all',
     defaultValues: dummyDefaultValues,
     shouldUnregister: true,

@@ -35,7 +35,8 @@ const Title = (props: TitleProps) => {
     modifiers: {
       invisible: isInvisible,
     },
-    baseCn: cn(styles.title, className, {
+    classNameComponent: className,
+    baseCn: cn(styles.title, {
       [styles.isRequired]: isRequired,
       [styles.visuallyHidden]: isInvisible,
     }),

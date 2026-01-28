@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ChangeEvent } from 'react'
 import cn from 'classnames'
 import styles from '../field.module.scss'
 import { useController, useFormContext } from 'react-hook-form'
@@ -19,6 +19,9 @@ const Radios = ({
   ariaDescribedBy,
   classNamePrefix,
   unstyled,
+  onChange: onChangeProp,
+  onBlur: onBlurProp,
+  onFocus: onFocusProp,
 }: RadiosProps) => {
   const { control } = useFormContext()
 
@@ -35,7 +38,8 @@ const Radios = ({
     name: 'radiosWrapper',
     prefix: classNamePrefix,
     unstyled: unstyled,
-    baseCn: cn(styles.radiosGroupWrapper, className),
+    classNameComponent: className,
+    baseCn: cn(styles.radiosGroupWrapper),
   })
 
   const radiosItemClassNames = getClassNames({
@@ -62,6 +66,21 @@ const Radios = ({
     component: 'Radios',
   })
 
+  const handleChange =
+    (value: string) => (e: ChangeEvent<HTMLInputElement>) => {
+      fieldController.onChange(value)
+      onChangeProp?.(e)
+    }
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    fieldController.onBlur()
+    onBlurProp?.(e)
+  }
+
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    onFocusProp?.(e)
+  }
+
   return (
     <div
       className={radiosWrapperClassNames}
@@ -83,7 +102,9 @@ const Radios = ({
               value={optionKey}
               checked={checked}
               aria-describedby={ariaDescribedBy}
-              onChange={() => fieldController.onChange(optionKey)}
+              onChange={handleChange(optionKey)}
+              onBlur={handleBlur}
+              onFocus={handleFocus}
               {...inputProps}
             />
 

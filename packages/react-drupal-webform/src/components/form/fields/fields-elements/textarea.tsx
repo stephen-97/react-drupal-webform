@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ChangeEvent } from 'react'
 import cn from 'classnames'
 import { useController, useFormContext } from 'react-hook-form'
 import styles from '../field.module.scss'
@@ -16,6 +16,9 @@ const Textarea = ({
   classNamePrefix,
   ariaDescribedBy,
   unstyled,
+  onChange: onChangeProp,
+  onBlur: onBlurProp,
+  onFocus: onFocusProp,
 }: TextAreaProps) => {
   const { control } = useFormContext()
 
@@ -28,12 +31,27 @@ const Textarea = ({
     name: 'textarea',
     prefix: classNamePrefix,
     unstyled: unstyled,
-    baseCn: cn(styles.field, styles.textarea, className),
+    classNameComponent: className,
+    baseCn: cn(styles.field, styles.textarea),
   })
 
   const dataAttributes = getDataAttributes({
     component: 'Textarea',
   })
+
+  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    fieldController.onChange(e)
+    onChangeProp?.(e)
+  }
+
+  const handleBlur = (e: React.FocusEvent<HTMLTextAreaElement>) => {
+    fieldController.onBlur()
+    onBlurProp?.(e)
+  }
+
+  const handleFocus = (e: React.FocusEvent<HTMLTextAreaElement>) => {
+    onFocusProp?.(e)
+  }
 
   return (
     <textarea
@@ -45,7 +63,9 @@ const Textarea = ({
       placeholder={field?.['#placeholder']}
       required={field?.['#required']}
       value={fieldController.value ?? ''}
-      onChange={(e) => fieldController.onChange(e.target.value)}
+      onChange={handleChange}
+      onBlur={handleBlur}
+      onFocus={handleFocus}
       className={textareaClassNames}
       aria-describedby={ariaDescribedBy}
       {...dataAttributes}

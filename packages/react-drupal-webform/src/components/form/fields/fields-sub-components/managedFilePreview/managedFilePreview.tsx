@@ -28,7 +28,8 @@ const ManagedFilePreview = ({
     name: 'managedFilePreview',
     prefix: classNamePrefix,
     unstyled: unstyled,
-    baseCn: cn(styles.filePreview, className),
+    classNameComponent: className,
+    baseCn: cn(styles.filePreview),
   })
 
   const fileInfoClassNames = getClassNames({

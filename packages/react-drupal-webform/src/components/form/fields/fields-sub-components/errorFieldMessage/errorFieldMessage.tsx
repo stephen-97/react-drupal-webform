@@ -19,7 +19,8 @@ const ErrorFieldMessage = ({
     name: 'errorFieldMessage',
     prefix: classNamePrefix,
     unstyled: unstyled,
-    baseCn: cn(styles.errorFieldMessage, className),
+    classNameComponent: className,
+    baseCn: cn(styles.errorFieldMessage),
   })
 
   const messageClassNames = getClassNames({

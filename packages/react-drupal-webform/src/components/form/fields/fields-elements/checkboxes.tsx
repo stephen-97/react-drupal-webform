@@ -20,6 +20,9 @@ const Checkboxes = ({
   ariaDescribedBy,
   classNamePrefix,
   unstyled,
+  onChange: onChangeProp,
+  onBlur: onBlurProp,
+  onFocus: onFocusProp,
 }: CheckboxesProps) => {
   const { control } = useFormContext()
 
@@ -36,7 +39,8 @@ const Checkboxes = ({
     name: 'checkboxesWrapper',
     prefix: classNamePrefix,
     unstyled: unstyled,
-    baseCn: cn(styles.checkboxes, className),
+    classNameComponent: className,
+    baseCn: cn(styles.checkboxes),
   })
 
   const itemClassNames = getClassNames({
@@ -64,6 +68,32 @@ const Checkboxes = ({
     component: 'Checkboxes',
   })
 
+  const handleChange = (option: string, checked: boolean) => {
+    const nextValue: string[] = Array.isArray(fieldController.value)
+      ? [...fieldController.value]
+      : []
+
+    if (checked && !nextValue.includes(option)) {
+      nextValue.push(option)
+    } else if (!checked) {
+      const index = nextValue.indexOf(option)
+      if (index > -1) nextValue.splice(index, 1)
+    }
+
+    handleChangeOptionsCheckboxes(option, checked, fieldController)
+
+    onChangeProp?.(nextValue)
+  }
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    fieldController.onBlur()
+    onBlurProp?.(e)
+  }
+
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    onFocusProp?.(e)
+  }
+
   return (
     <div
       className={wrapperClassNames}
@@ -88,13 +118,9 @@ const Checkboxes = ({
               value={optionKey}
               checked={checked}
               aria-describedby={ariaDescribedBy}
-              onChange={(e) =>
-                handleChangeOptionsCheckboxes(
-                  e.target.value,
-                  e.target.checked,
-                  fieldController
-                )
-              }
+              onChange={(e) => handleChange(e.target.value, e.target.checked)}
+              onBlur={handleBlur}
+              onFocus={handleFocus}
               {...inputProps}
             />
 

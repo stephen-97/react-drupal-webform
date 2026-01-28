@@ -81,6 +81,7 @@ const WebformContainer = ({ elementsSource }: TWebformContainer) => {
       showConfirmation={true}
       isSubmitted={isSubmitted}
       classNamePrefix={'top'}
+      unstyled={false}
     />
   )
 }

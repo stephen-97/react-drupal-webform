@@ -49,7 +49,7 @@ const FormDefault = (props: IFormDefaultWebformProps) => {
   )
 
   const methods = useForm({
-    mode: 'all',
+    mode: 'onBlur',
     criteriaMode: 'all',
     defaultValues: dummyDefaultValues,
     shouldUnregister: true,
