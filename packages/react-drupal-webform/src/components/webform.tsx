@@ -21,6 +21,8 @@ const Webform = ({
   showConfirmation = true,
   classNamePrefix,
   unstyled = false,
+  validationMode,
+  disableActionButtonWhenInvalid,
 }: TWebform) => {
   const mergedDefaultFieldValues = useMemo(
     () => ({
@@ -54,6 +56,8 @@ const Webform = ({
     showConfirmation,
     classNamePrefix,
     unstyled,
+    validationMode,
+    disableActionButtonWhenInvalid,
   }
 
   return elementsSource ? <FormComponent {...formProps} /> : null

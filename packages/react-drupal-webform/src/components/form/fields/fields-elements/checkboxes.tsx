@@ -118,7 +118,10 @@ const Checkboxes = ({
               value={optionKey}
               checked={checked}
               aria-describedby={ariaDescribedBy}
-              onChange={(e) => handleChange(e.target.value, e.target.checked)}
+              required={i === 0 ? field?.['#required'] : undefined}
+              onChange={(e) => {
+                handleChange(e.target.value, e.target.checked)
+              }}
               onBlur={handleBlur}
               onFocus={handleFocus}
               {...inputProps}

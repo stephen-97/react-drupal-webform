@@ -87,10 +87,7 @@ const Select = ({
       {...dataAttributes}
       {...innerProps}
     >
-      <option
-        className={optionClassNames}
-        value={field?.['#empty_value'] ?? ''}
-      >
+      <option className={optionClassNames} value={''}>
         {field?.['#empty_option'] ?? '-- Select an option --'}
       </option>
 

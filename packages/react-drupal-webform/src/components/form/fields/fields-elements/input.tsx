@@ -86,6 +86,7 @@ const Input = (props: InputProps) => {
       onFocus={handleFocus}
       value={fieldController.value ?? ''}
       aria-describedby={ariaDescribedBy}
+      readOnly={field?.['#readonly']}
       {...inputFieldAttributes}
       {...dataAttributes}
       {...innerProps}

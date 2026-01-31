@@ -4,16 +4,22 @@ import cn from 'classnames'
 import styles from './form.module.scss'
 import { getClassNames } from '../../lib/functions/utils_functions'
 
-const Form = ({
-  children,
-  onSubmit,
-  className,
-  innerProps,
-  classNamePrefix,
-  unstyled,
-}: FormProps) => {
+const Form = (props: FormProps) => {
+  const {
+    children,
+    onSubmit,
+    className,
+    innerProps,
+    classNamePrefix,
+    unstyled,
+    validationMode,
+    disableActionButtonWhenInvalid,
+  } = props
+
+  const isHtmlNative = validationMode === 'htmlNative'
+
   const formClassName = getClassNames({
-    name: 'markup',
+    name: 'form',
     prefix: classNamePrefix,
     unstyled: unstyled,
     classNameComponent: className,
@@ -21,7 +27,12 @@ const Form = ({
   })
 
   return (
-    <form className={formClassName} onSubmit={onSubmit} {...innerProps}>
+    <form
+      className={formClassName}
+      onSubmit={onSubmit}
+      noValidate={!isHtmlNative}
+      {...innerProps}
+    >
       {children}
     </form>
   )

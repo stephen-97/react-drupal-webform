@@ -18,6 +18,11 @@ export const validateNumber = (props: TFieldValidate) => {
     customValidators,
   } = props
 
+  if (field?.['#readonly']) {
+    defaultValues[key] = defaultFieldValues.number
+    return
+  }
+
   const type = field?.['#type'] as TDrupal_FieldType_Validate
 
   let defaultSchema = string()

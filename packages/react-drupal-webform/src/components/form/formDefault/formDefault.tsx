@@ -28,6 +28,8 @@ const FormDefault = (props: IFormDefaultWebformProps) => {
     showConfirmation,
     classNamePrefix,
     unstyled = false,
+    validationMode,
+    disableActionButtonWhenInvalid = false,
   } = props
 
   const isMultiStep = Boolean(multiStepExtra)
@@ -48,8 +50,10 @@ const FormDefault = (props: IFormDefaultWebformProps) => {
     [elementsSource]
   )
 
+  const isHtmlNative = validationMode === 'htmlNative'
+
   const methods = useForm({
-    mode: 'onBlur',
+    mode: isHtmlNative ? undefined : validationMode,
     criteriaMode: 'all',
     defaultValues: dummyDefaultValues,
     shouldUnregister: true,
@@ -96,7 +100,9 @@ const FormDefault = (props: IFormDefaultWebformProps) => {
     reset({ ...defaultValues, ...getValues() }, { keepValues: true })
   }, [defaultValues, validationSchema, reset, getValues])
 
-  control._options.resolver = resolver
+  if (!isHtmlNative) {
+    control._options.resolver = resolver
+  }
 
   const handleFormSubmit = useCallback(
     async (data: Record<string, any>) => {
@@ -130,6 +136,7 @@ const FormDefault = (props: IFormDefaultWebformProps) => {
         isMultiStep={isMultiStep}
         classNamePrefix={classNamePrefix}
         unstyled={unstyled}
+        disableActionButtonWhenInvalid={disableActionButtonWhenInvalid}
         {...(isLayout ? { watchedValues } : {})}
       />
     )
@@ -144,7 +151,11 @@ const FormDefault = (props: IFormDefaultWebformProps) => {
       {shouldShowConfirmation ? (
         <ConfirmationComponent />
       ) : (
-        <FormComponent onSubmit={handleSubmit(handleFormSubmit)}>
+        <FormComponent
+          validationMode={validationMode}
+          onSubmit={handleSubmit(handleFormSubmit)}
+          disableActionButtonWhenInvalid={disableActionButtonWhenInvalid}
+        >
           {formContent}
         </FormComponent>
       )}

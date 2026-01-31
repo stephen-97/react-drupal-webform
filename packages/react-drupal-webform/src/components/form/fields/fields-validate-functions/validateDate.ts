@@ -19,27 +19,19 @@ export const validateDate = (props: TFieldValidate) => {
     field,
   } = props
 
+  if (field?.['#readonly']) {
+    defaultValues[key] = defaultFieldValues.date
+    return
+  }
   const type = field?.['#type'] as TDrupal_FieldType_Validate
 
-  let defaultSchema
-
-  if (field?.['#pattern']) {
-    defaultSchema = string()
-
-    defaultSchema = applyPatternIfApplicable({
-      schema: defaultSchema,
-      field,
-      fallbackMessage: errorMessage,
+  const defaultSchema = date()
+    .test('valid-date-format', 'Invalid date', (value) => {
+      if (!value) return true
+      return !isNaN(Date.parse(value.toString()))
     })
-  } else {
-    defaultSchema = date()
-      .test('valid-date-format', 'Invalid date', (value) => {
-        if (!value) return true
-        return !isNaN(Date.parse(value.toString()))
-      })
-      .nullable()
-      .typeError(errorMessage)
-  }
+    .nullable()
+    .typeError(errorMessage)
 
   const customSchema =
     resolveCustomValidator(customValidators, key, type, props) ?? defaultSchema

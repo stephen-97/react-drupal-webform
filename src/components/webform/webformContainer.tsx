@@ -82,6 +82,7 @@ const WebformContainer = ({ elementsSource }: TWebformContainer) => {
       isSubmitted={isSubmitted}
       classNamePrefix={'top'}
       unstyled={false}
+      validationMode={'onChange'}
     />
   )
 }

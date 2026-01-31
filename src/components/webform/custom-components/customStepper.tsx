@@ -3,10 +3,10 @@
 import React from 'react'
 import cn from 'classnames'
 import styles from './customStepper.module.scss'
-import { IMultiStepStepperProps } from '../../../../packages/react-drupal-webform/src/lib/types/components/multiStepStepper'
+import { MultiStepStepperProps } from '../../../../packages/react-drupal-webform/src/lib/types/components/multiStepStepper'
 import { useMultiStepContext } from '../../../../packages/react-drupal-webform/src/components/form/formMultiStep/multiStepContext'
 
-const CustomStepper = (props: IMultiStepStepperProps) => {
+const CustomStepper = (props: MultiStepStepperProps) => {
   const { currentStepKey } = useMultiStepContext()
   const { elementsSource } = props
 

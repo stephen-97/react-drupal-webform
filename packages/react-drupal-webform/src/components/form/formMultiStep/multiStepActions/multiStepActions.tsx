@@ -10,28 +10,26 @@ import {
   getClassNames,
   getDataAttributes,
 } from '../../../../lib/functions/utils_functions'
+import { TFieldWebformObj } from '../../../../lib/types/components/field'
 
-const MultiStepActions = (props: MultiStepActionsProps) => {
-  const {
-    previousButtonLabel,
-    nextButtonLabel,
-    components,
-    className,
-    classNamePrefix,
-    unstyled,
-  } = props
-
+export const MultiStepActions = ({
+  previousButtonLabel,
+  nextButtonLabel,
+  components,
+  className,
+  classNamePrefix,
+  unstyled,
+  disableActionButtonWhenInvalid,
+}: MultiStepActionsProps) => {
   const { formState, trigger } = useFormContext()
   const { stepIndex, totalVisibleSteps, goNext, goPrev } = useMultiStepContext()
 
   const { isSubmitting, isValid: isStepValid } = formState
 
-  const CustomMultiStepActions = components?.multiStepActions
-  if (CustomMultiStepActions) {
-    return <CustomMultiStepActions {...props} />
-  }
-
   const isLastStep = stepIndex === totalVisibleSteps - 1
+
+  const isNextDisabled =
+    isSubmitting || (disableActionButtonWhenInvalid && !isStepValid)
 
   const handlePrev = () => {
     goPrev()
@@ -52,28 +50,28 @@ const MultiStepActions = (props: MultiStepActionsProps) => {
   const wrapperClassNames = getClassNames({
     name: 'multiStepActions',
     prefix: classNamePrefix,
-    unstyled: unstyled,
+    unstyled,
     baseCn: cn(styles.multiStepActions, className),
   })
 
   const buttonBaseClassNames = getClassNames({
     name: 'multiStepActionButton',
     prefix: classNamePrefix,
-    unstyled: unstyled,
+    unstyled,
     baseCn: cn(stylesField.button, styles.button),
   })
 
   const prevButtonClassNames = getClassNames({
     name: 'multiStepActionPrev',
     prefix: classNamePrefix,
-    unstyled: unstyled,
+    unstyled,
     baseCn: buttonBaseClassNames,
   })
 
   const nextButtonClassNames = getClassNames({
     name: 'multiStepActionNext',
     prefix: classNamePrefix,
-    unstyled: unstyled,
+    unstyled,
     baseCn: buttonBaseClassNames,
   })
 
@@ -96,7 +94,7 @@ const MultiStepActions = (props: MultiStepActionsProps) => {
       <button
         type={isLastStep ? 'submit' : 'button'}
         className={nextButtonClassNames}
-        disabled={!isStepValid || isSubmitting}
+        disabled={isNextDisabled}
         onClick={handleNext}
       >
         {isSubmitting && (
@@ -114,6 +112,18 @@ const MultiStepActions = (props: MultiStepActionsProps) => {
       </button>
     </div>
   )
+}
+
+export const RenderMultiStepActions = (props: MultiStepActionsProps) => {
+  const { components } = props
+
+  const CustomMultiStepActions = components?.multiStepActions
+
+  if (CustomMultiStepActions) {
+    return <CustomMultiStepActions {...props} />
+  }
+
+  return <MultiStepActions {...props} />
 }
 
 export default React.memo(MultiStepActions)

@@ -12,6 +12,7 @@ const FormFieldRendered = ({
   watchedValues,
   classNamePrefix,
   unstyled,
+  disableActionButtonWhenInvalid,
 }: IFieldRendererWebformProps) => {
   const rawType = field['#type']
   const type = rawType in FormMappingFields ? rawType : 'default'
@@ -38,6 +39,7 @@ const FormFieldRendered = ({
     ariaDescribedBy,
     classNamePrefix,
     unstyled,
+    disableActionButtonWhenInvalid,
     ...(isLayout ? { watchedValues } : {}),
   })
 }

@@ -10,4 +10,5 @@ export interface IFieldRendererWebformProps {
   isMultiStep: boolean
   watchedValues?: Record<string, any>
   unstyled: boolean
+  disableActionButtonWhenInvalid: boolean
 }

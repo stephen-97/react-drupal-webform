@@ -67,6 +67,7 @@ const Textarea = ({
       onBlur={handleBlur}
       onFocus={handleFocus}
       className={textareaClassNames}
+      readOnly={field?.['#readonly']}
       aria-describedby={ariaDescribedBy}
       {...dataAttributes}
       {...innerProps}

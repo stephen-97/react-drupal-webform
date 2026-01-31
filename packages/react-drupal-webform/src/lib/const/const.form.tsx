@@ -42,6 +42,8 @@ import LayoutTitle from '../../components/form/fields/fields-sub-components/layo
 import { LayoutTitleProps } from '../types/components/layoutTitle'
 import { LayoutListProps } from '../types/components/layoutList'
 import LayoutList from '../../components/form/fields/fields-sub-components/layoutList/layoutList'
+import MultiStepActions from '../../components/form/formMultiStep/multiStepActions/multiStepActions'
+import { MultiStepActionsProps } from '../types/components/multiStepActions'
 
 export const defaultValuesObj: Required<TWebformDefaultFieldValues> = {
   textfield: '',
@@ -206,5 +208,8 @@ export const components = {
   ),
   Description: <P extends DescriptionProps>(props: P) => (
     <Description {...props} />
+  ),
+  MultiStepActions: <P extends MultiStepActionsProps>(props: P) => (
+    <MultiStepActions {...props} />
   ),
 }

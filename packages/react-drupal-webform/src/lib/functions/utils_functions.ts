@@ -119,6 +119,20 @@ export const getTextLikeInputAttributes = (
   field: TElementSource,
   type: HTMLInputTypeAttribute
 ) => {
+  const normalizeHtmlDate = (value: string): string => {
+    if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+      return value
+    }
+    const match = value.match(/^(\d{2})[\/-](\d{2})[\/-](\d{4})$/)
+
+    if (match) {
+      const [, day, month, year] = match
+      return `${year}-${month}-${day}`
+    }
+
+    return value
+  }
+
   const attrs: Record<string, any> = {}
 
   if (field['#placeholder']) {
@@ -158,12 +172,12 @@ export const getTextLikeInputAttributes = (
   }
 
   if (type === 'date') {
-    if (field['#min'] != null) {
-      attrs.min = field['#min']
+    if (field?.['#date_date_min'] != null) {
+      attrs.min = normalizeHtmlDate(field['#date_date_min'])
     }
 
-    if (field['#max'] != null) {
-      attrs.max = field['#max']
+    if (field?.['#date_date_max'] != null) {
+      attrs.max = normalizeHtmlDate(field['#date_date_max'])
     }
   }
 

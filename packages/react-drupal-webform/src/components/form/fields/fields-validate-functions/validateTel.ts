@@ -22,6 +22,11 @@ export const validateTel = (props: TFieldValidate) => {
     maxLengthMessage,
   } = props
 
+  if (field?.['#readonly']) {
+    defaultValues[key] = defaultFieldValues.tel
+    return
+  }
+
   const type = field?.['#type'] as TDrupal_FieldType_Validate
 
   let defaultSchema = string()

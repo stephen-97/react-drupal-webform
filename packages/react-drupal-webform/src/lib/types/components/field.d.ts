@@ -87,6 +87,9 @@ export type TElementSource = {
   '#empty_value'?: string
   '#sort_options'?: boolean
   '#title_display'?: string
+  '#readonly'?: boolean
+  '#date_date_min'?: string
+  '#date_date_max'?: string
 }
 
 export type TFieldWebformObj = DrupalElementCommonProps & {

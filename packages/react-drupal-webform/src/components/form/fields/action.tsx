@@ -15,9 +15,12 @@ export const Action = ({
   unstyled,
   components,
   fieldKey,
+  disableActionButtonWhenInvalid,
 }: ActionProps) => {
   const { formState } = useFormContext()
   const { isSubmitting, isValid } = formState
+
+  const isDisabled = disableActionButtonWhenInvalid && !isValid
 
   const actionClassNames = getClassNames({
     name: 'action',
@@ -27,11 +30,33 @@ export const Action = ({
     baseCn: cn(styles.button, ...(field?.['#attributes']?.class ?? [])),
   })
 
+  const scrollToFirstInvalidField = () => {
+    const firstInvalid = document.querySelector<HTMLElement>(
+      'input:invalid, select:invalid, textarea:invalid'
+    )
+
+    if (firstInvalid) {
+      firstInvalid.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      })
+
+      firstInvalid.focus({ preventScroll: true })
+    }
+  }
+
+  const handleClick = () => {
+    if (!isValid) {
+      scrollToFirstInvalidField()
+    }
+  }
+
   return (
     <button
       type="submit"
-      disabled={!isValid || isSubmitting}
       className={actionClassNames}
+      disabled={isDisabled}
+      onClick={handleClick}
       {...innerProps}
     >
       {isSubmitting && (

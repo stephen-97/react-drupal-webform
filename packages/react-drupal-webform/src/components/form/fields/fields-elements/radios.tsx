@@ -102,6 +102,7 @@ const Radios = ({
               value={optionKey}
               checked={checked}
               aria-describedby={ariaDescribedBy}
+              required={field?.['#required']}
               onChange={handleChange(optionKey)}
               onBlur={handleBlur}
               onFocus={handleFocus}

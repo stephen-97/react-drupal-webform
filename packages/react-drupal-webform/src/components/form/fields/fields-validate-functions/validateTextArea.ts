@@ -23,6 +23,11 @@ export const validateTextArea = (props: TFieldValidate) => {
     maxLengthMessage,
   } = props
 
+  if (field?.['#readonly']) {
+    defaultValues[key] = defaultFieldValues.textarea
+    return
+  }
+
   const type = field?.['#type'] as TDrupal_FieldType_Validate | undefined
 
   const requiredMessage = formatMessage(

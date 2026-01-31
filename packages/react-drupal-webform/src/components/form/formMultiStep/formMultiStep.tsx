@@ -9,7 +9,9 @@ import {
   shouldFieldBeVisible,
   TDependentField,
 } from '../../../lib/functions/webform_fields_functions/webform_fields_conditional_functions'
-import MultiStepActions from './multiStepActions/multiStepActions'
+import MultiStepActions, {
+  RenderMultiStepActions,
+} from './multiStepActions/multiStepActions'
 import MultiStepStepper from './multiStepStepper/multiStepStepper'
 import {
   getAllFieldNames,
@@ -38,10 +40,13 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
     showConfirmation,
     classNamePrefix,
     unstyled = false,
+    validationMode = 'onSubmit',
+    disableActionButtonWhenInvalid = false,
   } = props
 
   const totalSteps = Object.keys(elementsSource).length
   const shouldShowConfirmation = Boolean(isSubmitted && showConfirmation)
+  const isHtmlNative = validationMode === 'htmlNative'
 
   const stepKeys: string[] = useMemo(
     () => Object.keys(elementsSource),
@@ -58,7 +63,7 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
   )
 
   const methods = useForm({
-    mode: 'onBlur',
+    mode: isHtmlNative ? undefined : validationMode,
     criteriaMode: 'all',
     defaultValues: dummyDefaultValues,
     shouldUnregister: true,
@@ -167,7 +172,10 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
   ])
 
   const resolver = useYupValidationResolver(validationSchema)
-  control._options.resolver = resolver
+
+  if (!isHtmlNative) {
+    control._options.resolver = resolver
+  }
 
   useEffect(() => {
     reset({ ...defaultValues, ...getValues() }, { keepValues: true })
@@ -234,17 +242,19 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
             classNamePrefix={classNamePrefix}
             isMultiStep={true}
             unstyled={unstyled}
+            disableActionButtonWhenInvalid={disableActionButtonWhenInvalid}
             {...(isLayout ? { watchedValues: watchedStepValuesGlobal } : {})}
           />
         )
       })}
 
-      <MultiStepActions
+      <RenderMultiStepActions
         previousButtonLabel={previousButtonLabel}
         nextButtonLabel={nextButtonLabel}
         components={components}
         classNamePrefix={classNamePrefix}
         unstyled={unstyled}
+        disableActionButtonWhenInvalid={disableActionButtonWhenInvalid}
       />
     </>
   )
@@ -278,7 +288,11 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
               unstyled={unstyled}
             />
 
-            <FormComponent onSubmit={handleSubmit(onFormSubmit)}>
+            <FormComponent
+              validationMode={validationMode}
+              onSubmit={handleSubmit(onFormSubmit)}
+              disableActionButtonWhenInvalid={disableActionButtonWhenInvalid}
+            >
               {formContent}
             </FormComponent>
           </>

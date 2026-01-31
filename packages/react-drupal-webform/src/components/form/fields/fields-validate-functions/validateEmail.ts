@@ -22,6 +22,11 @@ export const validateEmail = (props: TFieldValidate) => {
     field,
   } = props
 
+  if (field?.['#readonly']) {
+    defaultValues[key] = defaultFieldValues.email
+    return
+  }
+
   const type = field?.['#type'] as TDrupal_FieldType_Validate
 
   let defaultSchema = string()

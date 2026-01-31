@@ -84,6 +84,7 @@ const CustomWebform = ({ elementsSource }: TWebformContainer) => {
             ></components.Layout>
           ),
         }}
+        validationMode={'onBlur'}
       />
     </div>
   )

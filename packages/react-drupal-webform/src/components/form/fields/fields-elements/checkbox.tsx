@@ -68,6 +68,7 @@ const Checkbox = ({
       onChange={handleChange}
       onBlur={handleBlur}
       onFocus={handleFocus}
+      required={field?.['#required']}
       className={checkboxClassNames}
       aria-describedby={ariaDescribedBy}
       {...dataAttributes}
