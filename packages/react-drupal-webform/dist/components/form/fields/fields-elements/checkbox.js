@@ -1,9 +1,8 @@
 import { jsx as _jsx } from "react/jsx-runtime";
 import React from 'react';
-import cn from 'classnames';
 import { useController, useFormContext } from 'react-hook-form';
 import { getClassNames, getDataAttributes, } from '../../../../lib/functions/utils_functions';
-const Checkbox = ({ fieldKey, field, innerProps, className, ariaDescribedBy, classNamePrefix, unstyled, }) => {
+const Checkbox = ({ fieldKey, field, innerProps, className, ariaDescribedBy, classNamePrefix, unstyled, onChange: onChangeProp, onBlur: onBlurProp, onFocus: onFocusProp, }) => {
     const { control } = useFormContext();
     const { field: fieldController } = useController({
         name: fieldKey,
@@ -14,11 +13,28 @@ const Checkbox = ({ fieldKey, field, innerProps, className, ariaDescribedBy, cla
         name: 'checkbox',
         prefix: classNamePrefix,
         unstyled: unstyled,
-        baseCn: cn(className),
+        classNameComponent: className,
     });
     const dataAttributes = getDataAttributes({
         component: 'checkbox',
     });
-    return (_jsx("input", { id: fieldKey, name: fieldController.name, type: "checkbox", value: title, checked: Boolean(fieldController.value), onChange: (e) => fieldController.onChange(e.target.checked), className: checkboxClassNames, "aria-describedby": ariaDescribedBy, ...dataAttributes, ...innerProps }));
+    const handleChange = (e) => {
+        fieldController.onChange(e.target.checked);
+        if (onChangeProp) {
+            onChangeProp(e);
+        }
+    };
+    const handleBlur = (e) => {
+        fieldController.onBlur();
+        if (onBlurProp) {
+            onBlurProp(e);
+        }
+    };
+    const handleFocus = (e) => {
+        if (onFocusProp) {
+            onFocusProp(e);
+        }
+    };
+    return (_jsx("input", { id: fieldKey, name: fieldController.name, type: "checkbox", value: title, checked: Boolean(fieldController.value), onChange: handleChange, onBlur: handleBlur, onFocus: handleFocus, required: field?.['#required'], className: checkboxClassNames, "aria-describedby": ariaDescribedBy, ...dataAttributes, ...innerProps }));
 };
 export default React.memo(Checkbox);

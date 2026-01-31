@@ -8,14 +8,15 @@ import { getDummyDefaultFormDefault } from '../../../lib/functions/webform_valid
 import ConfirmationView from '../../special-display/confirmationView';
 import Form from '../form';
 const FormDefault = (props) => {
-    const { elementsSource, multiStepExtra, defaultFieldValues, defaultFieldStateMessages, components, includeInactiveFieldsInSubmit, onSubmit, customValidators, isSubmitted, showConfirmation, classNamePrefix, unstyled = false, } = props;
+    const { elementsSource, multiStepExtra, defaultFieldValues, defaultFieldStateMessages, components, includeInactiveFieldsInSubmit, onSubmit, customValidators, isSubmitted, showConfirmation, classNamePrefix, unstyled = false, validationMode, disableActionButtonWhenInvalid = false, } = props;
     const isMultiStep = Boolean(multiStepExtra);
     const shouldShowConfirmation = Boolean(isSubmitted && showConfirmation);
     const dependentFields = useMemo(() => getDependentFields(elementsSource), [elementsSource]);
     const dependentFieldNames = useMemo(() => dependentFields.map((dep) => dep.name), [dependentFields]);
     const dummyDefaultValues = useMemo(() => getDummyDefaultFormDefault(elementsSource, defaultFieldValues), [elementsSource]);
+    const isHtmlNative = validationMode === 'htmlNative';
     const methods = useForm({
-        mode: 'all',
+        mode: isHtmlNative ? undefined : validationMode,
         criteriaMode: 'all',
         defaultValues: dummyDefaultValues,
         shouldUnregister: true,
@@ -52,7 +53,9 @@ const FormDefault = (props) => {
     useEffect(() => {
         reset({ ...defaultValues, ...getValues() }, { keepValues: true });
     }, [defaultValues, validationSchema, reset, getValues]);
-    control._options.resolver = resolver;
+    if (!isHtmlNative) {
+        control._options.resolver = resolver;
+    }
     const handleFormSubmit = useCallback(async (data) => {
         if (!onSubmit)
             return;
@@ -68,10 +71,10 @@ const FormDefault = (props) => {
         const field = elementsSource[key];
         const type = field['#type'];
         const isLayout = isLayoutType(type);
-        return (_jsx(FormFieldRendered, { fieldKey: key, index: index, field: field, components: components, isMultiStep: isMultiStep, classNamePrefix: classNamePrefix, unstyled: unstyled, ...(isLayout ? { watchedValues } : {}) }, key));
+        return (_jsx(FormFieldRendered, { fieldKey: key, index: index, field: field, components: components, isMultiStep: isMultiStep, classNamePrefix: classNamePrefix, unstyled: unstyled, disableActionButtonWhenInvalid: disableActionButtonWhenInvalid, ...(isLayout ? { watchedValues } : {}) }, key));
     });
     const FormComponent = components?.form ?? Form;
     const ConfirmationComponent = components?.confirmationView ?? ConfirmationView;
-    return (_jsx(FormProvider, { ...methods, children: shouldShowConfirmation ? (_jsx(ConfirmationComponent, {})) : (_jsx(FormComponent, { onSubmit: handleSubmit(handleFormSubmit), children: formContent })) }));
+    return (_jsx(FormProvider, { ...methods, children: shouldShowConfirmation ? (_jsx(ConfirmationComponent, {})) : (_jsx(FormComponent, { validationMode: validationMode, onSubmit: handleSubmit(handleFormSubmit), disableActionButtonWhenInvalid: disableActionButtonWhenInvalid, children: formContent })) }));
 };
 export default React.memo(FormDefault);

@@ -3,6 +3,10 @@ import { applyMinMaxLength, resolveCustomValidator, } from '../../../../lib/func
 import { applyPatternIfApplicable } from '../../../../lib/functions/utils_functions';
 export const validateTextField = (props) => {
     const { yupObject, defaultValues, key, required, defaultFieldValues, requiredMessage, field, customValidators, minLengthMessage, maxLengthMessage, } = props;
+    if (field?.['#readonly']) {
+        defaultValues[key] = defaultFieldValues.textfield;
+        return;
+    }
     const type = field?.['#type'];
     let baseSchema = string();
     baseSchema = applyMinMaxLength(baseSchema, field, minLengthMessage, maxLengthMessage);

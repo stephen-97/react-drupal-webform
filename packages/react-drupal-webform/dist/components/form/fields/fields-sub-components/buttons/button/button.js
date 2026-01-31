@@ -8,7 +8,8 @@ const Button = ({ title, innerProps, fillType = 'fill', size = 'default', classN
         name: 'button',
         prefix: classNamePrefix,
         unstyled: unstyled,
-        baseCn: cn(styles.button, styles[fillType], styles[size], className),
+        classNameComponent: className,
+        baseCn: cn(styles.button, styles[fillType], styles[size]),
     });
     return (_jsx("button", { className: buttonClassNames, type: 'button', ...restInnerProps, children: title }));
 };

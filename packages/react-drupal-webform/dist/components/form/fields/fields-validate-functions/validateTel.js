@@ -3,6 +3,10 @@ import { applyMinMaxLength, resolveCustomValidator, } from '../../../../lib/func
 import { applyPatternIfApplicable } from '../../../../lib/functions/utils_functions';
 export const validateTel = (props) => {
     const { yupObject, defaultValues, key, field, required, defaultFieldValues, requiredMessage, errorMessage, customValidators, minLengthMessage, maxLengthMessage, } = props;
+    if (field?.['#readonly']) {
+        defaultValues[key] = defaultFieldValues.tel;
+        return;
+    }
     const type = field?.['#type'];
     let defaultSchema = string();
     if (!field?.['#pattern']) {

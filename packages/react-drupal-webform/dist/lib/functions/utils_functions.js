@@ -37,7 +37,7 @@ export const getDataAttributes = ({ type, component, }) => {
         ...(component ? { 'data-component': component } : {}),
     };
 };
-export const getClassNames = ({ name, prefix, unstyled, baseCn, modifiers, }) => {
+export const getClassNames = ({ name, prefix, unstyled, classNameComponent, baseCn, modifiers, }) => {
     const baseName = prefix ? `${prefix}-webform-${name}` : `webform-${name}`;
     const modifierClasses = modifiers
         ? Object.fromEntries(Object.entries(modifiers).map(([key, value]) => [
@@ -45,13 +45,24 @@ export const getClassNames = ({ name, prefix, unstyled, baseCn, modifiers, }) =>
             value,
         ]))
         : undefined;
-    return cn(baseName, modifierClasses, unstyled ? undefined : baseCn);
+    return cn(baseName, modifierClasses, unstyled ? undefined : baseCn, classNameComponent);
 };
 export const getAriaDescribedBy = ({ fieldKey, field, }) => {
     const hasDescription = Boolean(field?.['#description']) || Boolean(field?.['#file_placeholder']);
     return hasDescription ? `description-${fieldKey}` : undefined;
 };
 export const getTextLikeInputAttributes = (field, type) => {
+    const normalizeHtmlDate = (value) => {
+        if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+            return value;
+        }
+        const match = value.match(/^(\d{2})[\/-](\d{2})[\/-](\d{4})$/);
+        if (match) {
+            const [, day, month, year] = match;
+            return `${year}-${month}-${day}`;
+        }
+        return value;
+    };
     const attrs = {};
     if (field['#placeholder']) {
         attrs.placeholder = field['#placeholder'];
@@ -82,11 +93,11 @@ export const getTextLikeInputAttributes = (field, type) => {
         }
     }
     if (type === 'date') {
-        if (field['#min'] != null) {
-            attrs.min = field['#min'];
+        if (field?.['#date_date_min'] != null) {
+            attrs.min = normalizeHtmlDate(field['#date_date_min']);
         }
-        if (field['#max'] != null) {
-            attrs.max = field['#max'];
+        if (field?.['#date_date_max'] != null) {
+            attrs.max = normalizeHtmlDate(field['#date_date_max']);
         }
     }
     return attrs;

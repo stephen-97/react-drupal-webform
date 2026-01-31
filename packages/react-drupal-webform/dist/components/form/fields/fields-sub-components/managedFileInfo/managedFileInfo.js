@@ -8,7 +8,8 @@ const ManagedFileInfo = ({ field, innerProps, className, classNamePrefix, unstyl
         name: 'managedFileInfo',
         prefix: classNamePrefix,
         unstyled: unstyled,
-        baseCn: cn(styles.managedFileInfo, className),
+        classNameComponent: className,
+        baseCn: cn(styles.managedFileInfo),
     });
     const labelClassNames = getClassNames({
         name: 'managedFileLabel',

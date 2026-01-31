@@ -8,7 +8,8 @@ const ErrorFieldMessage = ({ children, className, fieldKey, classNamePrefix, uns
         name: 'errorFieldMessage',
         prefix: classNamePrefix,
         unstyled: unstyled,
-        baseCn: cn(styles.errorFieldMessage, className),
+        classNameComponent: className,
+        baseCn: cn(styles.errorFieldMessage),
     });
     const messageClassNames = getClassNames({
         name: 'errorFieldMessageText',

@@ -19,6 +19,7 @@ import { MarkupProps } from '../types/components/markup';
 import { LayoutProps } from '../types/components/layout';
 import { LayoutTitleProps } from '../types/components/layoutTitle';
 import { LayoutListProps } from '../types/components/layoutList';
+import { MultiStepActionsProps } from '../types/components/multiStepActions';
 export declare const defaultValuesObj: Required<TWebformDefaultFieldValues>;
 export declare const defaultValuesFieldStateMessages: TWebformResolvedStateMessages;
 export declare const FIELD_TYPE_TO_GROUP: Record<string, string>;
@@ -43,4 +44,5 @@ export declare const components: {
     LauyoutTitle: <P extends LayoutTitleProps>(props: P) => import("react/jsx-runtime").JSX.Element;
     LayoutList: <P extends LayoutListProps>(props: P) => import("react/jsx-runtime").JSX.Element;
     Description: <P extends DescriptionProps>(props: P) => import("react/jsx-runtime").JSX.Element;
+    MultiStepActions: <P extends MultiStepActionsProps>(props: P) => import("react/jsx-runtime").JSX.Element;
 };

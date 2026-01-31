@@ -13,10 +13,11 @@ export declare const getDataAttributes: ({ type, component, }: {
     'data-group-type'?: string;
     'data-type'?: string;
 };
-export declare const getClassNames: ({ name, prefix, unstyled, baseCn, modifiers, }: {
+export declare const getClassNames: ({ name, prefix, unstyled, classNameComponent, baseCn, modifiers, }: {
     name: string;
     prefix: string | null | undefined;
     unstyled: boolean;
+    classNameComponent?: string;
     baseCn?: cn.Argument;
     modifiers?: Record<string, boolean>;
 }) => string;

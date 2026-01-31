@@ -3,6 +3,10 @@ import { applyMinMaxLength, resolveCustomValidator, } from '../../../../lib/func
 import { applyPatternIfApplicable } from '../../../../lib/functions/utils_functions';
 export const validateEmail = (props) => {
     const { yupObject, defaultValues, key, required, defaultFieldValues, errorMessage, requiredMessage, customValidators, minLengthMessage, maxLengthMessage, field, } = props;
+    if (field?.['#readonly']) {
+        defaultValues[key] = defaultFieldValues.email;
+        return;
+    }
     const type = field?.['#type'];
     let defaultSchema = string();
     if (!field?.['#pattern']) {

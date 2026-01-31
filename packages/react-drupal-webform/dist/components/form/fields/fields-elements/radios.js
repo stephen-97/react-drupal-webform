@@ -4,7 +4,7 @@ import cn from 'classnames';
 import styles from '../field.module.scss';
 import { useController, useFormContext } from 'react-hook-form';
 import { getClassNames, getDataAttributes, } from '../../../../lib/functions/utils_functions';
-const Radios = ({ fieldKey, field, className, innerProps, itemProps, inputProps, labelProps, ariaDescribedBy, classNamePrefix, unstyled, }) => {
+const Radios = ({ fieldKey, field, className, innerProps, itemProps, inputProps, labelProps, ariaDescribedBy, classNamePrefix, unstyled, onChange: onChangeProp, onBlur: onBlurProp, onFocus: onFocusProp, }) => {
     const { control } = useFormContext();
     if (!field?.['#options'])
         return null;
@@ -17,7 +17,8 @@ const Radios = ({ fieldKey, field, className, innerProps, itemProps, inputProps,
         name: 'radiosWrapper',
         prefix: classNamePrefix,
         unstyled: unstyled,
-        baseCn: cn(styles.radiosGroupWrapper, className),
+        classNameComponent: className,
+        baseCn: cn(styles.radiosGroupWrapper),
     });
     const radiosItemClassNames = getClassNames({
         name: 'radiosItem',
@@ -39,10 +40,21 @@ const Radios = ({ fieldKey, field, className, innerProps, itemProps, inputProps,
     const dataAttributes = getDataAttributes({
         component: 'Radios',
     });
+    const handleChange = (value) => (e) => {
+        fieldController.onChange(value);
+        onChangeProp?.(e);
+    };
+    const handleBlur = (e) => {
+        fieldController.onBlur();
+        onBlurProp?.(e);
+    };
+    const handleFocus = (e) => {
+        onFocusProp?.(e);
+    };
     return (_jsx("div", { className: radiosWrapperClassNames, role: "radiogroup", ...dataAttributes, ...innerProps, children: optionsObj.map(([optionKey, optionValue], i) => {
             const checked = fieldController.value === optionKey;
             const id = `radios-${optionKey.trim()}-${i}`;
-            return (_jsxs("div", { className: radiosItemClassNames, ...itemProps, children: [_jsx("input", { id: id, className: radiosInputClassNames, name: fieldController.name, type: "radio", value: optionKey, checked: checked, "aria-describedby": ariaDescribedBy, onChange: () => fieldController.onChange(optionKey), ...inputProps }), _jsx("label", { htmlFor: id, className: radiosLabelClassNames, ...labelProps, children: optionValue })] }, optionKey));
+            return (_jsxs("div", { className: radiosItemClassNames, ...itemProps, children: [_jsx("input", { id: id, className: radiosInputClassNames, name: fieldController.name, type: "radio", value: optionKey, checked: checked, "aria-describedby": ariaDescribedBy, required: field?.['#required'], onChange: handleChange(optionKey), onBlur: handleBlur, onFocus: handleFocus, ...inputProps }), _jsx("label", { htmlFor: id, className: radiosLabelClassNames, ...labelProps, children: optionValue })] }, optionKey));
         }) }));
 };
 export default React.memo(Radios);

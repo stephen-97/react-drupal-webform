@@ -9,7 +9,8 @@ const Wysiwyg = ({ processed, as: Element = 'div', className, classNamePrefix, i
         name: 'wysiwyg',
         prefix: classNamePrefix,
         unstyled: unstyled,
-        baseCn: cn(styles.wysiwyg, className),
+        classNameComponent: className,
+        baseCn: cn(styles.wysiwyg),
     });
     const dataAttributes = getDataAttributes({
         component: 'wysiwyg',

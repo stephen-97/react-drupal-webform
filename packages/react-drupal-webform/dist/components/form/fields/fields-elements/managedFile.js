@@ -6,7 +6,7 @@ import styles from '../field.module.scss';
 import { handleFileChange } from '../../../../lib/functions/webform_fields_functions/webform_fields_functions';
 import ManagedFilePreview from '../fields-sub-components/managedFilePreview/managedFilePreview';
 import { getClassNames, getDataAttributes, } from '../../../../lib/functions/utils_functions';
-const ManagedFile = ({ fieldKey, field, className, innerProps, components, ariaDescribedBy, classNamePrefix, unstyled, }) => {
+const ManagedFile = ({ fieldKey, field, className, innerProps, components, ariaDescribedBy, classNamePrefix, unstyled, onChange: onChangeProp, onBlur: onBlurProp, onFocus: onFocusProp, }) => {
     const { control } = useFormContext();
     const inputRef = useRef(null);
     const { field: fieldController } = useController({
@@ -34,11 +34,23 @@ const ManagedFile = ({ fieldKey, field, className, innerProps, components, ariaD
         name: 'managedFile',
         prefix: classNamePrefix,
         unstyled: unstyled,
-        baseCn: cn(styles.field, styles.input, className),
+        classNameComponent: className,
+        baseCn: cn(styles.field, styles.input),
     });
     const dataAttributes = getDataAttributes({
         component: 'managedFile',
     });
-    return (_jsx("input", { id: fieldKey, ref: inputRef, type: "file", name: fieldController.name, accept: fileExtensions, onChange: (e) => handleFileChange(e, fieldController, inputRef), className: inputClassNames, "aria-describedby": ariaDescribedBy, ...dataAttributes, ...innerProps }));
+    const handleChange = (e) => {
+        handleFileChange(e, fieldController, inputRef);
+        onChangeProp?.(e);
+    };
+    const handleBlur = (e) => {
+        fieldController.onBlur();
+        onBlurProp?.(e);
+    };
+    const handleFocus = (e) => {
+        onFocusProp?.(e);
+    };
+    return (_jsx("input", { id: fieldKey, ref: inputRef, type: "file", name: fieldController.name, accept: fileExtensions, onChange: handleChange, onBlur: handleBlur, onFocus: handleFocus, className: inputClassNames, "aria-describedby": ariaDescribedBy, ...dataAttributes, ...innerProps }));
 };
 export default React.memo(ManagedFile);

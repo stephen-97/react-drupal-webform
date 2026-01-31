@@ -5,7 +5,7 @@ import { useController, useFormContext } from 'react-hook-form';
 import styles from '../field.module.scss';
 import { handleChangeOptions } from '../../../../lib/functions/webform_fields_functions/webform_fields_functions';
 import { getClassNames, getDataAttributes, } from '../../../../lib/functions/utils_functions';
-const Select = ({ fieldKey, field, innerProps, className, classNamePrefix, ariaDescribedBy, unstyled, }) => {
+const Select = ({ fieldKey, field, innerProps, className, classNamePrefix, ariaDescribedBy, unstyled, onChange: onChangeProp, onBlur: onBlurProp, onFocus: onFocusProp, }) => {
     const { control } = useFormContext();
     if (!field?.['#options'])
         return null;
@@ -23,7 +23,8 @@ const Select = ({ fieldKey, field, innerProps, className, classNamePrefix, ariaD
         name: 'select',
         prefix: classNamePrefix,
         unstyled: unstyled,
-        baseCn: cn(styles.select, className),
+        classNameComponent: className,
+        baseCn: cn(styles.select),
     });
     const optionClassNames = getClassNames({
         name: 'selectOption',
@@ -33,6 +34,18 @@ const Select = ({ fieldKey, field, innerProps, className, classNamePrefix, ariaD
     const dataAttributes = getDataAttributes({
         component: 'select',
     });
-    return (_jsxs("select", { id: fieldKey, name: fieldController.name, required: field?.['#required'], className: selectClassNames, value: fieldController.value ?? '', onChange: (e) => handleChangeOptions(e.target.value, fieldController), "aria-describedby": ariaDescribedBy, ...dataAttributes, ...innerProps, children: [_jsx("option", { className: optionClassNames, value: field?.['#empty_value'] ?? '', children: field?.['#empty_option'] ?? '-- Select an option --' }), options.map(([optionKey, optionValue]) => (_jsx("option", { className: optionClassNames, value: optionKey, children: optionValue }, optionKey)))] }));
+    const handleChange = (e) => {
+        const value = e.target.value;
+        handleChangeOptions(value, fieldController);
+        onChangeProp?.(e);
+    };
+    const handleBlur = (e) => {
+        fieldController.onBlur();
+        onBlurProp?.(e);
+    };
+    const handleFocus = (e) => {
+        onFocusProp?.(e);
+    };
+    return (_jsxs("select", { id: fieldKey, name: fieldController.name, required: field?.['#required'], className: selectClassNames, value: fieldController.value ?? '', onChange: handleChange, onBlur: handleBlur, onFocus: handleFocus, "aria-describedby": ariaDescribedBy, ...dataAttributes, ...innerProps, children: [_jsx("option", { className: optionClassNames, value: '', children: field?.['#empty_option'] ?? '-- Select an option --' }), options.map(([optionKey, optionValue]) => (_jsx("option", { className: optionClassNames, value: optionKey, children: optionValue }, optionKey)))] }));
 };
 export default React.memo(Select);

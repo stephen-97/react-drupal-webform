@@ -4,7 +4,7 @@ import { FormProvider, useForm, useWatch } from 'react-hook-form';
 import { useYupValidationResolver } from '../../../lib/functions/webform_yup_functions/webform_yup_functions';
 import FormFieldRendered from '../formDefault/formFieldRendered';
 import { generateFormSchemaAndDefaults, getDependentFields, shouldFieldBeVisible, } from '../../../lib/functions/webform_fields_functions/webform_fields_conditional_functions';
-import MultiStepActions from './multiStepActions/multiStepActions';
+import { RenderMultiStepActions, } from './multiStepActions/multiStepActions';
 import MultiStepStepper from './multiStepStepper/multiStepStepper';
 import { getAllFieldNames, getDummyDefaultMultiStep, getAllDefaultValuesFromAllSteps, } from '../../../lib/functions/webform_multistep_functions/webform_multistep_functions';
 import { getAllVisibleFieldNames, getVisibleStepKeys, } from '../../../lib/functions/webform_multistep_functions/webform_multistep_conditional_functions/webform_multistep_conditional_functions';
@@ -12,14 +12,15 @@ import { MultiStepProvider } from './multiStepContext';
 import ConfirmationView from '../../special-display/confirmationView';
 import Form from '../form';
 const FormMultiStep = (props) => {
-    const { elementsSource, defaultFieldValues, defaultFieldStateMessages, components, onSubmit, includeInactiveFieldsInSubmit, customValidators, isSubmitted, showConfirmation, classNamePrefix, unstyled = false, } = props;
+    const { elementsSource, defaultFieldValues, defaultFieldStateMessages, components, onSubmit, includeInactiveFieldsInSubmit, customValidators, isSubmitted, showConfirmation, classNamePrefix, unstyled = false, validationMode = 'onSubmit', disableActionButtonWhenInvalid = false, } = props;
     const totalSteps = Object.keys(elementsSource).length;
     const shouldShowConfirmation = Boolean(isSubmitted && showConfirmation);
+    const isHtmlNative = validationMode === 'htmlNative';
     const stepKeys = useMemo(() => Object.keys(elementsSource), [elementsSource]);
     const allFieldNames = useMemo(() => getAllFieldNames(elementsSource), [elementsSource]);
     const dummyDefaultValues = useMemo(() => getDummyDefaultMultiStep(elementsSource, defaultFieldValues), [elementsSource]);
     const methods = useForm({
-        mode: 'all',
+        mode: isHtmlNative ? undefined : validationMode,
         criteriaMode: 'all',
         defaultValues: dummyDefaultValues,
         shouldUnregister: true,
@@ -84,7 +85,9 @@ const FormMultiStep = (props) => {
         watchedStepValuesGlobal,
     ]);
     const resolver = useYupValidationResolver(validationSchema);
-    control._options.resolver = resolver;
+    if (!isHtmlNative) {
+        control._options.resolver = resolver;
+    }
     useEffect(() => {
         reset({ ...defaultValues, ...getValues() }, { keepValues: true });
     }, [defaultValues, validationSchema]);
@@ -126,10 +129,10 @@ const FormMultiStep = (props) => {
                     'container',
                     'details',
                 ].includes(type);
-                return (_jsx(FormFieldRendered, { fieldKey: key, index: index, field: field, components: components, classNamePrefix: classNamePrefix, isMultiStep: true, unstyled: unstyled, ...(isLayout ? { watchedValues: watchedStepValuesGlobal } : {}) }, key));
-            }), _jsx(MultiStepActions, { previousButtonLabel: previousButtonLabel, nextButtonLabel: nextButtonLabel, components: components, classNamePrefix: classNamePrefix, unstyled: unstyled })] }));
+                return (_jsx(FormFieldRendered, { fieldKey: key, index: index, field: field, components: components, classNamePrefix: classNamePrefix, isMultiStep: true, unstyled: unstyled, disableActionButtonWhenInvalid: disableActionButtonWhenInvalid, ...(isLayout ? { watchedValues: watchedStepValuesGlobal } : {}) }, key));
+            }), _jsx(RenderMultiStepActions, { previousButtonLabel: previousButtonLabel, nextButtonLabel: nextButtonLabel, components: components, classNamePrefix: classNamePrefix, unstyled: unstyled, disableActionButtonWhenInvalid: disableActionButtonWhenInvalid })] }));
     const ConfirmationComponent = components?.confirmationView ?? ConfirmationView;
     const FormComponent = components?.form ?? Form;
-    return (_jsx(FormProvider, { ...methods, children: _jsx(MultiStepProvider, { elementsSource: elementsSource, stepIndex: stepIndex, setStepIndex: setStepIndex, totalSteps: totalSteps, totalVisibleSteps: visibleStepKeys.length, allWatchedSteps: allWatchedSteps, currentStepKey: currentStepKey, setAllWatchedSteps: setAllWatchedSteps, watchedStepValues: watchedStepValues, children: shouldShowConfirmation ? (_jsx(ConfirmationComponent, {})) : (_jsxs(_Fragment, { children: [_jsx(MultiStepStepper, { components: components, currentStepObj: currentStepObj, classNamePrefix: classNamePrefix, elementsSource: elementsSource, unstyled: unstyled }), _jsx(FormComponent, { onSubmit: handleSubmit(onFormSubmit), children: formContent })] })) }) }));
+    return (_jsx(FormProvider, { ...methods, children: _jsx(MultiStepProvider, { elementsSource: elementsSource, stepIndex: stepIndex, setStepIndex: setStepIndex, totalSteps: totalSteps, totalVisibleSteps: visibleStepKeys.length, allWatchedSteps: allWatchedSteps, currentStepKey: currentStepKey, setAllWatchedSteps: setAllWatchedSteps, watchedStepValues: watchedStepValues, children: shouldShowConfirmation ? (_jsx(ConfirmationComponent, {})) : (_jsxs(_Fragment, { children: [_jsx(MultiStepStepper, { components: components, currentStepObj: currentStepObj, classNamePrefix: classNamePrefix, elementsSource: elementsSource, unstyled: unstyled }), _jsx(FormComponent, { validationMode: validationMode, onSubmit: handleSubmit(onFormSubmit), disableActionButtonWhenInvalid: disableActionButtonWhenInvalid, children: formContent })] })) }) }));
 };
 export default React.memo(FormMultiStep);

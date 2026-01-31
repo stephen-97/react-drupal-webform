@@ -12,6 +12,7 @@ export const validateCheckboxes = (props: TFieldValidate) => {
     required,
     requiredMessage,
     customValidators,
+    defaultFieldValues,
   } = props
 
   const type = field?.['#type'] as TDrupal_FieldType_Validate
@@ -23,7 +24,7 @@ export const validateCheckboxes = (props: TFieldValidate) => {
     .default(() => [])
 
   if (required) schema = schema.min(1, requiredMessage)
-  defaultValues[key] = []
+  defaultValues[key] = defaultFieldValues.checkboxes
 
   const customSchema =
     resolveCustomValidator(customValidators, key, type, props) ?? schema

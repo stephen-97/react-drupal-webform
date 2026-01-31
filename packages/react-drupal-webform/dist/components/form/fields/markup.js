@@ -12,7 +12,8 @@ const Markup = (props) => {
         name: 'markup',
         prefix: classNamePrefix,
         unstyled: unstyled,
-        baseCn: cn(...(field?.['#attributes']?.class ?? []), className),
+        classNameComponent: className,
+        baseCn: cn(...(field?.['#attributes']?.class ?? [])),
     });
     const dataAttributes = getDataAttributes({
         component: 'markup',

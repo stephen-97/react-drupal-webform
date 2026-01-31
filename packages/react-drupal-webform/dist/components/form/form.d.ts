@@ -1,3 +1,3 @@
 import { FormProps } from '../../lib/types/components/form';
-declare const Form: ({ children, onSubmit, className, innerProps }: FormProps) => import("react/jsx-runtime").JSX.Element;
+declare const Form: (props: FormProps) => import("react/jsx-runtime").JSX.Element;
 export default Form;

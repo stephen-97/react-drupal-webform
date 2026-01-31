@@ -10,8 +10,5 @@ export const validateCheckbox = (props) => {
     else {
         yupObject[key] = baseSchema.notRequired();
     }
-    defaultValues[key] =
-        typeof field?.['#default_value'] !== 'undefined'
-            ? Boolean(field['#default_value'])
-            : false;
+    defaultValues[key] = defaultFieldValues.checkbox;
 };

@@ -3,6 +3,10 @@ import { resolveCustomValidator, } from '../../../../lib/functions/webform_valid
 import { applyPatternIfApplicable } from '../../../../lib/functions/utils_functions';
 export const validateNumber = (props) => {
     const { yupObject, defaultValues, key, field, required, defaultFieldValues, requiredMessage, customValidators, } = props;
+    if (field?.['#readonly']) {
+        defaultValues[key] = defaultFieldValues.number;
+        return;
+    }
     const type = field?.['#type'];
     let defaultSchema = string();
     defaultSchema = applyPatternIfApplicable({

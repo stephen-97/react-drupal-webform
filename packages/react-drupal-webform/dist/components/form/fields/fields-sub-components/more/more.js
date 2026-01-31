@@ -14,7 +14,8 @@ const More = ({ innerPropsContainer, innerPropsButton, innerPropsWysiwyg, compon
         name: 'more',
         prefix: classNamePrefix,
         unstyled: unstyled,
-        baseCn: cn(styles.more, containerClassName, className),
+        classNameComponent: className,
+        baseCn: cn(styles.more, containerClassName),
     });
     const buttonClassNames = getClassNames({
         name: 'moreButton',

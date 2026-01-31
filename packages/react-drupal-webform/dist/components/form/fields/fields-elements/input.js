@@ -5,7 +5,7 @@ import { useController, useFormContext } from 'react-hook-form';
 import styles from '../field.module.scss';
 import { getAriaDescribedBy, getClassNames, getDataAttributes, getTextLikeInputAttributes, } from '../../../../lib/functions/utils_functions';
 const Input = (props) => {
-    const { fieldKey, field, classNamePrefix, className, innerProps, unstyled } = props;
+    const { fieldKey, field, classNamePrefix, className, innerProps, unstyled, onChange: onChangeProp, onBlur: onBlurProp, onFocus: onFocusProp, } = props;
     const { control } = useFormContext();
     const { field: fieldController } = useController({
         name: fieldKey,
@@ -31,13 +31,25 @@ const Input = (props) => {
         name: 'input',
         prefix: classNamePrefix,
         unstyled: unstyled,
-        baseCn: cn(styles.input, className),
+        classNameComponent: className,
+        baseCn: cn(styles.input),
     });
     const dataAttributes = getDataAttributes({
         component: 'Input',
     });
     const ariaDescribedBy = getAriaDescribedBy({ fieldKey, field });
     const inputFieldAttributes = getTextLikeInputAttributes(field, getFieldType);
-    return (_jsx("input", { id: fieldKey, className: inputClassNames, name: fieldController.name, type: getFieldType, onChange: (e) => fieldController.onChange(e), value: fieldController.value ?? '', "aria-describedby": ariaDescribedBy, ...inputFieldAttributes, ...dataAttributes, ...innerProps }));
+    const handleChange = (e) => {
+        fieldController.onChange(e);
+        onChangeProp?.(e);
+    };
+    const handleBlur = (e) => {
+        fieldController.onBlur();
+        onBlurProp?.(e);
+    };
+    const handleFocus = (e) => {
+        onFocusProp?.(e);
+    };
+    return (_jsx("input", { id: fieldKey, className: inputClassNames, name: fieldController.name, type: getFieldType, onChange: handleChange, onBlur: handleBlur, onFocus: handleFocus, value: fieldController.value ?? '', "aria-describedby": ariaDescribedBy, readOnly: field?.['#readonly'], ...inputFieldAttributes, ...dataAttributes, ...innerProps }));
 };
 export default React.memo(Input);

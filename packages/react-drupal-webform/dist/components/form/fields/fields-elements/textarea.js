@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { useController, useFormContext } from 'react-hook-form';
 import styles from '../field.module.scss';
 import { getClassNames, getDataAttributes, } from '../../../../lib/functions/utils_functions';
-const Textarea = ({ fieldKey, field, className, innerProps, classNamePrefix, ariaDescribedBy, unstyled, }) => {
+const Textarea = ({ fieldKey, field, className, innerProps, classNamePrefix, ariaDescribedBy, unstyled, onChange: onChangeProp, onBlur: onBlurProp, onFocus: onFocusProp, }) => {
     const { control } = useFormContext();
     const { field: fieldController } = useController({
         name: fieldKey,
@@ -14,11 +14,23 @@ const Textarea = ({ fieldKey, field, className, innerProps, classNamePrefix, ari
         name: 'textarea',
         prefix: classNamePrefix,
         unstyled: unstyled,
-        baseCn: cn(styles.field, styles.textarea, className),
+        classNameComponent: className,
+        baseCn: cn(styles.field, styles.textarea),
     });
     const dataAttributes = getDataAttributes({
         component: 'Textarea',
     });
-    return (_jsx("textarea", { id: fieldKey, name: fieldController.name, minLength: field?.['#minlength'], maxLength: field?.['#maxlength'], rows: field?.['#rows'] ?? 10, placeholder: field?.['#placeholder'], required: field?.['#required'], value: fieldController.value ?? '', onChange: (e) => fieldController.onChange(e.target.value), className: textareaClassNames, "aria-describedby": ariaDescribedBy, ...dataAttributes, ...innerProps }));
+    const handleChange = (e) => {
+        fieldController.onChange(e);
+        onChangeProp?.(e);
+    };
+    const handleBlur = (e) => {
+        fieldController.onBlur();
+        onBlurProp?.(e);
+    };
+    const handleFocus = (e) => {
+        onFocusProp?.(e);
+    };
+    return (_jsx("textarea", { id: fieldKey, name: fieldController.name, minLength: field?.['#minlength'], maxLength: field?.['#maxlength'], rows: field?.['#rows'] ?? 10, placeholder: field?.['#placeholder'], required: field?.['#required'], value: fieldController.value ?? '', onChange: handleChange, onBlur: handleBlur, onFocus: handleFocus, className: textareaClassNames, readOnly: field?.['#readonly'], "aria-describedby": ariaDescribedBy, ...dataAttributes, ...innerProps }));
 };
 export default React.memo(Textarea);

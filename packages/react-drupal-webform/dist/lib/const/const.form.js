@@ -19,6 +19,7 @@ import Markup from '../../components/form/fields/markup';
 import Layout from '../../components/form/fields/fields-sub-components/layout/layout';
 import LayoutTitle from '../../components/form/fields/fields-sub-components/layoutTitle/layoutTitle';
 import LayoutList from '../../components/form/fields/fields-sub-components/layoutList/layoutList';
+import MultiStepActions from '../../components/form/formMultiStep/multiStepActions/multiStepActions';
 export const defaultValuesObj = {
     textfield: '',
     textarea: '',
@@ -161,4 +162,5 @@ export const components = {
     LauyoutTitle: (props) => (_jsx(LayoutTitle, { ...props })),
     LayoutList: (props) => (_jsx(LayoutList, { ...props })),
     Description: (props) => (_jsx(Description, { ...props })),
+    MultiStepActions: (props) => (_jsx(MultiStepActions, { ...props })),
 };

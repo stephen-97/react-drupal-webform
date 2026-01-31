@@ -1,5 +1,4 @@
-import YAML from 'yaml'
-import { isMultiStep } from "./webform_multistep_functions/webform_multistep_functions"
+import { isMultiStep } from './webform_multistep_functions/webform_multistep_functions'
 
 type TKeyValue<T = string> = Record<string, T>
 
@@ -8,7 +7,9 @@ type TWebformProperties = {
   isMultiStep: boolean
 }
 
-const getWebformProperties = (elements: Record<any, string>): TWebformProperties => {
+const getWebformProperties = (
+  elements: Record<any, string>
+): TWebformProperties => {
   const formIsMultiStep = isMultiStep(elements)
 
   return {

@@ -37,7 +37,8 @@ const Help = ({ innerProps, components, field, className, classNamePrefix, unsty
         name: 'help',
         prefix: classNamePrefix,
         unstyled: unstyled,
-        baseCn: cn(styles.help, className),
+        classNameComponent: className,
+        baseCn: cn(styles.help),
     });
     const dataAttributes = getDataAttributes({
         component: 'help',

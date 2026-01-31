@@ -132,10 +132,12 @@ export type TWebformCustomValidators = {
     byType?: Partial<Record<Exclude<TDrupal_FieldType | (string & {}), TDrupalNonValueFieldType>, TWebformValidatorFactory>>;
     byId?: Partial<Record<string, TWebformValidatorFactory>>;
 };
+export type TValidationMode = 'htmlNative' | 'onSubmit' | 'onBlur' | 'onChange' | 'onTouched' | 'all' | undefined;
 export type TWebform = {
     elementsSource: Record<string, any>;
     components?: TWebformCustomComponents;
     validators?: any;
+    validationMode?: TValidationMode;
     defaultFieldValues?: TWebformDefaultFieldValues;
     customValidators?: TWebformCustomValidators;
     classNamePrefix?: string | undefined;
@@ -145,6 +147,7 @@ export type TWebform = {
     isSubmitted: boolean;
     showConfirmation?: boolean;
     unstyled?: boolean;
+    disableActionButtonWhenInvalid?: boolean;
 };
 export type DrupalElementCommonProps = {
     field: TElementSource;
@@ -152,6 +155,7 @@ export type DrupalElementCommonProps = {
     components: TWebformCustomComponents;
     fieldKey: string;
     unstyled: boolean;
+    disableActionButtonWhenInvalid?: boolean;
 };
 export type DrupalElementCommonNoFieldProps = {
     classNamePrefix: string | undefined | null;

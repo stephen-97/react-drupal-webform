@@ -36,9 +36,10 @@ const FieldContainer = (props) => {
             required: isRequired,
             'has-error': hasError,
         },
+        classNameComponent: className,
         baseCn: cn(styles.fieldWrapper, {
             [styles.fieldWrapperCheckbox]: field?.['#type'] === 'checkbox',
-        }, className),
+        }),
     });
     return (_jsxs(WrapperElement, { className: componentClassNames, ...dataAttributes, ...innerProps, children: [isLabel && field?.['#title'] && (_jsx(TitleComponent, { wrapperElement: labelWrapperElement, components: components, classNamePrefix: classNamePrefix, field: field, fieldKey: fieldKey, unstyled: unstyled })), _jsx(WrapperField, { field: field, components: components, fieldKey: fieldKey, classNamePrefix: classNamePrefix, unstyled: unstyled, children: children }), (field?.['#description'] || field?.['#file_placeholder']) && (_jsx(WrapperDescription, { field: field, fieldKey: fieldKey, classNamePrefix: classNamePrefix, components: components, unstyled: unstyled })), field['#type'] === 'managed_file' && (_jsx(WrapperManagedFileInfo, { fieldKey: fieldKey, field: field, components: components, classNamePrefix: classNamePrefix, unstyled: unstyled })), field?.['#more'] && field?.['#more_title'] && (_jsx(WrapperMore, { field: field, fieldKey: fieldKey, classNamePrefix: classNamePrefix, components: components, unstyled: unstyled }))] }));
 };

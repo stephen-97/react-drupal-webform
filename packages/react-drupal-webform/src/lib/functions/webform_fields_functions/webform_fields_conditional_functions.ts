@@ -3,7 +3,6 @@ import {
   TWebformDefaultFieldValues,
   TWebformNormalizedStateMessages,
 } from '../../types/form.d'
-import { TDrupal_FieldType } from '../../types/components/field'
 import FormMappingFields from '../../../components/form/formMappingFields/formMappingFields'
 import * as yup from 'yup'
 import { resolveFieldMessages } from '../webform_yup_functions/webform_yup_functions'

@@ -14,6 +14,7 @@ const renderLayout = (
     watchedValues,
     classNamePrefix,
     unstyled,
+    disableActionButtonWhenInvalid = false,
   } = props
 
   const LayoutComponent = components?.layout ?? Layout
@@ -38,6 +39,7 @@ const renderLayout = (
             isMultiStep={false}
             watchedValues={watchedValues}
             unstyled={unstyled}
+            disableActionButtonWhenInvalid={disableActionButtonWhenInvalid}
           />
         )
       })}

@@ -32,8 +32,5 @@ export const validateCheckbox = (props: TFieldValidate) => {
     yupObject[key] = baseSchema.notRequired()
   }
 
-  defaultValues[key] =
-    typeof field?.['#default_value'] !== 'undefined'
-      ? Boolean(field['#default_value'])
-      : false
+  defaultValues[key] = defaultFieldValues.checkbox
 }

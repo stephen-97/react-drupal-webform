@@ -1,6 +1,5 @@
 import {
   TWebformCustomValidators,
-  TWebformDefaultFieldValues,
   TWebformStateMessages,
 } from '../../types/form.d'
 import { DeepRequired } from 'react-hook-form'
