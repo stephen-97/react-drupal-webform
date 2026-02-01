@@ -35,46 +35,4 @@ const handleFileChange = async (event, fieldController, inputRef) => {
         console.error('Error', err);
     }
 };
-const getWrapperCategory = (type) => {
-    if (['textfield', 'textarea', 'email', 'number', 'tel'].includes(type))
-        return 'textInput';
-    if (['select', 'radios'].includes(type))
-        return 'selectionInput';
-    if (['checkbox', 'checkboxes'].includes(type))
-        return 'booleanInput';
-    return undefined;
-};
-export const getRadioChecked = ({ radioFormat, optionKey, optionValue, fieldControllerValue, }) => {
-    if (radioFormat === 'booleanMap') {
-        return Boolean(fieldControllerValue?.[optionKey]);
-    }
-    if (radioFormat === 'key') {
-        return fieldControllerValue === optionKey;
-    }
-    if (radioFormat === 'value') {
-        return fieldControllerValue === optionValue;
-    }
-    if (radioFormat === 'keyValue') {
-        return fieldControllerValue?.key === optionKey;
-    }
-    return false;
-};
-export const getCheckboxChecked = ({ checkboxesFormat, optionKey, optionValue, fieldControllerValue, }) => {
-    if (checkboxesFormat === 'booleanMap') {
-        return Boolean(fieldControllerValue?.[optionKey]);
-    }
-    if (checkboxesFormat === 'key') {
-        return (Array.isArray(fieldControllerValue) &&
-            fieldControllerValue.includes(optionKey));
-    }
-    if (checkboxesFormat === 'value') {
-        return (Array.isArray(fieldControllerValue) &&
-            fieldControllerValue.includes(optionValue));
-    }
-    if (checkboxesFormat === 'keyValue') {
-        return (Array.isArray(fieldControllerValue) &&
-            fieldControllerValue.some((entry) => Object.keys(entry)[0] === optionKey));
-    }
-    return false;
-};
-export { handleChangeOptions, handleFileChange, handleChangeOptionsCheckboxes, getWrapperCategory, };
+export { handleChangeOptions, handleFileChange, handleChangeOptionsCheckboxes };

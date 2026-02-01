@@ -44,8 +44,6 @@ export type TFileWithBase64 = {
   base64: string
 }
 
-export type TFormatFieldMulti = 'key' | 'value' | 'keyValue' | 'booleanMap'
-
 export type TDefaultValue = string | number | boolean | Record<string, any>
 
 export type TWebformDefaultFieldValues = {
@@ -216,6 +214,7 @@ export type DrupalElementCommonProps = {
   fieldKey: string
   unstyled: boolean
   disableActionButtonWhenInvalid?: boolean
+  validationMode?: TValidationMode
 }
 
 export type DrupalElementCommonNoFieldProps = {

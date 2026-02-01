@@ -37,8 +37,15 @@ const Layout = (props: LayoutProps) => {
     component: 'Layout',
   })
 
+  const Wrapper: React.ElementType =
+    field?.['#type'] === 'details'
+      ? 'details'
+      : field?.['#type'] === 'fieldset'
+        ? 'fieldset'
+        : 'div'
+
   return (
-    <div
+    <Wrapper
       key={fieldKey}
       className={layoutClassNames}
       {...dataAttributes}
@@ -47,7 +54,7 @@ const Layout = (props: LayoutProps) => {
       <LayoutTitleComponent {...props} />
 
       <LayoutListComponent {...props}>{children}</LayoutListComponent>
-    </div>
+    </Wrapper>
   )
 }
 

@@ -36,10 +36,16 @@ const More = ({
     name: 'moreButton',
     prefix: classNamePrefix,
     unstyled: unstyled,
-
     baseCn: cn(styles.button, buttonClassName, {
       [styles.opened]: open,
     }),
+  })
+
+  const buttonLabelClassNames = getClassNames({
+    name: 'moreButtonLabel',
+    prefix: classNamePrefix,
+    unstyled: unstyled,
+    baseCn: cn(styles.buttonLabel),
   })
 
   const wysiwygClassNames = getClassNames({
@@ -66,9 +72,10 @@ const More = ({
         type="button"
         className={buttonClassNames}
         onClick={() => setOpen((prev) => !prev)}
+        aria-expanded={open}
         {...buttonProps}
       >
-        {moreTitle ?? 'More'}
+        <span className={buttonLabelClassNames}>{moreTitle ?? 'More'}</span>
       </button>
 
       {open && moreText && moreText.length > 0 && (

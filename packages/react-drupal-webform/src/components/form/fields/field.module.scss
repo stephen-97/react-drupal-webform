@@ -17,9 +17,21 @@
   }
 }
 
+.input[type='date'] {
+  font-family: inherit
+}
+
+.input[readonly] {
+  background: lightgray;
+}
+
+.select {
+  padding-right: .5rem;
+}
+
 .textarea {
   padding: 1rem;
-  font-family: inherit !important;
+  font-family: inherit;
   font-size: var(--font-size-s);
   border: 1px solid var(--input-border-color);
   border-radius: .5rem;
@@ -80,6 +92,9 @@
   cursor: pointer;
   font-weight: 400;
   margin-bottom: 0;
+  &:hover {
+    font-weight: 700;
+  }
 }
 
 .checkboxUnique {

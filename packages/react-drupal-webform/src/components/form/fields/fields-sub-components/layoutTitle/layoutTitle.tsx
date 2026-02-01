@@ -12,7 +12,7 @@ const LayoutTitle = (props: LayoutTitleProps) => {
 
   if (!field?.['#title']) return null
 
-  const layoutListClassNames = getClassNames({
+  const layoutTitleClassNames = getClassNames({
     name: 'layoutTitle',
     prefix: classNamePrefix,
     unstyled: unstyled,
@@ -24,8 +24,32 @@ const LayoutTitle = (props: LayoutTitleProps) => {
     component: 'layoutTitle',
   })
 
+  if (field?.['#type'] === 'fieldset') {
+    return (
+      <legend
+        className={layoutTitleClassNames}
+        {...innerProps}
+        {...dataAttributes}
+      >
+        {field['#title']}
+      </legend>
+    )
+  }
+
+  if (field['#type'] === 'details') {
+    return (
+      <summary
+        className={layoutTitleClassNames}
+        {...innerProps}
+        {...dataAttributes}
+      >
+        {field['#title']}
+      </summary>
+    )
+  }
+
   return (
-    <div className={layoutListClassNames} {...innerProps} {...dataAttributes}>
+    <div className={layoutTitleClassNames} {...innerProps} {...dataAttributes}>
       {field['#title']}
     </div>
   )

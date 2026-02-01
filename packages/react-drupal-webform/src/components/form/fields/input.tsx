@@ -10,6 +10,7 @@ const renderInput = (props: TFieldWebformObj) => {
 
   const CustomInput = components?.fieldById?.[fieldKey] ?? components?.input
 
+  console.log('validationMode', props.validationMode)
   return (
     <FieldContainerComponent
       field={field}

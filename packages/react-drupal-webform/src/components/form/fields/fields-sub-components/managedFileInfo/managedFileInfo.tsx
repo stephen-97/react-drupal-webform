@@ -49,21 +49,22 @@ const ManagedFileInfo = ({
     type: 'managed_file',
   })
 
+  console.log(field)
+
   return (
     <div className={wrapperClassNames} {...dataAttributes} {...innerProps}>
       <span className={labelClassNames}>One file limit</span>
 
-      {field?.['#max_filesize'] && (
-        <span className={maxSizeClassNames}>
-          {field['#max_filesize']} MB limit
-        </span>
-      )}
+      <span className={maxSizeClassNames}>
+        {field?.['#max_filesize'] ?? 100} MB limit
+      </span>
 
-      {field?.['#file_extensions'] && (
-        <span className={fileExtensionClassname}>
-          Allowed types: {field['#file_extensions']}
-        </span>
-      )}
+      <span className={fileExtensionClassname}>
+        Allowed types:{' '}
+        {field?.['#file_extensions'] && field['#file_extensions'].length > 0
+          ? field['#file_extensions']
+          : 'gif, jpg, jpeg, bmp, eps, tif, pict, psd, txt, rtf, html, odf, pdf, doc, docx, ppt, pptx, xls, xlsx, xml, avi, mov, mp3, mp4, ogg, wav, bz2, dmg, gz, jar, rar, sit, svg, tar, zip.'}
+      </span>
     </div>
   )
 }

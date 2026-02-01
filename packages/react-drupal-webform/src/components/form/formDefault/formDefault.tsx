@@ -137,6 +137,7 @@ const FormDefault = (props: IFormDefaultWebformProps) => {
         classNamePrefix={classNamePrefix}
         unstyled={unstyled}
         disableActionButtonWhenInvalid={disableActionButtonWhenInvalid}
+        validationMode={validationMode}
         {...(isLayout ? { watchedValues } : {})}
       />
     )

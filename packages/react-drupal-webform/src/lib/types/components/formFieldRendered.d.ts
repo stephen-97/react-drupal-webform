@@ -1,5 +1,5 @@
 import { TElementSource } from './field'
-import { TDeepRequiredClassNames } from '../deepRequired'
+import { TValidationMode } from '../form.d'
 
 export interface IFieldRendererWebformProps {
   index: number
@@ -11,4 +11,5 @@ export interface IFieldRendererWebformProps {
   watchedValues?: Record<string, any>
   unstyled: boolean
   disableActionButtonWhenInvalid: boolean
+  validationMode: TValidationMode
 }

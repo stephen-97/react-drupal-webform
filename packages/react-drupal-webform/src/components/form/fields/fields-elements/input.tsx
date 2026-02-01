@@ -9,6 +9,7 @@ import {
   getDataAttributes,
   getTextLikeInputAttributes,
 } from '../../../../lib/functions/utils_functions'
+import { TElementSource } from '../../../../lib/types'
 
 const Input = (props: InputProps) => {
   const {
@@ -18,16 +19,19 @@ const Input = (props: InputProps) => {
     className,
     innerProps,
     unstyled,
+    validationMode,
     onChange: onChangeProp,
     onBlur: onBlurProp,
     onFocus: onFocusProp,
   } = props
+
   const { control } = useFormContext()
 
   const { field: fieldController } = useController({
     name: fieldKey,
     control,
   })
+
   const getFieldType: HTMLInputTypeAttribute = (() => {
     switch (field?.['#type']) {
       case 'textfield':
@@ -61,7 +65,37 @@ const Input = (props: InputProps) => {
 
   const inputFieldAttributes = getTextLikeInputAttributes(field, getFieldType)
 
+  const applyWebformNativeValidation = (
+    input: HTMLInputElement,
+    field?: TElementSource
+  ) => {
+    input.setCustomValidity('')
+
+    if (input.validity.valid) {
+      return
+    }
+
+    if (input.validity.patternMismatch && field?.['#pattern_error']) {
+      input.setCustomValidity(field['#pattern_error'])
+      return
+    }
+
+    if (input.validity.valueMissing && field?.['#required_error']) {
+      input.setCustomValidity(field['#required_error'])
+      return
+    }
+  }
+
+  const resetWebformNativeValidation = (input: HTMLInputElement) => {
+    if (validationMode !== 'htmlNative') return
+    input.setCustomValidity('')
+  }
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (validationMode === 'htmlNative') {
+      resetWebformNativeValidation(e.currentTarget)
+    }
+
     fieldController.onChange(e)
     onChangeProp?.(e)
   }
@@ -75,18 +109,24 @@ const Input = (props: InputProps) => {
     onFocusProp?.(e)
   }
 
+  const handleInvalid = (e: React.FormEvent<HTMLInputElement>) => {
+    if (validationMode !== 'htmlNative') return
+    applyWebformNativeValidation(e.currentTarget, field)
+  }
+
   return (
     <input
       id={fieldKey}
       className={inputClassNames}
       name={fieldController.name}
       type={getFieldType}
+      value={fieldController.value ?? ''}
+      readOnly={field?.['#readonly']}
+      aria-describedby={ariaDescribedBy}
       onChange={handleChange}
       onBlur={handleBlur}
       onFocus={handleFocus}
-      value={fieldController.value ?? ''}
-      aria-describedby={ariaDescribedBy}
-      readOnly={field?.['#readonly']}
+      onInvalid={handleInvalid}
       {...inputFieldAttributes}
       {...dataAttributes}
       {...innerProps}

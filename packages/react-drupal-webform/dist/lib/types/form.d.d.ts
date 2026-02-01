@@ -36,7 +36,6 @@ export type TFileWithBase64 = {
     lastModifiedDate: number;
     base64: string;
 };
-export type TFormatFieldMulti = 'key' | 'value' | 'keyValue' | 'booleanMap';
 export type TDefaultValue = string | number | boolean | Record<string, any>;
 export type TWebformDefaultFieldValues = {
     [K in TDrupalValueFieldType]?: TDefaultValue;
