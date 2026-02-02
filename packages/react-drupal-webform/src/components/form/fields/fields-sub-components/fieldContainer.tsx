@@ -71,6 +71,7 @@ const FieldContainer = (props: FieldContainerProps) => {
     <WrapperElement
       className={componentClassNames}
       {...dataAttributes}
+      {...props}
       {...(innerProps as any)}
     >
       {isLabel && field?.['#title'] && (

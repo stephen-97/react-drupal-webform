@@ -24,9 +24,6 @@ const CustomInput = (props: InputProps) => {
       <components.Input
         className={styles.inputCustom}
         onBlur={() => console.log('onBlur')}
-        innerProps={{
-          ...props.innerProps,
-        }}
         {...props}
       ></components.Input>
       <button

@@ -8,7 +8,8 @@ import {
 } from '../../../../../lib/functions/utils_functions'
 
 const LayoutList = (props: LayoutListProps) => {
-  const { children, className, innerProps, classNamePrefix, unstyled } = props
+  const { children, className, innerProps, classNamePrefix, unstyled, field } =
+    props
 
   if (!children) return null
 

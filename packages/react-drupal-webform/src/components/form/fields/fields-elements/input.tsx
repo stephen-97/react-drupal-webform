@@ -20,6 +20,7 @@ const Input = (props: InputProps) => {
     innerProps,
     unstyled,
     validationMode,
+    onInvalid: onInvalidProp,
     onChange: onChangeProp,
     onBlur: onBlurProp,
     onFocus: onFocusProp,
@@ -66,9 +67,11 @@ const Input = (props: InputProps) => {
   const inputFieldAttributes = getTextLikeInputAttributes(field, getFieldType)
 
   const applyWebformNativeValidation = (
-    input: HTMLInputElement,
+    e: React.FormEvent<HTMLInputElement>,
     field?: TElementSource
   ) => {
+    const input = e.currentTarget
+
     input.setCustomValidity('')
 
     if (input.validity.valid) {
@@ -77,13 +80,11 @@ const Input = (props: InputProps) => {
 
     if (input.validity.patternMismatch && field?.['#pattern_error']) {
       input.setCustomValidity(field['#pattern_error'])
-      return
+    } else if (input.validity.valueMissing && field?.['#required_error']) {
+      input.setCustomValidity(field['#required_error'])
     }
 
-    if (input.validity.valueMissing && field?.['#required_error']) {
-      input.setCustomValidity(field['#required_error'])
-      return
-    }
+    onInvalidProp?.(e)
   }
 
   const resetWebformNativeValidation = (input: HTMLInputElement) => {
@@ -111,7 +112,7 @@ const Input = (props: InputProps) => {
 
   const handleInvalid = (e: React.FormEvent<HTMLInputElement>) => {
     if (validationMode !== 'htmlNative') return
-    applyWebformNativeValidation(e.currentTarget, field)
+    applyWebformNativeValidation(e, field)
   }
 
   return (
@@ -129,6 +130,7 @@ const Input = (props: InputProps) => {
       onInvalid={handleInvalid}
       {...inputFieldAttributes}
       {...dataAttributes}
+      {...props}
       {...innerProps}
     />
   )

@@ -9,18 +9,20 @@ import {
   getDataAttributes,
 } from '../../../../lib/functions/utils_functions'
 
-const Select = ({
-  fieldKey,
-  field,
-  innerProps,
-  className,
-  classNamePrefix,
-  ariaDescribedBy,
-  unstyled,
-  onChange: onChangeProp,
-  onBlur: onBlurProp,
-  onFocus: onFocusProp,
-}: SelectProps) => {
+const Select = (props: SelectProps) => {
+  const {
+    fieldKey,
+    field,
+    innerProps,
+    className,
+    classNamePrefix,
+    ariaDescribedBy,
+    unstyled,
+    onChange: onChangeProp,
+    onBlur: onBlurProp,
+    onFocus: onFocusProp,
+  } = props
+
   const { control } = useFormContext()
 
   if (!field?.['#options']) return null
@@ -85,6 +87,7 @@ const Select = ({
       onFocus={handleFocus}
       aria-describedby={ariaDescribedBy}
       {...dataAttributes}
+      {...props}
       {...innerProps}
     >
       <option className={optionClassNames} value={''}>

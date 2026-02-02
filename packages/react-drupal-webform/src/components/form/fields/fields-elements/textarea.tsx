@@ -8,18 +8,20 @@ import {
   getDataAttributes,
 } from '../../../../lib/functions/utils_functions'
 
-const Textarea = ({
-  fieldKey,
-  field,
-  className,
-  innerProps,
-  classNamePrefix,
-  ariaDescribedBy,
-  unstyled,
-  onChange: onChangeProp,
-  onBlur: onBlurProp,
-  onFocus: onFocusProp,
-}: TextAreaProps) => {
+const Textarea = (props: TextAreaProps) => {
+  const {
+    fieldKey,
+    field,
+    className,
+    innerProps,
+    classNamePrefix,
+    ariaDescribedBy,
+    unstyled,
+    onChange: onChangeProp,
+    onBlur: onBlurProp,
+    onFocus: onFocusProp,
+  } = props
+
   const { control } = useFormContext()
 
   const { field: fieldController } = useController({
@@ -70,6 +72,7 @@ const Textarea = ({
       readOnly={field?.['#readonly']}
       aria-describedby={ariaDescribedBy}
       {...dataAttributes}
+      {...props}
       {...innerProps}
     />
   )

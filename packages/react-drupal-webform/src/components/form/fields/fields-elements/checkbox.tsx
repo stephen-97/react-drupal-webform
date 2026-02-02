@@ -6,18 +6,20 @@ import {
   getClassNames,
   getDataAttributes,
 } from '../../../../lib/functions/utils_functions'
-const Checkbox = ({
-  fieldKey,
-  field,
-  innerProps,
-  className,
-  ariaDescribedBy,
-  classNamePrefix,
-  unstyled,
-  onChange: onChangeProp,
-  onBlur: onBlurProp,
-  onFocus: onFocusProp,
-}: CheckboxProps) => {
+const Checkbox = (props: CheckboxProps) => {
+  const {
+    fieldKey,
+    field,
+    innerProps,
+    className,
+    ariaDescribedBy,
+    classNamePrefix,
+    unstyled,
+    onChange: onChangeProp,
+    onBlur: onBlurProp,
+    onFocus: onFocusProp,
+  } = props
+
   const { control } = useFormContext()
 
   const { field: fieldController } = useController<any>({
@@ -72,6 +74,7 @@ const Checkbox = ({
       className={checkboxClassNames}
       aria-describedby={ariaDescribedBy}
       {...dataAttributes}
+      {...props}
       {...innerProps}
     />
   )
