@@ -39,8 +39,6 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
     disableActionButtonWhenInvalid = false,
   } = props
 
-  console.log(rhfValidationMode, validationEngine)
-
   const totalSteps = Object.keys(elementsSource).length
   const isHtmlNative = validationEngine === 'html'
 

@@ -61,7 +61,6 @@ export const resolveCustomValidator = <S extends AnySchema>(
   }
 
   if (type && customValidators.byType?.[type]) {
-    console.log('ici', customValidators.byType[type])
     return customValidators.byType[type]!(args) as unknown as S
   }
 
