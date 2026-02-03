@@ -17,6 +17,7 @@ const Textarea = (props: TextAreaProps) => {
     classNamePrefix,
     ariaDescribedBy,
     unstyled,
+    innerRef,
     onChange: onChangeProp,
     onBlur: onBlurProp,
     onFocus: onFocusProp,
@@ -58,6 +59,7 @@ const Textarea = (props: TextAreaProps) => {
   return (
     <textarea
       id={fieldKey}
+      ref={innerRef}
       name={fieldController.name}
       minLength={field?.['#minlength']}
       maxLength={field?.['#maxlength']}

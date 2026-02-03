@@ -7,4 +7,5 @@ export interface ButtonProps extends DrupalElementCommonProps {
   title: string
   fillType?: 'fill' | 'border'
   size?: 'default' | 'small'
+  innerRef?: (instance: HTMLButtonElement | null) => void
 }

@@ -5,4 +5,5 @@ export interface LayoutProps extends TFieldWebformObj {
   children: React.ReactNode
   className?: string
   innerProps?: React.HTMLAttributes<HTMLElement>
+  innerRef?: (instance: HTMLElement | null) => void
 }

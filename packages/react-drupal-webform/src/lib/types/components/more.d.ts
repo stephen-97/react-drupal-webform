@@ -7,4 +7,5 @@ export interface MoreProps extends DrupalElementCommonProps {
   innerPropsButton?: jsx.JSX.IntrinsicElements['button']
   innerPropsWysiwyg?: IWysiwygProps
   className?: string
+  innerRef?: (instance: HTMLDivElement | null) => void
 }

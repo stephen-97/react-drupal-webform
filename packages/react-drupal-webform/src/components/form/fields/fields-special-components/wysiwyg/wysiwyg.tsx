@@ -15,6 +15,7 @@ const Wysiwyg = ({
   classNamePrefix,
   innerProps,
   unstyled,
+  innerRef,
 }: WysiwygProps) => {
   const wysiwygClassNames = getClassNames({
     name: 'wysiwyg',
@@ -29,6 +30,7 @@ const Wysiwyg = ({
   })
   return (
     <Element
+      ref={innerRef}
       className={wysiwygClassNames}
       dangerouslySetInnerHTML={{
         __html: DOMPurify.sanitize(processed, {

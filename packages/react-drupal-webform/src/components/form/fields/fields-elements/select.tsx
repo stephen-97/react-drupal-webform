@@ -18,6 +18,7 @@ const Select = (props: SelectProps) => {
     classNamePrefix,
     ariaDescribedBy,
     unstyled,
+    innerRef,
     onChange: onChangeProp,
     onBlur: onBlurProp,
     onFocus: onFocusProp,
@@ -78,6 +79,7 @@ const Select = (props: SelectProps) => {
   return (
     <select
       id={fieldKey}
+      ref={innerRef}
       name={fieldController.name}
       required={field?.['#required']}
       className={selectClassNames}

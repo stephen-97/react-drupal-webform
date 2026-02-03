@@ -11,7 +11,6 @@ import { normalizeStateMessages } from '../lib/functions/webform-states-message-
 
 const Webform = ({
   elementsSource,
-  defaultFieldValues = {},
   defaultFieldStateMessages = {},
   components = {},
   onSubmit,
@@ -19,15 +18,16 @@ const Webform = ({
   customValidators,
   classNamePrefix,
   unstyled = false,
-  validationMode,
+  rhfValidationMode = 'all',
+  validationEngine = 'html',
   disableActionButtonWhenInvalid,
 }: TWebform) => {
   const mergedDefaultFieldValues = useMemo(
     () => ({
-      ...defaultFieldValues,
+      ...{},
       ...defaultValuesObj,
     }),
-    [defaultFieldValues]
+    []
   )
 
   const mergedDefaultValuesStateMessages =
@@ -52,7 +52,8 @@ const Webform = ({
     customValidators,
     classNamePrefix,
     unstyled,
-    validationMode,
+    rhfValidationMode,
+    validationEngine,
     disableActionButtonWhenInvalid,
   }
 

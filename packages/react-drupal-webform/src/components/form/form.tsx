@@ -13,10 +13,10 @@ const Form = (props: FormProps) => {
     innerProps,
     classNamePrefix,
     unstyled,
-    validationMode,
+    validationEngine,
   } = props
 
-  const isHtmlNative = validationMode === 'htmlNative'
+  const isHtmlNative = validationEngine === 'html'
 
   const { formState } = useFormContext()
   const { errors, submitCount } = formState

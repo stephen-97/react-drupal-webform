@@ -24,6 +24,7 @@ const FieldContainer = (props: FieldContainerProps) => {
     innerProps,
     className,
     classNamePrefix,
+    innerRef,
     unstyled,
   } = props
 
@@ -70,6 +71,7 @@ const FieldContainer = (props: FieldContainerProps) => {
   return (
     <WrapperElement
       className={componentClassNames}
+      ref={innerRef}
       {...dataAttributes}
       {...(innerProps as any)}
     >

@@ -6,6 +6,6 @@ export interface FormProps extends TFieldWebformObj {
   className?: string
   onSubmit: React.FormEventHandler<HTMLFormElement>
   innerProps?: JSX.IntrinsicElements['form']
-  validationMode: TValidationMode
+  validationEngine?: 'rhf' | 'html'
   disableActionButtonWhenInvalid?: boolean
 }

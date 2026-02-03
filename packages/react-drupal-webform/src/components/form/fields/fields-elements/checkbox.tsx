@@ -15,6 +15,7 @@ const Checkbox = (props: CheckboxProps) => {
     ariaDescribedBy,
     classNamePrefix,
     unstyled,
+    innerRef,
     onChange: onChangeProp,
     onBlur: onBlurProp,
     onFocus: onFocusProp,
@@ -63,6 +64,7 @@ const Checkbox = (props: CheckboxProps) => {
   return (
     <input
       id={fieldKey}
+      ref={innerRef}
       name={fieldController.name}
       type="checkbox"
       value={title}

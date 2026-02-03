@@ -8,7 +8,8 @@ import {
 } from '../../../../../lib/functions/utils_functions'
 
 const LayoutTitle = (props: LayoutTitleProps) => {
-  const { field, innerProps, className, classNamePrefix, unstyled } = props
+  const { field, innerProps, className, classNamePrefix, unstyled, innerRef } =
+    props
 
   if (!field?.['#title']) return null
 
@@ -27,6 +28,7 @@ const LayoutTitle = (props: LayoutTitleProps) => {
   if (field?.['#type'] === 'fieldset') {
     return (
       <legend
+        ref={innerRef}
         className={layoutTitleClassNames}
         {...innerProps}
         {...dataAttributes}
@@ -39,6 +41,7 @@ const LayoutTitle = (props: LayoutTitleProps) => {
   if (field['#type'] === 'details') {
     return (
       <summary
+        ref={innerRef}
         className={layoutTitleClassNames}
         {...innerProps}
         {...dataAttributes}
@@ -49,9 +52,14 @@ const LayoutTitle = (props: LayoutTitleProps) => {
   }
 
   return (
-    <div className={layoutTitleClassNames} {...innerProps} {...dataAttributes}>
+    <span
+      ref={innerRef}
+      className={layoutTitleClassNames}
+      {...innerProps}
+      {...dataAttributes}
+    >
       {field['#title']}
-    </div>
+    </span>
   )
 }
 

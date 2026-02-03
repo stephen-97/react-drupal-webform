@@ -8,7 +8,7 @@ import {
 } from '../../../../../lib/functions/utils_functions'
 
 const Loader = (props: LoaderProps) => {
-  const { innerProps, className, classNamePrefix, unstyled } = props
+  const { innerProps, className, classNamePrefix, unstyled, innerRef } = props
 
   const loaderClassNames = getClassNames({
     name: 'loader',
@@ -23,7 +23,12 @@ const Loader = (props: LoaderProps) => {
   })
 
   return (
-    <span className={loaderClassNames} {...dataAttributes} {...innerProps} />
+    <span
+      ref={innerRef}
+      className={loaderClassNames}
+      {...dataAttributes}
+      {...innerProps}
+    />
   )
 }
 

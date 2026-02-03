@@ -24,7 +24,9 @@ const Layout = (props) => {
         ? 'details'
         : field?.['#type'] === 'fieldset'
             ? 'fieldset'
-            : 'div';
+            : field?.['#type'] === 'webform_section'
+                ? 'section'
+                : 'div';
     return (_jsxs(Wrapper, { className: layoutClassNames, ...dataAttributes, ...innerProps, children: [_jsx(LayoutTitleComponent, { ...props }), _jsx(LayoutListComponent, { ...props, children: children })] }, fieldKey));
 };
 export default React.memo(Layout);

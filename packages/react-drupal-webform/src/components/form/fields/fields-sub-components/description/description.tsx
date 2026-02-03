@@ -17,6 +17,7 @@ const Description = ({
   className,
   classNamePrefix,
   unstyled,
+  innerRef,
 }: DescriptionProps) => {
   const CustomWysiwyg = components.wysiwyg ?? Wysiwyg
 
@@ -39,6 +40,7 @@ const Description = ({
 
   return (
     <CustomWysiwyg
+      innerRef={innerRef}
       components={components}
       field={field}
       fieldKey={fieldKey}

@@ -87,7 +87,8 @@ const CustomWebform = ({ elementsSource }: TWebformContainer) => {
             <components.Layout data-test={'test'} {...props} />
           ),
         }}
-        validationMode="onBlur"
+        validationEngine="rhf"
+        rhfValidationMode="all"
       />
     </div>
   )

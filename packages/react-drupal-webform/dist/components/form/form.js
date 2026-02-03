@@ -5,8 +5,8 @@ import styles from './form.module.scss';
 import { getClassNames } from '../../lib/functions/utils_functions';
 import { useFormContext } from 'react-hook-form';
 const Form = (props) => {
-    const { children, onSubmit, className, innerProps, classNamePrefix, unstyled, validationMode, } = props;
-    const isHtmlNative = validationMode === 'htmlNative';
+    const { children, onSubmit, className, innerProps, classNamePrefix, unstyled, validationEngine, } = props;
+    const isHtmlNative = validationEngine === 'html';
     const { formState } = useFormContext();
     const { errors, submitCount } = formState;
     const formClassName = getClassNames({
@@ -48,6 +48,6 @@ const Form = (props) => {
         });
         firstInvalid.focus({ preventScroll: true });
     }, [errors, submitCount]);
-    return (_jsx("form", { className: formClassName, onSubmit: onSubmit, noValidate: !isHtmlNative, onInvalidCapture: handleInvalidCapture, ...props, ...innerProps, children: children }));
+    return (_jsx("form", { className: formClassName, onSubmit: onSubmit, noValidate: !isHtmlNative, onInvalidCapture: handleInvalidCapture, ...innerProps, children: children }));
 };
 export default Form;

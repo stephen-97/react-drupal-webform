@@ -19,7 +19,8 @@ const Input = (props: InputProps) => {
     className,
     innerProps,
     unstyled,
-    validationMode,
+    validationEngine,
+    innerRef,
     onChange: onChangeProp,
     onBlur: onBlurProp,
     onFocus: onFocusProp,
@@ -85,12 +86,12 @@ const Input = (props: InputProps) => {
   }
 
   const resetWebformNativeValidation = (input: HTMLInputElement) => {
-    if (validationMode !== 'htmlNative') return
+    if (validationEngine !== 'html') return
     input.setCustomValidity('')
   }
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (validationMode === 'htmlNative') {
+    if (validationEngine === 'html') {
       resetWebformNativeValidation(e.currentTarget)
     }
 
@@ -108,13 +109,14 @@ const Input = (props: InputProps) => {
   }
 
   const handleInvalid = (e: React.FormEvent<HTMLInputElement>) => {
-    if (validationMode !== 'htmlNative') return
+    if (validationEngine !== 'html') return
     applyWebformNativeValidation(e, field)
   }
 
   return (
     <input
       id={fieldKey}
+      ref={innerRef}
       className={inputClassNames}
       name={fieldController.name}
       type={getFieldType}

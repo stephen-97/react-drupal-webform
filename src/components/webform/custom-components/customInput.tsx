@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useRef } from 'react'
 import styles from './customInput.module.scss'
 import { useController, useFormContext } from 'react-hook-form'
 import cn from 'classnames'
@@ -12,26 +12,41 @@ const CustomInput = (props: InputProps) => {
 
   const { control } = useFormContext()
 
-  const controller = useController<any>({ name: fieldKey, control })
-
   const {
     field: fieldController,
     fieldState: { error },
-  } = controller
+  } = useController<any>({
+    name: fieldKey,
+    control,
+  })
+
+  const inputRef = useRef<HTMLInputElement | null>(null)
+
+  const handleClear = () => {
+    fieldController.onChange('')
+    inputRef.current?.focus()
+  }
 
   return (
-    <div className={cn(styles.inputCustomContainer, { [styles.error]: error })}>
+    <div
+      className={cn(styles.inputCustomContainer, {
+        [styles.error]: error,
+      })}
+    >
       <components.Input
-        className={styles.inputCustom}
-        onBlur={() => console.log('onBlur')}
         {...props}
-      ></components.Input>
+        className={styles.inputCustom}
+        innerRef={(el) => {
+          inputRef.current = el
+        }}
+      />
+
       <button
         className={styles.clearButton}
-        type={'button'}
+        type="button"
         aria-label={`clear the field "${field?.['#title']}"`}
-        onClick={() => fieldController.onChange('')}
-      ></button>
+        onClick={handleClear}
+      />
     </div>
   )
 }

@@ -14,6 +14,7 @@ const ErrorFieldMessage = ({
   fieldKey,
   classNamePrefix,
   unstyled,
+  innerRef,
 }: ErrorMessageProps) => {
   const wrapperClassNames = getClassNames({
     name: 'errorFieldMessage',
@@ -53,7 +54,7 @@ const ErrorFieldMessage = ({
   }
 
   return (
-    <div className={wrapperClassNames} {...dataAttributes}>
+    <div ref={innerRef} className={wrapperClassNames} {...dataAttributes}>
       {message && <span className={messageClassNames}>{message}</span>}
       {children}
     </div>

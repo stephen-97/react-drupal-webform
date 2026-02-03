@@ -12,6 +12,7 @@ const Button = ({
   className,
   classNamePrefix,
   unstyled,
+  innerRef,
 }: ButtonProps) => {
   const { ...restInnerProps } = innerProps ?? {}
 
@@ -24,7 +25,12 @@ const Button = ({
   })
 
   return (
-    <button className={buttonClassNames} type={'button'} {...restInnerProps}>
+    <button
+      ref={innerRef}
+      className={buttonClassNames}
+      type={'button'}
+      {...restInnerProps}
+    >
       {title}
     </button>
   )

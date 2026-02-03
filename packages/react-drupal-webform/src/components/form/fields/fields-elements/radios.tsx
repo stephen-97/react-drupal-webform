@@ -19,6 +19,7 @@ const Radios = ({
   ariaDescribedBy,
   classNamePrefix,
   unstyled,
+  innerRef,
   onChange: onChangeProp,
   onBlur: onBlurProp,
   onFocus: onFocusProp,
@@ -85,6 +86,7 @@ const Radios = ({
     <div
       className={radiosWrapperClassNames}
       role="radiogroup"
+      ref={innerRef}
       {...dataAttributes}
       {...innerProps}
     >

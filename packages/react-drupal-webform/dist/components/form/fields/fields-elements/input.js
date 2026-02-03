@@ -5,7 +5,7 @@ import { useController, useFormContext } from 'react-hook-form';
 import styles from '../field.module.scss';
 import { getAriaDescribedBy, getClassNames, getDataAttributes, getTextLikeInputAttributes, } from '../../../../lib/functions/utils_functions';
 const Input = (props) => {
-    const { fieldKey, field, classNamePrefix, className, innerProps, unstyled, validationMode, onInvalid: onInvalidProp, onChange: onChangeProp, onBlur: onBlurProp, onFocus: onFocusProp, } = props;
+    const { fieldKey, field, classNamePrefix, className, innerProps, unstyled, validationEngine, onChange: onChangeProp, onBlur: onBlurProp, onFocus: onFocusProp, } = props;
     const { control } = useFormContext();
     const { field: fieldController } = useController({
         name: fieldKey,
@@ -51,15 +51,14 @@ const Input = (props) => {
         else if (input.validity.valueMissing && field?.['#required_error']) {
             input.setCustomValidity(field['#required_error']);
         }
-        onInvalidProp?.(e);
     };
     const resetWebformNativeValidation = (input) => {
-        if (validationMode !== 'htmlNative')
+        if (validationEngine !== 'html')
             return;
         input.setCustomValidity('');
     };
     const handleChange = (e) => {
-        if (validationMode === 'htmlNative') {
+        if (validationEngine === 'html') {
             resetWebformNativeValidation(e.currentTarget);
         }
         fieldController.onChange(e);
@@ -73,10 +72,10 @@ const Input = (props) => {
         onFocusProp?.(e);
     };
     const handleInvalid = (e) => {
-        if (validationMode !== 'htmlNative')
+        if (validationEngine !== 'html')
             return;
         applyWebformNativeValidation(e, field);
     };
-    return (_jsx("input", { id: fieldKey, className: inputClassNames, name: fieldController.name, type: getFieldType, value: fieldController.value ?? '', readOnly: field?.['#readonly'], "aria-describedby": ariaDescribedBy, onChange: handleChange, onBlur: handleBlur, onFocus: handleFocus, onInvalid: handleInvalid, ...inputFieldAttributes, ...dataAttributes, ...props, ...innerProps }));
+    return (_jsx("input", { id: fieldKey, className: inputClassNames, name: fieldController.name, type: getFieldType, value: fieldController.value ?? '', readOnly: field?.['#readonly'], "aria-describedby": ariaDescribedBy, onChange: handleChange, onBlur: handleBlur, onFocus: handleFocus, onInvalid: handleInvalid, ...inputFieldAttributes, ...dataAttributes, ...innerProps }));
 };
 export default React.memo(Input);

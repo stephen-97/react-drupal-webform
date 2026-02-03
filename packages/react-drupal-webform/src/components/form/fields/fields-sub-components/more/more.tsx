@@ -15,6 +15,7 @@ const More = ({
   classNamePrefix,
   field,
   unstyled,
+  innerRef,
 }: MoreProps) => {
   const CustomWysiwyg = components.wysiwyg ?? Wysiwyg
 
@@ -64,6 +65,7 @@ const More = ({
 
   return (
     <div
+      ref={innerRef}
       className={containerClassNames}
       {...dataAttributes}
       {...containerProps}

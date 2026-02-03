@@ -16,6 +16,7 @@ const Title = (props: TitleProps) => {
     wrapperElement,
     classNamePrefix,
     unstyled,
+    innerRef,
   } = props
 
   const title = field?.['#title']
@@ -49,6 +50,7 @@ const Title = (props: TitleProps) => {
   if (wrapperElement === 'label') {
     return (
       <label
+        ref={innerRef}
         htmlFor={fieldKey}
         className={titleClassNames}
         {...dataAttributes}
@@ -69,7 +71,12 @@ const Title = (props: TitleProps) => {
   }
 
   return (
-    <legend className={titleClassNames} {...dataAttributes} {...innerProps}>
+    <legend
+      ref={innerRef}
+      className={titleClassNames}
+      {...dataAttributes}
+      {...innerProps}
+    >
       {title}
       {showHelp && (
         <CustomHelp

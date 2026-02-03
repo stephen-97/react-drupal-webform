@@ -47,6 +47,6 @@ const Select = (props) => {
     const handleFocus = (e) => {
         onFocusProp?.(e);
     };
-    return (_jsxs("select", { id: fieldKey, name: fieldController.name, required: field?.['#required'], className: selectClassNames, value: fieldController.value ?? '', onChange: handleChange, onBlur: handleBlur, onFocus: handleFocus, "aria-describedby": ariaDescribedBy, ...dataAttributes, ...props, ...innerProps, children: [_jsx("option", { className: optionClassNames, value: '', children: field?.['#empty_option'] ?? '-- Select an option --' }), options.map(([optionKey, optionValue]) => (_jsx("option", { className: optionClassNames, value: optionKey, children: optionValue }, optionKey)))] }));
+    return (_jsxs("select", { id: fieldKey, name: fieldController.name, required: field?.['#required'], className: selectClassNames, value: fieldController.value ?? '', onChange: handleChange, onBlur: handleBlur, onFocus: handleFocus, "aria-describedby": ariaDescribedBy, ...dataAttributes, ...innerProps, children: [_jsx("option", { className: optionClassNames, value: '', children: field?.['#empty_option'] ?? '-- Select an option --' }), options.map(([optionKey, optionValue]) => (_jsx("option", { className: optionClassNames, value: optionKey, children: optionValue }, optionKey)))] }));
 };
 export default React.memo(Select);

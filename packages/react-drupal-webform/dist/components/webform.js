@@ -5,11 +5,11 @@ import { defaultValuesFieldStateMessages, defaultValuesObj, } from '../lib/const
 import { useMemo } from 'react';
 import FormMultiStep from './form/formMultiStep/formMultiStep';
 import { normalizeStateMessages } from '../lib/functions/webform-states-message-functions/webform-state-messages-functions';
-const Webform = ({ elementsSource, defaultFieldValues = {}, defaultFieldStateMessages = {}, components = {}, onSubmit, includeInactiveFieldsInSubmit = true, customValidators, classNamePrefix, unstyled = false, validationMode, disableActionButtonWhenInvalid, }) => {
+const Webform = ({ elementsSource, defaultFieldStateMessages = {}, components = {}, onSubmit, includeInactiveFieldsInSubmit = true, customValidators, classNamePrefix, unstyled = false, rhfValidationMode = 'all', disableActionButtonWhenInvalid, }) => {
     const mergedDefaultFieldValues = useMemo(() => ({
-        ...defaultFieldValues,
+        ...{},
         ...defaultValuesObj,
-    }), [defaultFieldValues]);
+    }), []);
     const mergedDefaultValuesStateMessages = useMemo(() => {
         return normalizeStateMessages(defaultFieldStateMessages, defaultValuesFieldStateMessages);
     }, [defaultFieldStateMessages]);
@@ -25,7 +25,7 @@ const Webform = ({ elementsSource, defaultFieldValues = {}, defaultFieldStateMes
         customValidators,
         classNamePrefix,
         unstyled,
-        validationMode,
+        rhfValidationMode,
         disableActionButtonWhenInvalid,
     };
     return elementsSource ? _jsx(FormComponent, { ...formProps }) : null;

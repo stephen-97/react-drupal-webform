@@ -13,7 +13,7 @@ const FormFieldRendered = ({
   classNamePrefix,
   unstyled,
   disableActionButtonWhenInvalid,
-  validationMode,
+  validationEngine,
 }: IFieldRendererWebformProps) => {
   const rawType = field['#type']
   const type = rawType in FormMappingFields ? rawType : 'default'
@@ -41,7 +41,7 @@ const FormFieldRendered = ({
     classNamePrefix,
     unstyled,
     disableActionButtonWhenInvalid,
-    validationMode,
+    validationEngine,
     ...(isLayout ? { watchedValues } : {}),
   })
 }

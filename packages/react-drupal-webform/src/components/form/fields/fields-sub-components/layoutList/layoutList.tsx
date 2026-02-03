@@ -8,8 +8,14 @@ import {
 } from '../../../../../lib/functions/utils_functions'
 
 const LayoutList = (props: LayoutListProps) => {
-  const { children, className, innerProps, classNamePrefix, unstyled, field } =
-    props
+  const {
+    children,
+    className,
+    innerProps,
+    classNamePrefix,
+    unstyled,
+    innerRef,
+  } = props
 
   if (!children) return null
 
@@ -26,7 +32,12 @@ const LayoutList = (props: LayoutListProps) => {
   })
 
   return (
-    <div className={layoutListClassNames} {...dataAttributes} {...innerProps}>
+    <div
+      ref={innerRef}
+      className={layoutListClassNames}
+      {...dataAttributes}
+      {...innerProps}
+    >
       {children}
     </div>
   )

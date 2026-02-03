@@ -20,6 +20,7 @@ const ManagedFilePreview = ({
   fieldKey,
   unstyled,
   components,
+  innerRef,
 }: ManagedFilePreviewProps) => {
   const fileValue = value as TFileWithBase64
   const blob = base64ToBlob(fileValue.base64, fileValue.type)
@@ -65,7 +66,12 @@ const ManagedFilePreview = ({
   })
 
   return (
-    <div className={wrapperClassNames} {...dataAttributes} {...innerProps}>
+    <div
+      ref={innerRef}
+      className={wrapperClassNames}
+      {...dataAttributes}
+      {...innerProps}
+    >
       <div className={fileInfoClassNames}>
         <span className={fileNameClassNames}>
           <a

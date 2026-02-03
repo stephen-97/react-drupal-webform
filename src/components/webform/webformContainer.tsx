@@ -78,11 +78,10 @@ const WebformContainer = ({ elementsSource }: TWebformContainer) => {
       elementsSource={correctElementsSource}
       onSubmit={handleSubmit}
       defaultFieldStateMessages={defaultStateValues}
-      showConfirmation={true}
-      isSubmitted={isSubmitted}
       classNamePrefix={'top'}
       unstyled={false}
-      validationMode={'htmlNative'}
+      validationEngine={'html'}
+      rhfValidationMode={'onBlur'}
     />
   )
 }

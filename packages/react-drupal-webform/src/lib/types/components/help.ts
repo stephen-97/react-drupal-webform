@@ -4,4 +4,5 @@ import { DrupalElementCommonProps } from '../form.d'
 export interface HelpProps extends DrupalElementCommonProps {
   innerProps?: jsx.JSX.IntrinsicElements['button']
   className?: string
+  innerRef?: (instance: HTMLButtonElement | null) => void
 }

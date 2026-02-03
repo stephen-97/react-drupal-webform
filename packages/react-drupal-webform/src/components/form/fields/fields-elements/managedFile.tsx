@@ -20,6 +20,7 @@ const ManagedFile = ({
   ariaDescribedBy,
   classNamePrefix,
   unstyled,
+  innerRef,
   onChange: onChangeProp,
   onBlur: onBlurProp,
   onFocus: onFocusProp,
@@ -95,7 +96,10 @@ const ManagedFile = ({
   return (
     <input
       id={fieldKey}
-      ref={inputRef}
+      ref={(el) => {
+        inputRef.current = el
+        innerRef?.(el)
+      }}
       type="file"
       name={fieldController.name}
       accept={fileExtensions}

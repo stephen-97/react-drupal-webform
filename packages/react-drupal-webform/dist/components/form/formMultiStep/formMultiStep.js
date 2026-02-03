@@ -11,14 +11,14 @@ import { getAllVisibleFieldNames, getVisibleStepKeys, } from '../../../lib/funct
 import { MultiStepProvider } from './multiStepContext';
 import Form from '../form';
 const FormMultiStep = (props) => {
-    const { elementsSource, defaultFieldValues, defaultFieldStateMessages, components, onSubmit, includeInactiveFieldsInSubmit, customValidators, classNamePrefix, unstyled = false, validationMode = 'onSubmit', disableActionButtonWhenInvalid = false, } = props;
+    const { elementsSource, defaultFieldValues, defaultFieldStateMessages, components, onSubmit, includeInactiveFieldsInSubmit, customValidators, classNamePrefix, unstyled = false, rhfValidationMode = 'all', validationEngine = 'html', disableActionButtonWhenInvalid = false, } = props;
     const totalSteps = Object.keys(elementsSource).length;
-    const isHtmlNative = validationMode === 'htmlNative';
+    const isHtmlNative = validationEngine === 'html';
     const stepKeys = useMemo(() => Object.keys(elementsSource), [elementsSource]);
     const allFieldNames = useMemo(() => getAllFieldNames(elementsSource), [elementsSource]);
     const dummyDefaultValues = useMemo(() => getDummyDefaultMultiStep(elementsSource, defaultFieldValues), [elementsSource]);
     const methods = useForm({
-        mode: isHtmlNative ? undefined : validationMode,
+        mode: rhfValidationMode,
         criteriaMode: 'all',
         defaultValues: dummyDefaultValues,
         shouldUnregister: true,
@@ -127,9 +127,9 @@ const FormMultiStep = (props) => {
                     'container',
                     'details',
                 ].includes(type);
-                return (_jsx(FormFieldRendered, { fieldKey: key, index: index, field: field, components: components, classNamePrefix: classNamePrefix, isMultiStep: true, unstyled: unstyled, validationMode: validationMode, disableActionButtonWhenInvalid: disableActionButtonWhenInvalid, ...(isLayout ? { watchedValues: watchedStepValuesGlobal } : {}) }, key));
+                return (_jsx(FormFieldRendered, { fieldKey: key, index: index, field: field, components: components, classNamePrefix: classNamePrefix, isMultiStep: true, unstyled: unstyled, validationEngine: validationEngine, disableActionButtonWhenInvalid: disableActionButtonWhenInvalid, ...(isLayout ? { watchedValues: watchedStepValuesGlobal } : {}) }, key));
             }), _jsx(RenderMultiStepActions, { previousButtonLabel: previousButtonLabel, nextButtonLabel: nextButtonLabel, components: components, classNamePrefix: classNamePrefix, unstyled: unstyled, disableActionButtonWhenInvalid: disableActionButtonWhenInvalid })] }));
     const FormComponent = components?.form ?? Form;
-    return (_jsx(FormProvider, { ...methods, children: _jsxs(MultiStepProvider, { elementsSource: elementsSource, stepIndex: stepIndex, setStepIndex: setStepIndex, totalSteps: totalSteps, totalVisibleSteps: visibleStepKeys.length, allWatchedSteps: allWatchedSteps, currentStepKey: currentStepKey, setAllWatchedSteps: setAllWatchedSteps, watchedStepValues: watchedStepValues, children: [_jsx(MultiStepStepper, { components: components, currentStepObj: currentStepObj, classNamePrefix: classNamePrefix, elementsSource: elementsSource, unstyled: unstyled }), _jsx(FormComponent, { validationMode: validationMode, onSubmit: handleSubmit(onFormSubmit), disableActionButtonWhenInvalid: disableActionButtonWhenInvalid, children: formContent })] }) }));
+    return (_jsx(FormProvider, { ...methods, children: _jsxs(MultiStepProvider, { elementsSource: elementsSource, stepIndex: stepIndex, setStepIndex: setStepIndex, totalSteps: totalSteps, totalVisibleSteps: visibleStepKeys.length, allWatchedSteps: allWatchedSteps, currentStepKey: currentStepKey, setAllWatchedSteps: setAllWatchedSteps, watchedStepValues: watchedStepValues, children: [_jsx(MultiStepStepper, { components: components, currentStepObj: currentStepObj, classNamePrefix: classNamePrefix, elementsSource: elementsSource, unstyled: unstyled }), _jsx(FormComponent, { validationEngine: validationEngine, onSubmit: handleSubmit(onFormSubmit), disableActionButtonWhenInvalid: disableActionButtonWhenInvalid, children: formContent })] }) }));
 };
 export default React.memo(FormMultiStep);

@@ -25,7 +25,8 @@ const FormDefault = (props: IFormDefaultWebformProps) => {
     customValidators,
     classNamePrefix,
     unstyled = false,
-    validationMode,
+    rhfValidationMode = 'all',
+    validationEngine = 'html',
     disableActionButtonWhenInvalid = false,
   } = props
 
@@ -46,10 +47,8 @@ const FormDefault = (props: IFormDefaultWebformProps) => {
     [elementsSource]
   )
 
-  const isHtmlNative = validationMode === 'htmlNative'
-
   const methods = useForm({
-    mode: isHtmlNative ? undefined : validationMode,
+    mode: rhfValidationMode,
     criteriaMode: 'all',
     defaultValues: dummyDefaultValues,
     shouldUnregister: true,
@@ -96,7 +95,7 @@ const FormDefault = (props: IFormDefaultWebformProps) => {
     reset({ ...defaultValues, ...getValues() }, { keepValues: true })
   }, [defaultValues, validationSchema, reset, getValues])
 
-  if (!isHtmlNative) {
+  if (validationEngine !== 'html') {
     control._options.resolver = resolver
   }
 
@@ -132,8 +131,8 @@ const FormDefault = (props: IFormDefaultWebformProps) => {
         isMultiStep={isMultiStep}
         classNamePrefix={classNamePrefix}
         unstyled={unstyled}
+        validationEngine={validationEngine}
         disableActionButtonWhenInvalid={disableActionButtonWhenInvalid}
-        validationMode={validationMode}
         {...(isLayout ? { watchedValues } : {})}
       />
     )
@@ -144,7 +143,7 @@ const FormDefault = (props: IFormDefaultWebformProps) => {
   return (
     <FormProvider {...methods}>
       <FormComponent
-        validationMode={validationMode}
+        validationEngine={validationEngine}
         onSubmit={handleSubmit(handleFormSubmit)}
         disableActionButtonWhenInvalid={disableActionButtonWhenInvalid}
       >

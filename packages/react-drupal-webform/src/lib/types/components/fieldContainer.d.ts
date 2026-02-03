@@ -7,4 +7,5 @@ export interface FieldContainerProps extends DrupalElementCommonProps {
   className?: string
   wrapperElement?: 'div' | 'fieldset'
   innerProps?: JSX.IntrinsicElements['div'] | JSX.IntrinsicElements['fieldset']
+  innerRef?: (instance: HTMLElement | null) => void
 }

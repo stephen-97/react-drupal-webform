@@ -13,6 +13,7 @@ const ManagedFileInfo = ({
   className,
   classNamePrefix,
   unstyled,
+  innerRef,
 }: ManagedFileInfoProps) => {
   const wrapperClassNames = getClassNames({
     name: 'managedFileInfo',
@@ -49,10 +50,13 @@ const ManagedFileInfo = ({
     type: 'managed_file',
   })
 
-  console.log(field)
-
   return (
-    <div className={wrapperClassNames} {...dataAttributes} {...innerProps}>
+    <div
+      ref={innerRef}
+      className={wrapperClassNames}
+      {...dataAttributes}
+      {...innerProps}
+    >
       <span className={labelClassNames}>One file limit</span>
 
       <span className={maxSizeClassNames}>

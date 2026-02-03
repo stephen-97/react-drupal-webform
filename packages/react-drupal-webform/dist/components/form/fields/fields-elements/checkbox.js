@@ -36,6 +36,6 @@ const Checkbox = (props) => {
             onFocusProp(e);
         }
     };
-    return (_jsx("input", { id: fieldKey, name: fieldController.name, type: "checkbox", value: title, checked: Boolean(fieldController.value), onChange: handleChange, onBlur: handleBlur, onFocus: handleFocus, required: field?.['#required'], className: checkboxClassNames, "aria-describedby": ariaDescribedBy, ...dataAttributes, ...props, ...innerProps }));
+    return (_jsx("input", { id: fieldKey, name: fieldController.name, type: "checkbox", value: title, checked: Boolean(fieldController.value), onChange: handleChange, onBlur: handleBlur, onFocus: handleFocus, required: field?.['#required'], className: checkboxClassNames, "aria-describedby": ariaDescribedBy, ...dataAttributes, ...innerProps }));
 };
 export default React.memo(Checkbox);

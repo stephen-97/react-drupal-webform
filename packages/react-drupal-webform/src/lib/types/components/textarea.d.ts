@@ -7,4 +7,5 @@ export interface TextAreaProps extends TFieldWebformObj {
   onChange?: (_event: React.ChangeEvent<HTMLTextAreaElement>) => void
   onBlur?: (_event: React.FocusEvent<HTMLTextAreaElement>) => void
   onFocus?: (_event: React.FocusEvent<HTMLTextAreaElement>) => void
+  innerRef?: (instance: HTMLTextAreaElement | null) => void
 }

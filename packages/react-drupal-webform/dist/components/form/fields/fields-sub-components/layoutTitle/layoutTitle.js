@@ -22,6 +22,6 @@ const LayoutTitle = (props) => {
     if (field['#type'] === 'details') {
         return (_jsx("summary", { className: layoutTitleClassNames, ...innerProps, ...dataAttributes, children: field['#title'] }));
     }
-    return (_jsx("div", { className: layoutTitleClassNames, ...innerProps, ...dataAttributes, children: field['#title'] }));
+    return (_jsx("span", { className: layoutTitleClassNames, ...innerProps, ...dataAttributes, children: field['#title'] }));
 };
 export default LayoutTitle;

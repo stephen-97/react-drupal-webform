@@ -10,4 +10,5 @@ export interface CheckboxesProps extends TFieldWebformObj {
   onChange?: (_value: string[]) => void
   onBlur?: (_event: React.FocusEvent<HTMLInputElement>) => void
   onFocus?: (_event: React.FocusEvent<HTMLInputElement>) => void
+  innerRef?: (instance: HTMLDivElement | null) => void
 }

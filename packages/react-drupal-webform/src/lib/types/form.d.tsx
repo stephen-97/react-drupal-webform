@@ -182,7 +182,6 @@ export type TWebformCustomValidators = {
 }
 
 export type TValidationMode =
-  | 'htmlNative'
   | 'onSubmit'
   | 'onBlur'
   | 'onChange'
@@ -194,8 +193,8 @@ export type TWebform = {
   elementsSource: Record<string, any>
   components?: TWebformCustomComponents
   validators?: any
-  validationMode?: TValidationMode
-  defaultFieldValues?: TWebformDefaultFieldValues
+  rhfValidationMode?: TValidationMode
+  validationEngine?: 'rhf' | 'html'
   customValidators?: TWebformCustomValidators
   classNamePrefix?: string | undefined
   defaultFieldStateMessages?: TWebformStateMessages
@@ -212,7 +211,7 @@ export type DrupalElementCommonProps = {
   fieldKey: string
   unstyled: boolean
   disableActionButtonWhenInvalid?: boolean
-  validationMode?: TValidationMode
+  validationEngine?: 'rhf' | 'html'
 }
 
 export type DrupalElementCommonNoFieldProps = {

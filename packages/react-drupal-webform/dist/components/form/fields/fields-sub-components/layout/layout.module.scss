@@ -15,6 +15,12 @@
   padding: .875rem
 }
 
+.layout[data-type='webform_flexbox'] .layoutList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
 .layoutTitle {
   font-size: 1rem;
 }
@@ -24,6 +30,14 @@
   padding-left: .5rem;
   padding-right: .5rem;
   border-radius: .5rem;
+}
+
+.layout[data-type='container'] .layoutTitle,
+.layout[data-type='webform_section'] .layoutTitle,
+.layout[data-type='webform_flexbox'] .layoutTitle
+{
+  display: inline-block;
+  margin-bottom: 1rem;
 }
 
 .layout[data-type='details'] .layoutTitle {

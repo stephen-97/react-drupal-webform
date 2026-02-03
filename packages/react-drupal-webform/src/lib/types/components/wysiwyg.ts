@@ -10,4 +10,5 @@ export interface WysiwygProps extends DrupalElementCommonProps {
   source: TWysiwygSource
   processed: string
   innerProps?: jsx.JSX.IntrinsicElements['div']
+  innerRef?: (instance: HTMLElement | null) => void
 }

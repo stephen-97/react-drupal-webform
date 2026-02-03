@@ -34,12 +34,15 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
     customValidators,
     classNamePrefix,
     unstyled = false,
-    validationMode = 'onSubmit',
+    rhfValidationMode = 'all',
+    validationEngine = 'html',
     disableActionButtonWhenInvalid = false,
   } = props
 
+  console.log(rhfValidationMode, validationEngine)
+
   const totalSteps = Object.keys(elementsSource).length
-  const isHtmlNative = validationMode === 'htmlNative'
+  const isHtmlNative = validationEngine === 'html'
 
   const stepKeys: string[] = useMemo(
     () => Object.keys(elementsSource),
@@ -56,7 +59,7 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
   )
 
   const methods = useForm({
-    mode: isHtmlNative ? undefined : validationMode,
+    mode: rhfValidationMode,
     criteriaMode: 'all',
     defaultValues: dummyDefaultValues,
     shouldUnregister: true,
@@ -235,7 +238,7 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
             classNamePrefix={classNamePrefix}
             isMultiStep={true}
             unstyled={unstyled}
-            validationMode={validationMode}
+            validationEngine={validationEngine}
             disableActionButtonWhenInvalid={disableActionButtonWhenInvalid}
             {...(isLayout ? { watchedValues: watchedStepValuesGlobal } : {})}
           />
@@ -277,7 +280,7 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
         />
 
         <FormComponent
-          validationMode={validationMode}
+          validationEngine={validationEngine}
           onSubmit={handleSubmit(onFormSubmit)}
           disableActionButtonWhenInvalid={disableActionButtonWhenInvalid}
         >

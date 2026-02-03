@@ -19,6 +19,7 @@ const Layout = (props: LayoutProps) => {
     components,
     field,
     unstyled,
+    innerRef,
   } = props
 
   const LayoutTitleComponent = components?.layoutTitle ?? LayoutTitle
@@ -42,11 +43,14 @@ const Layout = (props: LayoutProps) => {
       ? 'details'
       : field?.['#type'] === 'fieldset'
         ? 'fieldset'
-        : 'div'
+        : field?.['#type'] === 'webform_section'
+          ? 'section'
+          : 'div'
 
   return (
     <Wrapper
       key={fieldKey}
+      ref={innerRef}
       className={layoutClassNames}
       {...dataAttributes}
       {...innerProps}

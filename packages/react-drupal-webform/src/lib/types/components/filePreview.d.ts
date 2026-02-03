@@ -6,4 +6,5 @@ export interface ManagedFilePreviewProps extends DrupalElementCommonProps {
   className?: string
   value: TFileWithBase64 | {}
   handleRemove: Function
+  innerRef?: (instance: HTMLDivElement | null) => void
 }

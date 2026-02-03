@@ -19,6 +19,7 @@ const Help = ({
   classNamePrefix,
   unstyled,
   fieldKey,
+  innerRef,
 }: HelpProps) => {
   const buttonRef = useRef<HTMLButtonElement>(null)
   const CustomWysiwyg = components.wysiwyg ?? Wysiwyg
@@ -75,7 +76,10 @@ const Help = ({
   return (
     <button
       className={buttonClassNames}
-      ref={buttonRef}
+      ref={(el) => {
+        buttonRef.current = el
+        innerRef?.(el)
+      }}
       type="button"
       {...dataAttributes}
       {...innerProps}

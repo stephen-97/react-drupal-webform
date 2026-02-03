@@ -5,4 +5,5 @@ export interface LayoutListProps extends TFieldWebformObj {
   children: React.ReactNode
   className?: string
   innerProps?: JSX.IntrinsicElements['div']
+  innerRef?: (instance: HTMLDivElement | null) => void
 }

@@ -1,5 +1,4 @@
 import { TElementSource } from './field'
-import { TValidationMode } from '../form.d'
 
 export interface IFieldRendererWebformProps {
   index: number
@@ -11,5 +10,5 @@ export interface IFieldRendererWebformProps {
   watchedValues?: Record<string, any>
   unstyled: boolean
   disableActionButtonWhenInvalid: boolean
-  validationMode: TValidationMode
+  validationEngine: 'rhf' | 'html'
 }

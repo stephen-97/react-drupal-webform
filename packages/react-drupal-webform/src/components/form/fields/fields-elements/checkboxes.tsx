@@ -20,6 +20,7 @@ const Checkboxes = ({
   ariaDescribedBy,
   classNamePrefix,
   unstyled,
+  innerRef,
   onChange: onChangeProp,
   onBlur: onBlurProp,
   onFocus: onFocusProp,
@@ -97,6 +98,7 @@ const Checkboxes = ({
   return (
     <div
       className={wrapperClassNames}
+      ref={innerRef}
       role="group"
       {...dataAttributes}
       {...innerProps}

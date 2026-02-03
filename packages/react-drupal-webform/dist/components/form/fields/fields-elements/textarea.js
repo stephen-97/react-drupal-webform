@@ -32,6 +32,6 @@ const Textarea = (props) => {
     const handleFocus = (e) => {
         onFocusProp?.(e);
     };
-    return (_jsx("textarea", { id: fieldKey, name: fieldController.name, minLength: field?.['#minlength'], maxLength: field?.['#maxlength'], rows: field?.['#rows'] ?? 10, placeholder: field?.['#placeholder'], required: field?.['#required'], value: fieldController.value ?? '', onChange: handleChange, onBlur: handleBlur, onFocus: handleFocus, className: textareaClassNames, readOnly: field?.['#readonly'], "aria-describedby": ariaDescribedBy, ...dataAttributes, ...props, ...innerProps }));
+    return (_jsx("textarea", { id: fieldKey, name: fieldController.name, minLength: field?.['#minlength'], maxLength: field?.['#maxlength'], rows: field?.['#rows'] ?? 10, placeholder: field?.['#placeholder'], required: field?.['#required'], value: fieldController.value ?? '', onChange: handleChange, onBlur: handleBlur, onFocus: handleFocus, className: textareaClassNames, readOnly: field?.['#readonly'], "aria-describedby": ariaDescribedBy, ...dataAttributes, ...innerProps }));
 };
 export default React.memo(Textarea);

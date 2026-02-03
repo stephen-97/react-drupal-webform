@@ -7,14 +7,13 @@ import { generateFormSchemaAndDefaults, getDependentFields, shouldFieldBeVisible
 import { getDummyDefaultFormDefault } from '../../../lib/functions/webform_validation_functions/webform_validation_functions';
 import Form from '../form';
 const FormDefault = (props) => {
-    const { elementsSource, multiStepExtra, defaultFieldValues, defaultFieldStateMessages, components, includeInactiveFieldsInSubmit, onSubmit, customValidators, classNamePrefix, unstyled = false, validationMode, disableActionButtonWhenInvalid = false, } = props;
+    const { elementsSource, multiStepExtra, defaultFieldValues, defaultFieldStateMessages, components, includeInactiveFieldsInSubmit, onSubmit, customValidators, classNamePrefix, unstyled = false, rhfValidationMode = 'all', validationEngine = 'html', disableActionButtonWhenInvalid = false, } = props;
     const isMultiStep = Boolean(multiStepExtra);
     const dependentFields = useMemo(() => getDependentFields(elementsSource), [elementsSource]);
     const dependentFieldNames = useMemo(() => dependentFields.map((dep) => dep.name), [dependentFields]);
     const dummyDefaultValues = useMemo(() => getDummyDefaultFormDefault(elementsSource, defaultFieldValues), [elementsSource]);
-    const isHtmlNative = validationMode === 'htmlNative';
     const methods = useForm({
-        mode: isHtmlNative ? undefined : validationMode,
+        mode: rhfValidationMode,
         criteriaMode: 'all',
         defaultValues: dummyDefaultValues,
         shouldUnregister: true,
@@ -51,7 +50,7 @@ const FormDefault = (props) => {
     useEffect(() => {
         reset({ ...defaultValues, ...getValues() }, { keepValues: true });
     }, [defaultValues, validationSchema, reset, getValues]);
-    if (!isHtmlNative) {
+    if (validationEngine !== 'html') {
         control._options.resolver = resolver;
     }
     const handleFormSubmit = useCallback(async (data) => {
@@ -69,9 +68,9 @@ const FormDefault = (props) => {
         const field = elementsSource[key];
         const type = field['#type'];
         const isLayout = isLayoutType(type);
-        return (_jsx(FormFieldRendered, { fieldKey: key, index: index, field: field, components: components, isMultiStep: isMultiStep, classNamePrefix: classNamePrefix, unstyled: unstyled, disableActionButtonWhenInvalid: disableActionButtonWhenInvalid, validationMode: validationMode, ...(isLayout ? { watchedValues } : {}) }, key));
+        return (_jsx(FormFieldRendered, { fieldKey: key, index: index, field: field, components: components, isMultiStep: isMultiStep, classNamePrefix: classNamePrefix, unstyled: unstyled, validationEngine: validationEngine, disableActionButtonWhenInvalid: disableActionButtonWhenInvalid, ...(isLayout ? { watchedValues } : {}) }, key));
     });
     const FormComponent = components?.form ?? Form;
-    return (_jsx(FormProvider, { ...methods, children: _jsx(FormComponent, { validationMode: validationMode, onSubmit: handleSubmit(handleFormSubmit), disableActionButtonWhenInvalid: disableActionButtonWhenInvalid, children: formContent }) }));
+    return (_jsx(FormProvider, { ...methods, children: _jsx(FormComponent, { validationEngine: validationEngine, onSubmit: handleSubmit(handleFormSubmit), disableActionButtonWhenInvalid: disableActionButtonWhenInvalid, children: formContent }) }));
 };
 export default React.memo(FormDefault);
