@@ -2,7 +2,10 @@
     font-size: var(--font-size-s);
     font-weight: var(--font-weight-semibold);
     color: var(--color-title);
-    margin-block-end: .5rem;
+}
+
+legend.title {
+  margin-bottom: .5rem
 }
 
 .isRequired {

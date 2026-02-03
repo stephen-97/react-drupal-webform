@@ -2,7 +2,8 @@ import { jsx as _jsx } from "react/jsx-runtime";
 import React from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import { getClassNames, getDataAttributes, } from '../../../../lib/functions/utils_functions';
-const Checkbox = ({ fieldKey, field, innerProps, className, ariaDescribedBy, classNamePrefix, unstyled, onChange: onChangeProp, onBlur: onBlurProp, onFocus: onFocusProp, }) => {
+const Checkbox = (props) => {
+    const { fieldKey, field, innerProps, className, ariaDescribedBy, classNamePrefix, unstyled, onChange: onChangeProp, onBlur: onBlurProp, onFocus: onFocusProp, } = props;
     const { control } = useFormContext();
     const { field: fieldController } = useController({
         name: fieldKey,
@@ -35,6 +36,6 @@ const Checkbox = ({ fieldKey, field, innerProps, className, ariaDescribedBy, cla
             onFocusProp(e);
         }
     };
-    return (_jsx("input", { id: fieldKey, name: fieldController.name, type: "checkbox", value: title, checked: Boolean(fieldController.value), onChange: handleChange, onBlur: handleBlur, onFocus: handleFocus, required: field?.['#required'], className: checkboxClassNames, "aria-describedby": ariaDescribedBy, ...dataAttributes, ...innerProps }));
+    return (_jsx("input", { id: fieldKey, name: fieldController.name, type: "checkbox", value: title, checked: Boolean(fieldController.value), onChange: handleChange, onBlur: handleBlur, onFocus: handleFocus, required: field?.['#required'], className: checkboxClassNames, "aria-describedby": ariaDescribedBy, ...dataAttributes, ...props, ...innerProps }));
 };
 export default React.memo(Checkbox);

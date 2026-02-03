@@ -1,4 +1,3 @@
-import styles from './formMultiStep.module.scss'
 import React, { useEffect, useMemo, useCallback, useState } from 'react'
 import { FormProvider, useForm, useWatch } from 'react-hook-form'
 import { useYupValidationResolver } from '../../../lib/functions/webform_yup_functions/webform_yup_functions'
@@ -9,9 +8,7 @@ import {
   shouldFieldBeVisible,
   TDependentField,
 } from '../../../lib/functions/webform_fields_functions/webform_fields_conditional_functions'
-import MultiStepActions, {
-  RenderMultiStepActions,
-} from './multiStepActions/multiStepActions'
+import { RenderMultiStepActions } from './multiStepActions/multiStepActions'
 import MultiStepStepper from './multiStepStepper/multiStepStepper'
 import {
   getAllFieldNames,
@@ -24,7 +21,6 @@ import {
 } from '../../../lib/functions/webform_multistep_functions/webform_multistep_conditional_functions/webform_multistep_conditional_functions'
 import { TFormMultiStepProps } from '../../../lib/types/components/formMultiStep'
 import { MultiStepProvider } from './multiStepContext'
-import ConfirmationView from '../../special-display/confirmationView'
 import Form from '../form'
 
 const FormMultiStep = (props: TFormMultiStepProps) => {
@@ -36,8 +32,6 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
     onSubmit,
     includeInactiveFieldsInSubmit,
     customValidators,
-    isSubmitted,
-    showConfirmation,
     classNamePrefix,
     unstyled = false,
     validationMode = 'onSubmit',
@@ -45,7 +39,6 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
   } = props
 
   const totalSteps = Object.keys(elementsSource).length
-  const shouldShowConfirmation = Boolean(isSubmitted && showConfirmation)
   const isHtmlNative = validationMode === 'htmlNative'
 
   const stepKeys: string[] = useMemo(
@@ -242,6 +235,7 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
             classNamePrefix={classNamePrefix}
             isMultiStep={true}
             unstyled={unstyled}
+            validationMode={validationMode}
             disableActionButtonWhenInvalid={disableActionButtonWhenInvalid}
             {...(isLayout ? { watchedValues: watchedStepValuesGlobal } : {})}
           />
@@ -259,8 +253,6 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
     </>
   )
 
-  const ConfirmationComponent = components?.confirmationView ?? ConfirmationView
-
   const FormComponent = components?.form ?? Form
 
   return (
@@ -276,27 +268,21 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
         setAllWatchedSteps={setAllWatchedSteps}
         watchedStepValues={watchedStepValues}
       >
-        {shouldShowConfirmation ? (
-          <ConfirmationComponent />
-        ) : (
-          <>
-            <MultiStepStepper
-              components={components}
-              currentStepObj={currentStepObj}
-              classNamePrefix={classNamePrefix}
-              elementsSource={elementsSource}
-              unstyled={unstyled}
-            />
+        <MultiStepStepper
+          components={components}
+          currentStepObj={currentStepObj}
+          classNamePrefix={classNamePrefix}
+          elementsSource={elementsSource}
+          unstyled={unstyled}
+        />
 
-            <FormComponent
-              validationMode={validationMode}
-              onSubmit={handleSubmit(onFormSubmit)}
-              disableActionButtonWhenInvalid={disableActionButtonWhenInvalid}
-            >
-              {formContent}
-            </FormComponent>
-          </>
-        )}
+        <FormComponent
+          validationMode={validationMode}
+          onSubmit={handleSubmit(onFormSubmit)}
+          disableActionButtonWhenInvalid={disableActionButtonWhenInvalid}
+        >
+          {formContent}
+        </FormComponent>
       </MultiStepProvider>
     </FormProvider>
   )

@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { JSX } from 'react'
 import { TFieldWebformObj } from './field'
 import { TValidationMode } from '../form.d'
-import { FormProps as HTMLFormProps } from 'react-html-props'
-export interface FormProps extends TFieldWebformObj, HTMLFormProps {
+export interface FormProps extends TFieldWebformObj {
   children?: React.ReactNode
-  innerProps?: HTMLFormProps
+  className?: string
+  onSubmit: React.FormEventHandler<HTMLFormElement>
+  innerProps?: JSX.IntrinsicElements['form']
   validationMode: TValidationMode
   disableActionButtonWhenInvalid?: boolean
 }

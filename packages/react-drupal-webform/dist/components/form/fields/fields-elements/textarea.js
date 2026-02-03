@@ -4,7 +4,8 @@ import cn from 'classnames';
 import { useController, useFormContext } from 'react-hook-form';
 import styles from '../field.module.scss';
 import { getClassNames, getDataAttributes, } from '../../../../lib/functions/utils_functions';
-const Textarea = ({ fieldKey, field, className, innerProps, classNamePrefix, ariaDescribedBy, unstyled, onChange: onChangeProp, onBlur: onBlurProp, onFocus: onFocusProp, }) => {
+const Textarea = (props) => {
+    const { fieldKey, field, className, innerProps, classNamePrefix, ariaDescribedBy, unstyled, onChange: onChangeProp, onBlur: onBlurProp, onFocus: onFocusProp, } = props;
     const { control } = useFormContext();
     const { field: fieldController } = useController({
         name: fieldKey,
@@ -31,6 +32,6 @@ const Textarea = ({ fieldKey, field, className, innerProps, classNamePrefix, ari
     const handleFocus = (e) => {
         onFocusProp?.(e);
     };
-    return (_jsx("textarea", { id: fieldKey, name: fieldController.name, minLength: field?.['#minlength'], maxLength: field?.['#maxlength'], rows: field?.['#rows'] ?? 10, placeholder: field?.['#placeholder'], required: field?.['#required'], value: fieldController.value ?? '', onChange: handleChange, onBlur: handleBlur, onFocus: handleFocus, className: textareaClassNames, readOnly: field?.['#readonly'], "aria-describedby": ariaDescribedBy, ...dataAttributes, ...innerProps }));
+    return (_jsx("textarea", { id: fieldKey, name: fieldController.name, minLength: field?.['#minlength'], maxLength: field?.['#maxlength'], rows: field?.['#rows'] ?? 10, placeholder: field?.['#placeholder'], required: field?.['#required'], value: fieldController.value ?? '', onChange: handleChange, onBlur: handleBlur, onFocus: handleFocus, className: textareaClassNames, readOnly: field?.['#readonly'], "aria-describedby": ariaDescribedBy, ...dataAttributes, ...props, ...innerProps }));
 };
 export default React.memo(Textarea);

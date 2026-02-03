@@ -14,6 +14,7 @@ const renderLayout = (
     watchedValues,
     classNamePrefix,
     unstyled,
+    validationMode,
     disableActionButtonWhenInvalid = false,
   } = props
 
@@ -39,6 +40,7 @@ const renderLayout = (
             isMultiStep={false}
             watchedValues={watchedValues}
             unstyled={unstyled}
+            validationMode={validationMode}
             disableActionButtonWhenInvalid={disableActionButtonWhenInvalid}
           />
         )

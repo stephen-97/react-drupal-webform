@@ -143,8 +143,6 @@ export type TWebform = {
     defaultFieldStateMessages?: TWebformStateMessages;
     onSubmit: (_data: Record<string, any>) => void | Promise<any>;
     includeInactiveFieldsInSubmit?: boolean;
-    isSubmitted: boolean;
-    showConfirmation?: boolean;
     unstyled?: boolean;
     disableActionButtonWhenInvalid?: boolean;
 };
@@ -155,6 +153,7 @@ export type DrupalElementCommonProps = {
     fieldKey: string;
     unstyled: boolean;
     disableActionButtonWhenInvalid?: boolean;
+    validationMode?: TValidationMode;
 };
 export type DrupalElementCommonNoFieldProps = {
     classNamePrefix: string | undefined | null;

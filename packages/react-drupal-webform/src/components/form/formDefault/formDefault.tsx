@@ -11,7 +11,6 @@ import {
 } from '../../../lib/functions/webform_fields_functions/webform_fields_conditional_functions'
 import { IFormDefaultWebformProps } from '../../../lib/types/components/formDefault'
 import { getDummyDefaultFormDefault } from '../../../lib/functions/webform_validation_functions/webform_validation_functions'
-import ConfirmationView from '../../special-display/confirmationView'
 import Form from '../form'
 
 const FormDefault = (props: IFormDefaultWebformProps) => {
@@ -24,8 +23,6 @@ const FormDefault = (props: IFormDefaultWebformProps) => {
     includeInactiveFieldsInSubmit,
     onSubmit,
     customValidators,
-    isSubmitted,
-    showConfirmation,
     classNamePrefix,
     unstyled = false,
     validationMode,
@@ -33,7 +30,6 @@ const FormDefault = (props: IFormDefaultWebformProps) => {
   } = props
 
   const isMultiStep = Boolean(multiStepExtra)
-  const shouldShowConfirmation = Boolean(isSubmitted && showConfirmation)
 
   const dependentFields: TDependentField[] = useMemo(
     () => getDependentFields(elementsSource),
@@ -145,21 +141,15 @@ const FormDefault = (props: IFormDefaultWebformProps) => {
 
   const FormComponent = components?.form ?? Form
 
-  const ConfirmationComponent = components?.confirmationView ?? ConfirmationView
-
   return (
     <FormProvider {...methods}>
-      {shouldShowConfirmation ? (
-        <ConfirmationComponent />
-      ) : (
-        <FormComponent
-          validationMode={validationMode}
-          onSubmit={handleSubmit(handleFormSubmit)}
-          disableActionButtonWhenInvalid={disableActionButtonWhenInvalid}
-        >
-          {formContent}
-        </FormComponent>
-      )}
+      <FormComponent
+        validationMode={validationMode}
+        onSubmit={handleSubmit(handleFormSubmit)}
+        disableActionButtonWhenInvalid={disableActionButtonWhenInvalid}
+      >
+        {formContent}
+      </FormComponent>
     </FormProvider>
   )
 }

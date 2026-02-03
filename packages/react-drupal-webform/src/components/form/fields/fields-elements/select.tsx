@@ -87,7 +87,6 @@ const Select = (props: SelectProps) => {
       onFocus={handleFocus}
       aria-describedby={ariaDescribedBy}
       {...dataAttributes}
-      {...props}
       {...innerProps}
     >
       <option className={optionClassNames} value={''}>

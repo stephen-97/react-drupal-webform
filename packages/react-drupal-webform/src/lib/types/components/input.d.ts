@@ -1,5 +1,9 @@
+import React, { JSX } from 'react'
 import { TFieldWebformObj } from './field'
-import { InputProps as HTMLInputProps } from 'react-html-props'
-export interface InputProps extends TFieldWebformObj, HTMLInputProps {
-  innerProps?: HTMLInputProps
+export interface InputProps extends TFieldWebformObj {
+  innerProps?: JSX.IntrinsicElements['input']
+  className?: string
+  onChange?: (_event: React.ChangeEvent<HTMLInputElement>) => void
+  onBlur?: (_event: React.FocusEvent<HTMLInputElement>) => void
+  onFocus?: (_event: React.FocusEvent<HTMLInputElement>) => void
 }

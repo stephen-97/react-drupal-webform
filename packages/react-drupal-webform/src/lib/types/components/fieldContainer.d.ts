@@ -1,12 +1,10 @@
 import { JSX, ReactElement } from 'react'
 import { DrupalElementCommonProps } from '../form.d'
-import { ElementProps } from 'react-html-props'
 
-export interface FieldContainerProps
-  extends DrupalElementCommonProps,
-    ElementProps {
+export interface FieldContainerProps extends DrupalElementCommonProps {
   children: ReactElement
   isLabel?: boolean
+  className?: string
   wrapperElement?: 'div' | 'fieldset'
   innerProps?: JSX.IntrinsicElements['div'] | JSX.IntrinsicElements['fieldset']
 }

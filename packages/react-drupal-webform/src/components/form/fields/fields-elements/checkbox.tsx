@@ -74,7 +74,6 @@ const Checkbox = (props: CheckboxProps) => {
       className={checkboxClassNames}
       aria-describedby={ariaDescribedBy}
       {...dataAttributes}
-      {...props}
       {...innerProps}
     />
   )

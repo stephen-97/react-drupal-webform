@@ -72,7 +72,6 @@ const Textarea = (props: TextAreaProps) => {
       readOnly={field?.['#readonly']}
       aria-describedby={ariaDescribedBy}
       {...dataAttributes}
-      {...props}
       {...innerProps}
     />
   )

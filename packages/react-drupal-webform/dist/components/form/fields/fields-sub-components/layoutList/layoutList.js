@@ -3,7 +3,7 @@ import cn from 'classnames';
 import styles from '../layout/layout.module.scss';
 import { getClassNames, getDataAttributes, } from '../../../../../lib/functions/utils_functions';
 const LayoutList = (props) => {
-    const { children, className, innerProps, classNamePrefix, unstyled } = props;
+    const { children, className, innerProps, classNamePrefix, unstyled, field } = props;
     if (!children)
         return null;
     const layoutListClassNames = getClassNames({

@@ -6,7 +6,7 @@ const LayoutTitle = (props) => {
     const { field, innerProps, className, classNamePrefix, unstyled } = props;
     if (!field?.['#title'])
         return null;
-    const layoutListClassNames = getClassNames({
+    const layoutTitleClassNames = getClassNames({
         name: 'layoutTitle',
         prefix: classNamePrefix,
         unstyled: unstyled,
@@ -16,6 +16,12 @@ const LayoutTitle = (props) => {
     const dataAttributes = getDataAttributes({
         component: 'layoutTitle',
     });
-    return (_jsx("div", { className: layoutListClassNames, ...innerProps, ...dataAttributes, children: field['#title'] }));
+    if (field?.['#type'] === 'fieldset') {
+        return (_jsx("legend", { className: layoutTitleClassNames, ...innerProps, ...dataAttributes, children: field['#title'] }));
+    }
+    if (field['#type'] === 'details') {
+        return (_jsx("summary", { className: layoutTitleClassNames, ...innerProps, ...dataAttributes, children: field['#title'] }));
+    }
+    return (_jsx("div", { className: layoutTitleClassNames, ...innerProps, ...dataAttributes, children: field['#title'] }));
 };
 export default LayoutTitle;

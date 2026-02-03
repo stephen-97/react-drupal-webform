@@ -75,7 +75,6 @@ const Form = (props: FormProps) => {
       onSubmit={onSubmit}
       noValidate={!isHtmlNative}
       onInvalidCapture={handleInvalidCapture}
-      {...props}
       {...innerProps}
     >
       {children}

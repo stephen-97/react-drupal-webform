@@ -14,12 +14,17 @@ const Layout = (props) => {
         prefix: classNamePrefix,
         unstyled: unstyled,
         classNameComponent: className,
-        baseCn: cn(styles.layoutWrapper),
+        baseCn: cn(styles.layout),
     });
     const dataAttributes = getDataAttributes({
         type: field?.['#type'],
         component: 'Layout',
     });
-    return (_jsxs("div", { className: layoutClassNames, ...dataAttributes, ...innerProps, children: [_jsx(LayoutTitleComponent, { ...props }), _jsx(LayoutListComponent, { ...props, children: children })] }, fieldKey));
+    const Wrapper = field?.['#type'] === 'details'
+        ? 'details'
+        : field?.['#type'] === 'fieldset'
+            ? 'fieldset'
+            : 'div';
+    return (_jsxs(Wrapper, { className: layoutClassNames, ...dataAttributes, ...innerProps, children: [_jsx(LayoutTitleComponent, { ...props }), _jsx(LayoutListComponent, { ...props, children: children })] }, fieldKey));
 };
 export default React.memo(Layout);

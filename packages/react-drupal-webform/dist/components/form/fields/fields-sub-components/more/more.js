@@ -25,6 +25,12 @@ const More = ({ innerPropsContainer, innerPropsButton, innerPropsWysiwyg, compon
             [styles.opened]: open,
         }),
     });
+    const buttonLabelClassNames = getClassNames({
+        name: 'moreButtonLabel',
+        prefix: classNamePrefix,
+        unstyled: unstyled,
+        baseCn: cn(styles.buttonLabel),
+    });
     const wysiwygClassNames = getClassNames({
         name: 'moreContent',
         prefix: classNamePrefix,
@@ -36,6 +42,6 @@ const More = ({ innerPropsContainer, innerPropsButton, innerPropsWysiwyg, compon
     });
     const moreTitle = field?.['#more_title'];
     const moreText = field?.['#more'];
-    return (_jsxs("div", { className: containerClassNames, ...dataAttributes, ...containerProps, children: [_jsx("button", { type: "button", className: buttonClassNames, onClick: () => setOpen((prev) => !prev), ...buttonProps, children: moreTitle ?? 'More' }), open && moreText && moreText.length > 0 && (_jsx(CustomWysiwyg, { as: "div", className: wysiwygClassNames, classNamePrefix: classNamePrefix, processed: moreText, source: 'more', ...innerPropsWysiwyg }))] }));
+    return (_jsxs("div", { className: containerClassNames, ...dataAttributes, ...containerProps, children: [_jsx("button", { type: "button", className: buttonClassNames, onClick: () => setOpen((prev) => !prev), "aria-expanded": open, ...buttonProps, children: _jsx("span", { className: buttonLabelClassNames, children: moreTitle ?? 'More' }) }), open && moreText && moreText.length > 0 && (_jsx(CustomWysiwyg, { as: "div", className: wysiwygClassNames, classNamePrefix: classNamePrefix, processed: moreText, source: 'more', ...innerPropsWysiwyg }))] }));
 };
 export default React.memo(More);

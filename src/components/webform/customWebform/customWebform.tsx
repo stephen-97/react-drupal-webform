@@ -4,6 +4,7 @@ import YAML from 'yaml'
 
 require('@/lib/wdyr')
 
+import { useState } from 'react'
 import Webform from '../../../../packages/react-drupal-webform/src/components/webform'
 import CustomInput from '@/components/webform/custom-components/customInput'
 import styles from './customWebform.module.scss'
@@ -13,13 +14,13 @@ import CustomMultiStepActions from '@/components/webform/custom-components/custo
 import CustomSelect from '@/components/webform/custom-components/customSelect'
 import CustomMore from '@/components/webform/custom-components/customMore'
 import CustomWysiwyg from '@/components/webform/custom-components/customWysiwyg'
-import { useState } from 'react'
 import { customValidators } from '@/components/webform/customWebform/custom-objects'
 import CustomAction from '@/components/webform/custom-components/customAction'
 import CustomHelp from '@/components/webform/custom-components/CustomHelp'
 import CustomForm from '@/components/webform/custom-components/customForm'
 import { components } from '../../../../packages/react-drupal-webform/src/lib/const/const.form'
 import CustomUnsupportedField from '@/components/webform/custom-components/unsupportedField'
+import ConfirmationView from '@/components/webform/customWebform/confirmationView'
 
 export type TWebformContainer = {
   elementsSource: string
@@ -27,6 +28,7 @@ export type TWebformContainer = {
 
 const CustomWebform = ({ elementsSource }: TWebformContainer) => {
   const [isSubmitted, setIsSubmitted] = useState(false)
+
   const fakeSubmit = (data: Record<any, string>) => {
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -52,13 +54,20 @@ const CustomWebform = ({ elementsSource }: TWebformContainer) => {
 
   const correctElementsSource = YAML.parse(elementsSource)
 
+  if (isSubmitted) {
+    return (
+      <div className={styles.customWebformContainer}>
+        <ConfirmationView />
+      </div>
+    )
+  }
+
   return (
     <div className={styles.customWebformContainer}>
       <Webform
         elementsSource={correctElementsSource}
         onSubmit={handleSubmit}
         customValidators={customValidators}
-        isSubmitted={isSubmitted}
         components={{
           input: CustomInput,
           title: CustomLabel,
@@ -70,23 +79,18 @@ const CustomWebform = ({ elementsSource }: TWebformContainer) => {
           action: CustomAction,
           unsupportedField: CustomUnsupportedField,
           fieldContainer: (props) => (
-            <components.FieldContainer
-              innerProps={{ 'data-bru': 'test' }}
-              {...props}
-            ></components.FieldContainer>
+            <components.FieldContainer data-test={'test'} {...props} />
           ),
           help: CustomHelp,
           form: CustomForm,
           layout: (props) => (
-            <components.Layout
-              innerProps={{ 'data-test': 'test' }}
-              {...props}
-            ></components.Layout>
+            <components.Layout data-test={'test'} {...props} />
           ),
         }}
-        validationMode={'onBlur'}
+        validationMode="onBlur"
       />
     </div>
   )
 }
+
 export default CustomWebform

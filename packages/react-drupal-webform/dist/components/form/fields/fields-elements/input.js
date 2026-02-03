@@ -5,7 +5,7 @@ import { useController, useFormContext } from 'react-hook-form';
 import styles from '../field.module.scss';
 import { getAriaDescribedBy, getClassNames, getDataAttributes, getTextLikeInputAttributes, } from '../../../../lib/functions/utils_functions';
 const Input = (props) => {
-    const { fieldKey, field, classNamePrefix, className, innerProps, unstyled, onChange: onChangeProp, onBlur: onBlurProp, onFocus: onFocusProp, } = props;
+    const { fieldKey, field, classNamePrefix, className, innerProps, unstyled, validationMode, onInvalid: onInvalidProp, onChange: onChangeProp, onBlur: onBlurProp, onFocus: onFocusProp, } = props;
     const { control } = useFormContext();
     const { field: fieldController } = useController({
         name: fieldKey,
@@ -39,7 +39,29 @@ const Input = (props) => {
     });
     const ariaDescribedBy = getAriaDescribedBy({ fieldKey, field });
     const inputFieldAttributes = getTextLikeInputAttributes(field, getFieldType);
+    const applyWebformNativeValidation = (e, field) => {
+        const input = e.currentTarget;
+        input.setCustomValidity('');
+        if (input.validity.valid) {
+            return;
+        }
+        if (input.validity.patternMismatch && field?.['#pattern_error']) {
+            input.setCustomValidity(field['#pattern_error']);
+        }
+        else if (input.validity.valueMissing && field?.['#required_error']) {
+            input.setCustomValidity(field['#required_error']);
+        }
+        onInvalidProp?.(e);
+    };
+    const resetWebformNativeValidation = (input) => {
+        if (validationMode !== 'htmlNative')
+            return;
+        input.setCustomValidity('');
+    };
     const handleChange = (e) => {
+        if (validationMode === 'htmlNative') {
+            resetWebformNativeValidation(e.currentTarget);
+        }
         fieldController.onChange(e);
         onChangeProp?.(e);
     };
@@ -50,6 +72,11 @@ const Input = (props) => {
     const handleFocus = (e) => {
         onFocusProp?.(e);
     };
-    return (_jsx("input", { id: fieldKey, className: inputClassNames, name: fieldController.name, type: getFieldType, onChange: handleChange, onBlur: handleBlur, onFocus: handleFocus, value: fieldController.value ?? '', "aria-describedby": ariaDescribedBy, readOnly: field?.['#readonly'], ...inputFieldAttributes, ...dataAttributes, ...innerProps }));
+    const handleInvalid = (e) => {
+        if (validationMode !== 'htmlNative')
+            return;
+        applyWebformNativeValidation(e, field);
+    };
+    return (_jsx("input", { id: fieldKey, className: inputClassNames, name: fieldController.name, type: getFieldType, value: fieldController.value ?? '', readOnly: field?.['#readonly'], "aria-describedby": ariaDescribedBy, onChange: handleChange, onBlur: handleBlur, onFocus: handleFocus, onInvalid: handleInvalid, ...inputFieldAttributes, ...dataAttributes, ...props, ...innerProps }));
 };
 export default React.memo(Input);

@@ -20,7 +20,6 @@ const Input = (props: InputProps) => {
     innerProps,
     unstyled,
     validationMode,
-    onInvalid: onInvalidProp,
     onChange: onChangeProp,
     onBlur: onBlurProp,
     onFocus: onFocusProp,
@@ -83,8 +82,6 @@ const Input = (props: InputProps) => {
     } else if (input.validity.valueMissing && field?.['#required_error']) {
       input.setCustomValidity(field['#required_error'])
     }
-
-    onInvalidProp?.(e)
   }
 
   const resetWebformNativeValidation = (input: HTMLInputElement) => {
@@ -130,7 +127,6 @@ const Input = (props: InputProps) => {
       onInvalid={handleInvalid}
       {...inputFieldAttributes}
       {...dataAttributes}
-      {...props}
       {...innerProps}
     />
   )
