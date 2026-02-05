@@ -1,5 +1,5 @@
 import { string } from 'yup'
-import { TFieldValidate } from '../../../../lib/types/components/validate'
+import { FieldValidateProps } from '../../../../lib/types/components/validate'
 import {
   applyMinMaxLength,
   resolveCustomValidator,
@@ -7,7 +7,7 @@ import {
 } from '../../../../lib/functions/webform_validation_functions/webform_validation_functions'
 import { applyPatternIfApplicable } from '../../../../lib/functions/utils_functions'
 
-export const validateTel = (props: TFieldValidate) => {
+export const validateTel = (props: FieldValidateProps) => {
   const {
     yupObject,
     defaultValues,
@@ -17,7 +17,7 @@ export const validateTel = (props: TFieldValidate) => {
     defaultFieldValues,
     requiredMessage,
     errorMessage,
-    customValidators,
+    rhfCustomValidators,
     minLengthMessage,
     maxLengthMessage,
   } = props
@@ -52,7 +52,8 @@ export const validateTel = (props: TFieldValidate) => {
   })
 
   const customSchema =
-    resolveCustomValidator(customValidators, key, type, props) ?? defaultSchema
+    resolveCustomValidator(rhfCustomValidators, key, type, props) ??
+    defaultSchema
 
   yupObject[key] = required
     ? (customSchema as any).required(requiredMessage)

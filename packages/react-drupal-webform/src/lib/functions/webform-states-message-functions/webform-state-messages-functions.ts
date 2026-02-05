@@ -2,7 +2,7 @@ import {
   TWebformNormalizedStateMessages,
   TWebformResolvedStateMessages,
   TWebformStateMessages,
-} from '../../types/form.d'
+} from '../../types/form'
 
 export const normalizeStateMessages = (
   messages: Partial<TWebformStateMessages>,

@@ -182,6 +182,12 @@ react-dom@^18.3.1:
     loose-envify "^1.1.0"
     scheduler "^0.23.2"
 
+react-drupal-webform@./packages/react-drupal-webform/react-drupal-webform-v1.0.1-alpha.tgz:
+  version "1.0.1-alpha"
+  resolved "./packages/react-drupal-webform/react-drupal-webform-v1.0.1-alpha.tgz#9bd014e18c5850a64f9bceb74e170ad224278412"
+  dependencies:
+    classnames "^2.5.1"
+
 react@^18.3.1:
   version "18.3.1"
   resolved "https://registry.yarnpkg.com/react/-/react-18.3.1.tgz#49ab892009c53933625bd16b2533fc754cab2891"

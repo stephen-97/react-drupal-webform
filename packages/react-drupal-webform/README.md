@@ -9,7 +9,7 @@ It allows you to take the Webform structure exported from Drupal (as a Javascrip
 
 The library only covers a limited subset of Drupal Webform features and is not a full implementation. Some behaviors and advanced options from Webform are not supported.
 
-Validation for the form is powered by Yup.
+Validation for the form is can be with HTML nativer or powered by react-hook-form (and yup).
 You can also extend, override, or inject your own custom validation rules.
 
 Somes exemples here : https://react-next-drupal-webform.vercel.app/ 
@@ -91,20 +91,20 @@ IMPORTANT : By using custom components, it becomes possible to extend and custom
   - Title Display / Description Display / Help Display : ❌
   - Field prefix / Field Suffix : ✅
   - Min Length / Max length : ✅
-  - Size : ❌
+  - Size : ✅
   - Placeholder : ✅
   - Autocomplete : ❌
   - Input Mask : ❌
-  - Input hiding : ❌
-  - Disabled : ❌
-  - Readonly : ❌
+  - Input hiding : ✅
+  - Disabled : ✅
+  - Readonly : ✅
   - Prepopulate : ❌
 
 - **Form Validation**
   - Required : ✅
-  - Required message : ❌
+  - Required message : ✅
   - Unique : ❌
-  - Pattern : ❌
+  - Pattern : ✅
   - Counter : ❌
 
 <h4 style="color:#1f3a8a;">Conditions</h4>
@@ -137,7 +137,7 @@ No feature allowed
 
 <h3 style="color:#1f3a8a;">Differences with the Drupal version</h3>
 
-There is some few CSS differences, the react-webform library uses Yup and RHF (React Hook Form), so the error-handling system is not native to HTML5.
+There is some few CSS differences, the react-webform library can provide Yup and RHF (React Hook Form), so the error-handling system can be native to HTML5 or not (validationEngine props).
 
 <h3 style="color:#1f3a8a;">Use of React Hook Component</h3>
 
@@ -168,24 +168,27 @@ export default async function App() {
 
 Common props you may want to specify include:
 
-- `elementsSource` - the elements from de webform (need to be an Javascript object, so parse the YAML from Drupal before )
-- `classNames` - Javascript object to apply classnames to wrappes, states, ect...
-- `components` - Javascript object to list all components
-- `isSubmitted` - Check if the form is submitted or not, for show the confirmation page. 
-- `onSubmit` - An async function that is called after submitting the form.
-- `showConfirmation` - Show (or not) the confirmation page when isSubmitted is true.
-- `includeInactiveFieldsInSubmit` - Includes conditionally hidden fields in the submission result (except hidden inputs).
-- `defaultFieldStateMessages` - Default messages for field errors, required fields, etc.
-- `customValidators` - custom yup Validator
+- `elementsSource` – (Required) The webform elements definition. This must be a JavaScript object, so the YAML coming from Drupal must be parsed beforehand.
+- `onSubmit` – (Required) A function called when the form is submitted. Can return a promise for async handling.
+- `components` – A JavaScript object used to override or extend the default form components.
+- `validationEngine` – Defines which validation engine to use. Possible values are `rhf` (React Hook Form) or `html` (HTML native validation). By default it's HTML (Drupal behavior)
+- `rhfValidationMode` – (RHF only) Defines when validation is triggered (`onSubmit`, `onBlur`, `onChange`, `all`). By default it's `all`
+- `rhfCustomValidators` – (RHF only) Custom Yup validators that can extend or override the default validation rules.
+- `rhfDefaultFieldStateMessages` – (RHF only) Default messages used for field states such as errors, required fields, or validation feedback.
+- `classNamePrefix` – A prefix applied to all generated CSS class names of the webform elements. Without a prefix, base class names are not rendered by default.
+- `includeInactiveFieldsInSubmit` – When enabled, conditionally hidden fields are included in the submitted data (except native hidden inputs).
+- `unstyled` – When enabled, disables all default styling and generated class names. So you can style from scratch. 
+- `disableActionButtonWhenInvalid` – When enabled, action buttons (submit or next) are automatically disabled when the form is invalid.
+
 
 <h3 style="color:#1f3a8a;">Props – components</h3>
 
 `TYPE` - TWebformCustomComponents
 
-- `label` – Renders the label of each field.
-- `wrapper` – Container wrapping a field and its label.
+- `title` – Renders the title (label) of each field.
+- `fieldContainer` – Container wrapping a field and its related elements (label, description, errors).
 - `errorFieldMessage` – Displays validation and error messages for a field.
-- `confirmationView` – Display of the confirmationView (after the submit).
+- `confirmationView` – Display of the confirmation view (after the submit).
 - `input` – Renders standard input fields (textfield, email, number, tel).
 - `managedFile` – Renders a managed file input field.
 - `managedFilePreview` – Displays a preview of the uploaded managed file.
@@ -194,7 +197,7 @@ Common props you may want to specify include:
 - `checkbox` – Renders a single checkbox field.
 - `radios` – Renders a group of radio buttons.
 - `textarea` – Renders a textarea field.
-- `wysiwyg` – Renders for all wysiwyg (for exemple on help / Description / more).
+- `wysiwyg` – Renders all wysiwyg content (for example: help / description / more / markup).
 - `help` – Renders the help block associated with a field.
 - `description` – Renders the description text of a field.
 - `more` – Renders the “more information” block of a field.
@@ -204,14 +207,8 @@ Common props you may want to specify include:
 - `layout` – Layout wrapper used to structure fields and form sections.
 - `hidden` – Renders hidden fields.
 - `markup` – Renders static markup elements (HTML/text content).
-- `fieldById` – Allows overriding the renderer for a specific field using its ID.
 
 
-Warning :
-
-When building (for exemple) a custom Input component (e.g. a field with an action),
-className props are not automatically forwarded. They must be explicitly passed down (or not, if you do not want).
-Additionally, to properly integrate user input into the form, the component must be connected to React Hook Form (RHF).
 
 Exemple :
 
@@ -225,150 +222,89 @@ import CustomFirstNameInput from './CustomFirstNameInput'
 
 export default async function App() {
     const correctElementsSource = await getWebform()
-    const [isSubmitted, setIsSubmitted] = useState(false)
 
     const handleSubmit = async (formData: Record<any, string>) => {
-        setIsSubmitted(true)
+        console.log(formData)
     }
 
     const customComponents = {
       input: CustomInput,
-      fieldById: {
-        firstname: CustomFirstNameInput,
-      },
     }
     
     return (
         <Webform 
             elementsSource={correctElementsSource}
             onSubmit={handleSubmit}
-            isSubmitted={isSubmitted}
             components={customComponents}
         />
     );
 }
 ```
 
-And here the exemple of the CustomInput (using RHF) :
+Here is an example of a custom Input component.
+You can import the components constant from the package (which contains the default components) and reuse it while passing your own props:
 ```js
-import React, { HTMLInputTypeAttribute } from 'react'
-import { TFieldWebformObjCustom } from 'react-drupal-webform/src/lib/types/components/fieldWebformObjCustom'
+import React, { useRef } from 'react'
+import styles from './customInput.module.scss'
 import { useController, useFormContext } from 'react-hook-form'
 import cn from 'classnames'
-import styles from './custom.module.scss'
+import { components } from '../../../../packages/react-drupal-webform/src/lib/const/const.form'
+import { InputProps } from '../../../../packages/react-drupal-webform/src/lib/types/components/input'
 
-const CustomInput = (props: TFieldWebformObjCustom) => {
-  const { fieldKey, field } = props
+const CustomInput = (props: InputProps) => {
+  const { field, fieldKey } = props
 
   const { control } = useFormContext()
-  const controller = useController<any>({ name: fieldKey, control })
-  const { field: fieldController, fieldState } = controller
 
-  const getFieldType: HTMLInputTypeAttribute = (() => {
-    switch (field?.['#type']) {
-      case 'textfield':
-        return 'text'
-      case 'date':
-        return 'date'
-      case 'number':
-        return 'number'
-      case 'email':
-        return 'email'
-      case 'tel':
-        return 'tel'
-      default:
-        return 'text'
-    }
-  })()
+  const {
+    field: fieldController,
+    fieldState: { error },
+  } = useController<any>({
+    name: fieldKey,
+    control,
+  })
+
+  const inputRef = useRef<HTMLInputElement | null>(null)
+
+  const handleClear = () => {
+    fieldController.onChange('')
+    inputRef.current?.focus()
+  }
 
   return (
-    <input
-      id={fieldKey}
-      className={cn(styles.customInputs, { [styles.error]: fieldState?.error })}
-      name={fieldController.name}
-      minLength={field?.['#minlength']}
-      maxLength={field?.['#maxlength']}
-      placeholder={field?.['#placeholder']}
-      type={getFieldType}
-      onChange={(e) => fieldController.onChange(e)}
-      value={fieldController.value ?? ''}
-      required={field?.['#required']}
-    />
+    <div
+       className={cn(styles.inputCustomContainer, {
+           [styles.error]: error,
+       })}
+    >
+      <components.Input
+        {...props}
+        className={styles.inputCustom}
+        innerRef={(el) => {
+            inputRef.current = el
+        }}
+      />
+      <button 
+        className={styles.clearButton}
+        type="button"
+        aria-label={`clear the field "${field?.['#title']}"`}
+        onClick={handleClear}
+      />
+    </div>
   )
 }
 
 export default CustomInput
 ```
 
-<h3 style="color:#1f3a8a;">Props – classNames</h3>
+<h3 style="color:#1f3a8a;">Props – classNamesPrefix</h3>
 
-The classNames are only available for default css class and scss module class. 
-It may not work with tailwind, styled components, MUI, ect...
+The classNamePrefix prop allows you to apply a prefix to all generated CSS class names of the webform elements.
+When a prefix is provided, it is automatically prepended to every internal “base” (empty) class name used by the webform.
+Without a classNamePrefix, these base classnames are not rendered by default, meaning no automatic classes are applied unless explicitly defined.
+This behavior does not apply to wysiwyg content, which always keeps its own classes and is not affected by classNamePrefix.
 
-`TYPE` - TWebformClassNames
-
-
-- `wrappers` – Class names applied to field wrapper containers.
-  - `base` – Base wrapper class applied to all fields.
-  - `byCategory` – Wrapper classes based on field category.
-    - `textInput` – Wrapper class for text-based inputs.
-    - `selectionInput` – Wrapper class for selection inputs (select, radios, checkboxes).
-    - `booleanInput` – Wrapper class for boolean inputs (checkbox).
-  - `byFieldType` – Wrapper classes mapped to specific Drupal field types.
-
-- `general` – Class names for extra field elements.
-  - `fieldLabel` – Class applied to field labels.
-  - `fieldDescription` – Class applied to field descriptions.
-  - `fieldManagedFileInfo` – Class applied to managed file information blocks.
-  - `fieldMore` – Class applied to “more information” blocks.
-  - `fieldHelp` – Class applied to help blocks.
-  - `fieldWysiwyg` – Class applied to WYSIWYG content.
-
-- `states` – Class names reflecting field states.
-  - `fieldError` – Class applied to fields in an error state.
-  - `fieldErrorMessage` – Class applied to validation error messages.
-
-- `fields` – Class names applied to specific field types.
-  - `textInputs` – Class names for text-based inputs.
-    - `base` – Base class applied to all text inputs.
-    - `types` – Classes mapped to specific input types (`text`, `email`, `number`, `tel`, `textarea`, `textfield`).
-  - `checkboxes` – Class names for checkbox groups.
-    - `groupWrapper` – Wrapper class for the checkbox group.
-    - `itemWrapper` – Wrapper class for a single checkbox item.
-    - `input` – Class applied to the checkbox input element.
-    - `label` – Class applied to the checkbox label.
-  - `checkbox` – Class names for a single checkbox field.
-    - `itemWrapper` – Wrapper class for the checkbox item.
-    - `input` – Class applied to the checkbox input element.
-    - `label` – Class applied to the checkbox label.
-  - `radios` – Class names for radio button groups.
-    - `groupWrapper` – Wrapper class for the radio group.
-    - `itemWrapper` – Wrapper class for a single radio item.
-    - `input` – Class applied to the radio input element.
-    - `label` – Class applied to the radio label.
-  - `select` – Class names for select fields.
-    - `select` – Class applied to the select element.
-    - `option` – Class applied to select options.
-  - `managedFile` – Class names for managed file fields.
-    - `input` – Class applied to the file input element.
-  - `markup` – Class names for markup-only elements.
-    - `base` – Base class applied to markup content.
-  - `layout` – Class names for layout components.
-    - `wrapper` – Wrapper class for the layout container.
-    - `title` – Class applied to the layout title.
-    - `inner` – Class applied to the layout inner content.
-
-- `multiStep` – Class names for multi-step form components.
-  - `stepperContainer` – Wrapper class for the stepper component.
-  - `stepperHeader` – Class applied to the stepper header.
-  - `stepperTitle` – Class applied to the stepper title.
-  - `stepperCounter` – Class applied to the step counter.
-  - `stepperProgressBarContainer` – Wrapper class for the progress bar container.
-  - `stepperProgressBar` – Class applied to the progress bar itself.
-  - `actionsContainer` – Wrapper class for step navigation actions.
-  - `actionsButtons` – Wrapper class for action buttons.
-  - `actionsButtonPrev` – Class applied to the “previous” button.
-  - `actionsButtonsNext` – Class applied to the “next” button.
+`TYPE` - string
 
 Example : 
 
@@ -381,35 +317,62 @@ import styles from './webform.module.scss'
 export default async function App() {
     const webformData = await getWebform()
     const elementsSource = YAML.parse(webformData.elementsSource)
-    const [isSubmitted, setIsSubmitted] = useState(false)
 
     const handleSubmit = async (formData: Record<any, string>) => {
-        setIsSubmitted(true)
-    }
-    
-    const customClassNames = {
-      general: {
-        fieldDescription: styles.fieldDescription
-      },
-      fields: {
-        checkboxes: {
-          label: styles.labelCheckboxes
-        }
-      }
+        console.log(formData)
     }
     
     return (
         <Webform 
             elementsSource={elementsSource}
-            isSubmitted={isSubmitted}
             onSubmit={handleSubmit}
-            classNames={customClassNames}
+            classNamePrefix={'prefix'}
         />
     );
 }
 ```
 
-<h3 style="color:#1f3a8a;">Props – defaultFieldStateMessages</h3>
+Here is an example of the class names generated on a fieldContainer, with the prefix used in the previous example (with unstyled: true):
+```
+<div
+  class="prefix-webform-fieldContainer"
+  data-type="email"
+  data-group-type="input"
+  data-component="fieldContainer"
+>
+  <label
+    for="type_a_test_email"
+    class="prefix-webform-title"
+    data-component="title"
+  >
+    Type a test email
+  </label>
+
+  <input
+    id="type_a_test_email"
+    class="prefix-webform-input"
+    type="email"
+    name="type_a_test_email"
+    value=""
+    aria-describedby="description-type_a_test_email"
+    placeholder='For exemple "test@gmail.com"'
+    minlength="4"
+    maxlength="20"
+    data-component="Input"
+  />
+
+  <div
+    id="description-type_a_test_email"
+    class="prefix-webform-wysiwyg prefix-webform-description"
+    data-component="description"
+  >
+    <p>This field have a placeholder.</p>
+  </div>
+</div>
+
+```
+
+<h3 style="color:#1f3a8a;">Props – rhfDefaultFieldStateMessages</h3>
 
 `TYPE` - TWebformStateMessages
 
@@ -426,6 +389,7 @@ export default async function App() {
   - `maxLengthMessage`- Field-type–specific error message displayed when the value exceeds the maximum length configured in Drupal (if active). This is applied only to fields that support maximum length validation.
 
 
+Example :
 
 ```js
 import React, {useState} from 'react';
@@ -435,16 +399,15 @@ import { getWebform } from './api'
 export default async function App() {
   const webformData = await getWebform()
   const elementsSource = YAML.parse(webformData.elementsSource)
-  const [isSubmitted, setIsSubmitted] = useState(false)
 
   const handleSubmit = async (formData: Record<any, string>) => {
-        setIsSubmitted(true)
+        console.log(formData)
     }
     
     const defaultFieldsStateMessages = {
       fields: {
         requiredMessages: {
-          textfield: 'Field "{fieldName}" is required. (custom message)',
+          textfield: (props) => `Field "${props.field["#title"]}" is required. (custom message)`,
         },
       }
     };
@@ -452,57 +415,49 @@ export default async function App() {
     return (
         <Webform 
             elementsSource={elementsSource}
-            isSubmitted={isSubmitted}
             onSubmit={handleSubmit}
-            defaultFieldStateMessages={defaultFieldsStateMessages}
+            rhfDefaultFieldStateMessages={defaultFieldsStateMessages}
         />
     );
 }
 ```
 
-Example :
+<h3 style="color:#1f3a8a;">Props – rhfValidationMode</h3>
 
-```js
-import React, {useState} from 'react';
-import Webform from 'react-drupal-webform';
-import { getWebform } from './api'
+`TYPE` - 'all' | 'onChange' | 'onBlur' | 'onTouch' | 'onSubmit' | 'all'
 
-export default async function App() {
-    const webformData = await getWebform()
-    const elementsSource = YAML.parse(webformData.elementsSource)
-    const [isSubmitted, setIsSubmitted] = useState(false)
-  
-    const handleSubmit = async (formData: Record<any, string>) => {
-        setIsSubmitted(true)
-    }
-    
-    const defaultFieldsStateMessages = {
-      fields: {
-        requiredMessages: {
-          textfield: 'Field "{fieldName}" is required. (custom message)',
-        },
-      }
-    };
-    
-    return (
-        <Webform 
-            elementsSource={elementsSource}
-            isSubmitted={isSubmitted}
-            onSubmit={handleSubmit}
-            defaultFieldStateMessages={defaultFieldsStateMessages}
-        />
-    );
-}
-```
+  `DEFAULT` - 'all'
+
+The rhfValidationMode prop defines when validation is triggered in React Hook Form, and defaults to 'all'.
+
+
+<h3 style="color:#1f3a8a;">Props – validationEngine</h3>
+
+`TYPE` - 'rhf' | 'html'
+
+`DEFAULT` - 'html'
+
+Defines which validation system is used, and by default it follows the native HTML validation behavior as implemented in Drupal.
+
+<h3 style="color:#1f3a8a;">Props – unstyled</h3>
+
+`TYPE` - boolean
+
+`DEFAULT` - false
+
+The unstyled prop disables all default, built-in form classes, allowing you to start styling the form completely from scratch.
 
 <h3 style="color:#1f3a8a;">Props – includeInactiveFieldsInSubmit</h3>
 
 `TYPE` - boolean
 
+`DEFAULT` - false
+
+
 Include fields that inactive (not input hidden !) on the final submit payload.
 
 
-<h3 style="color:#1f3a8a;">Props – customValidators</h3>
+<h3 style="color:#1f3a8a;">Props – rhfCustomValidators</h3>
 
 `TYPE` - TWebformCustomValidators
 
@@ -521,11 +476,10 @@ import { getWebform } from './api'
 export default async function App() {
     const webformData = await getWebform()
     const elementsSource = YAML.parse(webformData.elementsSource)
-    const [isSubmitted, setIsSubmitted] = useState(false)
   
 
     const handleSubmit = async (formData: Record<any, string>) => {
-        setIsSubmitted(true)
+        console.log(formData)
     }
     
     const customValidator = {
@@ -542,7 +496,6 @@ export default async function App() {
     return (
         <Webform 
             elementsSource={elementsSource}
-            isSubmitted={isSubmitted}
             onSubmit={handleSubmit}
             customValidators={customValidator}
         />

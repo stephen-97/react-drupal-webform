@@ -1,41 +1,42 @@
 import {
   TWebformCustomValidators,
   TWebformStateMessages,
-} from '../../types/form.d'
+} from '../../types/form'
 import { DeepRequired } from 'react-hook-form'
 import { TDrupal_FieldType, TElementSource } from '../../types/components/field'
 import { AnySchema, StringSchema } from 'yup'
-import { TFieldValidate } from '../../types/components/validate'
+import { FieldValidateProps } from '../../types/components/validate'
 
 export const getRequiredMessage = (
-  defaultFieldStateMessages: DeepRequired<TWebformStateMessages>,
+  rhfDefaultFieldStateMessages: DeepRequired<TWebformStateMessages>,
   stateFieldName: TDrupal_FieldType
 ) => {
   if (
-    (defaultFieldStateMessages.fields['requiredMessages'] as any)[
+    (rhfDefaultFieldStateMessages.fields['requiredMessages'] as any)[
       stateFieldName
     ]?.length > 0
   ) {
-    return (defaultFieldStateMessages.fields['requiredMessages'] as any)[
+    return (rhfDefaultFieldStateMessages.fields['requiredMessages'] as any)[
       stateFieldName
     ]
   }
-  return defaultFieldStateMessages.general.requiredMessage
+  return rhfDefaultFieldStateMessages.general.requiredMessage
 }
 
 export const getErrorMessage = (
-  defaultFieldStateMessages: DeepRequired<TWebformStateMessages>,
+  rhfDefaultFieldStateMessages: DeepRequired<TWebformStateMessages>,
   stateFieldName: TDrupal_FieldType
 ) => {
   if (
-    (defaultFieldStateMessages.fields['errorMessages'] as any)[stateFieldName]
-      ?.length > 0
+    (rhfDefaultFieldStateMessages.fields['errorMessages'] as any)[
+      stateFieldName
+    ]?.length > 0
   ) {
-    return (defaultFieldStateMessages.fields['errorMessages'] as any)[
+    return (rhfDefaultFieldStateMessages.fields['errorMessages'] as any)[
       stateFieldName
     ]
   }
-  return defaultFieldStateMessages.general.errorMessage
+  return rhfDefaultFieldStateMessages.general.errorMessage
 }
 
 export const formatMessage = (template: string, fieldName: string): string => {
@@ -48,20 +49,20 @@ export type TDrupal_FieldType_Validate = Exclude<
 >
 
 export const resolveCustomValidator = <S extends AnySchema>(
-  customValidators: TWebformCustomValidators | undefined,
+  rhfCustomValidators: TWebformCustomValidators | undefined,
   key: string,
   type: TDrupal_FieldType_Validate | undefined,
-  args: TFieldValidate
+  args: FieldValidateProps
 ): S | null => {
-  if (!customValidators) return null
+  if (!rhfCustomValidators) return null
 
-  const byId = customValidators.byId?.[key]
+  const byId = rhfCustomValidators.byId?.[key]
   if (byId) {
     return byId(args) as unknown as S
   }
 
-  if (type && customValidators.byType?.[type]) {
-    return customValidators.byType[type]!(args) as unknown as S
+  if (type && rhfCustomValidators.byType?.[type]) {
+    return rhfCustomValidators.byType[type]!(args) as unknown as S
   }
 
   return null

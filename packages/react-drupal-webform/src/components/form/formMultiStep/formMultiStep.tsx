@@ -27,11 +27,11 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
   const {
     elementsSource,
     defaultFieldValues,
-    defaultFieldStateMessages,
+    rhfDefaultFieldStateMessages,
     components,
     onSubmit,
     includeInactiveFieldsInSubmit,
-    customValidators,
+    rhfCustomValidators,
     classNamePrefix,
     unstyled = false,
     rhfValidationMode = 'all',
@@ -142,9 +142,9 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
       getAllDefaultValuesFromAllSteps({
         elementsSource,
         defaultFieldValues,
-        defaultFieldStateMessages,
+        rhfDefaultFieldStateMessages,
       }),
-    [elementsSource, defaultFieldValues, defaultFieldStateMessages]
+    [elementsSource, defaultFieldValues, rhfDefaultFieldStateMessages]
   )
 
   const { defaultValues, validationSchema } = useMemo(() => {
@@ -152,16 +152,16 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
       elementsSource: currentStepObj,
       visibleElementsKeys,
       defaultFieldValues,
-      defaultFieldStateMessages,
-      customValidators,
+      rhfDefaultFieldStateMessages,
+      rhfCustomValidators,
       watchedValues: watchedStepValuesGlobal,
     })
   }, [
     currentStepObj,
     visibleElementsKeys,
     defaultFieldValues,
-    defaultFieldStateMessages,
-    customValidators,
+    rhfDefaultFieldStateMessages,
+    rhfCustomValidators,
     watchedStepValuesGlobal,
   ])
 

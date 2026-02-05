@@ -1,9 +1,9 @@
-import { TFieldValidate } from '../../types/components/validate'
+import { FieldValidateProps } from '../../types/components/validate'
 import { TDrupal_FieldType, TElementSource } from '../../types/components/field'
 import {
   TWebformErrorMessageFieldType,
   TWebformLengthMessageFieldType,
-} from '../../types/form.d'
+} from '../../types/form'
 
 export const useYupValidationResolver =
   (validationSchema: any) => async (data: any) => {
@@ -66,9 +66,9 @@ export const isLengthMessageFieldType = (
 }
 
 export const resolveFieldMessages = (
-  props: TFieldValidate
+  props: FieldValidateProps
 ): TResolvedFieldMessages => {
-  const { field, defaultFieldStateMessages } = props
+  const { field, rhfDefaultFieldStateMessages } = props
   const type = field?.['#type']
 
   const fieldName = field?.['#title'] ?? ''
@@ -90,8 +90,8 @@ export const resolveFieldMessages = (
       .replace('{minLength}', minLength)
       .replace('{maxLength}', maxLength)
 
-  const general = defaultFieldStateMessages.general
-  const fields = defaultFieldStateMessages.fields
+  const general = rhfDefaultFieldStateMessages.general
+  const fields = rhfDefaultFieldStateMessages.fields
 
   const required = isErrorMessageFieldType(type)
     ? resolve(fields.requiredMessages[type])

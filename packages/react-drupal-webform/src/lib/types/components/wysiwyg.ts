@@ -1,6 +1,6 @@
 import React from 'react'
 import { jsx } from '@emotion/react'
-import { DrupalElementCommonProps } from '../form.d'
+import { DrupalElementCommonProps } from '../form'
 
 export type TWysiwygSource = 'help' | 'more' | 'description' | 'markup'
 

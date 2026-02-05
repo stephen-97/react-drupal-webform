@@ -2,10 +2,8 @@
 
 import YAML from 'yaml'
 
-require('@/lib/wdyr')
-
 import { useState } from 'react'
-import Webform from '../../../../packages/react-drupal-webform/src/components/webform'
+import { Webform, components } from '../../../../packages/react-drupal-webform'
 import CustomInput from '@/components/webform/custom-components/customInput'
 import styles from './customWebform.module.scss'
 import CustomLabel from '@/components/webform/custom-components/customLabel'
@@ -14,11 +12,10 @@ import CustomMultiStepActions from '@/components/webform/custom-components/custo
 import CustomSelect from '@/components/webform/custom-components/customSelect'
 import CustomMore from '@/components/webform/custom-components/customMore'
 import CustomWysiwyg from '@/components/webform/custom-components/customWysiwyg'
-import { customValidators } from '@/components/webform/customWebform/custom-objects'
+import { rhfCustomValidators } from '@/components/webform/customWebform/custom-objects'
 import CustomAction from '@/components/webform/custom-components/customAction'
 import CustomHelp from '@/components/webform/custom-components/CustomHelp'
 import CustomForm from '@/components/webform/custom-components/customForm'
-import { components } from '../../../../packages/react-drupal-webform/src/lib/const/const.form'
 import CustomUnsupportedField from '@/components/webform/custom-components/unsupportedField'
 import ConfirmationView from '@/components/webform/customWebform/confirmationView'
 
@@ -67,7 +64,7 @@ const CustomWebform = ({ elementsSource }: TWebformContainer) => {
       <Webform
         elementsSource={correctElementsSource}
         onSubmit={handleSubmit}
-        customValidators={customValidators}
+        rhfCustomValidators={rhfCustomValidators}
         components={{
           input: CustomInput,
           title: CustomLabel,
@@ -87,7 +84,7 @@ const CustomWebform = ({ elementsSource }: TWebformContainer) => {
             <components.Layout data-test={'test'} {...props} />
           ),
         }}
-        validationEngine="rhf"
+        validationEngine={'rhf'}
         rhfValidationMode="all"
       />
     </div>

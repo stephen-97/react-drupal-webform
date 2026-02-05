@@ -2,32 +2,15 @@
 
 import YAML from 'yaml'
 
-require('@/lib/wdyr')
-
-import Webform from '../../../packages/react-drupal-webform/src/components/webform'
-import { TWebformStateMessages } from '../../../packages/react-drupal-webform/src/lib/types/form.d'
-import { useState } from 'react'
+import { Webform } from 'react-drupal-webform'
+import { TWebformStateMessages } from '../../../packages/react-drupal-webform/src/lib/types/form'
 
 export type TWebformContainer = {
   elementsSource: string
 }
 
 const WebformContainer = ({ elementsSource }: TWebformContainer) => {
-  const [isSubmitted, setIsSubmitted] = useState<boolean>(false)
-  const fakeSubmit = (data: Record<any, string>) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({
-          success: true,
-          message: 'Formulaire soumis avec succès (fake).',
-          data,
-        })
-      }, 3000)
-    })
-  }
-
   const handleSubmit = (formData: Record<any, string>) => {
-    setIsSubmitted(true)
     console.log(formData)
   }
 
@@ -77,9 +60,9 @@ const WebformContainer = ({ elementsSource }: TWebformContainer) => {
     <Webform
       elementsSource={correctElementsSource}
       onSubmit={handleSubmit}
-      defaultFieldStateMessages={defaultStateValues}
-      classNamePrefix={'top'}
-      unstyled={false}
+      rhfDefaultFieldStateMessages={defaultStateValues}
+      classNamePrefix={'prefix'}
+      unstyled={true}
       validationEngine={'html'}
       rhfValidationMode={'onBlur'}
     />

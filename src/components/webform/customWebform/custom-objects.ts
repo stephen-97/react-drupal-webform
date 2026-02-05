@@ -1,9 +1,9 @@
-import { TFieldValidate } from '../../../../packages/react-drupal-webform/src/lib/types/components/validate'
+import { FieldValidateProps } from '../../../../packages/react-drupal-webform/src/lib/types/components/validate'
 import * as yup from 'yup'
 
-export const customValidators = {
+export const rhfCustomValidators = {
   byType: {
-    webform_height: (ctx: TFieldValidate) => {
+    webform_height: (ctx: FieldValidateProps) => {
       const isRequired = Boolean(ctx.field?.['#required'])
       const requiredMessage =
         ctx.field?.['#required_error'] ?? ctx.requiredMessage
@@ -21,7 +21,7 @@ export const customValidators = {
     },
   },
   byId: {
-    your_favorite_fruit: (ctx: TFieldValidate) => {
+    your_favorite_fruit: (ctx: FieldValidateProps) => {
       const isRequired = Boolean(ctx.field?.['#required'])
       const requiredMessage =
         ctx.field?.['#required_error'] ?? ctx.requiredMessage

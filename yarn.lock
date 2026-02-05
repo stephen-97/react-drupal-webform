@@ -2792,12 +2792,19 @@ queue-microtask@^1.2.2:
   dependencies:
     scheduler "^0.25.0"
 
-react-drupal-webform@^1.0.0-alpha:
-  version "1.0.0-alpha"
-  resolved "https://registry.yarnpkg.com/react-drupal-webform/-/react-drupal-webform-1.0.0-alpha.tgz#a1264db6059d368df9524099a06357929f3f87dd"
-  integrity sha512-ML9M0bALOE//jnKt5gNnR3ZShG2O70l0VCSXvOIH3pzli6R02dmo1GztBiBJYpDyX9z1J1frcVPv0klO9r/Waw==
+react-drupal-webform@./packages/react-drupal-webform/react-drupal-webform-v1.0.1-alpha.tgz:
+  version "1.0.1-alpha"
+  resolved "./packages/react-drupal-webform/react-drupal-webform-v1.0.1-alpha.tgz#9bd014e18c5850a64f9bceb74e170ad224278412"
   dependencies:
     classnames "^2.5.1"
+
+react-drupal-webform@^1.0.2-alpha:
+  version "1.0.2-alpha"
+  resolved "https://registry.yarnpkg.com/react-drupal-webform/-/react-drupal-webform-1.0.2-alpha.tgz#4879ce572cca24f259bd5f183c76b65f002fef11"
+  integrity sha512-BbhmRkxY9EWIvNjeYCbpl2GkaPWjIjuJZNHGOIPKondjjXNwgUYMuaXRYr5TG3D82gBUEDJm6ms3LGYDatHMtg==
+  dependencies:
+    classnames "^2.5.1"
+    react-drupal-webform "./packages/react-drupal-webform/react-drupal-webform-v1.0.1-alpha.tgz"
 
 react-hook-form@^7.54.2:
   version "7.54.2"

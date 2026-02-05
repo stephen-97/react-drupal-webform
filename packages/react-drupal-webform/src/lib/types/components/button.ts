@@ -1,8 +1,11 @@
 import { jsx } from '@emotion/react'
 import { DrupalElementCommonProps } from '../form'
 
-export interface HelpProps extends DrupalElementCommonProps {
+export interface ButtonProps extends DrupalElementCommonProps {
   innerProps?: jsx.JSX.IntrinsicElements['button']
   className?: string
+  title: string
+  fillType?: 'fill' | 'border'
+  size?: 'default' | 'small'
   innerRef?: (instance: HTMLButtonElement | null) => void
 }

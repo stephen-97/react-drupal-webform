@@ -1,4 +1,4 @@
-import { TFieldValidate } from '../../../../lib/types/components/validate'
+import { FieldValidateProps } from '../../../../lib/types/components/validate'
 import { TDrupal_FieldType } from '../../../../lib/types/components/field'
 import { formatMessage } from '../../../../lib/functions/webform_validation_functions/webform_validation_functions'
 import {
@@ -12,15 +12,15 @@ import {
 } from '../../../../lib/functions/webform_fields_functions/webform_fields_conditional_functions'
 
 export const validateLayout = (
-  props: TFieldValidate & { watchedValues?: Record<string, any> }
+  props: FieldValidateProps & { watchedValues?: Record<string, any> }
 ) => {
   const {
     yupObject,
     defaultValues,
     field,
     defaultFieldValues,
-    defaultFieldStateMessages,
-    customValidators,
+    rhfDefaultFieldStateMessages,
+    rhfCustomValidators,
     watchedValues = {},
     minLengthMessage,
     maxLengthMessage,
@@ -45,12 +45,12 @@ export const validateLayout = (
     const required = childField?.['#required']
 
     const requiredMessage = formatMessage(
-      getRequiredMessage(defaultFieldStateMessages, type) ?? '',
+      getRequiredMessage(rhfDefaultFieldStateMessages, type) ?? '',
       childField?.['#title']
     )
 
     const errorMessage = formatMessage(
-      getErrorMessage(defaultFieldStateMessages, type) ?? '',
+      getErrorMessage(rhfDefaultFieldStateMessages, type) ?? '',
       childField?.['#title']
     )
 
@@ -61,9 +61,9 @@ export const validateLayout = (
       field: childField,
       required: Boolean(required),
       defaultFieldValues,
-      defaultFieldStateMessages,
+      rhfDefaultFieldStateMessages,
       requiredMessage,
-      customValidators,
+      rhfCustomValidators,
       errorMessage,
       watchedValues,
       minLengthMessage,

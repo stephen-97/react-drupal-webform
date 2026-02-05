@@ -1,4 +1,4 @@
-import { TFieldValidate } from '../../../../lib/types/components/validate'
+import { FieldValidateProps } from '../../../../lib/types/components/validate'
 import { string } from 'yup'
 import {
   resolveCustomValidator,
@@ -6,7 +6,7 @@ import {
 } from '../../../../lib/functions/webform_validation_functions/webform_validation_functions'
 import { applyPatternIfApplicable } from '../../../../lib/functions/utils_functions'
 
-export const validateNumber = (props: TFieldValidate) => {
+export const validateNumber = (props: FieldValidateProps) => {
   const {
     yupObject,
     defaultValues,
@@ -15,7 +15,7 @@ export const validateNumber = (props: TFieldValidate) => {
     required,
     defaultFieldValues,
     requiredMessage,
-    customValidators,
+    rhfCustomValidators,
   } = props
 
   if (field?.['#readonly']) {
@@ -33,7 +33,8 @@ export const validateNumber = (props: TFieldValidate) => {
   })
 
   const customSchema =
-    resolveCustomValidator(customValidators, key, type, props) ?? defaultSchema
+    resolveCustomValidator(rhfCustomValidators, key, type, props) ??
+    defaultSchema
 
   yupObject[key] = required
     ? (customSchema as any).required(requiredMessage)

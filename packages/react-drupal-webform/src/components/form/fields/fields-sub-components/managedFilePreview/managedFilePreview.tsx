@@ -2,7 +2,7 @@ import React from 'react'
 import cn from 'classnames'
 import styles from './managedFilePreview.module.scss'
 import { ManagedFilePreviewProps } from '../../../../../lib/types/components/filePreview'
-import { TFileWithBase64 } from '../../../../../lib/types/form.d'
+import { TFileWithBase64 } from '../../../../../lib/types/form'
 import { base64ToBlob } from '../../../../../lib/functions/webform_fields_functions/webform_fields_file_functions'
 import {
   getClassNames,

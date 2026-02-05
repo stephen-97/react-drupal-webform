@@ -1,6 +1,6 @@
 import { getWebformProperties } from '../lib/functions/webform_functions'
 import FormDefault from './form/formDefault/formDefault'
-import { TWebform, TWebformNormalizedStateMessages } from '../lib/types/form.d'
+import { TWebform, TWebformNormalizedStateMessages } from '../lib/types/form'
 import {
   defaultValuesFieldStateMessages,
   defaultValuesObj,
@@ -11,11 +11,11 @@ import { normalizeStateMessages } from '../lib/functions/webform-states-message-
 
 const Webform = ({
   elementsSource,
-  defaultFieldStateMessages = {},
+  rhfDefaultFieldStateMessages = {},
   components = {},
   onSubmit,
   includeInactiveFieldsInSubmit = true,
-  customValidators,
+  rhfCustomValidators,
   classNamePrefix,
   unstyled = false,
   rhfValidationMode = 'all',
@@ -33,10 +33,10 @@ const Webform = ({
   const mergedDefaultValuesStateMessages =
     useMemo<TWebformNormalizedStateMessages>(() => {
       return normalizeStateMessages(
-        defaultFieldStateMessages,
+        rhfDefaultFieldStateMessages,
         defaultValuesFieldStateMessages
       )
-    }, [defaultFieldStateMessages])
+    }, [rhfDefaultFieldStateMessages])
 
   const { isMultiStep, elementsSources } = getWebformProperties(elementsSource)
 
@@ -45,11 +45,11 @@ const Webform = ({
   const formProps = {
     elementsSource: elementsSources,
     defaultFieldValues: mergedDefaultFieldValues,
-    defaultFieldStateMessages: mergedDefaultValuesStateMessages,
+    rhfDefaultFieldStateMessages: mergedDefaultValuesStateMessages,
     components,
     onSubmit,
     includeInactiveFieldsInSubmit,
-    customValidators,
+    rhfCustomValidators,
     classNamePrefix,
     unstyled,
     rhfValidationMode,

@@ -1,7 +1,7 @@
 import {
   TWebformDefaultFieldValues,
   TWebformResolvedStateMessages,
-} from '../types/form.d'
+} from '../types/form'
 import Wysiwyg from '../../components/form/fields/fields-special-components/wysiwyg/wysiwyg'
 import Input from '../../components/form/fields/fields-elements/input'
 import { InputProps } from '../types/components/input'

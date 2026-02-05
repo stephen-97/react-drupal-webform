@@ -5,7 +5,7 @@ import styles from '../field.module.scss'
 import { ManagedFileProps } from '../../../../lib/types/components/managedFile'
 import { handleFileChange } from '../../../../lib/functions/webform_fields_functions/webform_fields_functions'
 import ManagedFilePreview from '../fields-sub-components/managedFilePreview/managedFilePreview'
-import { TFileWithBase64 } from '../../../../lib/types/form.d'
+import { TFileWithBase64 } from '../../../../lib/types/form'
 import {
   getClassNames,
   getDataAttributes,

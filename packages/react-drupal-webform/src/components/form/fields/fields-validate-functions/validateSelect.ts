@@ -1,11 +1,11 @@
 import { string } from 'yup'
-import { TFieldValidate } from '../../../../lib/types/components/validate'
+import { FieldValidateProps } from '../../../../lib/types/components/validate'
 import {
   resolveCustomValidator,
   TDrupal_FieldType_Validate,
 } from '../../../../lib/functions/webform_validation_functions/webform_validation_functions'
 
-export const validateSelect = (props: TFieldValidate) => {
+export const validateSelect = (props: FieldValidateProps) => {
   const {
     yupObject,
     defaultValues,
@@ -13,7 +13,7 @@ export const validateSelect = (props: TFieldValidate) => {
     field,
     required,
     requiredMessage,
-    customValidators,
+    rhfCustomValidators,
     defaultFieldValues,
   } = props
 
@@ -28,7 +28,8 @@ export const validateSelect = (props: TFieldValidate) => {
   defaultValues[key] = field?.['#default_value'] ?? defaultFieldValues.select
 
   const customSchema =
-    resolveCustomValidator(customValidators, key, type, props) ?? defaultSchema
+    resolveCustomValidator(rhfCustomValidators, key, type, props) ??
+    defaultSchema
 
   yupObject[key] = required
     ? (customSchema as any).required(requiredMessage)

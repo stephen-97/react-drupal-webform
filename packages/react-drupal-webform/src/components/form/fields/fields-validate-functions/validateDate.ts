@@ -1,4 +1,4 @@
-import { TFieldValidate } from '../../../../lib/types/components/validate'
+import { FieldValidateProps } from '../../../../lib/types/components/validate'
 import { date, string } from 'yup'
 import {
   resolveCustomValidator,
@@ -6,7 +6,7 @@ import {
 } from '../../../../lib/functions/webform_validation_functions/webform_validation_functions'
 import { applyPatternIfApplicable } from '../../../../lib/functions/utils_functions'
 
-export const validateDate = (props: TFieldValidate) => {
+export const validateDate = (props: FieldValidateProps) => {
   const {
     yupObject,
     defaultValues,
@@ -15,7 +15,7 @@ export const validateDate = (props: TFieldValidate) => {
     defaultFieldValues,
     requiredMessage,
     errorMessage,
-    customValidators,
+    rhfCustomValidators,
     field,
   } = props
 
@@ -34,7 +34,8 @@ export const validateDate = (props: TFieldValidate) => {
     .typeError(errorMessage)
 
   const customSchema =
-    resolveCustomValidator(customValidators, key, type, props) ?? defaultSchema
+    resolveCustomValidator(rhfCustomValidators, key, type, props) ??
+    defaultSchema
 
   yupObject[key] = required
     ? (customSchema as any).required(requiredMessage)

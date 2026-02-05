@@ -40,7 +40,6 @@ const CustomInput = (props: InputProps) => {
           inputRef.current = el
         }}
       />
-
       <button
         className={styles.clearButton}
         type="button"
@@ -51,4 +50,4 @@ const CustomInput = (props: InputProps) => {
   )
 }
 
-export default React.memo(CustomInput)
+export default CustomInput

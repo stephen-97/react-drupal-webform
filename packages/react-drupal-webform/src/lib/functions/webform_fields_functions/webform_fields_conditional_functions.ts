@@ -2,11 +2,11 @@ import {
   TWebformCustomValidators,
   TWebformDefaultFieldValues,
   TWebformNormalizedStateMessages,
-} from '../../types/form.d'
+} from '../../types/form'
 import FormMappingFields from '../../../components/form/formMappingFields/formMappingFields'
 import * as yup from 'yup'
 import { resolveFieldMessages } from '../webform_yup_functions/webform_yup_functions'
-import { TFieldValidate } from '../../types/components/validate'
+import { FieldValidateProps } from '../../types/components/validate'
 
 export const checkVisibilityCondition = (
   watched: any,
@@ -152,15 +152,15 @@ export const generateFormSchemaAndDefaults = ({
   elementsSource,
   visibleElementsKeys,
   defaultFieldValues,
-  defaultFieldStateMessages,
-  customValidators,
+  rhfDefaultFieldStateMessages,
+  rhfCustomValidators,
   watchedValues = {},
 }: {
   elementsSource: Record<string, any>
   visibleElementsKeys: string[]
   defaultFieldValues: Required<TWebformDefaultFieldValues>
-  defaultFieldStateMessages: TWebformNormalizedStateMessages
-  customValidators?: TWebformCustomValidators
+  rhfDefaultFieldStateMessages: TWebformNormalizedStateMessages
+  rhfCustomValidators?: TWebformCustomValidators
   watchedValues?: Record<string, any>
 }) => {
   const defaults: Record<string, any> = {}
@@ -175,15 +175,15 @@ export const generateFormSchemaAndDefaults = ({
     const type = rawType in FormMappingFields ? rawType : 'default'
     const required = Boolean(field?.['#required'])
 
-    const fieldValidateProps: TFieldValidate = {
+    const fieldValidateProps: FieldValidateProps = {
       yupObject: yupObjLocal,
       defaultValues: defaults,
       key,
       field,
       required,
       defaultFieldValues,
-      defaultFieldStateMessages,
-      customValidators,
+      rhfDefaultFieldStateMessages,
+      rhfCustomValidators,
       requiredMessage: '',
       errorMessage: '',
       minLengthMessage: '',
