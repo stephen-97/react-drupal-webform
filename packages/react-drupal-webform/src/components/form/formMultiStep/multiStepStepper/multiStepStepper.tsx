@@ -2,7 +2,6 @@ import styles from './multiStepStepper.module.scss'
 import React from 'react'
 import cn from 'classnames'
 import { MultiStepStepperProps } from '../../../../lib/types/components/multiStepStepper'
-import { useMultiStepContext } from '../multiStepContext'
 import {
   getClassNames,
   getDataAttributes,
@@ -16,9 +15,10 @@ const MultiStepStepper = (props: MultiStepStepperProps) => {
     className,
     classNamePrefix,
     unstyled,
+    multiStepContext,
   } = props
 
-  const { stepIndex, totalVisibleSteps } = useMultiStepContext()
+  const { stepIndex, totalVisibleSteps } = multiStepContext
 
   const CustomMultiStepStepper = components?.multiStepStepper
   if (CustomMultiStepStepper) {

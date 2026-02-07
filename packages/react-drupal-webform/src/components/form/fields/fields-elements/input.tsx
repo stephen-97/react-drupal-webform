@@ -9,7 +9,7 @@ import {
   getDataAttributes,
   getTextLikeInputAttributes,
 } from '../../../../lib/functions/utils_functions'
-import { TElementSource } from '../../../../lib/types'
+import { TElementSource } from '../../../../lib/types/components/field'
 
 const Input = (props: InputProps) => {
   const {

@@ -1,5 +1,5 @@
 import { JSX } from 'react'
-import { TWebformCustomComponents } from '../form'
+import { TMultiStepContextPublic, TWebformCustomComponents } from '../form'
 import { jsx } from '@emotion/react'
 
 export interface MultiStepStepperProps {
@@ -11,4 +11,5 @@ export interface MultiStepStepperProps {
   innerProps?: jsx.JSX.IntrinsicElements['div']
   className?: string
   unstyled: boolean
+  multiStepContext: TMultiStepContextPublic
 }

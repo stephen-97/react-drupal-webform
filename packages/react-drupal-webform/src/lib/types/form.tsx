@@ -220,3 +220,10 @@ export type DrupalElementCommonNoFieldProps = {
   field?: TElementSource
   fieldKey?: string
 }
+
+export type TMultiStepContextPublic = {
+  stepIndex: number
+  totalVisibleSteps: number
+  goNext: () => void
+  goPrev: () => void
+}

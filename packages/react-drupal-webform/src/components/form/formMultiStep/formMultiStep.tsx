@@ -8,7 +8,10 @@ import {
   shouldFieldBeVisible,
   TDependentField,
 } from '../../../lib/functions/webform_fields_functions/webform_fields_conditional_functions'
-import { RenderMultiStepActions } from './multiStepActions/multiStepActions'
+import {
+  MultiStepActions,
+  RenderMultiStepActions,
+} from './multiStepActions/multiStepActions'
 import MultiStepStepper from './multiStepStepper/multiStepStepper'
 import {
   getAllFieldNames,
@@ -213,6 +216,18 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
     includeInactiveFieldsInSubmit,
   ])
 
+  const multiStepContext = {
+    stepIndex,
+    totalVisibleSteps: visibleStepKeys.length,
+    goNext: () => {
+      setAllWatchedSteps((prev) => ({ ...prev, ...watchedStepValues }))
+      setStepIndex((prev) => prev + 1)
+    },
+    goPrev: () => {
+      setStepIndex((prev) => Math.max(prev - 1, 0))
+    },
+  }
+
   const formContent = (
     <>
       {visibleElementsKeys.map((key, index) => {
@@ -243,13 +258,14 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
         )
       })}
 
-      <RenderMultiStepActions
+      <MultiStepActions
         previousButtonLabel={previousButtonLabel}
         nextButtonLabel={nextButtonLabel}
         components={components}
         classNamePrefix={classNamePrefix}
         unstyled={unstyled}
         disableActionButtonWhenInvalid={disableActionButtonWhenInvalid}
+        multiStepContext={multiStepContext}
       />
     </>
   )
@@ -275,6 +291,7 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
           classNamePrefix={classNamePrefix}
           elementsSource={elementsSource}
           unstyled={unstyled}
+          multiStepContext={multiStepContext}
         />
 
         <FormComponent

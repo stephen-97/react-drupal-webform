@@ -3,8 +3,11 @@
 import YAML from 'yaml'
 
 import { useState } from 'react'
-import { Webform, components } from '../../../../packages/react-drupal-webform'
-import CustomInput from '@/components/webform/custom-components/customInput'
+import {
+  Webform,
+  components,
+  InputProps,
+} from '../../../../packages/react-drupal-webform'
 import styles from './customWebform.module.scss'
 import CustomLabel from '@/components/webform/custom-components/customLabel'
 import CustomStepper from '@/components/webform/custom-components/customStepper'
@@ -66,7 +69,9 @@ const CustomWebform = ({ elementsSource }: TWebformContainer) => {
         onSubmit={handleSubmit}
         rhfCustomValidators={rhfCustomValidators}
         components={{
-          input: CustomInput,
+          input: (props: InputProps) => (
+            <components.Input {...props}></components.Input>
+          ),
           title: CustomLabel,
           multiStepStepper: CustomStepper,
           multiStepActions: CustomMultiStepActions,

@@ -1,5 +1,5 @@
 import React from 'react'
-import { WrapperManagedFileInfoProps } from '../../../../../lib/types'
+import { WrapperManagedFileInfoProps } from '../../../../../lib/types/components/wrapperManagedFileInfo'
 import ManagedFileInfo from '../managedFileInfo/managedFileInfo'
 
 const WrapperManagedFileInfo = ({

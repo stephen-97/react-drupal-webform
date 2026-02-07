@@ -5,12 +5,10 @@ import cn from 'classnames'
 import { MultiStepActionsProps } from '../../../../lib/types/components/multiStepActions'
 import Loader from '../../fields/fields-sub-components/loader/loader'
 import { useFormContext } from 'react-hook-form'
-import { useMultiStepContext } from '../multiStepContext'
 import {
   getClassNames,
   getDataAttributes,
 } from '../../../../lib/functions/utils_functions'
-import { TFieldWebformObj } from '../../../../lib/types/components/field'
 
 export const MultiStepActions = ({
   previousButtonLabel,
@@ -20,9 +18,10 @@ export const MultiStepActions = ({
   classNamePrefix,
   unstyled,
   disableActionButtonWhenInvalid,
+  multiStepContext,
 }: MultiStepActionsProps) => {
   const { formState, trigger } = useFormContext()
-  const { stepIndex, totalVisibleSteps, goNext, goPrev } = useMultiStepContext()
+  const { stepIndex, totalVisibleSteps, goNext, goPrev } = multiStepContext
 
   const { isSubmitting, isValid: isStepValid } = formState
 
