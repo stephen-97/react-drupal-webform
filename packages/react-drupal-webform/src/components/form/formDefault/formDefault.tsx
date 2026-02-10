@@ -28,6 +28,8 @@ const FormDefault = (props: IFormDefaultWebformProps) => {
     rhfValidationMode = 'all',
     validationEngine = 'html',
     disableActionButtonWhenInvalid = false,
+    className,
+    id,
   } = props
 
   const isMultiStep = Boolean(multiStepExtra)
@@ -143,6 +145,8 @@ const FormDefault = (props: IFormDefaultWebformProps) => {
   return (
     <FormProvider {...methods}>
       <FormComponent
+        className={className}
+        id={id}
         validationEngine={validationEngine}
         onSubmit={handleSubmit(handleFormSubmit)}
         disableActionButtonWhenInvalid={disableActionButtonWhenInvalid}

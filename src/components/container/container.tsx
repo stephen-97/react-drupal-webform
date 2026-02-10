@@ -11,6 +11,8 @@ type Props = {
 }
 
 const Container = ({ elementsSource, title }: Props) => {
+  const isRHF = title === 'Basic Form with RHF'
+
   return (
     <div className={styles.container}>
       <div className={styles.containerWebform}>
@@ -22,7 +24,10 @@ const Container = ({ elementsSource, title }: Props) => {
             {title === 'Custom components' ? (
               <CustomWebform elementsSource={elementsSource} />
             ) : (
-              <WebformContainer elementsSource={elementsSource} />
+              <WebformContainer
+                elementsSource={elementsSource}
+                {...(isRHF ? { validationEngine: 'rhf' } : {})}
+              />
             )}
           </div>
         </section>

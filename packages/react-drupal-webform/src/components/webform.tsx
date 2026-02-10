@@ -21,6 +21,8 @@ const Webform = ({
   rhfValidationMode = 'all',
   validationEngine = 'html',
   disableActionButtonWhenInvalid,
+  className,
+  id,
 }: TWebform) => {
   const mergedDefaultFieldValues = useMemo(
     () => ({
@@ -55,6 +57,8 @@ const Webform = ({
     rhfValidationMode,
     validationEngine,
     disableActionButtonWhenInvalid,
+    className,
+    id,
   }
 
   return elementsSource ? <FormComponent {...formProps} /> : null

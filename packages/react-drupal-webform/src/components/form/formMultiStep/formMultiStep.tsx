@@ -8,10 +8,7 @@ import {
   shouldFieldBeVisible,
   TDependentField,
 } from '../../../lib/functions/webform_fields_functions/webform_fields_conditional_functions'
-import {
-  MultiStepActions,
-  RenderMultiStepActions,
-} from './multiStepActions/multiStepActions'
+import { MultiStepActions } from './multiStepActions/multiStepActions'
 import MultiStepStepper from './multiStepStepper/multiStepStepper'
 import {
   getAllFieldNames,
@@ -40,6 +37,8 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
     rhfValidationMode = 'all',
     validationEngine = 'html',
     disableActionButtonWhenInvalid = false,
+    className,
+    id,
   } = props
 
   const totalSteps = Object.keys(elementsSource).length
@@ -293,8 +292,9 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
           unstyled={unstyled}
           multiStepContext={multiStepContext}
         />
-
         <FormComponent
+          className={className}
+          id={id}
           validationEngine={validationEngine}
           onSubmit={handleSubmit(onFormSubmit)}
           disableActionButtonWhenInvalid={disableActionButtonWhenInvalid}

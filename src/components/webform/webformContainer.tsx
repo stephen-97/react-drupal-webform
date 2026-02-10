@@ -2,14 +2,18 @@
 
 import YAML from 'yaml'
 
-import { Webform } from 'react-drupal-webform'
 import { TWebformStateMessages } from '../../../packages/react-drupal-webform/src/lib/types/form'
+import Webform from '../../../packages/react-drupal-webform/src/components/webform'
 
 export type TWebformContainer = {
   elementsSource: string
+  validationEngine?: 'rhf' | 'html'
 }
 
-const WebformContainer = ({ elementsSource }: TWebformContainer) => {
+const WebformContainer = ({
+  elementsSource,
+  validationEngine = 'html',
+}: TWebformContainer) => {
   const handleSubmit = (formData: Record<any, string>) => {
     console.log(formData)
   }
@@ -62,9 +66,9 @@ const WebformContainer = ({ elementsSource }: TWebformContainer) => {
       onSubmit={handleSubmit}
       rhfDefaultFieldStateMessages={defaultStateValues}
       classNamePrefix={'prefix'}
-      unstyled={true}
-      validationEngine={'html'}
-      rhfValidationMode={'onBlur'}
+      unstyled={false}
+      validationEngine={validationEngine}
+      rhfValidationMode={'all'}
     />
   )
 }

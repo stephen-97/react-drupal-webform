@@ -24,6 +24,7 @@ import ConfirmationView from '@/components/webform/customWebform/confirmationVie
 
 export type TWebformContainer = {
   elementsSource: string
+  validationEngine?: 'html' | 'rhf'
 }
 
 const CustomWebform = ({ elementsSource }: TWebformContainer) => {

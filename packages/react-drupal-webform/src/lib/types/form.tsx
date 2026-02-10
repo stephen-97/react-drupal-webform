@@ -201,6 +201,8 @@ export type TWebform = {
   includeInactiveFieldsInSubmit?: boolean
   unstyled?: boolean
   disableActionButtonWhenInvalid?: boolean
+  className?: string
+  id?: string
 }
 
 export type DrupalElementCommonProps = {
