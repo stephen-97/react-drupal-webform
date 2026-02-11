@@ -1,8 +1,6 @@
-import { TFormatFieldMulti, TWrapperCategory } from '../../types/form.d'
 import { ControllerRenderProps } from 'react-hook-form'
 import React from 'react'
 import { fileToBase64 } from './webform_fields_file_functions'
-import { TDrupal_FieldType } from '../../types/components/field'
 
 const handleChangeOptions = (
   selectedKey: string,
@@ -57,81 +55,4 @@ const handleFileChange = async (
   }
 }
 
-const getWrapperCategory = (
-  type: TDrupal_FieldType
-): TWrapperCategory | undefined => {
-  if (['textfield', 'textarea', 'email', 'number', 'tel'].includes(type))
-    return 'textInput'
-  if (['select', 'radios'].includes(type)) return 'selectionInput'
-  if (['checkbox', 'checkboxes'].includes(type)) return 'booleanInput'
-  return undefined
-}
-
-export const getRadioChecked = ({
-  radioFormat,
-  optionKey,
-  optionValue,
-  fieldControllerValue,
-}: {
-  radioFormat: string
-  optionKey: string
-  optionValue: string
-  fieldControllerValue: any
-}) => {
-  if (radioFormat === 'booleanMap') {
-    return Boolean(fieldControllerValue?.[optionKey])
-  }
-  if (radioFormat === 'key') {
-    return fieldControllerValue === optionKey
-  }
-  if (radioFormat === 'value') {
-    return fieldControllerValue === optionValue
-  }
-  if (radioFormat === 'keyValue') {
-    return fieldControllerValue?.key === optionKey
-  }
-  return false
-}
-
-export const getCheckboxChecked = ({
-  checkboxesFormat,
-  optionKey,
-  optionValue,
-  fieldControllerValue,
-}: {
-  checkboxesFormat: string
-  optionKey: string
-  optionValue: string
-  fieldControllerValue: any
-}) => {
-  if (checkboxesFormat === 'booleanMap') {
-    return Boolean(fieldControllerValue?.[optionKey])
-  }
-  if (checkboxesFormat === 'key') {
-    return (
-      Array.isArray(fieldControllerValue) &&
-      fieldControllerValue.includes(optionKey)
-    )
-  }
-  if (checkboxesFormat === 'value') {
-    return (
-      Array.isArray(fieldControllerValue) &&
-      fieldControllerValue.includes(optionValue)
-    )
-  }
-  if (checkboxesFormat === 'keyValue') {
-    return (
-      Array.isArray(fieldControllerValue) &&
-      fieldControllerValue.some(
-        (entry: Record<string, string>) => Object.keys(entry)[0] === optionKey
-      )
-    )
-  }
-  return false
-}
-export {
-  handleChangeOptions,
-  handleFileChange,
-  handleChangeOptionsCheckboxes,
-  getWrapperCategory,
-}
+export { handleChangeOptions, handleFileChange, handleChangeOptionsCheckboxes }

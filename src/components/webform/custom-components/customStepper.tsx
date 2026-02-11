@@ -3,23 +3,20 @@
 import React from 'react'
 import cn from 'classnames'
 import styles from './customStepper.module.scss'
-import { IMultiStepStepperProps } from '../../../../packages/react-drupal-webform/src/lib/types/components/multiStepStepper'
-import { useMultiStepContext } from '../../../../packages/react-drupal-webform/src/components/form/formMultiStep/multiStepContext'
+import { MultiStepStepperProps } from '../../../../packages/react-drupal-webform/src/lib/types/components/multiStepStepper'
 
-const CustomStepper = (props: IMultiStepStepperProps) => {
-  const { currentStepKey } = useMultiStepContext()
-  const { elementsSource } = props
+const CustomStepper = (props: MultiStepStepperProps) => {
+  const { elementsSource, multiStepContext } = props
+
+  const { stepIndex } = multiStepContext
 
   const steps = Object.entries(elementsSource)
-
-  const stepsKeys = Object.keys(elementsSource)
-  const currentStepGlobalIndex = stepsKeys.indexOf(currentStepKey)
 
   return (
     <div className={styles.stepper}>
       {steps.map(([key, step], index) => {
-        const isActive = key === currentStepKey
-        const isCompleted = index < currentStepGlobalIndex
+        const isActive = index === stepIndex
+        const isCompleted = index < stepIndex
 
         return (
           <div key={key} className={styles.step}>

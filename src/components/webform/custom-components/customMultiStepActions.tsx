@@ -1,16 +1,16 @@
 'use client'
 
 import React from 'react'
+import { MultiStepActionsProps } from '../../../../packages/react-drupal-webform/src/lib/types/components/multiStepActions'
 import styles from './customMultiStepActions.module.scss'
-import { IMultiStepActionsProps } from '../../../../packages/react-drupal-webform/src/lib/types/components/multiStepActions'
-import Loader from '../../../../packages/react-drupal-webform/src/components/form/fields/fields-sub-components/loader/loader'
-import { useMultiStepContext } from '../../../../packages/react-drupal-webform/src/components/form/formMultiStep/multiStepContext'
-import { useFormContext } from 'react-hook-form'
+import { components } from '../../../../packages/react-drupal-webform/'
 import cn from 'classnames'
-const CustomMultiStepActions = (props: IMultiStepActionsProps) => {
-  const { previousButtonLabel, nextButtonLabel } = props
+import { useFormContext } from 'react-hook-form'
+const CustomMultiStepActions = (props: MultiStepActionsProps) => {
+  const { previousButtonLabel, nextButtonLabel, multiStepContext } = props
+
+  const { stepIndex, totalVisibleSteps, goNext, goPrev } = multiStepContext
   const { formState, trigger } = useFormContext()
-  const { stepIndex, totalVisibleSteps, goNext, goPrev } = useMultiStepContext()
   const { isSubmitting, isValid: isStepValid } = formState
 
   const isLastStep = stepIndex === totalVisibleSteps - 1
@@ -47,7 +47,7 @@ const CustomMultiStepActions = (props: IMultiStepActionsProps) => {
         type={isLastStep ? 'submit' : 'button'}
         onClick={handleNext}
       >
-        {isSubmitting && <Loader />}
+        {isSubmitting && <span className={styles.loader} />}
         {isLastStep
           ? 'Submit'
           : nextButtonLabel && nextButtonLabel.length > 0
@@ -58,4 +58,4 @@ const CustomMultiStepActions = (props: IMultiStepActionsProps) => {
   )
 }
 
-export default CustomMultiStepActions
+export default React.memo(CustomMultiStepActions)

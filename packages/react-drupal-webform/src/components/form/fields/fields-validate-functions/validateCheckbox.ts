@@ -1,11 +1,11 @@
-import { TFieldValidate } from '../../../../lib/types/components/validate'
+import { FieldValidateProps } from '../../../../lib/types/components/validate'
 import { boolean } from 'yup'
 import {
   resolveCustomValidator,
   TDrupal_FieldType_Validate,
 } from '../../../../lib/functions/webform_validation_functions/webform_validation_functions'
 
-export const validateCheckbox = (props: TFieldValidate) => {
+export const validateCheckbox = (props: FieldValidateProps) => {
   const {
     yupObject,
     defaultValues,
@@ -14,13 +14,13 @@ export const validateCheckbox = (props: TFieldValidate) => {
     required,
     defaultFieldValues,
     requiredMessage,
-    customValidators,
+    rhfCustomValidators,
   } = props
 
   const type = field?.['#type'] as TDrupal_FieldType_Validate
 
   const baseSchema =
-    resolveCustomValidator(customValidators, key, type, props) ?? boolean()
+    resolveCustomValidator(rhfCustomValidators, key, type, props) ?? boolean()
 
   if (required) {
     yupObject[key] = baseSchema.test(
@@ -32,8 +32,5 @@ export const validateCheckbox = (props: TFieldValidate) => {
     yupObject[key] = baseSchema.notRequired()
   }
 
-  defaultValues[key] =
-    typeof field?.['#default_value'] !== 'undefined'
-      ? Boolean(field['#default_value'])
-      : false
+  defaultValues[key] = defaultFieldValues.checkbox
 }

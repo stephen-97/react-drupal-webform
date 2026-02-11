@@ -2,36 +2,20 @@
 
 import YAML from 'yaml'
 
-require('@/lib/wdyr')
-
+import { TWebformStateMessages } from '../../../packages/react-drupal-webform/src/lib/types/form'
 import Webform from '../../../packages/react-drupal-webform/src/components/webform'
-import { TWebformStateMessages } from '../../../packages/react-drupal-webform/src/lib/types/form.d'
 
 export type TWebformContainer = {
   elementsSource: string
+  validationEngine?: 'rhf' | 'html'
 }
 
-const WebformContainer = ({ elementsSource }: TWebformContainer) => {
-  const fakeSubmit = (data: Record<any, string>) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({
-          success: true,
-          message: 'Formulaire soumis avec succès (fake).',
-          data,
-        })
-      }, 3000)
-    })
-  }
-
-  const handleSubmit = async (formData: Record<any, string>) => {
-    return fakeSubmit(formData)
-      .then(() => {
-        console.log(formData)
-      })
-      .catch((error) => {
-        console.error(error)
-      })
+const WebformContainer = ({
+  elementsSource,
+  validationEngine = 'html',
+}: TWebformContainer) => {
+  const handleSubmit = (formData: Record<any, string>) => {
+    console.log(formData)
   }
 
   const correctElementsSource = YAML.parse(elementsSource)
@@ -39,7 +23,7 @@ const WebformContainer = ({ elementsSource }: TWebformContainer) => {
   const defaultStateValues: TWebformStateMessages = {
     general: {
       errorMessage: 'Invalid value.',
-      requiredMessage: 'tralalala',
+      requiredMessage: 'This field is required',
     },
     fields: {
       errorMessages: {
@@ -80,9 +64,11 @@ const WebformContainer = ({ elementsSource }: TWebformContainer) => {
     <Webform
       elementsSource={correctElementsSource}
       onSubmit={handleSubmit}
-      defaultFieldStateMessages={defaultStateValues}
-      showConfirmation={false}
-      isSubmitted={true}
+      rhfDefaultFieldStateMessages={defaultStateValues}
+      classNamePrefix={'prefix'}
+      unstyled={false}
+      validationEngine={validationEngine}
+      rhfValidationMode={'all'}
     />
   )
 }

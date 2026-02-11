@@ -1,7 +1,7 @@
 import React from 'react'
-import { TFieldWebformObjCustom } from '../../../../lib/types/components/fieldWebformObjCustom'
+import { FieldWebformObjCustomProps } from '../../../../lib/types/components/fieldWebformObjCustom'
 
-const FieldObjCustom = (props: TFieldWebformObjCustom) => {
+const FieldObjCustom = (props: FieldWebformObjCustomProps) => {
   return <>{props.children}</>
 }
 

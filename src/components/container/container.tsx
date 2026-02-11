@@ -1,9 +1,9 @@
 'use client'
 
 import React from 'react'
-import WebformContainer from '@/components/webform/webformContainer'
 import styles from './container.module.scss'
 import CustomWebform from '@/components/webform/customWebform/customWebform'
+import WebformContainer from '@/components/webform/webformContainer'
 
 type Props = {
   elementsSource: string
@@ -11,6 +11,8 @@ type Props = {
 }
 
 const Container = ({ elementsSource, title }: Props) => {
+  const isRHF = title === 'Basic Form with RHF'
+
   return (
     <div className={styles.container}>
       <div className={styles.containerWebform}>
@@ -22,7 +24,10 @@ const Container = ({ elementsSource, title }: Props) => {
             {title === 'Custom components' ? (
               <CustomWebform elementsSource={elementsSource} />
             ) : (
-              <WebformContainer elementsSource={elementsSource} />
+              <WebformContainer
+                elementsSource={elementsSource}
+                {...(isRHF ? { validationEngine: 'rhf' } : {})}
+              />
             )}
           </div>
         </section>

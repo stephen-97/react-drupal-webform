@@ -1,6 +1,6 @@
 import { renderAction } from '../fields/action'
 import { renderRadio } from '../fields/radios'
-import { renderCheckboxes } from '../fields/chexkboxes'
+import { renderCheckboxes } from '../fields/checkboxes'
 import { renderSelect } from '../fields/select'
 import { renderMarkup } from '../fields/markup'
 import { renderCheckbox } from '../fields/checkbox'
@@ -23,6 +23,8 @@ import { renderHidden } from '../fields/hidden'
 import { validateHidden } from '../fields/fields-validate-functions/validateHidden'
 import renderLayout from '../fields/layout'
 import { validateLayout } from '../fields/fields-validate-functions/validateLayout'
+import renderUnsupportedField from '../fields/unsupportedField'
+import { validateUnsupportedField } from '../fields/fields-validate-functions/validateUnsupportedField'
 
 const FormMappingFields: IFormMappingField = {
   textfield: {
@@ -34,6 +36,10 @@ const FormMappingFields: IFormMappingField = {
     validator: validateTextArea,
   },
   radios: {
+    element: renderRadio,
+    validator: validateRadio,
+  },
+  radios_entity: {
     element: renderRadio,
     validator: validateRadio,
   },
@@ -49,6 +55,14 @@ const FormMappingFields: IFormMappingField = {
     element: renderCheckboxes,
     validator: validateCheckboxes,
   },
+  entity_checkboxes: {
+    element: renderCheckboxes,
+    validator: validateCheckboxes,
+  },
+  term_checkboxes: {
+    element: renderCheckboxes,
+    validator: validateCheckboxes,
+  },
   number: {
     element: renderInput,
     validator: validateNumber,
@@ -58,6 +72,14 @@ const FormMappingFields: IFormMappingField = {
     validator: validateTel,
   },
   select: {
+    element: renderSelect,
+    validator: validateSelect,
+  },
+  entity_select: {
+    element: renderSelect,
+    validator: validateSelect,
+  },
+  term_select: {
     element: renderSelect,
     validator: validateSelect,
   },
@@ -102,8 +124,8 @@ const FormMappingFields: IFormMappingField = {
     validator: validateLayout,
   },
   default: {
-    element: null,
-    validator: null,
+    element: renderUnsupportedField,
+    validator: validateUnsupportedField,
   },
 }
 

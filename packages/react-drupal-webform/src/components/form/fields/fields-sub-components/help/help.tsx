@@ -3,16 +3,31 @@ import styles from './help.module.scss'
 import cn from 'classnames'
 import tippy from 'tippy.js'
 import 'tippy.js/dist/tippy.css'
-import { IHelpProps } from '../../../../../lib/types/components/help'
+import { HelpProps } from '../../../../../lib/types/components/help'
 import { createRoot } from 'react-dom/client'
 import Wysiwyg from '../../fields-special-components/wysiwyg/wysiwyg'
+import {
+  getClassNames,
+  getDataAttributes,
+} from '../../../../../lib/functions/utils_functions'
 
-const Help = ({ innerProps, components, helps }: IHelpProps) => {
-  const { className, ...restInnerProps } = innerProps ?? {}
-
+const Help = ({
+  innerProps,
+  components,
+  field,
+  className,
+  classNamePrefix,
+  unstyled,
+  fieldKey,
+  innerRef,
+}: HelpProps) => {
   const buttonRef = useRef<HTMLButtonElement>(null)
   const CustomWysiwyg = components.wysiwyg ?? Wysiwyg
 
+  const helps = {
+    help: field?.['#help'],
+    processed_help_title: field?.['#help_title'],
+  }
   useEffect(() => {
     if (!buttonRef.current) return
 
@@ -26,7 +41,17 @@ const Help = ({ innerProps, components, helps }: IHelpProps) => {
       ${helps.help || ''}
     `
 
-    root.render(<CustomWysiwyg source={'help'} processed={html} />)
+    root.render(
+      <CustomWysiwyg
+        field={field}
+        fieldKey={fieldKey}
+        components={components}
+        classNamePrefix={classNamePrefix}
+        source={'help'}
+        processed={html}
+        unstyled={unstyled}
+      />
+    )
 
     tippy(buttonRef.current, {
       content: tooltipContainer,
@@ -36,12 +61,28 @@ const Help = ({ innerProps, components, helps }: IHelpProps) => {
     })
   }, [helps])
 
+  const buttonClassNames = getClassNames({
+    name: 'help',
+    prefix: classNamePrefix,
+    unstyled: unstyled,
+    classNameComponent: className,
+    baseCn: cn(styles.help),
+  })
+
+  const dataAttributes = getDataAttributes({
+    component: 'help',
+  })
+
   return (
     <button
-      className={cn(styles.help, className)}
-      ref={buttonRef}
+      className={buttonClassNames}
+      ref={(el) => {
+        buttonRef.current = el
+        innerRef?.(el)
+      }}
       type="button"
-      {...restInnerProps}
+      {...dataAttributes}
+      {...innerProps}
     >
       ?
     </button>

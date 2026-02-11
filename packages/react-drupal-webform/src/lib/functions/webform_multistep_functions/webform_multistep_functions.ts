@@ -2,9 +2,7 @@ import { TKeyValue } from '../webform_functions'
 import {
   TWebformDefaultFieldValues,
   TWebformNormalizedStateMessages,
-  TWebformStateMessages,
-} from '../../types/form.d'
-import { DeepRequired } from 'react-hook-form'
+} from '../../types/form'
 import { generateFormSchemaAndDefaults } from '../webform_fields_functions/webform_fields_conditional_functions'
 import { TDrupal_FieldType } from '../../types/components/field'
 
@@ -78,11 +76,11 @@ export const getDummyDefaultMultiStep = (
 export const getAllDefaultValuesFromAllSteps = ({
   elementsSource,
   defaultFieldValues,
-  defaultFieldStateMessages,
+  rhfDefaultFieldStateMessages,
 }: {
   elementsSource: Record<string, any>
   defaultFieldValues: Required<TWebformDefaultFieldValues>
-  defaultFieldStateMessages: TWebformNormalizedStateMessages
+  rhfDefaultFieldStateMessages: TWebformNormalizedStateMessages
 }) => {
   let allDefaultValues: Record<string, any> = {}
 
@@ -97,7 +95,7 @@ export const getAllDefaultValuesFromAllSteps = ({
       elementsSource: stepObj,
       visibleElementsKeys: fieldKeys,
       defaultFieldValues,
-      defaultFieldStateMessages,
+      rhfDefaultFieldStateMessages,
     })
     allDefaultValues = { ...allDefaultValues, ...defaultValues }
   })

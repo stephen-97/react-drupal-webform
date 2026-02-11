@@ -1,45 +1,51 @@
 import React from 'react'
 import { TFieldWebformObj } from '../../../lib/types/components/field'
 import FormFieldRendered from '../formDefault/formFieldRendered'
-import LayoutWrapper from './fields-sub-components/layoutWrapper/layoutWrapper'
+import Layout from './fields-sub-components/layout/layout'
 import { shouldFieldBeVisible } from '../../../lib/functions/webform_fields_functions/webform_fields_conditional_functions'
 
 const renderLayout = (
   props: TFieldWebformObj & { watchedValues?: Record<string, any> }
 ) => {
-  const { fieldKey, field, classNames, components, watchedValues } = props
+  const {
+    fieldKey,
+    field,
+    components,
+    watchedValues,
+    classNamePrefix,
+    unstyled,
+    validationEngine = 'html',
+    disableActionButtonWhenInvalid = false,
+  } = props
 
-  const childKeys = Object.keys(field).filter((k) => !k.startsWith('#'))
-
-  const { fieldKey: _omitKey, ...restProps } = props
+  const LayoutComponent = components?.layout ?? Layout
+  const childKeys = Object.keys(field).filter((key) => !key.startsWith('#'))
+  const values = watchedValues ?? {}
 
   return (
-    <LayoutWrapper {...restProps} fieldKey={fieldKey} key={fieldKey}>
-      {childKeys.map((childKey, i) => {
+    <LayoutComponent {...props} fieldKey={fieldKey} key={fieldKey}>
+      {childKeys.map((childKey, index) => {
         const child = (field as any)[childKey]
 
-        const isVisible = shouldFieldBeVisible(
-          childKey,
-          field,
-          watchedValues ?? {}
-        )
-
-        if (!isVisible) return null
+        if (!shouldFieldBeVisible(childKey, field, values)) return null
 
         return (
           <FormFieldRendered
             key={childKey}
             fieldKey={childKey}
-            index={i}
+            index={index}
             field={child}
+            classNamePrefix={classNamePrefix}
             components={components}
-            classNames={classNames}
             isMultiStep={false}
             watchedValues={watchedValues}
+            unstyled={unstyled}
+            validationEngine={validationEngine}
+            disableActionButtonWhenInvalid={disableActionButtonWhenInvalid}
           />
         )
       })}
-    </LayoutWrapper>
+    </LayoutComponent>
   )
 }
 

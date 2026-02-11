@@ -1,9 +1,9 @@
-import { TFieldValidate } from '../../types/components/validate'
+import { FieldValidateProps } from '../../types/components/validate'
 import { TDrupal_FieldType, TElementSource } from '../../types/components/field'
 import {
   TWebformErrorMessageFieldType,
   TWebformLengthMessageFieldType,
-} from '../../types/form.d'
+} from '../../types/form'
 
 export const useYupValidationResolver =
   (validationSchema: any) => async (data: any) => {
@@ -46,7 +46,9 @@ export const isErrorMessageFieldType = (
   return (
     type !== 'webform_markup' &&
     type !== 'webform_actions' &&
-    type !== 'fieldset'
+    type !== 'fieldset' &&
+    type !== 'webform_section' &&
+    type !== 'webform_flexbox'
   )
 }
 
@@ -64,9 +66,9 @@ export const isLengthMessageFieldType = (
 }
 
 export const resolveFieldMessages = (
-  props: TFieldValidate
+  props: FieldValidateProps
 ): TResolvedFieldMessages => {
-  const { field, defaultFieldStateMessages } = props
+  const { field, rhfDefaultFieldStateMessages } = props
   const type = field?.['#type']
 
   const fieldName = field?.['#title'] ?? ''
@@ -75,9 +77,11 @@ export const resolveFieldMessages = (
   const maxLength =
     typeof field?.['#maxlength'] === 'number' ? String(field['#maxlength']) : ''
 
-  const resolve = (v?: string | ((f: TElementSource) => string)): string => {
-    if (!v) return ''
-    return typeof v === 'function' ? v(field) : v
+  const resolve = (
+    value?: string | ((field: TElementSource) => string)
+  ): string => {
+    if (value == null) return ''
+    return typeof value === 'function' ? value(field) : value
   }
 
   const replaceTokens = (msg: string) =>
@@ -86,8 +90,8 @@ export const resolveFieldMessages = (
       .replace('{minLength}', minLength)
       .replace('{maxLength}', maxLength)
 
-  const general = defaultFieldStateMessages.general
-  const fields = defaultFieldStateMessages.fields
+  const general = rhfDefaultFieldStateMessages.general
+  const fields = rhfDefaultFieldStateMessages.fields
 
   const required = isErrorMessageFieldType(type)
     ? resolve(fields.requiredMessages[type])
@@ -105,8 +109,13 @@ export const resolveFieldMessages = (
     ? resolve(fields.maxLengthMessages?.[type])
     : ''
 
+  const requiredResolved =
+    field?.['#required_error'] && field['#required_error'].length > 0
+      ? field['#required_error']
+      : replaceTokens(required || resolve(general.requiredMessage))
+
   return {
-    required: replaceTokens(required || resolve(general.requiredMessage)),
+    required: requiredResolved,
     error: replaceTokens(error || resolve(general.errorMessage)),
     minLength: replaceTokens(minLen || resolve(general.minLengthMessage)),
     maxLength: replaceTokens(maxLen || resolve(general.maxLengthMessage)),

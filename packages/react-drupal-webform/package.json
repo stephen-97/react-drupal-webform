@@ -1,6 +1,6 @@
 {
   "name": "react-drupal-webform",
-  "version": "1.0.1-alpha",
+  "version": "1.0.2-alpha",
   "description": "React components using webform Drupal data",
   "scripts": {
     "build": "rm -rf dist && tsc -p tsconfig.build.json && npm run copy:scss",
@@ -14,13 +14,20 @@
   "license": "MIT",
   "private": false,
   "main": "dist/index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "sideEffects": [
     "**/*.scss"
   ],
   "dependencies": {
-    "classnames": "^2.5.1"
+    "classnames": "^2.5.1",
+    "react-drupal-webform": "./packages/react-drupal-webform/react-drupal-webform-v1.0.1-alpha.tgz"
   },
   "peerDependencies": {
     "@tippyjs/react": "^4.2.6",

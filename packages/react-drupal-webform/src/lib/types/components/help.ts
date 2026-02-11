@@ -1,11 +1,8 @@
 import { jsx } from '@emotion/react'
-import { TWebformCustomComponents } from '../form.d'
+import { DrupalElementCommonProps } from '../form'
 
-export interface IHelpProps {
+export interface HelpProps extends DrupalElementCommonProps {
   innerProps?: jsx.JSX.IntrinsicElements['button']
-  components: TWebformCustomComponents
-  helps?: {
-    help?: string
-    processed_help_title?: string
-  }
+  className?: string
+  innerRef?: (instance: HTMLButtonElement | null) => void
 }

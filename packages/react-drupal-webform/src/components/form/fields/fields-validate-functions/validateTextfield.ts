@@ -1,12 +1,13 @@
 import { string, StringSchema } from 'yup'
-import { TFieldValidate } from '../../../../lib/types/components/validate'
+import { FieldValidateProps } from '../../../../lib/types/components/validate'
 import {
   applyMinMaxLength,
   resolveCustomValidator,
   TDrupal_FieldType_Validate,
 } from '../../../../lib/functions/webform_validation_functions/webform_validation_functions'
+import { applyPatternIfApplicable } from '../../../../lib/functions/utils_functions'
 
-export const validateTextField = (props: TFieldValidate) => {
+export const validateTextField = (props: FieldValidateProps) => {
   const {
     yupObject,
     defaultValues,
@@ -15,10 +16,15 @@ export const validateTextField = (props: TFieldValidate) => {
     defaultFieldValues,
     requiredMessage,
     field,
-    customValidators,
+    rhfCustomValidators,
     minLengthMessage,
     maxLengthMessage,
   } = props
+
+  if (field?.['#readonly']) {
+    defaultValues[key] = defaultFieldValues.textfield
+    return
+  }
 
   const type = field?.['#type'] as TDrupal_FieldType_Validate | undefined
 
@@ -31,13 +37,18 @@ export const validateTextField = (props: TFieldValidate) => {
     maxLengthMessage
   )
 
+  baseSchema = applyPatternIfApplicable({
+    schema: baseSchema,
+    field,
+  })
+
   if (required) {
     baseSchema = baseSchema.required(requiredMessage)
   }
 
   yupObject[key] =
     resolveCustomValidator<StringSchema<string | undefined>>(
-      customValidators,
+      rhfCustomValidators,
       key,
       type,
       props

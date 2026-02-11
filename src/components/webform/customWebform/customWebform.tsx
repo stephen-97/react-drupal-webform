@@ -2,10 +2,8 @@
 
 import YAML from 'yaml'
 
-require('@/lib/wdyr')
-
+import { useState } from 'react'
 import Webform from '../../../../packages/react-drupal-webform/src/components/webform'
-import CustomInput from '@/components/webform/custom-components/customInput'
 import styles from './customWebform.module.scss'
 import CustomLabel from '@/components/webform/custom-components/customLabel'
 import CustomStepper from '@/components/webform/custom-components/customStepper'
@@ -13,18 +11,22 @@ import CustomMultiStepActions from '@/components/webform/custom-components/custo
 import CustomSelect from '@/components/webform/custom-components/customSelect'
 import CustomMore from '@/components/webform/custom-components/customMore'
 import CustomWysiwyg from '@/components/webform/custom-components/customWysiwyg'
-import { useState } from 'react'
-import {
-  customClassnames,
-  customValidators,
-} from '@/components/webform/customWebform/custom-objects'
+import { rhfCustomValidators } from '@/components/webform/customWebform/custom-objects'
+import CustomAction from '@/components/webform/custom-components/customAction'
+import CustomHelp from '@/components/webform/custom-components/CustomHelp'
+import CustomForm from '@/components/webform/custom-components/customForm'
+import CustomUnsupportedField from '@/components/webform/custom-components/unsupportedField'
+import ConfirmationView from '@/components/webform/customWebform/confirmationView'
+import CustomInput from '@/components/webform/custom-components/customInput'
 
 export type TWebformContainer = {
   elementsSource: string
+  validationEngine?: 'html' | 'rhf'
 }
 
 const CustomWebform = ({ elementsSource }: TWebformContainer) => {
   const [isSubmitted, setIsSubmitted] = useState(false)
+
   const fakeSubmit = (data: Record<any, string>) => {
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -50,25 +52,38 @@ const CustomWebform = ({ elementsSource }: TWebformContainer) => {
 
   const correctElementsSource = YAML.parse(elementsSource)
 
+  if (isSubmitted) {
+    return (
+      <div className={styles.customWebformContainer}>
+        <ConfirmationView />
+      </div>
+    )
+  }
+
   return (
     <div className={styles.customWebformContainer}>
       <Webform
         elementsSource={correctElementsSource}
         onSubmit={handleSubmit}
-        customValidators={customValidators}
-        classNames={customClassnames}
-        isSubmitted={isSubmitted}
+        rhfCustomValidators={rhfCustomValidators}
         components={{
           input: CustomInput,
-          label: CustomLabel,
+          title: CustomLabel,
           multiStepStepper: CustomStepper,
           multiStepActions: CustomMultiStepActions,
           select: CustomSelect,
           more: CustomMore,
           wysiwyg: CustomWysiwyg,
+          action: CustomAction,
+          unsupportedField: CustomUnsupportedField,
+          help: CustomHelp,
+          form: CustomForm,
         }}
+        validationEngine={'rhf'}
+        rhfValidationMode={'all'}
       />
     </div>
   )
 }
+
 export default CustomWebform

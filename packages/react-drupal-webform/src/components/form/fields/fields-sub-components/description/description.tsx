@@ -1,22 +1,61 @@
 import React from 'react'
 import 'tippy.js/dist/tippy.css'
 import Wysiwyg from '../../fields-special-components/wysiwyg/wysiwyg'
-import { IDescriptionWebformProps } from '../../../../../lib/types/components/description'
+import { DescriptionProps } from '../../../../../lib/types/components/description'
+import cn from 'classnames'
+import styles from './description.module.scss'
+import {
+  getClassNames,
+  getDataAttributes,
+} from '../../../../../lib/functions/utils_functions'
 
 const Description = ({
   innerProps,
   components,
-  processed,
-}: IDescriptionWebformProps) => {
+  field,
+  fieldKey,
+  className,
+  classNamePrefix,
+  unstyled,
+  innerRef,
+}: DescriptionProps) => {
   const CustomWysiwyg = components.wysiwyg ?? Wysiwyg
-  const { className, ...restInnerProps } = innerProps ?? {}
+
+  const descriptionClassNames = getClassNames({
+    name: 'description',
+    prefix: classNamePrefix,
+    unstyled: unstyled,
+    classNameComponent: className,
+    baseCn: cn(styles.descriptionWysiwyg),
+  })
+
+  const dataAttributes = getDataAttributes({
+    component: 'description',
+  })
+
+  const mergedInnerProps = {
+    id: innerProps?.id ?? `description-${fieldKey}`,
+    ...innerProps,
+  }
+
   return (
     <CustomWysiwyg
-      className={className}
-      processed={processed}
+      innerRef={innerRef}
+      components={components}
+      field={field}
+      fieldKey={fieldKey}
+      className={descriptionClassNames}
+      classNamePrefix={classNamePrefix}
+      processed={
+        (field?.['#description'] ?? field?.['#file_placeholder']) || ''
+      }
       as={'div'}
       source={'description'}
-      {...restInnerProps}
+      innerProps={{
+        ...dataAttributes,
+        ...mergedInnerProps,
+      }}
+      unstyled={unstyled}
     />
   )
 }

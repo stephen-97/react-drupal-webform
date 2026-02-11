@@ -1,0 +1,26 @@
+.fieldWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  border: none;
+}
+
+.fieldWrapperCheckbox {
+  flex-direction: row;
+  align-items: baseline;
+}
+
+.prefixSuffixContainer {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  .fieldContainer {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    min-width: 0;
+    flex: 1;
+  }
+}
+
+

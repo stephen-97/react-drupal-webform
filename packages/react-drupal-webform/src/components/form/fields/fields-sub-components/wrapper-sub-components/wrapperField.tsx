@@ -1,16 +1,17 @@
 import React from 'react'
-import { TWrapperFieldWebformProps } from "../../../../../lib/types/components/wrapperField"
-import styles from "../wrapper.module.scss"
-import ErrorFieldMessage from "../errorFieldMessage/errorFieldMessage"
+import { WrapperFieldProps } from '../../../../../lib/types/components/wrapperField'
+import styles from '../fieldContainer.module.scss'
+import ErrorFieldMessage from '../errorFieldMessage/errorFieldMessage'
 
 const WrapperField = ({
   components,
-  classNames,
   field,
   children,
-  stateError,
-}: TWrapperFieldWebformProps) => {
-  const CustomErrorFieldMessage =
+  fieldKey,
+  classNamePrefix,
+  unstyled,
+}: WrapperFieldProps) => {
+  const ErrorFieldMessageComponent =
     components?.errorFieldMessage ?? ErrorFieldMessage
 
   return (
@@ -20,26 +21,26 @@ const WrapperField = ({
           {field?.['#field_prefix'] && <span>{field['#field_prefix']}</span>}
           <div className={styles.fieldContainer}>
             {children}
-            {typeof stateError?.message === 'string' &&
-              stateError.message.length > 0 && (
-                <CustomErrorFieldMessage
-                  className={classNames.states?.fieldErrorMessage}
-                  message={stateError.message}
-                />
-              )}
+            <ErrorFieldMessageComponent
+              classNamePrefix={classNamePrefix}
+              field={field}
+              fieldKey={fieldKey}
+              components={components}
+              unstyled={unstyled}
+            />
           </div>
           {field?.['#field_suffix'] && <span>{field['#field_suffix']}</span>}
         </div>
       ) : (
         <>
           {children}
-          {typeof stateError?.message === 'string' &&
-            stateError.message.length > 0 && (
-              <CustomErrorFieldMessage
-                className={classNames.states?.fieldErrorMessage}
-                message={stateError.message}
-              />
-            )}
+          <ErrorFieldMessageComponent
+            classNamePrefix={classNamePrefix}
+            field={field}
+            fieldKey={fieldKey}
+            components={components}
+            unstyled={unstyled}
+          />
         </>
       )}
     </>

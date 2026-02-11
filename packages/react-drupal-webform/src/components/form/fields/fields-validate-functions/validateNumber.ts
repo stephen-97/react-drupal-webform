@@ -1,11 +1,12 @@
-import { TFieldValidate } from "../../../../lib/types/components/validate"
+import { FieldValidateProps } from '../../../../lib/types/components/validate'
 import { string } from 'yup'
 import {
   resolveCustomValidator,
   TDrupal_FieldType_Validate,
-} from "../../../../lib/functions/webform_validation_functions/webform_validation_functions"
+} from '../../../../lib/functions/webform_validation_functions/webform_validation_functions'
+import { applyPatternIfApplicable } from '../../../../lib/functions/utils_functions'
 
-export const validateNumber = (props: TFieldValidate) => {
+export const validateNumber = (props: FieldValidateProps) => {
   const {
     yupObject,
     defaultValues,
@@ -14,15 +15,26 @@ export const validateNumber = (props: TFieldValidate) => {
     required,
     defaultFieldValues,
     requiredMessage,
-    customValidators,
+    rhfCustomValidators,
   } = props
+
+  if (field?.['#readonly']) {
+    defaultValues[key] = defaultFieldValues.number
+    return
+  }
 
   const type = field?.['#type'] as TDrupal_FieldType_Validate
 
-  const defaultSchema = string()
+  let defaultSchema = string()
+
+  defaultSchema = applyPatternIfApplicable({
+    schema: defaultSchema,
+    field,
+  })
 
   const customSchema =
-    resolveCustomValidator(customValidators, key, type, props) ?? defaultSchema
+    resolveCustomValidator(rhfCustomValidators, key, type, props) ??
+    defaultSchema
 
   yupObject[key] = required
     ? (customSchema as any).required(requiredMessage)

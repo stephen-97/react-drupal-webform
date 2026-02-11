@@ -1,4 +1,3 @@
-import styles from './formDefault.module.scss'
 import React, { useEffect, useMemo, useCallback } from 'react'
 import { useForm, useWatch, FormProvider } from 'react-hook-form'
 import { useYupValidationResolver } from '../../../lib/functions/webform_yup_functions/webform_yup_functions'
@@ -12,27 +11,28 @@ import {
 } from '../../../lib/functions/webform_fields_functions/webform_fields_conditional_functions'
 import { IFormDefaultWebformProps } from '../../../lib/types/components/formDefault'
 import { getDummyDefaultFormDefault } from '../../../lib/functions/webform_validation_functions/webform_validation_functions'
-import ConfirmationView from '../../special-display/confirmationView'
+import Form from '../form'
 
 const FormDefault = (props: IFormDefaultWebformProps) => {
   const {
     elementsSource,
     multiStepExtra,
     defaultFieldValues,
-    yup: yupObj,
-    defaultFieldStateMessages,
+    rhfDefaultFieldStateMessages,
     components,
-    classNames,
     includeInactiveFieldsInSubmit,
     onSubmit,
-    customValidators,
-    isSubmitted,
-    showConfirmation,
+    rhfCustomValidators,
+    classNamePrefix,
+    unstyled = false,
+    rhfValidationMode = 'all',
+    validationEngine = 'html',
+    disableActionButtonWhenInvalid = false,
+    className,
+    id,
   } = props
 
-  const { yupUseFormProps } = yupObj || {}
   const isMultiStep = Boolean(multiStepExtra)
-  const shouldShowConfirmation = Boolean(isSubmitted && showConfirmation)
 
   const dependentFields: TDependentField[] = useMemo(
     () => getDependentFields(elementsSource),
@@ -50,11 +50,10 @@ const FormDefault = (props: IFormDefaultWebformProps) => {
   )
 
   const methods = useForm({
-    ...yupUseFormProps,
-    mode: 'all',
+    mode: rhfValidationMode,
     criteriaMode: 'all',
     defaultValues: dummyDefaultValues,
-    shouldUnregister: false,
+    shouldUnregister: true,
   })
 
   const { control, reset, getValues, handleSubmit } = methods
@@ -79,16 +78,16 @@ const FormDefault = (props: IFormDefaultWebformProps) => {
       elementsSource,
       visibleElementsKeys,
       defaultFieldValues,
-      defaultFieldStateMessages,
-      customValidators,
+      rhfDefaultFieldStateMessages,
+      rhfCustomValidators,
       watchedValues,
     })
   }, [
     elementsSource,
     visibleElementsKeys,
     defaultFieldValues,
-    defaultFieldStateMessages,
-    customValidators,
+    rhfDefaultFieldStateMessages,
+    rhfCustomValidators,
     watchedValues,
   ])
 
@@ -98,7 +97,9 @@ const FormDefault = (props: IFormDefaultWebformProps) => {
     reset({ ...defaultValues, ...getValues() }, { keepValues: true })
   }, [defaultValues, validationSchema, reset, getValues])
 
-  control._options.resolver = resolver
+  if (validationEngine !== 'html') {
+    control._options.resolver = resolver
+  }
 
   const handleFormSubmit = useCallback(
     async (data: Record<string, any>) => {
@@ -129,33 +130,29 @@ const FormDefault = (props: IFormDefaultWebformProps) => {
         index={index}
         field={field}
         components={components}
-        classNames={classNames}
         isMultiStep={isMultiStep}
+        classNamePrefix={classNamePrefix}
+        unstyled={unstyled}
+        validationEngine={validationEngine}
+        disableActionButtonWhenInvalid={disableActionButtonWhenInvalid}
         {...(isLayout ? { watchedValues } : {})}
       />
     )
   })
 
-  const CustomForm = components?.form
-
-  const ConfirmationComponent = components?.confirmationView ?? ConfirmationView
+  const FormComponent = components?.form ?? Form
 
   return (
     <FormProvider {...methods}>
-      {shouldShowConfirmation ? (
-        <ConfirmationComponent />
-      ) : CustomForm ? (
-        <CustomForm {...props} onSubmit={handleSubmit(handleFormSubmit)}>
-          {formContent}
-        </CustomForm>
-      ) : (
-        <form
-          className={styles.formDefault}
-          onSubmit={handleSubmit(handleFormSubmit)}
-        >
-          {formContent}
-        </form>
-      )}
+      <FormComponent
+        className={className}
+        id={id}
+        validationEngine={validationEngine}
+        onSubmit={handleSubmit(handleFormSubmit)}
+        disableActionButtonWhenInvalid={disableActionButtonWhenInvalid}
+      >
+        {formContent}
+      </FormComponent>
     </FormProvider>
   )
 }

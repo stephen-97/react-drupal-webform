@@ -4,10 +4,10 @@ import React from 'react'
 import DOMPurify from 'isomorphic-dompurify'
 import cn from 'classnames'
 import styles from './customWysiwyg.module.scss'
-import { IWysiwygProps } from '../../../../packages/react-drupal-webform/src/lib/types/components/wysiwyg'
+import { WysiwygProps } from '../../../../packages/react-drupal-webform/src/lib/types/components/wysiwyg'
 import { components } from '../../../../packages/react-drupal-webform/src/lib/const/const.form'
 
-const CustomWysiwyg = (props: IWysiwygProps) => {
+const CustomWysiwyg = (props: WysiwygProps) => {
   const { processed, source } = props
 
   if (source !== 'markup') {

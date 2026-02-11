@@ -1,23 +1,21 @@
 import styles from './multiStepStepper.module.scss'
 import React from 'react'
 import cn from 'classnames'
-import { IMultiStepStepperProps } from '../../../../lib/types/components/multiStepStepper'
-import { useMultiStepContext } from '../multiStepContext'
+import { MultiStepStepperProps } from '../../../../lib/types/components/multiStepStepper'
+import {
+  getClassNames,
+  getDataAttributes,
+} from '../../../../lib/functions/utils_functions'
 
-const MultiStepStepper = (props: IMultiStepStepperProps) => {
-  const {
-    multiStepTitleAs = 'span',
-    currentStepObj,
-    components,
-    classNames,
-  } = props
-
-  const { stepIndex, totalVisibleSteps } = useMultiStepContext()
-
-  const CustomMultiStepStepper = components?.multiStepStepper
-  if (CustomMultiStepStepper) {
-    return <CustomMultiStepStepper {...props} />
-  }
+export const MultiStepStepper = ({
+  multiStepTitleAs = 'span',
+  currentStepObj,
+  className,
+  classNamePrefix,
+  unstyled,
+  multiStepContext,
+}: MultiStepStepperProps) => {
+  const { stepIndex, totalVisibleSteps } = multiStepContext
 
   const TagTitle = multiStepTitleAs
   const title: string | undefined = currentStepObj?.['#title']
@@ -36,51 +34,82 @@ const MultiStepStepper = (props: IMultiStepStepperProps) => {
             ((maxPercent - minPercent) / (totalVisibleSteps - 1)) * stepIndex
   }
 
+  const wrapperClassNames = getClassNames({
+    name: 'multiStepStepper',
+    prefix: classNamePrefix,
+    unstyled,
+    baseCn: cn(styles.multiStepStepper, className),
+  })
+
+  const headerClassNames = getClassNames({
+    name: 'multiStepStepperHeader',
+    prefix: classNamePrefix,
+    unstyled,
+    baseCn: styles.headerStepperContainer,
+  })
+
+  const titleClassNames = getClassNames({
+    name: 'multiStepStepperTitle',
+    prefix: classNamePrefix,
+    unstyled,
+    baseCn: styles.title,
+  })
+
+  const counterClassNames = getClassNames({
+    name: 'multiStepStepperCounter',
+    prefix: classNamePrefix,
+    unstyled,
+    baseCn: styles.multiStepStepperCounter,
+  })
+
+  const progressContainerClassNames = getClassNames({
+    name: 'multiStepStepperProgressContainer',
+    prefix: classNamePrefix,
+    unstyled,
+    baseCn: styles.progressBarContainer,
+  })
+
+  const progressBarClassNames = getClassNames({
+    name: 'multiStepStepperProgress',
+    prefix: classNamePrefix,
+    unstyled,
+    baseCn: styles.progressBar,
+  })
+
+  const dataAttributes = getDataAttributes({
+    component: 'multiStepStepper',
+  })
+
   return (
-    <div
-      className={cn(
-        styles.multiStepStepper,
-        classNames.multiStep.stepperContainer
-      )}
-    >
-      <div
-        className={cn(
-          styles.headerStepperContainer,
-          classNames.multiStep?.stepperHeader
-        )}
-      >
-        {title && title.length > 0 && (
-          <TagTitle
-            className={cn(styles.title, classNames.multiStep.stepperTitle)}
-          >
-            {title}
-          </TagTitle>
-        )}
-        <span
-          className={cn(
-            styles.multiStepStepperCounter,
-            classNames.multiStep.stepperCounter
-          )}
-        >
+    <div className={wrapperClassNames} {...dataAttributes}>
+      <div className={headerClassNames}>
+        {title && <TagTitle className={titleClassNames}>{title}</TagTitle>}
+
+        <span className={counterClassNames}>
           {stepIndex + 1}/{totalVisibleSteps}
         </span>
       </div>
-      <div
-        className={cn(
-          styles.progressBarContainer,
-          classNames.multiStep.stepperProgressBarContainer
-        )}
-      >
+
+      <div className={progressContainerClassNames}>
         <div
-          className={cn(
-            styles.progressBar,
-            classNames.multiStep.stepperProgressBar
-          )}
+          className={progressBarClassNames}
           style={{ width: `${percent}%` }}
         />
       </div>
     </div>
   )
+}
+
+export const RenderMultiStepStepper = (props: MultiStepStepperProps) => {
+  const { components } = props
+
+  const CustomMultiStepStepper = components?.multiStepStepper
+
+  if (CustomMultiStepStepper) {
+    return <CustomMultiStepStepper {...props} />
+  }
+
+  return <MultiStepStepper {...props} />
 }
 
 export default React.memo(MultiStepStepper)

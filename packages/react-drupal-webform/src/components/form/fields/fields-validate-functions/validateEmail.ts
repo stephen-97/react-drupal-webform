@@ -1,12 +1,13 @@
-import { TFieldValidate } from '../../../../lib/types/components/validate'
+import { FieldValidateProps } from '../../../../lib/types/components/validate'
 import { string } from 'yup'
 import {
   applyMinMaxLength,
   resolveCustomValidator,
   TDrupal_FieldType_Validate,
 } from '../../../../lib/functions/webform_validation_functions/webform_validation_functions'
+import { applyPatternIfApplicable } from '../../../../lib/functions/utils_functions'
 
-export const validateEmail = (props: TFieldValidate) => {
+export const validateEmail = (props: FieldValidateProps) => {
   const {
     yupObject,
     defaultValues,
@@ -15,22 +16,31 @@ export const validateEmail = (props: TFieldValidate) => {
     defaultFieldValues,
     errorMessage,
     requiredMessage,
-    customValidators,
+    rhfCustomValidators,
     minLengthMessage,
     maxLengthMessage,
     field,
   } = props
 
+  if (field?.['#readonly']) {
+    defaultValues[key] = defaultFieldValues.email
+    return
+  }
+
   const type = field?.['#type'] as TDrupal_FieldType_Validate
 
-  const emailWithTLDRegex = /^[^\s@]+@[^\s@]{2,}\.[^\s@]{2,}$/
   let defaultSchema = string()
-    .test(
-      'valid-email-format',
-      'invalid email',
-      (v) => !v || emailWithTLDRegex.test(v)
-    )
-    .email(errorMessage)
+  if (!field?.['#pattern']) {
+    const emailWithTLDRegex = /^[^\s@]+@[^\s@]{2,}\.[^\s@]{2,}$/
+
+    defaultSchema = defaultSchema
+      .test(
+        'valid-email-format',
+        errorMessage,
+        (v) => !v || emailWithTLDRegex.test(v)
+      )
+      .email(errorMessage)
+  }
 
   defaultSchema = applyMinMaxLength(
     defaultSchema,
@@ -39,8 +49,15 @@ export const validateEmail = (props: TFieldValidate) => {
     maxLengthMessage
   )
 
+  defaultSchema = applyPatternIfApplicable({
+    schema: defaultSchema,
+    field,
+    fallbackMessage: errorMessage,
+  })
+
   const customSchema =
-    resolveCustomValidator(customValidators, key, type, props) ?? defaultSchema
+    resolveCustomValidator(rhfCustomValidators, key, type, props) ??
+    defaultSchema
 
   yupObject[key] = required
     ? customSchema.required(requiredMessage)

@@ -1,0 +1,94 @@
+import React from 'react'
+import cn from 'classnames'
+import styles from './title.module.scss'
+import { TitleProps } from '../../../../../lib/types/components/title'
+import Help from '../help/help'
+import { getClassNames } from '../../../../../lib/functions/utils_functions'
+import { getDataAttributes } from '../../../../../lib/functions/utils_functions'
+
+const Title = (props: TitleProps) => {
+  const {
+    field,
+    components,
+    className,
+    fieldKey,
+    innerProps,
+    wrapperElement,
+    classNamePrefix,
+    unstyled,
+    innerRef,
+  } = props
+
+  const title = field?.['#title']
+  const isRequired = Boolean(field?.['#required'])
+
+  const showHelp =
+    Boolean(field?.['#help']?.length) || Boolean(field?.['#help_title']?.length)
+
+  const CustomHelp = components?.help ?? Help
+
+  const isInvisible = field?.['#title_display'] === 'invisible'
+
+  const titleClassNames = getClassNames({
+    name: 'title',
+    prefix: classNamePrefix,
+    unstyled: unstyled,
+    modifiers: {
+      invisible: isInvisible,
+    },
+    classNameComponent: className,
+    baseCn: cn(styles.title, {
+      [styles.isRequired]: isRequired,
+      [styles.visuallyHidden]: isInvisible,
+    }),
+  })
+
+  const dataAttributes = getDataAttributes({
+    component: 'title',
+  })
+
+  if (wrapperElement === 'label') {
+    return (
+      <label
+        ref={innerRef}
+        htmlFor={fieldKey}
+        className={titleClassNames}
+        {...dataAttributes}
+        {...innerProps}
+      >
+        {title}
+        {showHelp && (
+          <CustomHelp
+            fieldKey={fieldKey}
+            field={field}
+            components={components}
+            classNamePrefix={classNamePrefix}
+            unstyled={unstyled}
+          />
+        )}
+      </label>
+    )
+  }
+
+  return (
+    <legend
+      ref={innerRef}
+      className={titleClassNames}
+      {...dataAttributes}
+      {...innerProps}
+    >
+      {title}
+      {showHelp && (
+        <CustomHelp
+          fieldKey={fieldKey}
+          field={field}
+          components={components}
+          classNamePrefix={classNamePrefix}
+          unstyled={unstyled}
+        />
+      )}
+    </legend>
+  )
+}
+
+export default React.memo(Title)
