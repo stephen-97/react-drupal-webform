@@ -3,11 +3,7 @@
 import YAML from 'yaml'
 
 import { useState } from 'react'
-import {
-  Webform,
-  components,
-  InputProps,
-} from '../../../../packages/react-drupal-webform'
+import Webform from '../../../../packages/react-drupal-webform/src/components/webform'
 import styles from './customWebform.module.scss'
 import CustomLabel from '@/components/webform/custom-components/customLabel'
 import CustomStepper from '@/components/webform/custom-components/customStepper'
@@ -21,6 +17,7 @@ import CustomHelp from '@/components/webform/custom-components/CustomHelp'
 import CustomForm from '@/components/webform/custom-components/customForm'
 import CustomUnsupportedField from '@/components/webform/custom-components/unsupportedField'
 import ConfirmationView from '@/components/webform/customWebform/confirmationView'
+import CustomInput from '@/components/webform/custom-components/customInput'
 
 export type TWebformContainer = {
   elementsSource: string
@@ -70,9 +67,7 @@ const CustomWebform = ({ elementsSource }: TWebformContainer) => {
         onSubmit={handleSubmit}
         rhfCustomValidators={rhfCustomValidators}
         components={{
-          input: (props: InputProps) => (
-            <components.Input {...props}></components.Input>
-          ),
+          input: CustomInput,
           title: CustomLabel,
           multiStepStepper: CustomStepper,
           multiStepActions: CustomMultiStepActions,
@@ -81,17 +76,11 @@ const CustomWebform = ({ elementsSource }: TWebformContainer) => {
           wysiwyg: CustomWysiwyg,
           action: CustomAction,
           unsupportedField: CustomUnsupportedField,
-          fieldContainer: (props) => (
-            <components.FieldContainer data-test={'test'} {...props} />
-          ),
           help: CustomHelp,
           form: CustomForm,
-          layout: (props) => (
-            <components.Layout data-test={'test'} {...props} />
-          ),
         }}
         validationEngine={'rhf'}
-        rhfValidationMode="all"
+        rhfValidationMode={'all'}
       />
     </div>
   )

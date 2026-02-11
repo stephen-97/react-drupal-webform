@@ -1,7 +1,6 @@
-<h1 style="color:#1f3a8a;">React Drupal Webform components (Alpha Version)</h1>
+<h1 style="color:#1f3a8a;">React Drupal Webform components</h1>
 
 
-> This package is currently in **alpha** and under active development.
 
 
 react-drupal-webform is a lightweight React and Next js integration for Drupal Webform.
@@ -179,6 +178,8 @@ Common props you may want to specify include:
 - `includeInactiveFieldsInSubmit` – When enabled, conditionally hidden fields are included in the submitted data (except native hidden inputs).
 - `unstyled` – When enabled, disables all default styling and generated class names. So you can style from scratch. 
 - `disableActionButtonWhenInvalid` – When enabled, action buttons (submit or next) are automatically disabled when the form is invalid.
+- `className` – class of the form element
+- `id` – id of the form element
 
 
 <h3 style="color:#1f3a8a;">Props – components</h3>
@@ -456,6 +457,13 @@ The unstyled prop disables all default, built-in form classes, allowing you to s
 
 Include fields that inactive (not input hidden !) on the final submit payload.
 
+<h3 style="color:#1f3a8a;">Props – className</h3>
+
+`TYPE` - string
+
+<h3 style="color:#1f3a8a;">Props – id</h3>
+
+`TYPE` - string
 
 <h3 style="color:#1f3a8a;">Props – rhfCustomValidators</h3>
 

@@ -16,6 +16,7 @@ const More = ({
   field,
   unstyled,
   innerRef,
+  fieldKey,
 }: MoreProps) => {
   const CustomWysiwyg = components.wysiwyg ?? Wysiwyg
 
@@ -87,6 +88,10 @@ const More = ({
           classNamePrefix={classNamePrefix}
           processed={moreText}
           source={'more'}
+          field={field}
+          fieldKey={fieldKey}
+          components={components}
+          unstyled={unstyled}
           {...innerPropsWysiwyg}
         />
       )}

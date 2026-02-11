@@ -27,7 +27,6 @@ const CustomSelect = (props: SelectProps) => {
       <Select
         innerProps={{
           ...props.innerProps,
-          onBlur: () => console.log('onBlur'),
         }}
         className={styles.selectCustom}
         {...props}

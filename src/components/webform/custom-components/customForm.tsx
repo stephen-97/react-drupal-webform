@@ -8,7 +8,7 @@ import { FormProps } from '../../../../packages/react-drupal-webform/src/lib/typ
 const CustomForm = (props: FormProps) => {
   return (
     <components.Form
-      innerProps={{ 'data-test': 'tests' }}
+      innerProps={{ 'data-test': 'test' }}
       className={styles.form}
       {...props}
     ></components.Form>

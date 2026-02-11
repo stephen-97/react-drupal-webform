@@ -8,8 +8,8 @@ import {
   shouldFieldBeVisible,
   TDependentField,
 } from '../../../lib/functions/webform_fields_functions/webform_fields_conditional_functions'
-import { MultiStepActions } from './multiStepActions/multiStepActions'
-import MultiStepStepper from './multiStepStepper/multiStepStepper'
+import { RenderMultiStepActions } from './multiStepActions/multiStepActions'
+import { RenderMultiStepStepper } from './multiStepStepper/multiStepStepper'
 import {
   getAllFieldNames,
   getDummyDefaultMultiStep,
@@ -257,7 +257,7 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
         )
       })}
 
-      <MultiStepActions
+      <RenderMultiStepActions
         previousButtonLabel={previousButtonLabel}
         nextButtonLabel={nextButtonLabel}
         components={components}
@@ -284,7 +284,7 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
         setAllWatchedSteps={setAllWatchedSteps}
         watchedStepValues={watchedStepValues}
       >
-        <MultiStepStepper
+        <RenderMultiStepStepper
           components={components}
           currentStepObj={currentStepObj}
           classNamePrefix={classNamePrefix}
