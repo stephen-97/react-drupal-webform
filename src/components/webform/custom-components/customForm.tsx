@@ -6,13 +6,7 @@ import { components } from '../../../../packages/react-drupal-webform/src/lib/co
 import { FormProps } from '../../../../packages/react-drupal-webform/src/lib/types/components/form'
 
 const CustomForm = (props: FormProps) => {
-  return (
-    <components.Form
-      innerProps={{ 'data-test': 'test' }}
-      className={styles.form}
-      {...props}
-    ></components.Form>
-  )
+  return <components.Form className={styles.form} {...props}></components.Form>
 }
 
 export default React.memo(CustomForm)

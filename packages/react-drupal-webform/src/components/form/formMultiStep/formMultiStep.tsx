@@ -5,6 +5,8 @@ import FormFieldRendered from '../formDefault/formFieldRendered'
 import {
   generateFormSchemaAndDefaults,
   getDependentFields,
+  isLayoutType,
+  isMarkupType,
   shouldFieldBeVisible,
   TDependentField,
 } from '../../../lib/functions/webform_fields_functions/webform_fields_conditional_functions'
@@ -62,7 +64,7 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
     mode: rhfValidationMode,
     criteriaMode: 'all',
     defaultValues: dummyDefaultValues,
-    shouldUnregister: true,
+    shouldUnregister: false,
   })
 
   const { handleSubmit, control, reset, getValues } = methods
@@ -179,6 +181,7 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
 
   const onFormSubmit = useCallback(async () => {
     const allCurrentValues = getValues()
+
     const visibleFieldNames = getAllVisibleFieldNames(
       visibleStepKeys,
       elementsSource,
@@ -186,6 +189,7 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
     )
 
     let dataToSend: Record<string, any> = {}
+
     if (includeInactiveFieldsInSubmit) {
       dataToSend = Object.fromEntries(
         Object.keys(allDefaultValues).map((fieldName) => [
@@ -197,10 +201,21 @@ const FormMultiStep = (props: TFormMultiStepProps) => {
       )
     } else {
       dataToSend = Object.fromEntries(
-        visibleFieldNames.map((fieldName) => [
-          fieldName,
-          allCurrentValues[fieldName],
-        ])
+        visibleFieldNames
+          .filter((fieldName) => {
+            for (const stepKey of visibleStepKeys) {
+              const stepObj = elementsSource[stepKey]
+              const field = stepObj?.[fieldName]
+              const type = field?.['#type']
+
+              if (field) {
+                return !isLayoutType(type) && !isMarkupType(type)
+              }
+            }
+
+            return false
+          })
+          .map((fieldName) => [fieldName, allCurrentValues[fieldName]])
       )
     }
 

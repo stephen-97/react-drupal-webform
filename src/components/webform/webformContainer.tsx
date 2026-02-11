@@ -69,6 +69,7 @@ const WebformContainer = ({
       unstyled={false}
       validationEngine={validationEngine}
       rhfValidationMode={'all'}
+      includeInactiveFieldsInSubmit={false}
     />
   )
 }

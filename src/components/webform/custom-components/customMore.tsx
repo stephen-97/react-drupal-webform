@@ -6,8 +6,7 @@ import cn from 'classnames'
 import styles from './customMore.module.scss'
 
 const CustomMore = (props: MoreProps) => {
-  const { innerPropsContainer, innerPropsButton, innerPropsWysiwyg, field } =
-    props
+  const { innerPropsContainer, innerPropsButton, field } = props
 
   const moreTitle = field?.['#more_title']
   const moreText = field?.['#more']

@@ -8,6 +8,7 @@ import {
   shouldFieldBeVisible,
   TDependentField,
   isLayoutType,
+  isMarkupType,
 } from '../../../lib/functions/webform_fields_functions/webform_fields_conditional_functions'
 import { IFormDefaultWebformProps } from '../../../lib/types/components/formDefault'
 import { getDummyDefaultFormDefault } from '../../../lib/functions/webform_validation_functions/webform_validation_functions'
@@ -53,7 +54,7 @@ const FormDefault = (props: IFormDefaultWebformProps) => {
     mode: rhfValidationMode,
     criteriaMode: 'all',
     defaultValues: dummyDefaultValues,
-    shouldUnregister: true,
+    shouldUnregister: false,
   })
 
   const { control, reset, getValues, handleSubmit } = methods
@@ -107,12 +108,20 @@ const FormDefault = (props: IFormDefaultWebformProps) => {
 
       if (includeInactiveFieldsInSubmit) {
         await onSubmit(data)
-      } else {
-        const filtered = Object.fromEntries(
-          visibleElementsKeys.map((key) => [key, data[key]])
-        )
-        await onSubmit(filtered)
+        return
       }
+
+      const filtered = Object.fromEntries(
+        visibleElementsKeys
+          .filter((key) => {
+            const type = elementsSource[key]?.['#type']
+
+            return !(isLayoutType(type) || isMarkupType(type))
+          })
+          .map((key) => [key, data[key]])
+      )
+
+      await onSubmit(filtered)
     },
     [onSubmit, includeInactiveFieldsInSubmit, visibleElementsKeys]
   )

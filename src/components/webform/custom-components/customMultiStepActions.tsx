@@ -3,7 +3,6 @@
 import React from 'react'
 import { MultiStepActionsProps } from '../../../../packages/react-drupal-webform/src/lib/types/components/multiStepActions'
 import styles from './customMultiStepActions.module.scss'
-import { components } from '../../../../packages/react-drupal-webform/'
 import cn from 'classnames'
 import { useFormContext } from 'react-hook-form'
 const CustomMultiStepActions = (props: MultiStepActionsProps) => {

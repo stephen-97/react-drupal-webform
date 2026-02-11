@@ -1,4 +1,3 @@
-// app/[slug]/page.tsx
 import { drupal } from '@/lib/drupal'
 import getForm from '@/lib/requests/get-form'
 import styles from './page.module.scss'

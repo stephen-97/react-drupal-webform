@@ -1,5 +1,8 @@
 import { TKeyValue } from '../../webform_functions'
-import { shouldFieldBeVisible } from '../../webform_fields_functions/webform_fields_conditional_functions'
+import {
+  isLayoutType,
+  shouldFieldBeVisible,
+} from '../../webform_fields_functions/webform_fields_conditional_functions'
 
 type TConditionalSteps = {
   key: string
@@ -134,13 +137,21 @@ export const getAllVisibleFieldNames = (
 ): string[] => {
   return visibleStepKeys.flatMap((stepKey) => {
     const stepObj = elementsSource[stepKey]
-    return Object.keys(stepObj).filter(
-      (fieldKey) =>
-        !fieldKey.startsWith('#') &&
-        typeof stepObj[fieldKey] === 'object' &&
-        Boolean(stepObj[fieldKey]['#type']) &&
-        shouldFieldBeVisible(fieldKey, stepObj, watchedValuesAllFields)
-    )
+
+    return Object.keys(stepObj).filter((fieldKey) => {
+      if (fieldKey.startsWith('#')) return false
+
+      const field = stepObj[fieldKey]
+      if (typeof field !== 'object' || field === null) return false
+
+      const type = field['#type']
+      if (!type) return false
+
+      console.log('type', type)
+      if (isLayoutType(type)) return false
+
+      return shouldFieldBeVisible(fieldKey, stepObj, watchedValuesAllFields)
+    })
   })
 }
 

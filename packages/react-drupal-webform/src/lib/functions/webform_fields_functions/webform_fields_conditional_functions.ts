@@ -67,10 +67,19 @@ const LAYOUT_TYPES: ReadonlySet<string> = new Set([
   'container',
   'details',
   'fieldset',
+  'webform_wizard_page',
 ])
 
+const MARKUP_TYPES: ReadonlySet<string> = new Set([
+  'webform_actions',
+  'webform_markup',
+])
 export function isLayoutType(type: unknown): type is string {
   return typeof type === 'string' && LAYOUT_TYPES.has(type)
+}
+
+export function isMarkupType(type: unknown): type is string {
+  return typeof type === 'string' && MARKUP_TYPES.has(type)
 }
 
 export function extractVisibleFields(
