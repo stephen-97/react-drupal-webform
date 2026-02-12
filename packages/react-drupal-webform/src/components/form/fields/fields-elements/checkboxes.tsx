@@ -21,6 +21,7 @@ const Checkboxes = ({
   classNamePrefix,
   unstyled,
   innerRef,
+  validationEngine,
   onChange: onChangeProp,
   onBlur: onBlurProp,
   onFocus: onFocusProp,
@@ -110,6 +111,12 @@ const Checkboxes = ({
 
         const id = `checkboxes-${optionKey.trim()}-${i}`
 
+        const isHtmlNativeRequired =
+          validationEngine === 'html' &&
+          field?.['#required'] &&
+          (!Array.isArray(fieldController.value) ||
+            fieldController.value.length === 0)
+
         return (
           <div key={optionKey} className={itemClassNames} {...itemProps}>
             <input
@@ -120,7 +127,7 @@ const Checkboxes = ({
               value={optionKey}
               checked={checked}
               aria-describedby={ariaDescribedBy}
-              required={i === 0 ? field?.['#required'] : undefined}
+              required={isHtmlNativeRequired}
               onChange={(e) => {
                 handleChange(e.target.value, e.target.checked)
               }}

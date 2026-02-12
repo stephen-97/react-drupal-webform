@@ -147,7 +147,6 @@ export const getAllVisibleFieldNames = (
       const type = field['#type']
       if (!type) return false
 
-      console.log('type', type)
       if (isLayoutType(type)) return false
 
       return shouldFieldBeVisible(fieldKey, stepObj, watchedValuesAllFields)

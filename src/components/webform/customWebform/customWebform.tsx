@@ -32,7 +32,7 @@ const CustomWebform = ({ elementsSource }: TWebformContainer) => {
       setTimeout(() => {
         resolve({
           success: true,
-          message: 'Formulaire soumis avec succès (fake).',
+          message: 'Formulaire soumis avec succès.',
           data,
         })
       }, 3000)
@@ -43,7 +43,6 @@ const CustomWebform = ({ elementsSource }: TWebformContainer) => {
     return fakeSubmit(formData)
       .then(() => {
         setIsSubmitted(true)
-        console.log(formData)
       })
       .catch((error) => {
         console.error(error)
@@ -65,6 +64,7 @@ const CustomWebform = ({ elementsSource }: TWebformContainer) => {
       <Webform
         elementsSource={correctElementsSource}
         onSubmit={handleSubmit}
+        className={styles.customWebformForm}
         rhfCustomValidators={rhfCustomValidators}
         components={{
           input: CustomInput,

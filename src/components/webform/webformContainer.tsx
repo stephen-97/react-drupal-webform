@@ -1,9 +1,11 @@
 'use client'
 
+import { useState, useMemo } from 'react'
 import YAML from 'yaml'
 
 import { TWebformStateMessages } from '../../../packages/react-drupal-webform/src/lib/types/form'
 import Webform from '../../../packages/react-drupal-webform/src/components/webform'
+import ConfirmationView from '@/components/webform/customWebform/confirmationView'
 
 export type TWebformContainer = {
   elementsSource: string
@@ -14,11 +16,21 @@ const WebformContainer = ({
   elementsSource,
   validationEngine = 'html',
 }: TWebformContainer) => {
-  const handleSubmit = (formData: Record<any, string>) => {
-    console.log(formData)
-  }
+  const [isSubmitted, setIsSubmitted] = useState(false)
+  const [submittedData, setSubmittedData] = useState<Record<
+    string,
+    any
+  > | null>(null)
 
-  const correctElementsSource = YAML.parse(elementsSource)
+  const correctElementsSource = useMemo(
+    () => YAML.parse(elementsSource),
+    [elementsSource]
+  )
+
+  const handleSubmit = (formData: Record<string, any>) => {
+    setSubmittedData(formData)
+    setIsSubmitted(true)
+  }
 
   const defaultStateValues: TWebformStateMessages = {
     general: {
@@ -53,11 +65,15 @@ const WebformContainer = ({
       minLengthMessages: {
         textfield: (props) => {
           const title = props?.['#title']
-          const minLenght = props?.['#minlength']
-          return `the field ${title} have a minimum of ${minLenght} characters`
+          const minLength = props?.['#minlength']
+          return `The field ${title} must have a minimum of ${minLength} characters.`
         },
       },
     },
+  }
+
+  if (isSubmitted && submittedData) {
+    return <ConfirmationView data={submittedData} />
   }
 
   return (
@@ -65,11 +81,10 @@ const WebformContainer = ({
       elementsSource={correctElementsSource}
       onSubmit={handleSubmit}
       rhfDefaultFieldStateMessages={defaultStateValues}
-      classNamePrefix={'prefix'}
+      classNamePrefix="prefix"
       unstyled={false}
       validationEngine={validationEngine}
-      rhfValidationMode={'all'}
-      includeInactiveFieldsInSubmit={false}
+      rhfValidationMode="all"
     />
   )
 }

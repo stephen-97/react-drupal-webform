@@ -50,7 +50,7 @@
 
 .buttonActive {
   @extend .button;
-  background-color: #1f1f1f; // gris très foncé (pas noir)
+  background-color: #1f1f1f;
   color: #ffffff;
 
   &:hover {

@@ -219,7 +219,6 @@ import React, {useState} from 'react';
 import Webform from 'react-drupal-webform';
 import { getWebform } from './api'
 import CustomInput from './CustomInput'
-import CustomFirstNameInput from './CustomFirstNameInput'
 
 export default async function App() {
     const correctElementsSource = await getWebform()
@@ -452,10 +451,9 @@ The unstyled prop disables all default, built-in form classes, allowing you to s
 
 `TYPE` - boolean
 
-`DEFAULT` - false
+`DEFAULT` - true
 
-
-Include fields that inactive (not input hidden !) on the final submit payload.
+Include fields that are conditionally hidden (not input hidden !) on the final submit payload.
 
 <h3 style="color:#1f3a8a;">Props – className</h3>
 

@@ -13,6 +13,7 @@ import {
 import { IFormDefaultWebformProps } from '../../../lib/types/components/formDefault'
 import { getDummyDefaultFormDefault } from '../../../lib/functions/webform_validation_functions/webform_validation_functions'
 import Form from '../form'
+import { extractVisibleFields } from '../../../lib/functions/webform_fields_functions/webform_fields_conditional_functions'
 
 const FormDefault = (props: IFormDefaultWebformProps) => {
   const {
@@ -111,14 +112,16 @@ const FormDefault = (props: IFormDefaultWebformProps) => {
         return
       }
 
-      const filtered = Object.fromEntries(
-        visibleElementsKeys
-          .filter((key) => {
-            const type = elementsSource[key]?.['#type']
+      const realVisibleFieldKeys = extractVisibleFields(
+        elementsSource,
+        visibleElementsKeys,
+        watchedValues
+      )
+        .filter(({ field }) => !isMarkupType(field?.['#type']))
+        .map(({ key }) => key)
 
-            return !(isLayoutType(type) || isMarkupType(type))
-          })
-          .map((key) => [key, data[key]])
+      const filtered = Object.fromEntries(
+        realVisibleFieldKeys.map((key) => [key, data[key]])
       )
 
       await onSubmit(filtered)
